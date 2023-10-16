@@ -11,6 +11,11 @@
 		ACDBDA5F2AD7CC7600C44A80 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBDA5E2AD7CC7600C44A80 /* ContentView.swift */; };
 		ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */; };
 		ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA632AD7CC7700C44A80 /* Preview Assets.xcassets */; };
+		ACF338C02ADD00DC004D20FC /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338BF2ADD00DC004D20FC /* File.swift */; };
+		ACF338C22ADD0136004D20FC /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C12ADD0136004D20FC /* Page.swift */; };
+		ACF338C42ADD0158004D20FC /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C32ADD0158004D20FC /* Session.swift */; };
+		ACF338C62ADD0172004D20FC /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C52ADD0172004D20FC /* Word.swift */; };
+		ACF338C82ADD0327004D20FC /* del.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C72ADD0327004D20FC /* del.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +24,11 @@
 		ACDBDA5E2AD7CC7600C44A80 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACDBDA632AD7CC7700C44A80 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		ACF338BF2ADD00DC004D20FC /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		ACF338C12ADD0136004D20FC /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
+		ACF338C32ADD0158004D20FC /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		ACF338C52ADD0172004D20FC /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
+		ACF338C72ADD0327004D20FC /* del.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = del.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +61,10 @@
 		ACDBDA5B2AD7CC7600C44A80 /* Blank */ = {
 			isa = PBXGroup;
 			children = (
+				ACF338BE2ADD00B7004D20FC /* View */,
+				ACF338BD2ADD00B1004D20FC /* Model */,
+				ACF338BC2ADD00A4004D20FC /* ViewModel */,
 				ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */,
-				ACDBDA5E2AD7CC7600C44A80 /* ContentView.swift */,
 				ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */,
 				ACDBDA622AD7CC7700C44A80 /* Preview Content */,
 			);
@@ -65,6 +77,33 @@
 				ACDBDA632AD7CC7700C44A80 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		ACF338BC2ADD00A4004D20FC /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				ACF338C72ADD0327004D20FC /* del.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		ACF338BD2ADD00B1004D20FC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ACF338BF2ADD00DC004D20FC /* File.swift */,
+				ACF338C12ADD0136004D20FC /* Page.swift */,
+				ACF338C32ADD0158004D20FC /* Session.swift */,
+				ACF338C52ADD0172004D20FC /* Word.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		ACF338BE2ADD00B7004D20FC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ACDBDA5E2AD7CC7600C44A80 /* ContentView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +176,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACF338C42ADD0158004D20FC /* Session.swift in Sources */,
 				ACDBDA5F2AD7CC7600C44A80 /* ContentView.swift in Sources */,
+				ACF338C02ADD00DC004D20FC /* File.swift in Sources */,
+				ACF338C22ADD0136004D20FC /* Page.swift in Sources */,
+				ACF338C82ADD0327004D20FC /* del.swift in Sources */,
 				ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */,
+				ACF338C62ADD0172004D20FC /* Word.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
