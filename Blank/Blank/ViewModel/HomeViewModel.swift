@@ -6,11 +6,16 @@
 //
 
 import Foundation
+import PDFKit
 
 class HomeViewModel: ObservableObject {
     @Published var fileList: [File] = []
     @Published var selectedFileList: Set<URL> = []
     @Published var searchText = ""
+    
+    init() {
+        fetchDocumentFileList()
+    }
     
     /// 검색(필터링) 결과를 출력
     /// https://www.swiftyplace.com/blog/swiftui-search-bar-best-practices-and-examples
@@ -25,12 +30,8 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    init() {
-        getDocumentFileList()
-    }
-    
     /// 파일 목록을 가져와서 [File] 형태로 저장
-    func getDocumentFileList() {
+    func fetchDocumentFileList() {
         guard let documentDirectoryURL = FileManager.documentDirectoryURL else {
             return
         }
@@ -41,9 +42,17 @@ class HomeViewModel: ObservableObject {
                 includingPropertiesForKeys: nil
             )
             
+            
             // TODO: - File 오브젝트 생성 부분
             self.fileList = directoryContents.map { url in
-                File(id: UUID(), fileURL: url, fileName: url.lastPathComponent, pages: [])
+                let document = PDFDocument(url: url)
+                
+                return File(id: UUID(),
+                     fileURL: url,
+                     fileName: url.lastPathComponent,
+                     totalPageCount: document?.pageCount ?? 0,
+                     pages: []
+                )
             }
             
         } catch {
@@ -53,7 +62,21 @@ class HomeViewModel: ObservableObject {
     
     func removeFiles(urls: [URL]) {
         FileManager.default.delete(at: urls)
-        getDocumentFileList()
+        fetchDocumentFileList()
+    }
+    
+    /// 파일을 외부로부터 문서 폴더에 추가
+    /// - Returns: 파일 복사의 성공/실패 여부
+    func copyFileToDocumentBundle(from url: URL) -> Bool {
+        // TODO: - 이미 존재하는 파일은 복사를 더 할지, 덮어쓸지, 아니면 그냥 지나칠지 물어보기
+        guard let documentDirectoryURL = FileManager.documentDirectoryURL else {
+            fatalError("[Fatal Error] Document 폴더는 무조건 있습니다.")
+        }
+        
+        return FileManager.default.secureCopyItem(
+            at: url,
+            to: documentDirectoryURL.appendingPathComponent(url.lastPathComponent)
+        )
     }
     
     /// 예제 파일들을 Document 폴더에 복사 (처음 설치했을 때만 실행되어야 함)

@@ -11,6 +11,8 @@ import SwiftUI
 struct BlankApp: App {
     let persistenceController = PersistenceController.shared
     
+    @StateObject var homeViewModel = HomeViewModel()
+    
     var body: some Scene {
         WindowGroup {
             HomeView()
@@ -18,6 +20,7 @@ struct BlankApp: App {
                     \.managedObjectContext,
                      persistenceController.container.viewContext
                 )
+                .environmentObject(homeViewModel)
         }
     }
 }

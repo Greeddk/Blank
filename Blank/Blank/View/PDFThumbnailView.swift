@@ -8,21 +8,26 @@
 import SwiftUI
 
 struct PDFThumbnailView: View {
+    @State var file: File
+    
     var body: some View {
         VStack {
             Image("thumbnail")
                 .frame(width: 200, height: 250)
             Spacer().frame(height: 15)
-            Text("폰트의 해부학")
+            Text("\(file.fileName)")
                 .font(.title2)
                 .fontWeight(.bold)
-            Text("전체 페이지수: 182")
-            Text("시험 본 페이지: 2")
+            Text("전체 페이지수: \(file.totalPageCount)")
+            Text("시험 본 페이지: \(file.pages.count)")
         }
         .padding()
+        .onAppear {
+            
+        }
     }
 }
 
 #Preview {
-    PDFThumbnailView()
+    PDFThumbnailView(file: DUMMY_FILE)
 }
