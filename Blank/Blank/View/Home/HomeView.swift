@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var viewModel: HomeViewModel
-    @State var searchQueryString = ""
     
     // UI 표시 토글 상태변수
     @State var showFilePicker = false
@@ -21,7 +20,7 @@ struct HomeView: View {
                 thumbGridView
             }
             .searchable( // TODO: 서치기능
-                text: $searchQueryString,
+                text: $viewModel.searchText,
                 placement: .navigationBarDrawer,
                 prompt: "Search"
             )

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PDFKit
 
 class HomeViewModel: ObservableObject {
     @Published var fileList: [File] = []
@@ -45,12 +44,10 @@ class HomeViewModel: ObservableObject {
             
             // TODO: - File 오브젝트 생성 부분
             self.fileList = directoryContents.map { url in
-                let document = PDFDocument(url: url)
-                
-                return File(id: UUID(),
+                File(id: UUID(),
                      fileURL: url,
                      fileName: url.lastPathComponent,
-                     totalPageCount: document?.pageCount ?? 0,
+                     totalPageCount: pageCount(of: url) ?? 0,
                      pages: []
                 )
             }
