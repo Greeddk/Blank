@@ -44,8 +44,7 @@ struct HomeView: View {
         return ScrollView {
             LazyVGrid(columns: columns) {
                 ForEach(0..<10) {_ in
-                    // NavigationLink(destination: OverView()) {
-                    NavigationLink(destination: EmptyView()) {
+                    NavigationLink(destination: OverView()) {
                         // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
                         PDFThumbnailView()
                     }
