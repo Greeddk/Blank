@@ -9,10 +9,11 @@ import SwiftUI
 
 struct PDFThumbnailView: View {
     @State var file: File
+    @State var thumbnail = Image("thumbnail")
     
     var body: some View {
         VStack {
-            Image("thumbnail")
+            thumbnail
                 .frame(width: 200, height: 250)
             Spacer().frame(height: 15)
             Text("\(file.fileName)")
@@ -23,8 +24,18 @@ struct PDFThumbnailView: View {
         }
         .padding()
         .onAppear {
-            
+            prepareThumbnail(from: file.fileURL)
         }
+    }
+}
+
+extension PDFThumbnailView {
+    private func prepareThumbnail(from url: URL) {
+        guard let thumbnail = generateThumbnail(of: .init(width: 200, height: 250), for: url, atPage: 0) else {
+            return
+        }
+        
+        self.thumbnail = Image(uiImage: thumbnail)
     }
 }
 

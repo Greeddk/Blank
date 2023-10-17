@@ -29,6 +29,7 @@
 		449CB1E22ADEDAD00086758A /* blank.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 449CB1DE2ADEDAD00086758A /* blank.pdf */; };
 		449CB1E32ADEDAD00086758A /* toeic.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 449CB1DF2ADEDAD00086758A /* toeic.pdf */; };
 		449CB1E72ADEDC5E0086758A /* DummyObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449CB1E62ADEDC5E0086758A /* DummyObjects.swift */; };
+		449CB1EA2ADEE0460086758A /* PDFUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449CB1E92ADEE0460086758A /* PDFUtil.swift */; };
 		ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */; };
 		ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */; };
 		ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA632AD7CC7700C44A80 /* Preview Assets.xcassets */; };
@@ -63,6 +64,7 @@
 		449CB1DE2ADEDAD00086758A /* blank.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = blank.pdf; sourceTree = "<group>"; };
 		449CB1DF2ADEDAD00086758A /* toeic.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = toeic.pdf; sourceTree = "<group>"; };
 		449CB1E62ADEDC5E0086758A /* DummyObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyObjects.swift; sourceTree = "<group>"; };
+		449CB1E92ADEE0460086758A /* PDFUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFUtil.swift; sourceTree = "<group>"; };
 		ACDBDA592AD7CC7600C44A80 /* Blank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankApp.swift; sourceTree = "<group>"; };
 		ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -131,6 +133,14 @@
 			path = Dummy;
 			sourceTree = "<group>";
 		};
+		449CB1E82ADEE0380086758A /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				449CB1E92ADEE0460086758A /* PDFUtil.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		ACDBDA502AD7CC7600C44A80 = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +160,7 @@
 		ACDBDA5B2AD7CC7600C44A80 /* Blank */ = {
 			isa = PBXGroup;
 			children = (
+				449CB1E82ADEE0380086758A /* Util */,
 				449CB1E52ADEDC470086758A /* Dummy */,
 				449CB1DB2ADEDABE0086758A /* Resources */,
 				449CB1D22ADED3580086758A /* Info.plist */,
@@ -297,6 +308,7 @@
 				ACF338C22ADD0136004D20FC /* Page.swift in Sources */,
 				42ED60CA2ADE7F090043AF2F /* OverViewModalView.swift in Sources */,
 				449CB1E72ADEDC5E0086758A /* DummyObjects.swift in Sources */,
+				449CB1EA2ADEE0460086758A /* PDFUtil.swift in Sources */,
 				42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */,
 				ACF338C82ADD0327004D20FC /* del.swift in Sources */,
 				4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */,
