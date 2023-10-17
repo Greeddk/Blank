@@ -15,12 +15,12 @@ struct BlankApp: App {
     
     var body: some Scene {
         WindowGroup {
-                HomeView()
-                    .environment(
-                        \.managedObjectContext,
-                         persistenceController.container.viewContext
-                    )
-                    .environmentObject(homeViewModel)
+            HomeView()
+                .environment(
+                    \.managedObjectContext,
+                     persistenceController.container.viewContext
+                )
+                .environmentObject(homeViewModel)
         }
     }
 }
