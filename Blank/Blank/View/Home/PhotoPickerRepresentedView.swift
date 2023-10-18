@@ -83,7 +83,9 @@ struct PhotoPickerRepresentedView: UIViewControllerRepresentable {
             var asyncDict: [String: UIImage] = [:]
             
             for result in results {
-                order.append(result.assetIdentifier ?? "")
+                print("result:", results)
+                let id = result.assetIdentifier ?? UUID().uuidString
+                order.append(id)
                 
                 group.enter() // 디스패치그룹 시작
                 let provider = result.itemProvider
@@ -94,7 +96,7 @@ struct PhotoPickerRepresentedView: UIViewControllerRepresentable {
                             return
                         }
                         
-                        asyncDict[result.assetIdentifier ?? ""] = updatedImage
+                        asyncDict[id] = updatedImage
                         group.leave() // 디스패치그룹 끝
                     }
                 }
@@ -102,6 +104,7 @@ struct PhotoPickerRepresentedView: UIViewControllerRepresentable {
             
             group.notify(queue: .main) {
                 for id in order {
+                    print("id:", id)
                     images.append(asyncDict[id]!)
                 }
                 

@@ -49,7 +49,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showImagePicker) {
                 PhotoPickerRepresentedView { images in
-                    print(images)
+                    addImageCombinedPDFToDocument(from: images)
                 }
             }
         }
@@ -110,6 +110,16 @@ extension HomeView {
         let copyResult = viewModel.copyFileToDocumentBundle(from: url)
         if copyResult {
             viewModel.fetchDocumentFileList()
+        }
+    }
+    
+    private func addImageCombinedPDFToDocument(from images: [UIImage]) {
+        do {
+            let pdfData = createPDFFromUIImages(from: images)
+            try pdfData.write(to: FileManager.documentDirectoryURL!.appendingPathComponent("\(UUID().uuidString).pdf"))
+            viewModel.fetchDocumentFileList()
+        } catch {
+            print("write pdf error:", error)
         }
     }
 }
