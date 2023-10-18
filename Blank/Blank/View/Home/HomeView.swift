@@ -13,8 +13,13 @@ struct HomeView: View {
     // UI 표시 토글 상태변수
     @State var showFilePicker = false
     @State var showImagePicker = false
+    @State var showPDFCreateAlert = false
     @State var isClicked = false
     
+    // 새 PDF 생성 관련
+    @State var newPDFFileName = ""
+    @State var targetImages: [UIImage]?
+    @State var isAllowedCreateNewPDF = false
     
     var body: some View {
         NavigationStack {
@@ -48,10 +53,36 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $showImagePicker) {
+                // showPDFCreateAlert 1: 이미지 선택 창을 띄우고 끝나면 경고창 띄움
+                // TODO: - 인디케이터 로딩 시작
                 PhotoPickerRepresentedView { images in
-                    addImageCombinedPDFToDocument(from: images)
+                    // TODO: - 인디케이터 로딩 끝
+                    targetImages = images
+                    setAllowCreateNewPDF(true)
+                    showPDFCreateAlert = true
                 }
             }
+            // Alert 설정
+            .alert("PDF 생성", isPresented: $showPDFCreateAlert) {
+                TextField("", text: $newPDFFileName)
+                Button("Cancel") {
+                    setAllowCreateNewPDF(false)
+                }
+                Button("OK") {
+                    guard let targetImages else {
+                        return
+                    }
+                    
+                    // showPDFCreateAlert 2: OK를 누르면 다음 단계 진행
+                    addImageCombinedPDFToDocument(from: targetImages)
+                }
+                .disabled(!newPDFFileName.isEmpty)
+                
+                // .disabled(newPDFFileName.isEmpty)
+            } message: {
+                Text("선택된 이미지들이 병합되어 PDF로 생성됩니다. 파일 이름을 확장자를 제외하고 입력해주세요.")
+            }
+            
         }
     }
     
@@ -99,6 +130,7 @@ struct HomeView: View {
     private var editBtn: some View {
         Button {
             // TODO: 편집 기능
+            showPDFCreateAlert = true
         } label: {
             Text("편집")
         }
@@ -114,13 +146,25 @@ extension HomeView {
     }
     
     private func addImageCombinedPDFToDocument(from images: [UIImage]) {
+        guard images.count > 0 && !newPDFFileName.isEmpty && isAllowedCreateNewPDF else {
+            return
+        }
+        
         do {
             let pdfData = createPDFFromUIImages(from: images)
-            try pdfData.write(to: FileManager.documentDirectoryURL!.appendingPathComponent("\(UUID().uuidString).pdf"))
+            try pdfData.write(to: FileManager.documentDirectoryURL!.appendingPathComponent("\(newPDFFileName).pdf"))
             viewModel.fetchDocumentFileList()
+            
+            setAllowCreateNewPDF(false)
         } catch {
             print("write pdf error:", error)
+            setAllowCreateNewPDF(false)
         }
+    }
+    
+    private func setAllowCreateNewPDF(_ isAllow: Bool) {
+        isAllowedCreateNewPDF = isAllow
+        newPDFFileName = ""
     }
 }
 
