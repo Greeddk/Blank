@@ -13,6 +13,8 @@ struct HomeView: View {
     // UI 표시 토글 상태변수
     @State var showFilePicker = false
     @State var showImagePicker = false
+    @State var isClicked = false
+    
     
     var body: some View {
         NavigationStack {
@@ -55,7 +57,15 @@ struct HomeView: View {
             LazyVGrid(columns: columns) {
                 ForEach(viewModel.filteredFileList, id: \.id) { file in
                     NavigationLink(destination: OverView()) {
-                        PDFThumbnailView(file: file)
+                        // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
+                        ZStack(alignment:.topTrailing) {
+                            PDFThumbnailView(file: file)
+                            if isClicked {
+                                let imageName = isClicked ? "checkedCheckmark" : "emptyCheckmark"
+                                Image(imageName)
+                                    .offset(x:-20, y:10)
+                            }
+                        }
                     }
                     .foregroundColor(.black)
                 }
