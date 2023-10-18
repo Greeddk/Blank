@@ -45,6 +45,11 @@ struct HomeView: View {
                     addFileToDocument(from: url)
                 }
             }
+            .sheet(isPresented: $showImagePicker) {
+                PhotoPickerRepresentedView { images in
+                    print(images)
+                }
+            }
         }
     }
     
@@ -71,7 +76,7 @@ struct HomeView: View {
                 Text("파일 보관함")
             }
             Button {
-                // TODO: 사진 보관함 기능
+                showImagePicker = true
             } label: {
                 Text("사진 보관함")
             }
