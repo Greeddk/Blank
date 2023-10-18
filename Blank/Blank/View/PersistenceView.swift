@@ -15,18 +15,18 @@ struct PersistenceView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \PageEntity.id, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<Item>
+    private var items: FetchedResults<PageEntity>
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(items) { item in
+                ForEach(items) { pageEntity in
                     NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
+                        Text(pageEntity.fileId?.uuidString ?? "unknown")
                     } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+                        Text(pageEntity.fileId?.uuidString ?? "unknown")
                     }
                 }
                 .onDelete(perform: deleteItems)
@@ -47,8 +47,10 @@ struct PersistenceView: View {
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+            let newPage = PageEntity(context: viewContext)
+            newPage.currentPageNumber = 900 + Int16.random(in: 1...100)
+            newPage.fileId = UUID()
+            newPage.id = UUID()
 
             do {
                 try viewContext.save()

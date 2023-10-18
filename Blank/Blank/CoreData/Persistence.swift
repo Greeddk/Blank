@@ -10,13 +10,15 @@ import CoreData
 struct PersistenceController {
     static let shared = PersistenceController()
 
-    /// 코어데이터 미리보기 용도로 Item 엔티티 생성
+    /// 코어데이터 미리보기 용도로 PageEntity 엔티티 생성
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for _ in 0..<10 {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+            let newPage = PageEntity(context: viewContext)
+            newPage.id = .init()
+            newPage.fileId = UUID()
+            newPage.currentPageNumber = Int16.random(in: 1...100)
         }
         do {
             try viewContext.save()

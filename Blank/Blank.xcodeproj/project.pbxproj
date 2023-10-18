@@ -30,6 +30,7 @@
 		449CB1E32ADEDAD00086758A /* toeic.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 449CB1DF2ADEDAD00086758A /* toeic.pdf */; };
 		449CB1E72ADEDC5E0086758A /* DummyObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449CB1E62ADEDC5E0086758A /* DummyObjects.swift */; };
 		449CB1EA2ADEE0460086758A /* PDFUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449CB1E92ADEE0460086758A /* PDFUtil.swift */; };
+		449CB1EC2ADFAF560086758A /* PhotoPickerRepresentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449CB1EB2ADFAF560086758A /* PhotoPickerRepresentedView.swift */; };
 		ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */; };
 		ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */; };
 		ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA632AD7CC7700C44A80 /* Preview Assets.xcassets */; };
@@ -65,6 +66,7 @@
 		449CB1DF2ADEDAD00086758A /* toeic.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = toeic.pdf; sourceTree = "<group>"; };
 		449CB1E62ADEDC5E0086758A /* DummyObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyObjects.swift; sourceTree = "<group>"; };
 		449CB1E92ADEE0460086758A /* PDFUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFUtil.swift; sourceTree = "<group>"; };
+		449CB1EB2ADFAF560086758A /* PhotoPickerRepresentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerRepresentedView.swift; sourceTree = "<group>"; };
 		ACDBDA592AD7CC7600C44A80 /* Blank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankApp.swift; sourceTree = "<group>"; };
 		ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			children = (
 				42ED60C52ADE7EDB0043AF2F /* HomeView.swift */,
 				449CB1D92ADED6C10086758A /* DocumentPickerRepresentedView.swift */,
+				449CB1EB2ADFAF560086758A /* PhotoPickerRepresentedView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				42ED60D02ADE7F380043AF2F /* ScribbleModalView.swift in Sources */,
 				ACF338C42ADD0158004D20FC /* Session.swift in Sources */,
 				42ED60D82ADE7F910043AF2F /* PDFThumbnailView.swift in Sources */,
+				449CB1EC2ADFAF560086758A /* PhotoPickerRepresentedView.swift in Sources */,
 				4491DFEC2ADD4CF800CA5B42 /* Persistence.swift in Sources */,
 				42ED60CE2ADE7F290043AF2F /* OCREditView.swift in Sources */,
 				ACF338C02ADD00DC004D20FC /* File.swift in Sources */,
@@ -459,6 +463,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 보관함을 사용하려면 권한 허용이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -495,6 +500,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "사진 보관함을 사용하려면 권한 허용이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
