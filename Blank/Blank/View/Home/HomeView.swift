@@ -15,6 +15,7 @@ struct HomeView: View {
     @State var showImagePicker = false
     @State var isClicked = false
     
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -64,9 +65,11 @@ struct HomeView: View {
                         // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
                         ZStack(alignment:.topTrailing) {
                             PDFThumbnailView(file: file)
-                            let imageName = isClicked ? "checkedCheckmark" : "emptyCheckmark"
-                            Image(imageName)
-                                .offset(x:-20, y:10)
+                            if isClicked {
+                                let imageName = isClicked ? "checkedCheckmark" : "emptyCheckmark"
+                                Image(imageName)
+                                    .offset(x:-20, y:10)
+                            }
                         }
                     }
                     .foregroundColor(.black)
