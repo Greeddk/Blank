@@ -17,9 +17,19 @@
 		42ED60D42ADE7F570043AF2F /* ResultPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60D32ADE7F570043AF2F /* ResultPageView.swift */; };
 		42ED60D62ADE7F6C0043AF2F /* CorrectInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60D52ADE7F6C0043AF2F /* CorrectInfoView.swift */; };
 		42ED60D82ADE7F910043AF2F /* PDFThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60D72ADE7F910043AF2F /* PDFThumbnailView.swift */; };
+		4491DFAA2ADD1E2E00CA5B42 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */; };
 		4491DFEC2ADD4CF800CA5B42 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFEB2ADD4CF800CA5B42 /* Persistence.swift */; };
 		4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFED2ADD4D4700CA5B42 /* Blank.xcdatamodeld */; };
 		4491DFF32ADD4EEB00CA5B42 /* PersistenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFF22ADD4EEB00CA5B42 /* PersistenceView.swift */; };
+		4491DFF82ADECF7F00CA5B42 /* FileMananger+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFF62ADECF7F00CA5B42 /* FileMananger+.swift */; };
+		4491DFF92ADECF7F00CA5B42 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFF72ADECF7F00CA5B42 /* UIImage+.swift */; };
+		449CB1DA2ADED6C10086758A /* DocumentPickerRepresentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449CB1D92ADED6C10086758A /* DocumentPickerRepresentedView.swift */; };
+		449CB1E02ADEDAD00086758A /* horizontal.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 449CB1DC2ADEDAD00086758A /* horizontal.pdf */; };
+		449CB1E12ADEDAD00086758A /* sample.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 449CB1DD2ADEDAD00086758A /* sample.pdf */; };
+		449CB1E22ADEDAD00086758A /* blank.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 449CB1DE2ADEDAD00086758A /* blank.pdf */; };
+		449CB1E32ADEDAD00086758A /* toeic.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 449CB1DF2ADEDAD00086758A /* toeic.pdf */; };
+		449CB1E72ADEDC5E0086758A /* DummyObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449CB1E62ADEDC5E0086758A /* DummyObjects.swift */; };
+		449CB1EA2ADEE0460086758A /* PDFUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449CB1E92ADEE0460086758A /* PDFUtil.swift */; };
 		ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */; };
 		ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */; };
 		ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA632AD7CC7700C44A80 /* Preview Assets.xcassets */; };
@@ -41,9 +51,20 @@
 		42ED60D32ADE7F570043AF2F /* ResultPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPageView.swift; sourceTree = "<group>"; };
 		42ED60D52ADE7F6C0043AF2F /* CorrectInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectInfoView.swift; sourceTree = "<group>"; };
 		42ED60D72ADE7F910043AF2F /* PDFThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFThumbnailView.swift; sourceTree = "<group>"; };
+		4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4491DFEB2ADD4CF800CA5B42 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		4491DFEE2ADD4D4700CA5B42 /* Blank.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Blank.xcdatamodel; sourceTree = "<group>"; };
 		4491DFF22ADD4EEB00CA5B42 /* PersistenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceView.swift; sourceTree = "<group>"; };
+		4491DFF62ADECF7F00CA5B42 /* FileMananger+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileMananger+.swift"; sourceTree = "<group>"; };
+		4491DFF72ADECF7F00CA5B42 /* UIImage+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
+		449CB1D22ADED3580086758A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		449CB1D92ADED6C10086758A /* DocumentPickerRepresentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerRepresentedView.swift; sourceTree = "<group>"; };
+		449CB1DC2ADEDAD00086758A /* horizontal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = horizontal.pdf; sourceTree = "<group>"; };
+		449CB1DD2ADEDAD00086758A /* sample.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = sample.pdf; sourceTree = "<group>"; };
+		449CB1DE2ADEDAD00086758A /* blank.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = blank.pdf; sourceTree = "<group>"; };
+		449CB1DF2ADEDAD00086758A /* toeic.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = toeic.pdf; sourceTree = "<group>"; };
+		449CB1E62ADEDC5E0086758A /* DummyObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyObjects.swift; sourceTree = "<group>"; };
+		449CB1E92ADEE0460086758A /* PDFUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFUtil.swift; sourceTree = "<group>"; };
 		ACDBDA592AD7CC7600C44A80 /* Blank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankApp.swift; sourceTree = "<group>"; };
 		ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -75,6 +96,51 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		4491DFF52ADECF7F00CA5B42 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4491DFF62ADECF7F00CA5B42 /* FileMananger+.swift */,
+				4491DFF72ADECF7F00CA5B42 /* UIImage+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		449CB1D72ADED6920086758A /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				42ED60C52ADE7EDB0043AF2F /* HomeView.swift */,
+				449CB1D92ADED6C10086758A /* DocumentPickerRepresentedView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		449CB1DB2ADEDABE0086758A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				449CB1DE2ADEDAD00086758A /* blank.pdf */,
+				449CB1DC2ADEDAD00086758A /* horizontal.pdf */,
+				449CB1DD2ADEDAD00086758A /* sample.pdf */,
+				449CB1DF2ADEDAD00086758A /* toeic.pdf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		449CB1E52ADEDC470086758A /* Dummy */ = {
+			isa = PBXGroup;
+			children = (
+				449CB1E62ADEDC5E0086758A /* DummyObjects.swift */,
+			);
+			path = Dummy;
+			sourceTree = "<group>";
+		};
+		449CB1E82ADEE0380086758A /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				449CB1E92ADEE0460086758A /* PDFUtil.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		ACDBDA502AD7CC7600C44A80 = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +160,11 @@
 		ACDBDA5B2AD7CC7600C44A80 /* Blank */ = {
 			isa = PBXGroup;
 			children = (
+				449CB1E82ADEE0380086758A /* Util */,
+				449CB1E52ADEDC470086758A /* Dummy */,
+				449CB1DB2ADEDABE0086758A /* Resources */,
+				449CB1D22ADED3580086758A /* Info.plist */,
+				4491DFF52ADECF7F00CA5B42 /* Extension */,
 				4491DFEA2ADD4CCF00CA5B42 /* CoreData */,
 				ACF338BE2ADD00B7004D20FC /* View */,
 				ACF338BD2ADD00B1004D20FC /* Model */,
@@ -117,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				ACF338C72ADD0327004D20FC /* del.swift */,
+				4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -135,9 +207,9 @@
 		ACF338BE2ADD00B7004D20FC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				449CB1D72ADED6920086758A /* Home */,
 				4491DFF22ADD4EEB00CA5B42 /* PersistenceView.swift */,
 				42ED60D72ADE7F910043AF2F /* PDFThumbnailView.swift */,
-				42ED60C52ADE7EDB0043AF2F /* HomeView.swift */,
 				42ED60C72ADE7EF50043AF2F /* OverView.swift */,
 				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
@@ -208,8 +280,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				449CB1E12ADEDAD00086758A /* sample.pdf in Resources */,
+				449CB1E22ADEDAD00086758A /* blank.pdf in Resources */,
 				ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */,
+				449CB1E02ADEDAD00086758A /* horizontal.pdf in Resources */,
 				ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */,
+				449CB1E32ADEDAD00086758A /* toeic.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,23 +296,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4491DFF82ADECF7F00CA5B42 /* FileMananger+.swift in Sources */,
 				42ED60D02ADE7F380043AF2F /* ScribbleModalView.swift in Sources */,
 				ACF338C42ADD0158004D20FC /* Session.swift in Sources */,
 				42ED60D82ADE7F910043AF2F /* PDFThumbnailView.swift in Sources */,
 				4491DFEC2ADD4CF800CA5B42 /* Persistence.swift in Sources */,
 				42ED60CE2ADE7F290043AF2F /* OCREditView.swift in Sources */,
 				ACF338C02ADD00DC004D20FC /* File.swift in Sources */,
+				4491DFAA2ADD1E2E00CA5B42 /* HomeViewModel.swift in Sources */,
 				42ED60C82ADE7EF50043AF2F /* OverView.swift in Sources */,
 				ACF338C22ADD0136004D20FC /* Page.swift in Sources */,
 				42ED60CA2ADE7F090043AF2F /* OverViewModalView.swift in Sources */,
+				449CB1E72ADEDC5E0086758A /* DummyObjects.swift in Sources */,
+				449CB1EA2ADEE0460086758A /* PDFUtil.swift in Sources */,
 				42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */,
 				ACF338C82ADD0327004D20FC /* del.swift in Sources */,
 				4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */,
+				449CB1DA2ADED6C10086758A /* DocumentPickerRepresentedView.swift in Sources */,
 				42ED60D22ADE7F450043AF2F /* TestPageView.swift in Sources */,
 				42ED60CC2ADE7F1A0043AF2F /* WordSelectView.swift in Sources */,
 				42ED60D42ADE7F570043AF2F /* ResultPageView.swift in Sources */,
 				ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */,
 				4491DFF32ADD4EEB00CA5B42 /* PersistenceView.swift in Sources */,
+				4491DFF92ADECF7F00CA5B42 /* UIImage+.swift in Sources */,
 				42ED60D62ADE7F6C0043AF2F /* CorrectInfoView.swift in Sources */,
 				ACF338C62ADD0172004D20FC /* Word.swift in Sources */,
 			);
@@ -375,12 +457,14 @@
 				DEVELOPMENT_TEAM = Q83JD2ZC9T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Blank/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -409,12 +493,14 @@
 				DEVELOPMENT_TEAM = Q83JD2ZC9T;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Blank/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

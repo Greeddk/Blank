@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var searchQueryString = ""
+    @EnvironmentObject var viewModel: HomeViewModel
+    
+    // UI 표시 토글 상태변수
+    @State var showFilePicker = false
+    @State var showImagePicker = false
     @State var isClicked = false
+    
     
     var body: some View {
         NavigationStack {
@@ -17,7 +22,7 @@ struct HomeView: View {
                 thumbGridView
             }
             .searchable( // TODO: 서치기능
-                text: $searchQueryString,
+                text: $viewModel.searchText,
                 placement: .navigationBarDrawer,
                 prompt: "Search"
             )
@@ -36,6 +41,12 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .padding()
             .navigationBarBackButtonHidden(true)
+            // 시트뷰 설정
+            .sheet(isPresented: $showFilePicker) {
+                DocumentPickerReperesentedView { url in
+                    addFileToDocument(from: url)
+                }
+            }
         }
     }
     
@@ -44,17 +55,16 @@ struct HomeView: View {
         let columns = Array(repeating: item, count: 3)
         return ScrollView {
             LazyVGrid(columns: columns) {
-                ForEach(0..<10) {_ in
+                ForEach(viewModel.filteredFileList, id: \.id) { file in
                     NavigationLink(destination: OverView()) {
                         // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
                         ZStack(alignment:.topTrailing) {
-                            PDFThumbnailView()
-                                .onTapGesture {
-                                    isClicked.toggle()
-                                }
-                            let imageName = isClicked ? "checkedCheckmark" : "emptyCheckmark"
-                            Image(imageName)
-                                .offset(x:-20, y:10)
+                            PDFThumbnailView(file: file)
+                            if isClicked {
+                                let imageName = isClicked ? "checkedCheckmark" : "emptyCheckmark"
+                                Image(imageName)
+                                    .offset(x:-20, y:10)
+                            }
                         }
                     }
                     .foregroundColor(.black)
@@ -66,7 +76,7 @@ struct HomeView: View {
     private var fileBtn: some View {
         Menu {
             Button {
-                // TODO: 파일 보관함 기능
+                showFilePicker = true
             } label: {
                 Text("파일 보관함")
             }
@@ -90,6 +100,16 @@ struct HomeView: View {
     }
 }
 
+extension HomeView {
+    private func addFileToDocument(from url: URL) {
+        let copyResult = viewModel.copyFileToDocumentBundle(from: url)
+        if copyResult {
+            viewModel.fetchDocumentFileList()
+        }
+    }
+}
+
 #Preview {
     HomeView()
+        .environmentObject(HomeViewModel())
 }

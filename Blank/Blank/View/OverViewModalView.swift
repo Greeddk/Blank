@@ -16,7 +16,7 @@ struct OverViewModalView: View {
                 ForEach(0..<10) {_ in
                     NavigationLink(destination: OverView()) {
                         // TODO: 기기에 따라 크기 조정 및 하단 정보들 넣기
-                        PDFThumbnailView()
+                        PDFThumbnailView(file: DUMMY_FILE)
                     }
                     .foregroundColor(.black)
                 }
