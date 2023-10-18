@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @State var searchQueryString = ""
+    @State var isClicked = false
     
     var body: some View {
         NavigationStack {
@@ -46,7 +47,15 @@ struct HomeView: View {
                 ForEach(0..<10) {_ in
                     NavigationLink(destination: OverView()) {
                         // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
-                        PDFThumbnailView()
+                        ZStack(alignment:.topTrailing) {
+                            PDFThumbnailView()
+                                .onTapGesture {
+                                    isClicked.toggle()
+                                }
+                            let imageName = isClicked ? "checkedCheckmark" : "emptyCheckmark"
+                            Image(imageName)
+                                .offset(x:-20, y:10)
+                        }
                     }
                     .foregroundColor(.black)
                 }
