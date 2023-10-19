@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TestPageView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject var viewModel: OverViewModel
     @State private var showingModal = false
     @Binding var isLinkActive: Bool
     
@@ -38,9 +39,11 @@ struct TestPageView: View {
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-        Image("myImage")
-            .resizable()
-            .scaledToFit()
+        ScrollView {
+            CurrentPageView(image: viewModel.generateImage())
+        }
+        .frame(width: UIScreen.main.bounds.width)
+        .background(Color(.systemGray6))
     }
     
     private var backBtn: some View {
@@ -63,7 +66,7 @@ struct TestPageView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive)) {
+        NavigationLink(destination: ResultPageView(viewModel: viewModel, isLinkActive: $isLinkActive)) {
             Text("채점")
                 .fontWeight(.bold)
         }
@@ -74,5 +77,5 @@ struct TestPageView: View {
 }
 
 #Preview {
-    TestPageView(isLinkActive: .constant(true))
+    TestPageView(viewModel: OverViewModel(), isLinkActive: .constant(true))
 }

@@ -13,9 +13,13 @@ struct BlankApp: App {
     
     @StateObject var homeViewModel = HomeViewModel()
     
+    init() {
+        HomeViewModel.copySampleFiles()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView(overViewModel: OverViewModel())
                 .environment(
                     \.managedObjectContext,
                      persistenceController.container.viewContext

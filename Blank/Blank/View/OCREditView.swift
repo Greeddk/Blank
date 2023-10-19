@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject var viewModel: OverViewModel
     @State private var showingModal = true
     @Binding var isLinkActive: Bool
     
@@ -38,9 +39,11 @@ struct OCREditView: View {
     
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
-        Image("myImage")
-            .resizable()
-            .scaledToFit()
+        ScrollView {
+            CurrentPageView(image: viewModel.generateImage())
+        }
+        .frame(width: UIScreen.main.bounds.width)
+        .background(Color(.systemGray6))
     }
     
     private var backBtn: some View {
@@ -63,7 +66,7 @@ struct OCREditView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: TestPageView(isLinkActive: $isLinkActive)) {
+        NavigationLink(destination: TestPageView(viewModel: viewModel, isLinkActive: $isLinkActive)) {
             Text("시험보기")
                 .fontWeight(.bold)
         }
@@ -74,5 +77,5 @@ struct OCREditView: View {
 }
 
 #Preview {
-    OCREditView(isLinkActive: .constant(true))
+    OCREditView(viewModel: OverViewModel(),isLinkActive: .constant(true))
 }

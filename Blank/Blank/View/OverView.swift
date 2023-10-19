@@ -9,19 +9,28 @@ import SwiftUI
 
 struct OverView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject var viewModel: OverViewModel
     @State var isLinkActive = false
     @State var showingAlert = false
+    @State var goToTestPage = false
     @State private var showPopover = false
     @State private var showModal = false
     @State var titleName = "파일이름"
-    @State var currentPage = "5"
+    
     
     
     var body: some View {
         NavigationStack {
             VStack {
-                pdfView
-                bottomScrollView
+                if viewModel.isLoading && viewModel.currentProgress < 1.0 {
+                    progressStatus
+                } else if !viewModel.thumbnails.isEmpty {
+                    pdfImage
+                    bottomScrollView
+                }
+            }
+            .onAppear {
+                viewModel.loadThumbnails()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -42,37 +51,77 @@ struct OverView: View {
             .navigationTitle(titleName)
             .navigationBarTitleDisplayMode(.inline)
         }
+        .background(Color(.systemGray6))
         .navigationDestination(isPresented: $isLinkActive) {
-            WordSelectView(isLinkActive: $isLinkActive)
+            if goToTestPage == false {
+                WordSelectView(viewModel: viewModel, isLinkActive: $isLinkActive)
+            } else {
+                TestPageView(viewModel: viewModel , isLinkActive: $isLinkActive)
+            }
         }
         
     }
     
-    private var pdfView: some View {
-        // TODO: PDFView
-        ScrollView(showsIndicators: false) {
-            Image("myImage")
-                .resizable()
-                .scaledToFit()
+    private var progressStatus: some View {
+        VStack(spacing: 20) {
+            ProgressView(value: viewModel.currentProgress)
+                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+            
+            Text("파일을 로딩 중 입니다.")
+            
+            Text("\(Int(viewModel.currentProgress * 100))%") // 퍼센트로 변환하여 표시
+        }
+        .background(.white)
+    }
+    
+    private var pdfImage: some View {
+        VStack {
+            Spacer().frame(height: 10)
+            ScrollView(showsIndicators: false) {
+                CurrentPageView(image: viewModel.generateImage())
+                    .frame(height: UIScreen.main.bounds.height * 0.8)
+            }
         }
     }
     
     private var bottomScrollView: some View {
         ScrollView(.horizontal, showsIndicators: true) {
-            HStack(spacing: 10) {
-                ForEach(0..<20) { index in
-                    VStack {
-                        Image("myImage")
-                            .resizable()
-                            .aspectRatio(contentMode:.fit)
-                        Spacer().frame(height: 0)
-                        Text("\(index+1)")
+            Spacer().frame(height: 10)
+            ScrollViewReader { proxy in
+                LazyHStack(spacing: 10) {
+                    ForEach(viewModel.thumbnails.indices, id: \.self) { index in
+                        VStack {
+                            Image(uiImage: viewModel.thumbnails[index])
+                                .resizable()
+                                .aspectRatio(contentMode:.fit)
+                                .border(viewModel.currentPage == index + 1 ? Color.blue : Color.clear, width: 1)
+                                .shadow(color: Color.black.opacity(0.3), radius: 2, x: 1, y: 1)
+                            Spacer().frame(height: 0)
+                            Text("\(index+1)")
+                                .font(.caption)
+                        }
+                        .onTapGesture {
+                            DispatchQueue.main.async {
+                                viewModel.currentPage = index + 1
+                            }
+                            
+                        }
+                    }
+                }
+                .onChange(of: viewModel.currentPage, perform: { value in
+                    withAnimation {
+                        proxy.scrollTo(value - 1, anchor: .center)
+                    }
+                })
+                .onAppear() {
+                    DispatchQueue.main.async {
+                        proxy.scrollTo(viewModel.currentPage - 1, anchor: .center)
                     }
                 }
             }
-            .padding(.horizontal)
         }
-        .frame(height : UIScreen.main.bounds.height * 0.1)
+        .background(Color.white)
+        .frame(height : UIScreen.main.bounds.height * 0.11)
     }
     
     private var centerBtn: some View {
@@ -98,9 +147,9 @@ struct OverView: View {
                 TextField("\(titleName)", text: $titleName)
                 HStack {
                     Text("페이지 : ")
-                    TextField("\(currentPage)", text: $currentPage)
-                    // TODO: 전체 페이지 수 가져오기
-                    Text(" / 200")
+                    // TODO: currentPage 연결
+                    //                    TextField("\(viewModel.currentPage)", text: String($viewModel.currentPage))
+                    Text(" / \(viewModel.pdfTotalPage())")
                 }
             }
         }
@@ -121,7 +170,7 @@ struct OverView: View {
                 Image(systemName: "square.grid.2x2.fill")
             }
             .sheet(isPresented: $showModal) {
-                OverViewModalView()
+                OverViewModalView(viewModel: viewModel)
             }
             
             Menu {
@@ -150,14 +199,14 @@ struct OverView: View {
             // TODO: 해당 페이지 이미지 파일로 넘겨주기, layer 분리, 이미지 받아서 텍스트로 변환, 2회차 이상일때 내용수정 Alert 만들기
             isLinkActive = true
             // TODO: 2회차 이상일때 alert 띄울 로직
-//            showingAlert = true
+            //            showingAlert = true
         } label: {
             Text("시험준비")
                 .fontWeight(.bold)
         }
         .alert("내용수정" ,isPresented: $showingAlert) {
-            Button("확인") {
-                
+            Button("시험보기") {
+                goToTestPage = true
             }
             Button("수정하기") {
                 
@@ -172,11 +221,11 @@ struct OverView: View {
                  수정하시겠습니까?
                  """)
         }
-
+        
     }
     
 }
-
-#Preview {
-    OverView()
-}
+//
+//#Preview {
+//    OverView()
+//}

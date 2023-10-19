@@ -15,6 +15,7 @@ struct HomeView: View {
     @State var showImagePicker = false
     @State var showPDFCreateAlert = false
     @State var isClicked = false
+    @StateObject var overViewModel: OverViewModel
     
     // 새 PDF 생성 관련
     @State var newPDFFileName = ""
@@ -92,7 +93,7 @@ struct HomeView: View {
         return ScrollView {
             LazyVGrid(columns: columns) {
                 ForEach(viewModel.filteredFileList, id: \.id) { file in
-                    NavigationLink(destination: OverView()) {
+                    NavigationLink(destination: OverView(viewModel: overViewModel)) {
                         // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
                         ZStack(alignment:.topTrailing) {
                             PDFThumbnailView(file: file)
@@ -168,7 +169,8 @@ extension HomeView {
     }
 }
 
-#Preview {
-    HomeView()
-        .environmentObject(HomeViewModel())
-}
+//#Preview {
+//    HomeView()
+//        .environmentObject(HomeViewModel())
+//}
+

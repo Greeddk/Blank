@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ResultPageView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject var viewModel: OverViewModel
     @Binding var isLinkActive: Bool
     @State var seeCorrect: Bool = true
     
@@ -53,16 +54,17 @@ struct ResultPageView: View {
     }
     
     private var resultImage: some View {
-        VStack {
-            // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-            Image("myImage")
-                .resizable()
-                .scaledToFit()
+        // TODO: 각 단어의 정답여부에 따른 색상 마스킹
+        ScrollView {
+            CurrentPageView(image: viewModel.generateImage())
         }
+        .frame(width: UIScreen.main.bounds.width)
+        .background(Color(.systemGray6))
     }
     
     private var homeBtn: some View {
-        NavigationLink(destination: HomeView()) {
+        // destination 임시처리
+        NavigationLink(destination: HomeView(overViewModel: OverViewModel())) {
             Image(systemName: "house")
         }
     }
@@ -90,5 +92,5 @@ struct ResultPageView: View {
 }
 
 #Preview {
-    ResultPageView(isLinkActive: .constant(true))
+    ResultPageView(viewModel: OverViewModel(), isLinkActive: .constant(true))
 }
