@@ -39,6 +39,8 @@
 		ACF338C42ADD0158004D20FC /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C32ADD0158004D20FC /* Session.swift */; };
 		ACF338C62ADD0172004D20FC /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C52ADD0172004D20FC /* Word.swift */; };
 		ACF338C82ADD0327004D20FC /* del.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C72ADD0327004D20FC /* del.swift */; };
+		EBEB72622AE0BC8500316D66 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB72612AE0BC8500316D66 /* ImageView.swift */; };
+		EBEB72642AE0BCA800316D66 /* PinchZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB72632AE0BCA800316D66 /* PinchZoomView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +78,8 @@
 		ACF338C32ADD0158004D20FC /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		ACF338C52ADD0172004D20FC /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		ACF338C72ADD0327004D20FC /* del.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = del.swift; sourceTree = "<group>"; };
+		EBEB72612AE0BC8500316D66 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		EBEB72632AE0BCA800316D66 /* PinchZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchZoomView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +217,8 @@
 				449CB1D72ADED6920086758A /* Home */,
 				4491DFF22ADD4EEB00CA5B42 /* PersistenceView.swift */,
 				42ED60D72ADE7F910043AF2F /* PDFThumbnailView.swift */,
+				EBEB72612AE0BC8500316D66 /* ImageView.swift */,
+				EBEB72632AE0BCA800316D66 /* PinchZoomView.swift */,
 				42ED60C72ADE7EF50043AF2F /* OverView.swift */,
 				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
@@ -299,6 +305,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBEB72642AE0BCA800316D66 /* PinchZoomView.swift in Sources */,
 				4491DFF82ADECF7F00CA5B42 /* FileMananger+.swift in Sources */,
 				42ED60D02ADE7F380043AF2F /* ScribbleModalView.swift in Sources */,
 				ACF338C42ADD0158004D20FC /* Session.swift in Sources */,
@@ -323,6 +330,7 @@
 				ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */,
 				4491DFF32ADD4EEB00CA5B42 /* PersistenceView.swift in Sources */,
 				4491DFF92ADECF7F00CA5B42 /* UIImage+.swift in Sources */,
+				EBEB72622AE0BC8500316D66 /* ImageView.swift in Sources */,
 				42ED60D62ADE7F6C0043AF2F /* CorrectInfoView.swift in Sources */,
 				ACF338C62ADD0172004D20FC /* Word.swift in Sources */,
 			);
