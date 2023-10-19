@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-struct File {
+struct File: Codable, Equatable, Hashable {
+    static func == (lhs: File, rhs: File) -> Bool {
+        lhs.id == rhs.id && lhs.fileURL == rhs.fileURL
+    }
+    
     var id: UUID
     var fileURL: URL
     var fileName: String
