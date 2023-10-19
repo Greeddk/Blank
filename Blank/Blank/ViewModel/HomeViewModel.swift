@@ -79,6 +79,7 @@ class HomeViewModel: ObservableObject {
     /// 예제 파일들을 Document 폴더에 복사 (처음 설치했을 때만 실행되어야 함)
     static func copySampleFiles() {
         let sampleFiles: [URL] = [
+            Bundle.main.url(forResource: "samplepdf", withExtension: "pdf"),
             Bundle.main.url(forResource: "sample", withExtension: "pdf"),
             Bundle.main.url(forResource: "blank", withExtension: "pdf"),
             Bundle.main.url(forResource: "toeic", withExtension: "pdf"),

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E763892AE1229700624D81 /* OverViewModel.swift */; };
+		42E7638C2AE122D700624D81 /* CurrentPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E7638B2AE122D700624D81 /* CurrentPageView.swift */; };
+		42E7638E2AE1234A00624D81 /* samplepdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 42E7638D2AE1234A00624D81 /* samplepdf.pdf */; };
 		42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C52ADE7EDB0043AF2F /* HomeView.swift */; };
 		42ED60C82ADE7EF50043AF2F /* OverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C72ADE7EF50043AF2F /* OverView.swift */; };
 		42ED60CA2ADE7F090043AF2F /* OverViewModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */; };
@@ -44,6 +47,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		42E763892AE1229700624D81 /* OverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModel.swift; sourceTree = "<group>"; };
+		42E7638B2AE122D700624D81 /* CurrentPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentPageView.swift; sourceTree = "<group>"; };
+		42E7638D2AE1234A00624D81 /* samplepdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplepdf.pdf; sourceTree = "<group>"; };
 		42ED60C52ADE7EDB0043AF2F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		42ED60C72ADE7EF50043AF2F /* OverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverView.swift; sourceTree = "<group>"; };
 		42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModalView.swift; sourceTree = "<group>"; };
@@ -178,6 +184,7 @@
 				ACF338BC2ADD00A4004D20FC /* ViewModel */,
 				ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */,
 				ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */,
+				42E7638D2AE1234A00624D81 /* samplepdf.pdf */,
 				ACDBDA622AD7CC7700C44A80 /* Preview Content */,
 			);
 			path = Blank;
@@ -196,6 +203,7 @@
 			children = (
 				ACF338C72ADD0327004D20FC /* del.swift */,
 				4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */,
+				42E763892AE1229700624D81 /* OverViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -220,6 +228,7 @@
 				EBEB72612AE0BC8500316D66 /* ImageView.swift */,
 				EBEB72632AE0BCA800316D66 /* PinchZoomView.swift */,
 				42ED60C72ADE7EF50043AF2F /* OverView.swift */,
+				42E7638B2AE122D700624D81 /* CurrentPageView.swift */,
 				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
 				42ED60CD2ADE7F290043AF2F /* OCREditView.swift */,
@@ -294,6 +303,7 @@
 				ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */,
 				449CB1E02ADEDAD00086758A /* horizontal.pdf in Resources */,
 				ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */,
+				42E7638E2AE1234A00624D81 /* samplepdf.pdf in Resources */,
 				449CB1E32ADEDAD00086758A /* toeic.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,9 +334,11 @@
 				ACF338C82ADD0327004D20FC /* del.swift in Sources */,
 				4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */,
 				449CB1DA2ADED6C10086758A /* DocumentPickerRepresentedView.swift in Sources */,
+				42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */,
 				42ED60D22ADE7F450043AF2F /* TestPageView.swift in Sources */,
 				42ED60CC2ADE7F1A0043AF2F /* WordSelectView.swift in Sources */,
 				42ED60D42ADE7F570043AF2F /* ResultPageView.swift in Sources */,
+				42E7638C2AE122D700624D81 /* CurrentPageView.swift in Sources */,
 				ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */,
 				4491DFF32ADD4EEB00CA5B42 /* PersistenceView.swift in Sources */,
 				4491DFF92ADECF7F00CA5B42 /* UIImage+.swift in Sources */,
