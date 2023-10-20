@@ -43,7 +43,6 @@
 		ACF338C22ADD0136004D20FC /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C12ADD0136004D20FC /* Page.swift */; };
 		ACF338C42ADD0158004D20FC /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C32ADD0158004D20FC /* Session.swift */; };
 		ACF338C62ADD0172004D20FC /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C52ADD0172004D20FC /* Word.swift */; };
-		ACF338C82ADD0327004D20FC /* del.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C72ADD0327004D20FC /* del.swift */; };
 		EBEB72622AE0BC8500316D66 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB72612AE0BC8500316D66 /* ImageView.swift */; };
 		EBEB72642AE0BCA800316D66 /* PinchZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB72632AE0BCA800316D66 /* PinchZoomView.swift */; };
 /* End PBXBuildFile section */
@@ -87,7 +86,6 @@
 		ACF338C12ADD0136004D20FC /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		ACF338C32ADD0158004D20FC /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		ACF338C52ADD0172004D20FC /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
-		ACF338C72ADD0327004D20FC /* del.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = del.swift; sourceTree = "<group>"; };
 		EBEB72612AE0BC8500316D66 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		EBEB72632AE0BCA800316D66 /* PinchZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinchZoomView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -215,7 +213,6 @@
 		ACF338BC2ADD00A4004D20FC /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				ACF338C72ADD0327004D20FC /* del.swift */,
 				4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */,
 				42E763892AE1229700624D81 /* OverViewModel.swift */,
 			);
@@ -346,7 +343,6 @@
 				449CB1E72ADEDC5E0086758A /* DummyObjects.swift in Sources */,
 				449CB1EA2ADEE0460086758A /* PDFUtil.swift in Sources */,
 				42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */,
-				ACF338C82ADD0327004D20FC /* del.swift in Sources */,
 				4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */,
 				449CB1DA2ADED6C10086758A /* DocumentPickerRepresentedView.swift in Sources */,
 				42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */,

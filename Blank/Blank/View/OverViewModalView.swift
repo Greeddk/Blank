@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OverViewModalView: View {
-    @StateObject var viewModel: OverViewModel
+    @ObservedObject var overViewModel: OverViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -31,19 +31,17 @@ struct OverViewModalView: View {
                 ScrollView {
                     ScrollViewReader { proxy in
                         LazyVGrid(columns: columns) {
-                            ForEach(viewModel.thumbnails.indices, id: \.self) {index in
+                            ForEach(overViewModel.thumbnails.indices, id: \.self) {index in
                                 // TODO: 기기에 따라 크기 조정
                                 VStack {
-                                    Image(uiImage: viewModel.thumbnails[index])
+                                    Image(uiImage: overViewModel.thumbnails[index])
                                         .resizable()
                                         .scaledToFit()
-                                        .border(viewModel.currentPage == index + 1 ? Color.blue : Color.clear, width: 2)
+                                        .border(overViewModel.currentPage == index + 1 ? Color.blue : Color.clear, width: 2)
                                         .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
                                         .onTapGesture {
-                                            DispatchQueue.main.async {
-                                                viewModel.currentPage = index + 1
-                                                dismiss()
-                                            }
+                                            overViewModel.currentPage = index + 1
+                                            dismiss()
                                         }
                                     HStack {
                                         Text("\(index+1)")
@@ -65,12 +63,12 @@ struct OverViewModalView: View {
                                 }
                                 .foregroundColor(.black)
                             }
-//                            .onChange(of: viewModel.currentPage) { value in
-//                                withAnimation {
-//                                    proxy.scrollTo(value-1, anchor: .top)
-//                                }
-//                            }
                         }
+                        .onAppear(perform:{
+                            withAnimation{
+                                proxy.scrollTo(overViewModel.currentPage - 1, anchor: .top)
+                            }
+                        })
                     }
                 }
                 .padding()
@@ -80,6 +78,6 @@ struct OverViewModalView: View {
     }
 }
 
-#Preview {
-    OverViewModalView(viewModel: OverViewModel())
-}
+//#Preview {
+//    OverViewModalView(viewModel: OverViewModel())
+//}
