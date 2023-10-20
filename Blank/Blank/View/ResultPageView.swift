@@ -21,7 +21,7 @@ struct ResultPageView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    // homeBtn
+                     homeBtn
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {

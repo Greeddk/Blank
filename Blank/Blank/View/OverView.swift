@@ -9,12 +9,23 @@ import SwiftUI
 
 struct OverView: View {
     @Environment(\.dismiss) private var dismiss
+    
+    //뷰모델
     @ObservedObject var overViewModel: OverViewModel
+    
+    //향후 오버뷰 페이지로 돌아오기 위한 flag
     @State var isLinkActive = false
+    
+    //n회차 alert flag
     @State var showingAlert = false
+    //n회차 일때 한번에 테스트 페이지로 가기 위한 bool값
     @State var goToTestPage = false
+    
+    //제목 버튼 팝오버 버튼
     @State private var showPopover = false
     @State private var showModal = false
+    
+    @State private var currentPageText: String = ""
     @State var titleName = "파일이름"
     
     var body: some View {
@@ -123,7 +134,7 @@ struct OverView: View {
             showPopover = true
         } label: {
             HStack {
-                Text("\(titleName)")
+                Text("\(overViewModel.currentFile.fileName)")
                 Image(systemName: "chevron.down")
             }
             .foregroundColor(.black)
@@ -137,17 +148,26 @@ struct OverView: View {
     private var popoverContent: some View {
         VStack {
             Form {
-                // TODO: 파일 이름 연동
-                TextField("\(titleName)", text: $titleName)
+                // TODO: 파일 이름 변경가능?
+//                TextField("\(overViewModel.currentFile.fileName)", text: $overViewModel.currentFile.fileName)
+                Text("\(overViewModel.currentFile.fileName)")
                 HStack {
                     Text("페이지 : ")
-                    // TODO: currentPage 연결
-                    //                    TextField("\(viewModel.currentPage)", text: String($viewModel.currentPage))
+                    Spacer()
+                    TextField("", text: $currentPageText, onCommit:{
+                        overViewModel.updateCurrentPage(from: currentPageText)
+                    })
+                    .multilineTextAlignment(.trailing)
+                    .keyboardType(.numberPad)
+                    .frame(width: 50)
                     Text(" / \(overViewModel.pdfTotalPage())")
                 }
             }
         }
         .frame(width: 300, height: 150)
+        .onAppear() {
+            currentPageText = "\(overViewModel.currentPage)"
+        }
     }
     
     private var leftBtns: some View {

@@ -21,6 +21,18 @@ class OverViewModel: ObservableObject {
         self.currentFile = currentFile
     }
     
+    // PDF의 원하는 페이지를 로드해주는 메소드
+    func updateCurrentPage(from input: String) {
+        let originalPage = self.currentPage
+        if let pageNumber = Int(input),
+           pageNumber >= 1,
+           pageNumber <= self.pdfTotalPage() {
+            self.currentPage = pageNumber
+        } else {
+            self.currentPage = originalPage
+        }
+    }
+    
     // PDF 전체 페이지 수를 반환하는 메소드
     func pdfTotalPage() -> Int {
 //         guard let pdfDocument = pdfDocument else { return 0 }
