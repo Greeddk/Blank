@@ -15,18 +15,19 @@ struct PersistenceView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \PageEntity.id, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \FileEntity.id, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<PageEntity>
+    private var items: FetchedResults<FileEntity>
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(items) { pageEntity in
+                ForEach(items) { fileEntity in
                     NavigationLink {
-                        Text(pageEntity.fileId?.uuidString ?? "unknown")
+                        Text("현재 위치: \(fileEntity.id?.uuidString ?? "unknown")")
+                        Text("Pages 수: \(fileEntity.pages?.count ?? 0)")
                     } label: {
-                        Text(pageEntity.fileId?.uuidString ?? "unknown")
+                        Text(fileEntity.fileName ?? "unknown")
                     }
                 }
                 .onDelete(perform: deleteItems)
@@ -47,10 +48,10 @@ struct PersistenceView: View {
 
     private func addItem() {
         withAnimation {
-            let newPage = PageEntity(context: viewContext)
-            newPage.currentPageNumber = 900 + Int16.random(in: 1...100)
-            newPage.fileId = UUID()
-            newPage.id = UUID()
+            // let newPage = PageEntity(context: viewContext)
+            // newPage.currentPageNumber = 900 + Int16.random(in: 1...100)
+            // newPage.fileId = UUID()
+            // newPage.id = UUID()
 
             do {
                 try viewContext.save()
