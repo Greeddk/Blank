@@ -104,6 +104,7 @@
 		4491DFEA2ADD4CCF00CA5B42 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				449CB1F12AE2B0450086758A /* CustomClass */,
 				4491DFEB2ADD4CF800CA5B42 /* Persistence.swift */,
 				4491DFED2ADD4D4700CA5B42 /* Blank.xcdatamodeld */,
 			);
@@ -155,6 +156,13 @@
 				449CB1E92ADEE0460086758A /* PDFUtil.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		449CB1F12AE2B0450086758A /* CustomClass */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CustomClass;
 			sourceTree = "<group>";
 		};
 		ACDBDA502AD7CC7600C44A80 = {
