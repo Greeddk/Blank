@@ -26,11 +26,32 @@ struct PersistenceController {
             // 페이지 생성
             let pageEnd = Int.random(in: 5...30)
             for _ in 0..<pageEnd {
+                let pageId = UUID()
+                
                 let page = PageEntity(context: viewContext)
-                page.id = UUID()
+                page.id = pageId
                 page.currentPageNumber = Int16.random(in: Int16(2)...Int16(pageEnd))
                 page.fileId = uuid
                 
+                // 세션 생성
+                for _ in 0..<Int.random(in: 0...15) {
+                    let sessionId = UUID()
+                    let session = SessionEntity(context: viewContext)
+                    session.id = sessionId
+                    session.pageId = pageId
+                    
+                    // 워드 생성
+                    for i in 0..<Int.random(in: 0...200) {
+                        let word = WordEntity(context: viewContext)
+                        word.isCorrect = Bool.random()
+                        word.id = UUID()
+                        word.sessionId = sessionId
+                        word.wordValue = "WORD\(i)"
+                        
+                        session.addToWords(word)
+                    }
+                    page.addToSessions(session)
+                }
                 newFile.addToPages(page)
             }
         }
