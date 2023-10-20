@@ -164,7 +164,7 @@ struct OverView: View {
                 Image(systemName: "square.grid.2x2.fill")
             }
             .sheet(isPresented: $showModal) {
-                OverViewModalView(viewModel: overViewModel)
+                OverViewModalView(overViewModel: overViewModel)
             }
             
             Menu {
