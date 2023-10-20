@@ -19,7 +19,7 @@ struct BlankApp: App {
     
     var body: some Scene {
         WindowGroup {
-            HomeView(overViewModel: OverViewModel())
+            HomeView()
                 .environment(
                     \.managedObjectContext,
                      persistenceController.container.viewContext

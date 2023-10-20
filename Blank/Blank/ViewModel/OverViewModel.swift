@@ -14,27 +14,36 @@ class OverViewModel: ObservableObject {
     @Published var isLoading = true
     @Published var currentProgress: Double = 0.0
     
-    let documentURL = Bundle.main.url(forResource: "samplepdf", withExtension: "pdf")
-    var pdfDocument: PDFDocument?
+    let currentFile: File
+    lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
     
-    init() {
-        if let documentURL = documentURL {
-            pdfDocument = PDFDocument(url: documentURL)
+    init(currentFile: File) {
+        self.currentFile = currentFile
+    }
+    
+    // PDF의 원하는 페이지를 로드해주는 메소드
+    func updateCurrentPage(from input: String) {
+        let originalPage = self.currentPage
+        if let pageNumber = Int(input),
+           pageNumber >= 1,
+           pageNumber <= self.pdfTotalPage() {
+            self.currentPage = pageNumber
+        } else {
+            self.currentPage = originalPage
         }
     }
     
     // PDF 전체 페이지 수를 반환하는 메소드
     func pdfTotalPage() -> Int {
-        guard let pdfDocument = pdfDocument else { return 0 }
-        
+//         guard let pdfDocument = pdfDocument else { return 0 }
         return pdfDocument.pageCount
     }
     
     // PDF의 현재 페이지를 이미지로 반환하는 메소드
     func generateImage() -> UIImage? {
-        guard let pdfDocument = pdfDocument, currentPage > 0, currentPage <= pdfDocument.pageCount else {
-            return nil
-        }
+//        guard let pdfDocument = pdfDocument, currentPage > 0, currentPage <= pdfDocument.pageCount else {
+//            return nil
+//        }
         
         guard let page = pdfDocument.page(at: currentPage - 1) else {
             return nil
@@ -82,9 +91,9 @@ class OverViewModel: ObservableObject {
         isLoading = true
         currentProgress = 0.0
 
-        guard let pdfDocument = pdfDocument else {
-            return
-        }
+//        guard let pdfDocument = pdfDocument else {
+//            return
+//        }
 
         if thumbnails.count != pdfDocument.pageCount {
             thumbnails.removeAll()
