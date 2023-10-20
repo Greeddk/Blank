@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OverView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject var viewModel: OverViewModel
+    @ObservedObject var overViewModel: OverViewModel
     @State var isLinkActive = false
     @State var showingAlert = false
     @State var goToTestPage = false
@@ -17,20 +17,18 @@ struct OverView: View {
     @State private var showModal = false
     @State var titleName = "파일이름"
     
-    
-    
     var body: some View {
         NavigationStack {
             VStack {
-                if viewModel.isLoading && viewModel.currentProgress < 1.0 {
+                if overViewModel.isLoading && overViewModel.currentProgress < 1.0 {
                     progressStatus
-                } else if !viewModel.thumbnails.isEmpty {
+                } else if !overViewModel.thumbnails.isEmpty {
                     pdfImage
                     bottomScrollView
                 }
             }
             .onAppear {
-                viewModel.loadThumbnails()
+                overViewModel.loadThumbnails()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -53,23 +51,22 @@ struct OverView: View {
         }
         .background(Color(.systemGray6))
         .navigationDestination(isPresented: $isLinkActive) {
-            if goToTestPage == false {
-                WordSelectView(viewModel: viewModel, isLinkActive: $isLinkActive)
+            if !goToTestPage {
+                WordSelectView(overViewModel: overViewModel, isLinkActive: $isLinkActive)
             } else {
-                TestPageView(viewModel: viewModel , isLinkActive: $isLinkActive)
+                TestPageView(overViewModel: overViewModel , isLinkActive: $isLinkActive)
             }
         }
-        
     }
     
     private var progressStatus: some View {
         VStack(spacing: 20) {
-            ProgressView(value: viewModel.currentProgress)
+            ProgressView(value: overViewModel.currentProgress)
                 .progressViewStyle(CircularProgressViewStyle(tint: .blue))
             
             Text("파일을 로딩 중 입니다.")
             
-            Text("\(Int(viewModel.currentProgress * 100))%") // 퍼센트로 변환하여 표시
+            Text("\(Int(overViewModel.currentProgress * 100))%") // 퍼센트로 변환하여 표시
         }
         .background(.white)
     }
@@ -78,7 +75,7 @@ struct OverView: View {
         VStack {
             Spacer().frame(height: 10)
             ScrollView(showsIndicators: false) {
-                CurrentPageView(image: viewModel.generateImage())
+                CurrentPageView(image: overViewModel.generateImage())
                     .frame(height: UIScreen.main.bounds.height * 0.8)
             }
         }
@@ -89,33 +86,30 @@ struct OverView: View {
             Spacer().frame(height: 10)
             ScrollViewReader { proxy in
                 LazyHStack(spacing: 10) {
-                    ForEach(viewModel.thumbnails.indices, id: \.self) { index in
+                    ForEach(overViewModel.thumbnails.indices, id: \.self) { index in
                         VStack {
-                            Image(uiImage: viewModel.thumbnails[index])
+                            Image(uiImage: overViewModel.thumbnails[index])
                                 .resizable()
                                 .aspectRatio(contentMode:.fit)
-                                .border(viewModel.currentPage == index + 1 ? Color.blue : Color.clear, width: 1)
+                                .border(overViewModel.currentPage == index + 1 ? Color.blue : Color.clear, width: 1)
                                 .shadow(color: Color.black.opacity(0.3), radius: 2, x: 1, y: 1)
                             Spacer().frame(height: 0)
                             Text("\(index+1)")
                                 .font(.caption)
                         }
                         .onTapGesture {
-                            DispatchQueue.main.async {
-                                viewModel.currentPage = index + 1
-                            }
-                            
+                            overViewModel.currentPage = index + 1
                         }
                     }
                 }
-                .onChange(of: viewModel.currentPage, perform: { value in
+                .onChange(of: overViewModel.currentPage, perform: { value in
                     withAnimation {
                         proxy.scrollTo(value - 1, anchor: .center)
                     }
                 })
                 .onAppear() {
                     DispatchQueue.main.async {
-                        proxy.scrollTo(viewModel.currentPage - 1, anchor: .center)
+                        proxy.scrollTo(overViewModel.currentPage - 1, anchor: .center)
                     }
                 }
             }
@@ -149,7 +143,7 @@ struct OverView: View {
                     Text("페이지 : ")
                     // TODO: currentPage 연결
                     //                    TextField("\(viewModel.currentPage)", text: String($viewModel.currentPage))
-                    Text(" / \(viewModel.pdfTotalPage())")
+                    Text(" / \(overViewModel.pdfTotalPage())")
                 }
             }
         }
@@ -170,7 +164,7 @@ struct OverView: View {
                 Image(systemName: "square.grid.2x2.fill")
             }
             .sheet(isPresented: $showModal) {
-                OverViewModalView(viewModel: viewModel)
+                OverViewModalView(viewModel: overViewModel)
             }
             
             Menu {
@@ -225,7 +219,7 @@ struct OverView: View {
     }
     
 }
-//
+
 //#Preview {
-//    OverView()
+//    OverView(viewModel: OverViewModel(currentFile: File))
 //}

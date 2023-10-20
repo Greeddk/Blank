@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OverViewModalView: View {
-    @StateObject var viewModel: OverViewModel
+    @ObservedObject var viewModel: OverViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -40,10 +40,8 @@ struct OverViewModalView: View {
                                         .border(viewModel.currentPage == index + 1 ? Color.blue : Color.clear, width: 2)
                                         .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
                                         .onTapGesture {
-                                            DispatchQueue.main.async {
-                                                viewModel.currentPage = index + 1
-                                                dismiss()
-                                            }
+                                            viewModel.currentPage = index + 1
+                                            dismiss()
                                         }
                                     HStack {
                                         Text("\(index+1)")
@@ -65,11 +63,11 @@ struct OverViewModalView: View {
                                 }
                                 .foregroundColor(.black)
                             }
-//                            .onChange(of: viewModel.currentPage) { value in
-//                                withAnimation {
-//                                    proxy.scrollTo(value-1, anchor: .top)
-//                                }
-//                            }
+                            //                            .onChange(of: viewModel.currentPage) { value in
+                            //                                withAnimation {
+                            //                                    proxy.scrollTo(value-1, anchor: .top)
+                            //                                }
+                            //                            }
                         }
                     }
                 }
@@ -80,6 +78,6 @@ struct OverViewModalView: View {
     }
 }
 
-#Preview {
-    OverViewModalView(viewModel: OverViewModel())
-}
+//#Preview {
+//    OverViewModalView(viewModel: OverViewModel())
+//}

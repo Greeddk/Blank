@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject var viewModel: OverViewModel
+    @ObservedObject var overViewModel: OverViewModel
     @State private var showingAlert = true
     @Binding var isLinkActive: Bool
     
@@ -44,7 +44,7 @@ struct WordSelectView: View {
     private var wordSelectImage: some View {
         // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제
         ScrollView {
-            CurrentPageView(image: viewModel.generateImage())
+            CurrentPageView(image: overViewModel.generateImage())
         }
         .frame(width: UIScreen.main.bounds.width)
         .background(Color(.systemGray6))
@@ -59,7 +59,7 @@ struct WordSelectView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: OCREditView(viewModel: viewModel, isLinkActive: $isLinkActive)) {
+        NavigationLink(destination: OCREditView(overViewModel: overViewModel, isLinkActive: $isLinkActive)) {
             Text("다음")
                 .fontWeight(.bold)
         }
@@ -69,6 +69,6 @@ struct WordSelectView: View {
     }
 }
 
-#Preview {
-    WordSelectView(viewModel: OverViewModel(), isLinkActive: .constant(true))
-}
+//#Preview {
+//    WordSelectView(viewModel: OverViewModel(), isLinkActive: .constant(true))
+//}
