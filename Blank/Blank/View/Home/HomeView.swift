@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var viewModel: HomeViewModel
+    enum Mode {
+        case normal, edit
+        
+        var toggle: Mode {
+            self == .edit ? .normal : .edit
+        }
+    }
+    
+    // 현재 일반 모드인지, 아니면 편집(=> 파일삭제) 모드인지
+    @State var mode: Mode = .normal
     
     // UI 표시 토글 상태변수
     @State var showFilePicker = false
     @State var showImagePicker = false
     @State var showPDFCreateAlert = false
-    @State var isClicked = false
+    @State var showFileDeleteAlert = false
+    
     @StateObject var overViewModel: OverViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     
     // 새 PDF 생성 관련
     @State var newPDFFileName = ""
@@ -27,8 +38,8 @@ struct HomeView: View {
             VStack {
                 thumbGridView
             }
-            .searchable( // TODO: 서치기능
-                text: $viewModel.searchText,
+            .searchable(
+                text: $homeViewModel.searchText,
                 placement: .navigationBarDrawer,
                 prompt: "Search"
             )
@@ -38,7 +49,11 @@ struct HomeView: View {
                 }
                 
                 ToolbarItem {
-                    fileBtn
+                    if mode == .normal {
+                        fileBtnNormalMode
+                    } else {
+                        fileBtnEditMode
+                    }
                 }
             }
             .toolbarBackground(.white, for: .navigationBar)
@@ -63,9 +78,15 @@ struct HomeView: View {
                     showPDFCreateAlert = true
                 }
             }
-            // Alert 설정
+            // Alert 설정: PDF 생성
             .alert("PDF 생성", isPresented: $showPDFCreateAlert) {
-                TextField("", text: $newPDFFileName)
+                let suggestedFileName = homeViewModel.suggestedFileName
+                
+                TextField(
+                    "",
+                    text: $newPDFFileName,
+                    prompt: Text(suggestedFileName)
+                )
                 Button("Cancel") {
                     setAllowCreateNewPDF(false)
                 }
@@ -75,15 +96,28 @@ struct HomeView: View {
                     }
                     
                     // showPDFCreateAlert 2: OK를 누르면 다음 단계 진행
+                    if newPDFFileName.isEmpty {
+                        newPDFFileName = suggestedFileName
+                    }
+                    
                     addImageCombinedPDFToDocument(from: targetImages)
                 }
-                .disabled(!newPDFFileName.isEmpty)
-                
-                // .disabled(newPDFFileName.isEmpty)
             } message: {
                 Text("선택된 이미지들이 병합되어 PDF로 생성됩니다. 파일 이름을 확장자를 제외하고 입력해주세요.")
             }
-            
+            // Alert 설정: 선택한 파일 삭제
+            .alert("선택한 \(homeViewModel.selectedFileList.count)개의 파일 삭제", isPresented: $showFileDeleteAlert) {
+                Button("Cancel", role: .cancel) {
+                    
+                }
+                Button("OK", role: .destructive) {
+                    homeViewModel.removeSelectedFiles()
+                    // 삭제 완료하면 일반 모드로 이동
+                    mode = .normal
+                }
+            } message: {
+                Text("정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.")
+            }
         }
     }
     
@@ -92,25 +126,29 @@ struct HomeView: View {
         let columns = Array(repeating: item, count: 3)
         return ScrollView {
             LazyVGrid(columns: columns) {
-                ForEach(viewModel.filteredFileList, id: \.id) { file in
-                    NavigationLink(destination: OverView(viewModel: overViewModel)) {
+                ForEach(homeViewModel.filteredFileList, id: \.id) { file in
+                    NavigationLink(destination: mode == .normal ? OverView(viewModel: overViewModel) : nil) {
                         // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
                         ZStack(alignment:.topTrailing) {
                             PDFThumbnailView(file: file)
-                            if isClicked {
-                                let imageName = isClicked ? "checkedCheckmark" : "emptyCheckmark"
-                                Image(imageName)
-                                    .offset(x:-20, y:10)
+                            
+                            if mode == .edit {
+                                Image(homeViewModel.selectedFileList.contains(file) ? "checkedCheckmark" : "emptyCheckmark")
+                                    .offset(x: -20, y: 10)
                             }
                         }
                     }
                     .foregroundColor(.black)
+                    .disabled(mode == .edit)
+                    .onTapGesture {
+                        updateSelection(file)
+                    }
                 }
             }
         }
     }
     
-    private var fileBtn: some View {
+    private var fileBtnNormalMode: some View {
         Menu {
             Button {
                 showFilePicker = true
@@ -122,39 +160,49 @@ struct HomeView: View {
             } label: {
                 Text("사진 보관함")
             }
-            
         } label: {
             Text("새 파일")
         }
     }
     
+    private var fileBtnEditMode: some View {
+        Button {
+            showFileDeleteAlert = true
+        } label: {
+            Image(systemName: "trash")
+                .foregroundColor(.red)
+        }
+    }
+    
     private var editBtn: some View {
         Button {
-            // TODO: 편집 기능
-            showPDFCreateAlert = true
+            mode = mode.toggle
+            if mode == .normal {
+                homeViewModel.selectedFileList = []
+            }
         } label: {
-            Text("편집")
+            Text(mode == .normal ? "편집" : "취소")
         }
     }
 }
 
 extension HomeView {
     private func addFileToDocument(from url: URL) {
-        let copyResult = viewModel.copyFileToDocumentBundle(from: url)
+        let copyResult = homeViewModel.copyFileToDocumentBundle(from: url)
         if copyResult {
-            viewModel.fetchDocumentFileList()
+            homeViewModel.fetchDocumentFileList()
         }
     }
     
     private func addImageCombinedPDFToDocument(from images: [UIImage]) {
-        guard images.count > 0 && !newPDFFileName.isEmpty && isAllowedCreateNewPDF else {
+        guard images.count > 0 && isAllowedCreateNewPDF else {
             return
         }
         
         do {
             let pdfData = createPDFFromUIImages(from: images)
             try pdfData.write(to: FileManager.documentDirectoryURL!.appendingPathComponent("\(newPDFFileName).pdf"))
-            viewModel.fetchDocumentFileList()
+            homeViewModel.fetchDocumentFileList()
             
             setAllowCreateNewPDF(false)
         } catch {
@@ -166,6 +214,14 @@ extension HomeView {
     private func setAllowCreateNewPDF(_ isAllow: Bool) {
         isAllowedCreateNewPDF = isAllow
         newPDFFileName = ""
+    }
+    
+    private func updateSelection(_ file: File) {
+        if !homeViewModel.selectedFileList.contains(file) {
+            homeViewModel.selectedFileList.insert(file)
+        } else {
+            homeViewModel.selectedFileList.remove(file)
+        }
     }
 }
 

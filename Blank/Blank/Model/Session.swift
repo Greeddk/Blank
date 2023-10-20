@@ -7,8 +7,13 @@
 
 import SwiftUI
 
-struct Session {
-    var words:[Word] = []
+struct Session: Codable, Hashable {
+    static func == (lhs: Session, rhs: Session) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    var id: UUID
+    var words: [Word] = []
     var correctCount: Int {
         return words.filter { $0.correct }.count
     }

@@ -9,11 +9,23 @@ import Foundation
 
 class HomeViewModel: ObservableObject {
     @Published var fileList: [File] = []
-    @Published var selectedFileList: Set<URL> = []
+    @Published var selectedFileList: Set<File> = []
     @Published var searchText = ""
     
     init() {
         fetchDocumentFileList()
+    }
+    
+    /// 파일 이름 자동 제안
+    var suggestedFileName: String {
+        // TODO: - 더 참신한 방법
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        let randomGeneratedString = String((0..<5).map{ _ in letters.randomElement()! })
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYYMMDD"
+        
+        return "\(formatter.string(from: Date.now))_\(randomGeneratedString)"
     }
     
     /// 검색(필터링) 결과를 출력
@@ -57,8 +69,15 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    /// 파일 삭제 기능
     func removeFiles(urls: [URL]) {
         FileManager.default.delete(at: urls)
+        fetchDocumentFileList()
+    }
+    
+    /// selectedFileList에서 URL을 찾아 파일 삭제
+    func removeSelectedFiles() {
+        FileManager.default.delete(at: selectedFileList.compactMap({ $0.fileURL }))
         fetchDocumentFileList()
     }
     

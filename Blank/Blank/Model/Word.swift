@@ -7,8 +7,10 @@
 
 import SwiftUI
 
-struct Word {
-    let string: String
-    let rect: CGRect
+struct Word: Codable, Hashable {
+    
+    var id: UUID
+    var string: String
+    var rect: CGRect
     var correct: Bool = false
 }
