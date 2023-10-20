@@ -112,6 +112,8 @@ struct HomeView: View {
                 }
                 Button("OK", role: .destructive) {
                     homeViewModel.removeSelectedFiles()
+                    // 삭제 완료하면 일반 모드로 이동
+                    mode = .normal
                 }
             } message: {
                 Text("정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.")
