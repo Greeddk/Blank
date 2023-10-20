@@ -54,7 +54,7 @@ struct PersistenceView: View {
                 Text(pageEntity.id?.uuidString ?? "unknown")
                     .foregroundStyle(.gray)
                 Text("currentPageNumber: \(pageEntity.currentPageNumber)")
-                Text("CDRect: \(pageEntity.rect?.x ?? 0)")
+                Text("CDRect: \(pageEntity.rect?.textDescription ?? "")")
                 Text("session 수: \(pageEntity.sessions?.count ?? -99)")
                 NavigationLink {
                     if let sessions = pageEntity.sessions?.allObjects as? [SessionEntity] {
