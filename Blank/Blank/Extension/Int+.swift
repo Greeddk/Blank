@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+extension Int {
+    var int16: Int16 {
+        Int16(self)
+    }
+}

@@ -15,12 +15,6 @@ struct PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         
-        let rect = CDRect(context: viewContext)
-        rect.x = -10
-        rect.y = 100
-        rect.width = 10
-        rect.height = 10
-        
         for _ in 0..<10 {
             let newFile = FileEntity(context: viewContext)
             let uuid = UUID()
@@ -38,8 +32,7 @@ struct PersistenceController {
                 page.id = pageId
                 page.currentPageNumber = Int16.random(in: Int16(2)...Int16(pageEnd))
                 page.fileId = uuid
-                page.rect = rect
-                
+
                 // 세션 생성
                 for _ in 0..<Int.random(in: 0...15) {
                     let sessionId = UUID()
@@ -54,7 +47,7 @@ struct PersistenceController {
                         word.id = UUID()
                         word.sessionId = sessionId
                         word.wordValue = "WORD\(i)"
-                        word.rect = rect
+                        
                         
                         session.addToWords(word)
                     }

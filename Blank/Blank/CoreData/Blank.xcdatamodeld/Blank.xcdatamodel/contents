@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="22G91" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="CDRect" representedClassName="CDRect" syncable="YES" codeGenerationType="class">
-        <attribute name="height" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="width" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="x" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="y" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-    </entity>
     <entity name="FileEntity" representedClassName="FileEntity" syncable="YES" codeGenerationType="class">
         <attribute name="fileName" optional="YES" attributeType="String"/>
         <attribute name="fileURL" optional="YES" attributeType="URI"/>
@@ -17,7 +11,7 @@
         <attribute name="currentPageNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="fileId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <relationship name="rect" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDRect"/>
+        <attribute name="rect" optional="YES" attributeType="String"/>
         <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SessionEntity"/>
     </entity>
     <entity name="SessionEntity" representedClassName="SessionEntity" syncable="YES" codeGenerationType="class">
@@ -28,8 +22,8 @@
     <entity name="WordEntity" representedClassName="WordEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isCorrect" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="rect" optional="YES" attributeType="String"/>
         <attribute name="sessionId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="wordValue" optional="YES" attributeType="String"/>
-        <relationship name="rect" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDRect"/>
     </entity>
 </model>

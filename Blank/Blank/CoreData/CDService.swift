@@ -6,3 +6,202 @@
 //
 
 import Foundation
+import CoreData
+
+protocol IsCDService {
+    
+    /*
+     ========== Create ==========
+     */
+    
+    /// 새 File 생성: 새 문서 추가 또는 그 외의 경로로 추가되었을 때
+    func createFile(from file: File) throws
+    
+    /// 페이지 내부에 세션 생성
+    func appendSession(to page: Page, session: Session) throws
+    
+    /// 세션 내부에 단어들 생성
+    func appendAllWords(to session: Session, words: [Word]) throws
+    
+    /*
+     ========== Read ==========
+     */
+    
+    /// 전체 File들 읽기
+    func readFiles() throws -> [File]
+    
+    /// 파일 URL로부터 한 개의 File 읽기
+    func readFile(from url: URL) throws -> File?
+    
+    /// 파일 이름으로부터 한 개의 File 읽기
+    func readFile(from fileName: String) throws -> File?
+    
+    /// ID로부터 한 개의 File 읽기
+    func readFile(id: UUID) throws -> File?
+    
+    /// 파일 오브젝트로부터 모든 페이지를 읽기
+    func loadAllPages(of file: File) throws -> [Page]
+    
+    /// ID로부터 한 개의 Page 읽기
+    func readPage(id: UUID) throws -> Page?
+    
+    /// 페이지 오브젝트로부터 모든 세션 읽기
+    func loadAllSessions(of page: Page) throws -> [Session]
+    
+    /// ID로부터 한 개의 Session 읽기
+    func readSession(id: UUID) throws -> Session?
+    
+    /// 세션 오브젝트로부터 모든 단어 읽기
+    func loadAllWords(of session: Session) throws -> [Word]
+    
+    /// ID로부터 한 개의 Word 읽기
+    func readWord(id: UUID) throws -> File?
+    
+    /*
+     ========== Update ==========
+     */
+    
+    /// File 업데이트: 새 문서 추가 또는 그 외의 경로로 추가되었을 때
+    func updateFile(to file: File) throws
+    
+    /// 파일 내부에 페이지 전체 업데이트
+    func updateAllPages(from: [Page], to file: File) throws
+    
+    /// 페이지 내부에 세션 생성
+    func updateSession(of page: Page, to session: Session) throws
+    
+    /// 세션 내부에 단어들 생성
+    func updateAllWords(of session: Session) throws
+    
+    /*
+     ========== Delete ==========
+     모든 relationship은 cascade 방식 (상위 오브젝트를 삭제하면 하위 오브젝트는 전부 삭제됨)
+     */
+    
+    /// File 삭제
+    func deleteFile(_ file: File) throws
+    
+    /// Page 삭제
+    func deletePage(_ page: Page) throws
+    
+    /// Session 삭제
+    func deleteSession(_ page: Session) throws
+    
+    /// Word 삭제
+    func deleteWord(_ page: Word) throws
+}
+
+class CDService: IsCDService {
+    
+    
+    static let shared = CDService()
+    private init() {}
+    
+    var viewContext = PersistenceController.shared.container.viewContext
+    
+    private func readFileEntity(id: UUID) throws -> FileEntity? {
+        nil
+    }
+    
+    private func readPageEntity(id: UUID) throws -> PageEntity? {
+        nil
+    }
+    
+    private func readSessionEntity(id: UUID) throws -> SessionEntity? {
+        nil
+    }
+    
+    private func readWordEntity(id: UUID) throws -> WordEntity? {
+        nil
+    }
+    
+    func createFile(from file: File) throws {
+        let entity = FileEntity(context: viewContext)
+        entity.id = file.id
+        entity.fileName = file.fileName
+        entity.fileURL = file.fileURL
+        entity.totalPageCount = file.totalPageCount.int16
+        
+        // TODO: - 페이지 삽입작업
+    }
+    
+    func appendSession(to page: Page, session: Session) throws {
+        
+    }
+    
+    func appendAllWords(to session: Session, words: [Word]) throws {
+        
+    }
+    
+    func readFiles() throws -> [File] {
+        return []
+    }
+    
+    func readFile(from url: URL) throws -> File? {
+        return nil
+    }
+    
+    func readFile(from fileName: String) throws -> File? {
+        return nil
+    }
+    
+    func loadAllPages(of file: File) throws -> [Page] {
+        return []
+    }
+    
+    func loadAllSessions(of page: Page) throws -> [Session] {
+        return []
+    }
+    
+    func loadAllWords(of session: Session) throws -> [Word] {
+        return []
+    }
+    
+    func updateFile(to file: File) throws {
+        
+    }
+    
+    func updateAllPages(from: [Page], to file: File) throws {
+        
+    }
+    
+    func updateSession(of page: Page, to session: Session) throws {
+        
+    }
+    
+    func updateAllWords(of session: Session) throws {
+        
+    }
+    
+    func deleteFile(_ file: File) throws {
+        
+    }
+    
+    func deletePage(_ page: Page) throws {
+        
+    }
+    
+    func deleteSession(_ page: Session) throws {
+        
+    }
+    
+    func deleteWord(_ page: Word) throws {
+        
+    }
+  
+    func readFile(id: UUID) throws -> File? {
+        nil
+    }
+    
+    func readPage(id: UUID) throws -> Page? {
+        nil
+    }
+    
+    func readSession(id: UUID) throws -> Session? {
+        nil
+    }
+    
+    func readWord(id: UUID) throws -> File? {
+        nil
+    }
+}
