@@ -65,13 +65,10 @@ protocol IsCDService {
     func updateFile(to file: File) throws
     
     /// 파일 내부에 페이지 전체 업데이트
-    func updateAllPages(from: [Page], to file: File) throws
+    func updateAllPages(pages: [Page], to file: File) throws
     
-    /// 페이지 내부에 세션 생성
-    func updateSession(of page: Page, to session: Session) throws
-    
-    /// 세션 내부에 단어들 생성
-    func updateAllWords(of session: Session) throws
+    /// 세션 내부에 단어들 전체 업데이트
+    func updateAllWords(of session: Session, words: [Word]) throws
     
     /*
      ========== Delete ==========
@@ -110,12 +107,27 @@ class CDService: IsCDService {
         return try viewContext.fetch(fetchRequest).first
     }
     
+    private func addAllWordsToSessionEntity(to sessionEntity: SessionEntity, words: [Word]) throws {
+        words.forEach { word in
+            let wordEntity = WordEntity(context: viewContext)
+            wordEntity.id = word.id
+            wordEntity.sessionId = sessionEntity.id
+            wordEntity.isCorrect = word.isCorrect
+            wordEntity.rect = word.rect.stringValue
+            wordEntity.wordValue = word.wordValue
+            
+            sessionEntity.addToWords(wordEntity)
+        }
+        
+        try viewContext.save()
+    }
+    
     func createFile(from file: File) throws {
-        let entity = FileEntity(context: viewContext)
-        entity.id = file.id
-        entity.fileName = file.fileName
-        entity.fileURL = file.fileURL
-        entity.totalPageCount = file.totalPageCount.int16
+        let fileEntity = FileEntity(context: viewContext)
+        fileEntity.id = file.id
+        fileEntity.fileName = file.fileName
+        fileEntity.fileURL = file.fileURL
+        fileEntity.totalPageCount = file.totalPageCount.int16
         
         for page in file.pages {
             let pageEntity = PageEntity(context: viewContext)
@@ -123,6 +135,8 @@ class CDService: IsCDService {
             pageEntity.currentPageNumber = page.currentPageNumber.int16
             pageEntity.fileId = file.id
             pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
+            
+            fileEntity.addToPages(pageEntity)
         }
         
         try viewContext.save()
@@ -146,18 +160,7 @@ class CDService: IsCDService {
             return
         }
         
-        words.forEach { word in
-            let wordEntity = WordEntity(context: viewContext)
-            wordEntity.id = word.id
-            wordEntity.sessionId = sessionEntity.id
-            wordEntity.isCorrect = word.isCorrect
-            wordEntity.rect = word.rect.stringValue
-            wordEntity.wordValue = word.wordValue
-            
-            sessionEntity.addToWords(wordEntity)
-        }
-        
-        try viewContext.save()
+        try addAllWordsToSessionEntity(to: sessionEntity, words: words)
     }
     
     func readFiles() throws -> [File] {
@@ -321,19 +324,44 @@ class CDService: IsCDService {
     }
     
     func updateFile(to file: File) throws {
+        guard let fileEntity: FileEntity = try readEntity(id: file.id) else {
+            return
+        }
         
+        fileEntity.id = file.id
+        fileEntity.fileName = file.fileName
+        fileEntity.fileURL = file.fileURL
+        fileEntity.totalPageCount = file.totalPageCount.int16
+        
+        try viewContext.save()
     }
     
-    func updateAllPages(from: [Page], to file: File) throws {
+    func updateAllPages(pages: [Page], to file: File) throws {
+        guard let fileEntity: FileEntity = try readEntity(id: file.id) else {
+            return
+        }
         
+        for page in pages {
+            let pageEntity = PageEntity(context: viewContext)
+            pageEntity.id = page.id
+            pageEntity.currentPageNumber = page.currentPageNumber.int16
+            pageEntity.fileId = file.id
+            pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
+            
+            fileEntity.addToPages(pageEntity)
+        }
+        
+        try viewContext.save()
     }
     
-    func updateSession(of page: Page, to session: Session) throws {
+    func updateAllWords(of session: Session, words: [Word]) throws {
+        guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
+            return
+        }
         
-    }
-    
-    func updateAllWords(of session: Session) throws {
+        sessionEntity.words = NSSet()
         
+        try addAllWordsToSessionEntity(to: sessionEntity, words: words)
     }
     
     func deleteFile(_ file: File) throws {
