@@ -25,7 +25,6 @@ struct BlankApp: App {
                      persistenceController.container.viewContext
                 )
                 .environmentObject(homeViewModel)
-            PersistenceView()
         }
     }
 }

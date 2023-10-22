@@ -55,7 +55,7 @@ protocol IsCDService {
     func loadAllWords(of session: Session) throws -> [Word]
     
     /// ID로부터 한 개의 Word 읽기
-    func readWord(id: UUID) throws -> File?
+    func readWord(id: UUID) throws -> Word?
     
     /*
      ========== Update ==========
@@ -82,10 +82,10 @@ protocol IsCDService {
     func deletePage(_ page: Page) throws
     
     /// Session 삭제
-    func deleteSession(_ page: Session) throws
+    func deleteSession(_ session: Session) throws
     
     /// Word 삭제
-    func deleteWord(_ page: Word) throws
+    func deleteWord(_ word: Word) throws
 }
 
 class CDService: IsCDService {
@@ -365,34 +365,115 @@ class CDService: IsCDService {
     }
     
     func deleteFile(_ file: File) throws {
+        guard let fileEntity: FileEntity = try readEntity(id: file.id) else {
+            return
+        }
         
+        do {
+            viewContext.delete(fileEntity)
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
     }
     
     func deletePage(_ page: Page) throws {
+        guard let pageEntity: PageEntity = try readEntity(id: page.id) else {
+            return
+        }
         
+        do {
+            viewContext.delete(pageEntity)
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
     }
     
-    func deleteSession(_ page: Session) throws {
+    func deleteSession(_ session: Session) throws {
+        guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
+            return
+        }
         
+        do {
+            viewContext.delete(sessionEntity)
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
     }
     
-    func deleteWord(_ page: Word) throws {
+    func deleteWord(_ word: Word) throws {
+        guard let wordEntity: WordEntity = try readEntity(id: word.id) else {
+            return
+        }
         
+        do {
+            viewContext.delete(wordEntity)
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
     }
   
     func readFile(id: UUID) throws -> File? {
-        nil
+        guard let fileEntity: FileEntity = try readEntity(id: id),
+              let id = fileEntity.id,
+              let fileName = fileEntity.fileName,
+              let fileURL = fileEntity.fileURL else {
+            return nil
+        }
+        
+        return File(
+            id: id,
+            fileURL: fileURL,
+            fileName: fileName,
+            totalPageCount: Int(fileEntity.totalPageCount),
+            pages: []
+        )
     }
     
     func readPage(id: UUID) throws -> Page? {
-        nil
+        guard let pageEntity: PageEntity = try readEntity(id: id),
+              let id = pageEntity.id,
+              let fileId = pageEntity.fileId,
+              let rects = pageEntity.rect else {
+            return nil
+        }
+        
+        return Page(
+            id: id,
+            fileId: fileId,
+            currentPageNumber: Int(pageEntity.currentPageNumber),
+            basicWordCGRects: rects.compactMap({ $0.cgRect })
+        )
     }
     
     func readSession(id: UUID) throws -> Session? {
-        nil
+        guard let sessionEntity: SessionEntity = try readEntity(id: id),
+              let id = sessionEntity.id,
+              let pageId = sessionEntity.pageId else {
+            return nil
+        }
+              
+        return Session(id: id, pageId: pageId, words: [])
     }
     
-    func readWord(id: UUID) throws -> File? {
-        nil
+    func readWord(id: UUID) throws -> Word? {
+        guard let wordEntity: WordEntity = try readEntity(id: id),
+              let id = wordEntity.id,
+              let rect = wordEntity.rect?.cgRect,
+              let sessionId = wordEntity.sessionId,
+              let wordValue = wordEntity.wordValue else {
+            return nil
+        }
+        
+        return Word(
+            id: id,
+            sessionId: sessionId,
+            wordValue: wordValue,
+            rect: rect,
+            isCorrect: wordEntity.isCorrect
+        )
     }
 }
