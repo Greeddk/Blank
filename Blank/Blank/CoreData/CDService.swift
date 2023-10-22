@@ -122,7 +122,7 @@ class CDService: IsCDService {
             pageEntity.id = page.id
             pageEntity.currentPageNumber = page.currentPageNumber.int16
             pageEntity.fileId = file.id
-            pageEntity.rect = page.basicWordCGRect.map({ $0.stringValue })
+            pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
         }
         
         try viewContext.save()
@@ -241,15 +241,83 @@ class CDService: IsCDService {
     }
     
     func loadAllPages(of file: File) throws -> [Page] {
-        return []
+        // Entity의 fetchRequest 생성
+        let fetchRequest = NSFetchRequest<PageEntity>()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.predicate = NSPredicate(format: "fileId = %@", file.id.uuidString)
+        
+        let entities = try viewContext.fetch(fetchRequest)
+        let pages: [Page] = entities.compactMap { pageEntity in
+            if let id = pageEntity.id,
+               let fileId = pageEntity.fileId,
+               let rects = pageEntity.rect {
+                return Page(
+                    id: id,
+                    fileId: fileId,
+                    currentPageNumber: Int(pageEntity.currentPageNumber),
+                    basicWordCGRects: rects.compactMap({ $0.cgRect })
+                )
+            } else {
+                return nil
+            }
+        }
+        
+        return pages
     }
     
     func loadAllSessions(of page: Page) throws -> [Session] {
-        return []
+        // Entity의 fetchRequest 생성
+        let fetchRequest = NSFetchRequest<SessionEntity>()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.predicate = NSPredicate(format: "pageId = %@", page.id.uuidString)
+        
+        let entities = try viewContext.fetch(fetchRequest)
+        let sessions: [Session] = entities.compactMap { sessionEntity in
+            if let id = sessionEntity.id,
+               let pageId = sessionEntity.pageId {
+                return Session(id: id, pageId: pageId, words: [])
+            } else {
+                return nil
+            }
+        }
+        
+        return sessions
     }
     
     func loadAllWords(of session: Session) throws -> [Word] {
-        return []
+        // Entity의 fetchRequest 생성
+        let fetchRequest = NSFetchRequest<WordEntity>()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.predicate = NSPredicate(format: "sessionId = %@", session.id.uuidString)
+        
+        let entities = try viewContext.fetch(fetchRequest)
+        let words: [Word] = entities.compactMap { wordEntity in
+            if let id = wordEntity.id,
+               let rect = wordEntity.rect?.cgRect,
+               let sessionId = wordEntity.sessionId,
+               let wordValue = wordEntity.wordValue {
+                return Word(
+                    id: id,
+                    sessionId: sessionId,
+                    wordValue: wordValue,
+                    rect: rect,
+                    isCorrect: wordEntity.isCorrect
+                )
+            } else {
+                return nil
+            }
+        }
+        
+        return words
     }
     
     func updateFile(to file: File) throws {

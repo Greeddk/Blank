@@ -13,6 +13,7 @@ struct Session: Codable, Hashable {
     }
     
     var id: UUID
+    var pageId: UUID
     var words: [Word] = []
     var correctCount: Int {
         return words.filter { $0.isCorrect }.count
