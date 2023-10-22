@@ -9,9 +9,10 @@ import SwiftUI
 
 struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var overViewModel: OverViewModel
     @State private var showingAlert = true
     @Binding var isLinkActive: Bool
+    @State var visionStart: Bool = false
+    @Binding var generatedImage: UIImage?
     
     var body: some View {
         NavigationStack {
@@ -39,15 +40,12 @@ struct WordSelectView: View {
             .navigationTitle("단어선택")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .background(Color(.systemGray6))
     }
     
     private var wordSelectImage: some View {
-        // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제
-        ScrollView {
-            CurrentPageView(image: overViewModel.generateImage())
-        }
-        .frame(width: UIScreen.main.bounds.width)
-        .background(Color(.systemGray6))
+        // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제, 비전 스타트가 여기에 필요한지..?
+        PinchZoomView(image: generatedImage, visionStart: $visionStart)
     }
     
     private var backBtn: some View {
@@ -59,7 +57,7 @@ struct WordSelectView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: OCREditView(overViewModel: overViewModel, isLinkActive: $isLinkActive)) {
+        NavigationLink(destination: OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)) {
             Text("다음")
                 .fontWeight(.bold)
         }
