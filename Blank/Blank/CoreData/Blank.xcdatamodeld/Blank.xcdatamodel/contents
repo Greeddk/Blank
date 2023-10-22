@@ -11,7 +11,7 @@
         <attribute name="currentPageNumber" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="fileId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="rect" optional="YES" attributeType="String"/>
+        <attribute name="rect" optional="YES" attributeType="Transformable" customClassName="[String]"/>
         <relationship name="sessions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SessionEntity"/>
     </entity>
     <entity name="SessionEntity" representedClassName="SessionEntity" syncable="YES" codeGenerationType="class">

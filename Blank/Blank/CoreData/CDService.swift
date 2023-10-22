@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-protocol IsCDService {
+fileprivate protocol IsCDService {
     
     /*
      ========== Create ==========
@@ -55,7 +55,7 @@ protocol IsCDService {
     func loadAllWords(of session: Session) throws -> [Word]
     
     /// ID로부터 한 개의 Word 읽기
-    func readWord(id: UUID) throws -> File?
+    func readWord(id: UUID) throws -> Word?
     
     /*
      ========== Update ==========
@@ -65,13 +65,10 @@ protocol IsCDService {
     func updateFile(to file: File) throws
     
     /// 파일 내부에 페이지 전체 업데이트
-    func updateAllPages(from: [Page], to file: File) throws
+    func updateAllPages(pages: [Page], to file: File) throws
     
-    /// 페이지 내부에 세션 생성
-    func updateSession(of page: Page, to session: Session) throws
-    
-    /// 세션 내부에 단어들 생성
-    func updateAllWords(of session: Session) throws
+    /// 세션 내부에 단어들 전체 업데이트
+    func updateAllWords(of session: Session, words: [Word]) throws
     
     /*
      ========== Delete ==========
@@ -85,23 +82,25 @@ protocol IsCDService {
     func deletePage(_ page: Page) throws
     
     /// Session 삭제
-    func deleteSession(_ page: Session) throws
+    func deleteSession(_ session: Session) throws
     
     /// Word 삭제
-    func deleteWord(_ page: Word) throws
+    func deleteWord(_ word: Word) throws
+}
+
+enum CDServiceError: Error {
+    case entityAlreadyExist
 }
 
 class CDService: IsCDService {
-    
-    
     static let shared = CDService()
     private init() {}
     
-    var viewContext = PersistenceController.shared.container.viewContext
+    private var viewContext = PersistenceController.shared.container.viewContext
     
-    private func readEntity<T: NSFetchRequestResult>(id: UUID) throws -> T? {
+    private func readEntity<T: NSManagedObject>(id: UUID) throws -> T? {
         // Entity의 fetchRequest 생성
-        let fetchRequest = NSFetchRequest<T>()
+        let fetchRequest = T.fetchRequest()
         
         // 정렬 또는 조건 설정
         let sort = NSSortDescriptor(key: "id", ascending: false)
@@ -109,100 +108,376 @@ class CDService: IsCDService {
         fetchRequest.sortDescriptors = [sort]
         fetchRequest.predicate = NSPredicate(format: "id = %@", id.uuidString)
         
-        do {
-            return try viewContext.fetch(fetchRequest).first
-        } catch {
-            throw error
+        return try viewContext.fetch(fetchRequest).first as? T
+    }
+    
+    private func addAllWordsToSessionEntity(to sessionEntity: SessionEntity, words: [Word]) throws {
+        words.forEach { word in
+            let wordEntity = WordEntity(context: viewContext)
+            wordEntity.id = word.id
+            wordEntity.sessionId = sessionEntity.id
+            wordEntity.isCorrect = word.isCorrect
+            wordEntity.rect = word.rect.stringValue
+            wordEntity.wordValue = word.wordValue
+            
+            sessionEntity.addToWords(wordEntity)
         }
+        
+        try viewContext.save()
     }
     
     func createFile(from file: File) throws {
-        let entity = FileEntity(context: viewContext)
-        entity.id = file.id
-        entity.fileName = file.fileName
-        entity.fileURL = file.fileURL
-        entity.totalPageCount = file.totalPageCount.int16
+        let fileEntity = FileEntity(context: viewContext)
+        fileEntity.id = file.id
+        fileEntity.fileName = file.fileName
+        fileEntity.fileURL = file.fileURL
+        fileEntity.totalPageCount = file.totalPageCount.int16
         
-        // TODO: - 페이지 삽입작업
+        for page in file.pages {
+            let pageEntity = PageEntity(context: viewContext)
+            pageEntity.id = page.id
+            pageEntity.currentPageNumber = page.currentPageNumber.int16
+            pageEntity.fileId = file.id
+            pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
+            
+            fileEntity.addToPages(pageEntity)
+        }
+        
+        try viewContext.save()
     }
     
     func appendSession(to page: Page, session: Session) throws {
+        guard let pageEntity: PageEntity = try readEntity(id: page.id) else {
+            return
+        }
         
+        let sessionEntity = SessionEntity(context: viewContext)
+        sessionEntity.id = session.id
+        sessionEntity.pageId = pageEntity.id
+        pageEntity.addToSessions(sessionEntity)
+        
+        try viewContext.save()
     }
     
     func appendAllWords(to session: Session, words: [Word]) throws {
+        guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
+            return
+        }
         
+        try addAllWordsToSessionEntity(to: sessionEntity, words: words)
     }
     
     func readFiles() throws -> [File] {
-        return []
+        // Entity의 fetchRequest 생성
+        let fetchRequest = FileEntity.fetchRequest()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        
+        let entities = try viewContext.fetch(fetchRequest)
+        let files: [File] = entities.compactMap { fileEntity in
+            if let id = fileEntity.id,
+               let fileName = fileEntity.fileName,
+               let fileURL = fileEntity.fileURL {
+                return File(
+                    id: id,
+                    fileURL: fileURL,
+                    fileName: fileName,
+                    totalPageCount: Int(fileEntity.totalPageCount),
+                    pages: []
+                )
+            } else {
+                return nil
+            }
+        }
+        
+        return files
     }
     
     func readFile(from url: URL) throws -> File? {
-        return nil
+        // Entity의 fetchRequest 생성
+        let fetchRequest = FileEntity.fetchRequest()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "fileURL = %@", url.absoluteString)
+        
+        guard let fileEntity = try viewContext.fetch(fetchRequest).first,
+              let id = fileEntity.id,
+              let fileName = fileEntity.fileName,
+              let fileURL = fileEntity.fileURL else {
+            return nil
+        }
+        
+        return File(
+            id: id,
+            fileURL: fileURL,
+            fileName: fileName,
+            totalPageCount: Int(fileEntity.totalPageCount),
+            pages: []
+        )
     }
     
     func readFile(from fileName: String) throws -> File? {
-        return nil
+        // Entity의 fetchRequest 생성
+        let fetchRequest = FileEntity.fetchRequest()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "fileName = %@", fileName)
+        
+        guard let fileEntity = try viewContext.fetch(fetchRequest).first,
+              let id = fileEntity.id,
+              let fileName = fileEntity.fileName,
+              let fileURL = fileEntity.fileURL else {
+            return nil
+        }
+        
+        return File(
+            id: id,
+            fileURL: fileURL,
+            fileName: fileName,
+            totalPageCount: Int(fileEntity.totalPageCount),
+            pages: []
+        )
     }
     
     func loadAllPages(of file: File) throws -> [Page] {
-        return []
+        // Entity의 fetchRequest 생성
+        let fetchRequest = PageEntity.fetchRequest()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.predicate = NSPredicate(format: "fileId = %@", file.id.uuidString)
+        
+        let entities = try viewContext.fetch(fetchRequest)
+        let pages: [Page] = entities.compactMap { pageEntity in
+            if let id = pageEntity.id,
+               let fileId = pageEntity.fileId,
+               let rects = pageEntity.rect {
+                return Page(
+                    id: id,
+                    fileId: fileId,
+                    currentPageNumber: Int(pageEntity.currentPageNumber),
+                    basicWordCGRects: rects.compactMap({ $0.cgRect })
+                )
+            } else {
+                return nil
+            }
+        }
+        
+        return pages
     }
     
     func loadAllSessions(of page: Page) throws -> [Session] {
-        return []
+        // Entity의 fetchRequest 생성
+        let fetchRequest = SessionEntity.fetchRequest()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.predicate = NSPredicate(format: "pageId = %@", page.id.uuidString)
+        
+        let entities = try viewContext.fetch(fetchRequest)
+        let sessions: [Session] = entities.compactMap { sessionEntity in
+            if let id = sessionEntity.id,
+               let pageId = sessionEntity.pageId {
+                return Session(id: id, pageId: pageId, words: [])
+            } else {
+                return nil
+            }
+        }
+        
+        return sessions
     }
     
     func loadAllWords(of session: Session) throws -> [Word] {
-        return []
+        // Entity의 fetchRequest 생성
+        let fetchRequest = WordEntity.fetchRequest()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.predicate = NSPredicate(format: "sessionId = %@", session.id.uuidString)
+        
+        let entities = try viewContext.fetch(fetchRequest)
+        let words: [Word] = entities.compactMap { wordEntity in
+            if let id = wordEntity.id,
+               let rect = wordEntity.rect?.cgRect,
+               let sessionId = wordEntity.sessionId,
+               let wordValue = wordEntity.wordValue {
+                return Word(
+                    id: id,
+                    sessionId: sessionId,
+                    wordValue: wordValue,
+                    rect: rect,
+                    isCorrect: wordEntity.isCorrect
+                )
+            } else {
+                return nil
+            }
+        }
+        
+        return words
     }
     
     func updateFile(to file: File) throws {
+        guard let fileEntity: FileEntity = try readEntity(id: file.id) else {
+            return
+        }
         
+        fileEntity.id = file.id
+        fileEntity.fileName = file.fileName
+        fileEntity.fileURL = file.fileURL
+        fileEntity.totalPageCount = file.totalPageCount.int16
+        
+        try viewContext.save()
     }
     
-    func updateAllPages(from: [Page], to file: File) throws {
+    func updateAllPages(pages: [Page], to file: File) throws {
+        guard let fileEntity: FileEntity = try readEntity(id: file.id) else {
+            return
+        }
         
+        for page in pages {
+            let pageEntity = PageEntity(context: viewContext)
+            pageEntity.id = page.id
+            pageEntity.currentPageNumber = page.currentPageNumber.int16
+            pageEntity.fileId = file.id
+            pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
+            
+            fileEntity.addToPages(pageEntity)
+        }
+        
+        try viewContext.save()
     }
     
-    func updateSession(of page: Page, to session: Session) throws {
+    func updateAllWords(of session: Session, words: [Word]) throws {
+        guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
+            return
+        }
         
-    }
-    
-    func updateAllWords(of session: Session) throws {
+        sessionEntity.words = NSSet()
         
+        try addAllWordsToSessionEntity(to: sessionEntity, words: words)
     }
     
     func deleteFile(_ file: File) throws {
+        guard let fileEntity: FileEntity = try readEntity(id: file.id) else {
+            return
+        }
         
+        do {
+            viewContext.delete(fileEntity)
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
     }
     
     func deletePage(_ page: Page) throws {
+        guard let pageEntity: PageEntity = try readEntity(id: page.id) else {
+            return
+        }
         
+        do {
+            viewContext.delete(pageEntity)
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
     }
     
-    func deleteSession(_ page: Session) throws {
+    func deleteSession(_ session: Session) throws {
+        guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
+            return
+        }
         
+        do {
+            viewContext.delete(sessionEntity)
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
     }
     
-    func deleteWord(_ page: Word) throws {
+    func deleteWord(_ word: Word) throws {
+        guard let wordEntity: WordEntity = try readEntity(id: word.id) else {
+            return
+        }
         
+        do {
+            viewContext.delete(wordEntity)
+            try viewContext.save()
+        } catch {
+            print(error)
+        }
     }
   
     func readFile(id: UUID) throws -> File? {
-        nil
+        guard let fileEntity: FileEntity = try readEntity(id: id),
+              let id = fileEntity.id,
+              let fileName = fileEntity.fileName,
+              let fileURL = fileEntity.fileURL else {
+            return nil
+        }
+        
+        return File(
+            id: id,
+            fileURL: fileURL,
+            fileName: fileName,
+            totalPageCount: Int(fileEntity.totalPageCount),
+            pages: []
+        )
     }
     
     func readPage(id: UUID) throws -> Page? {
-        nil
+        guard let pageEntity: PageEntity = try readEntity(id: id),
+              let id = pageEntity.id,
+              let fileId = pageEntity.fileId,
+              let rects = pageEntity.rect else {
+            return nil
+        }
+        
+        return Page(
+            id: id,
+            fileId: fileId,
+            currentPageNumber: Int(pageEntity.currentPageNumber),
+            basicWordCGRects: rects.compactMap({ $0.cgRect })
+        )
     }
     
     func readSession(id: UUID) throws -> Session? {
-        nil
+        guard let sessionEntity: SessionEntity = try readEntity(id: id),
+              let id = sessionEntity.id,
+              let pageId = sessionEntity.pageId else {
+            return nil
+        }
+              
+        return Session(id: id, pageId: pageId, words: [])
     }
     
-    func readWord(id: UUID) throws -> File? {
-        nil
+    func readWord(id: UUID) throws -> Word? {
+        guard let wordEntity: WordEntity = try readEntity(id: id),
+              let id = wordEntity.id,
+              let rect = wordEntity.rect?.cgRect,
+              let sessionId = wordEntity.sessionId,
+              let wordValue = wordEntity.wordValue else {
+            return nil
+        }
+        
+        return Word(
+            id: id,
+            sessionId: sessionId,
+            wordValue: wordValue,
+            rect: rect,
+            isCorrect: wordEntity.isCorrect
+        )
     }
 }
