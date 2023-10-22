@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E763892AE1229700624D81 /* OverViewModel.swift */; };
-		42E7638C2AE122D700624D81 /* CurrentPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E7638B2AE122D700624D81 /* CurrentPageView.swift */; };
 		42E7638E2AE1234A00624D81 /* samplepdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 42E7638D2AE1234A00624D81 /* samplepdf.pdf */; };
 		42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C52ADE7EDB0043AF2F /* HomeView.swift */; };
 		42ED60C82ADE7EF50043AF2F /* OverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C72ADE7EF50043AF2F /* OverView.swift */; };
@@ -51,7 +50,6 @@
 
 /* Begin PBXFileReference section */
 		42E763892AE1229700624D81 /* OverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModel.swift; sourceTree = "<group>"; };
-		42E7638B2AE122D700624D81 /* CurrentPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentPageView.swift; sourceTree = "<group>"; };
 		42E7638D2AE1234A00624D81 /* samplepdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplepdf.pdf; sourceTree = "<group>"; };
 		42ED60C52ADE7EDB0043AF2F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		42ED60C72ADE7EF50043AF2F /* OverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverView.swift; sourceTree = "<group>"; };
@@ -247,7 +245,6 @@
 				EBEB72612AE0BC8500316D66 /* ImageView.swift */,
 				EBEB72632AE0BCA800316D66 /* PinchZoomView.swift */,
 				42ED60C72ADE7EF50043AF2F /* OverView.swift */,
-				42E7638B2AE122D700624D81 /* CurrentPageView.swift */,
 				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
 				42ED60CD2ADE7F290043AF2F /* OCREditView.swift */,
@@ -358,7 +355,6 @@
 				42ED60D22ADE7F450043AF2F /* TestPageView.swift in Sources */,
 				42ED60CC2ADE7F1A0043AF2F /* WordSelectView.swift in Sources */,
 				42ED60D42ADE7F570043AF2F /* ResultPageView.swift in Sources */,
-				42E7638C2AE122D700624D81 /* CurrentPageView.swift in Sources */,
 				ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */,
 				449CB1F02AE14A290086758A /* CGRect+.swift in Sources */,
 				4491DFF32ADD4EEB00CA5B42 /* PersistenceView.swift in Sources */,
@@ -501,6 +497,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
 				DEVELOPMENT_TEAM = 6S2SA26VAN;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
@@ -538,6 +535,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
 				DEVELOPMENT_TEAM = 6S2SA26VAN;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
