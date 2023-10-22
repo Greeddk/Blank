@@ -161,7 +161,32 @@ class CDService: IsCDService {
     }
     
     func readFiles() throws -> [File] {
-        return []
+        // Entity의 fetchRequest 생성
+        let fetchRequest = NSFetchRequest<FileEntity>()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.fetchLimit = 1
+        fetchRequest.sortDescriptors = [sort]
+        
+        let entities = try viewContext.fetch(fetchRequest)
+        let files: [File] = entities.compactMap { fileEntity in
+            if let id = fileEntity.id,
+               let fileName = fileEntity.fileName,
+               let fileURL = fileEntity.fileURL {
+                return File(
+                    id: id,
+                    fileURL: fileURL,
+                    fileName: fileName,
+                    totalPageCount: Int(fileEntity.totalPageCount),
+                    pages: []
+                )
+            } else {
+                return nil
+            }
+        }
+        
+        return files
     }
     
     func readFile(from url: URL) throws -> File? {
