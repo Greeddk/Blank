@@ -25,6 +25,9 @@ struct OverView: View {
     @State private var showPopover = false
     @State private var showModal = false
     
+    @State var visionStart = false
+    
+    @State private var generatedImage: UIImage?
     @State private var currentPageText: String = ""
     @State var titleName = "파일이름"
     
@@ -34,12 +37,16 @@ struct OverView: View {
                 if overViewModel.isLoading && overViewModel.currentProgress < 1.0 {
                     progressStatus
                 } else if !overViewModel.thumbnails.isEmpty {
-                    pdfImage
+                    currentPageImage
                     bottomScrollView
                 }
             }
             .onAppear {
                 overViewModel.loadThumbnails()
+                generatedImage = overViewModel.generateImage()
+            }
+            .onChange(of: overViewModel.currentPage) { _ in
+                generatedImage = overViewModel.generateImage()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -63,9 +70,9 @@ struct OverView: View {
         .background(Color(.systemGray6))
         .navigationDestination(isPresented: $isLinkActive) {
             if !goToTestPage {
-                WordSelectView(overViewModel: overViewModel, isLinkActive: $isLinkActive)
+                WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)
             } else {
-                TestPageView(overViewModel: overViewModel , isLinkActive: $isLinkActive)
+                TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)
             }
         }
     }
@@ -82,14 +89,8 @@ struct OverView: View {
         .background(.white)
     }
     
-    private var pdfImage: some View {
-        VStack {
-            Spacer().frame(height: 10)
-            ScrollView(showsIndicators: false) {
-                CurrentPageView(image: overViewModel.generateImage())
-                    .frame(height: UIScreen.main.bounds.height * 0.8)
-            }
-        }
+    private var currentPageImage: some View {
+        PinchZoomView(image: generatedImage, visionStart: $visionStart)
     }
     
     private var bottomScrollView: some View {
@@ -149,7 +150,7 @@ struct OverView: View {
         VStack {
             Form {
                 // TODO: 파일 이름 변경가능?
-//                TextField("\(overViewModel.currentFile.fileName)", text: $overViewModel.currentFile.fileName)
+                //                TextField("\(overViewModel.currentFile.fileName)", text: $overViewModel.currentFile.fileName)
                 Text("\(overViewModel.currentFile.fileName)")
                 HStack {
                     Text("페이지 : ")
