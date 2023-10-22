@@ -9,14 +9,15 @@ import SwiftUI
 
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var overViewModel: OverViewModel
     @State private var showingModal = true
     @Binding var isLinkActive: Bool
+    @Binding var generatedImage: UIImage?
+    @State var visionStart: Bool = false
     
     var body: some View {
         NavigationStack {
             VStack {
-               ocrEditImage
+                ocrEditImage
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -35,15 +36,12 @@ struct OCREditView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
+        .background(Color(.systemGray6))
     }
     
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
-        ScrollView {
-            CurrentPageView(image: overViewModel.generateImage())
-        }
-        .frame(width: UIScreen.main.bounds.width)
-        .background(Color(.systemGray6))
+        PinchZoomView(image: generatedImage, visionStart: $visionStart)
     }
     
     private var backBtn: some View {
@@ -66,7 +64,7 @@ struct OCREditView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: TestPageView(overViewModel: overViewModel, isLinkActive: $isLinkActive)) {
+        NavigationLink(destination: TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)) {
             Text("시험보기")
                 .fontWeight(.bold)
         }

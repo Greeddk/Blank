@@ -9,9 +9,10 @@ import SwiftUI
 
 struct TestPageView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var overViewModel: OverViewModel
     @State private var showingModal = false
     @Binding var isLinkActive: Bool
+    @Binding var generatedImage: UIImage?
+    @State var visionStart: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -35,15 +36,12 @@ struct TestPageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
+        .background(Color(.systemGray6))
     }
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-        ScrollView {
-            CurrentPageView(image: overViewModel.generateImage())
-        }
-        .frame(width: UIScreen.main.bounds.width)
-        .background(Color(.systemGray6))
+        PinchZoomView(image: generatedImage, visionStart: $visionStart)
     }
     
     private var backBtn: some View {
@@ -66,7 +64,7 @@ struct TestPageView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: ResultPageView(overViewModel: overViewModel, isLinkActive: $isLinkActive)) {
+        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)) {
             Text("채점")
                 .fontWeight(.bold)
         }

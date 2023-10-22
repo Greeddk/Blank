@@ -11,6 +11,8 @@ import Foundation
 class OverViewModel: ObservableObject {
     @Published var currentPage: Int = 1
     @Published var thumbnails = [UIImage]()
+    
+    //프로그레스뷰를 위한 변수
     @Published var isLoading = true
     @Published var currentProgress: Double = 0.0
     

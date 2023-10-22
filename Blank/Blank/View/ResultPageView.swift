@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ResultPageView: View {
     @Environment(\.dismiss) private var dismiss
-    @ObservedObject var overViewModel: OverViewModel
     @Binding var isLinkActive: Bool
     @State var seeCorrect: Bool = true
+    @Binding var generatedImage: UIImage?
+    @State var visionStart: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -36,6 +37,7 @@ struct ResultPageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
+        .background(Color(.systemGray6))
     }
     
     private var bottomCorrectInfo: some View {
@@ -55,11 +57,7 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        ScrollView {
-            CurrentPageView(image: overViewModel.generateImage())
-        }
-        .frame(width: UIScreen.main.bounds.width)
-        .background(Color(.systemGray6))
+        PinchZoomView(image: generatedImage, visionStart: $visionStart)
     }
     
     private var homeBtn: some View {
@@ -74,7 +72,7 @@ struct ResultPageView: View {
             seeCorrect.toggle()
         } label: {
             if seeCorrect == true {
-                Text("정답률안보기")
+                Text("정답률끄기")
             } else {
                 Text("정답률보기")
             }
