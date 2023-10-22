@@ -166,7 +166,6 @@ class CDService: IsCDService {
         
         // 정렬 또는 조건 설정
         let sort = NSSortDescriptor(key: "id", ascending: false)
-        fetchRequest.fetchLimit = 1
         fetchRequest.sortDescriptors = [sort]
         
         let entities = try viewContext.fetch(fetchRequest)
@@ -190,11 +189,55 @@ class CDService: IsCDService {
     }
     
     func readFile(from url: URL) throws -> File? {
-        return nil
+        // Entity의 fetchRequest 생성
+        let fetchRequest = NSFetchRequest<FileEntity>()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "fileURL = %@", url.absoluteString)
+        
+        guard let fileEntity = try viewContext.fetch(fetchRequest).first,
+              let id = fileEntity.id,
+              let fileName = fileEntity.fileName,
+              let fileURL = fileEntity.fileURL else {
+            return nil
+        }
+        
+        return File(
+            id: id,
+            fileURL: fileURL,
+            fileName: fileName,
+            totalPageCount: Int(fileEntity.totalPageCount),
+            pages: []
+        )
     }
     
     func readFile(from fileName: String) throws -> File? {
-        return nil
+        // Entity의 fetchRequest 생성
+        let fetchRequest = NSFetchRequest<FileEntity>()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "fileName = %@", fileName)
+        
+        guard let fileEntity = try viewContext.fetch(fetchRequest).first,
+              let id = fileEntity.id,
+              let fileName = fileEntity.fileName,
+              let fileURL = fileEntity.fileURL else {
+            return nil
+        }
+        
+        return File(
+            id: id,
+            fileURL: fileURL,
+            fileName: fileName,
+            totalPageCount: Int(fileEntity.totalPageCount),
+            pages: []
+        )
     }
     
     func loadAllPages(of file: File) throws -> [Page] {
