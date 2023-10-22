@@ -14,7 +14,6 @@
 		42ED60CA2ADE7F090043AF2F /* OverViewModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */; };
 		42ED60CC2ADE7F1A0043AF2F /* WordSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */; };
 		42ED60CE2ADE7F290043AF2F /* OCREditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60CD2ADE7F290043AF2F /* OCREditView.swift */; };
-		42ED60D02ADE7F380043AF2F /* ScribbleModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60CF2ADE7F380043AF2F /* ScribbleModalView.swift */; };
 		42ED60D22ADE7F450043AF2F /* TestPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60D12ADE7F450043AF2F /* TestPageView.swift */; };
 		42ED60D42ADE7F570043AF2F /* ResultPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60D32ADE7F570043AF2F /* ResultPageView.swift */; };
 		42ED60D62ADE7F6C0043AF2F /* CorrectInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60D52ADE7F6C0043AF2F /* CorrectInfoView.swift */; };
@@ -64,7 +63,6 @@
 		42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModalView.swift; sourceTree = "<group>"; };
 		42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSelectView.swift; sourceTree = "<group>"; };
 		42ED60CD2ADE7F290043AF2F /* OCREditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCREditView.swift; sourceTree = "<group>"; };
-		42ED60CF2ADE7F380043AF2F /* ScribbleModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribbleModalView.swift; sourceTree = "<group>"; };
 		42ED60D12ADE7F450043AF2F /* TestPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPageView.swift; sourceTree = "<group>"; };
 		42ED60D32ADE7F570043AF2F /* ResultPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultPageView.swift; sourceTree = "<group>"; };
 		42ED60D52ADE7F6C0043AF2F /* CorrectInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectInfoView.swift; sourceTree = "<group>"; };
@@ -269,7 +267,6 @@
 				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
 				EBEB727D2AE548AB00316D66 /* OCREdit */,
-				42ED60CF2ADE7F380043AF2F /* ScribbleModalView.swift */,
 				42ED60D12ADE7F450043AF2F /* TestPageView.swift */,
 				42ED60D32ADE7F570043AF2F /* ResultPageView.swift */,
 				42ED60D52ADE7F6C0043AF2F /* CorrectInfoView.swift */,
@@ -371,7 +368,6 @@
 				EBEB72642AE0BCA800316D66 /* PinchZoomView.swift in Sources */,
 				4491DFF82ADECF7F00CA5B42 /* FileMananger+.swift in Sources */,
 				449CB1F72AE2BD1C0086758A /* CDService.swift in Sources */,
-				42ED60D02ADE7F380043AF2F /* ScribbleModalView.swift in Sources */,
 				EBEB727F2AE548C400316D66 /* ScrribleModalView.swift in Sources */,
 				ACF338C42ADD0158004D20FC /* Session.swift in Sources */,
 				42ED60D82ADE7F910043AF2F /* PDFThumbnailView.swift in Sources */,

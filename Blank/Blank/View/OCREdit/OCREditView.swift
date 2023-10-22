@@ -13,7 +13,9 @@ struct OCREditView: View {
     @Binding var isLinkActive: Bool
     @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
-    
+    @State var type = ScrribleType.write
+    @State private var hasTypeValueChanged = false
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -59,7 +61,7 @@ struct OCREditView: View {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            ScribbleModalView()
+            ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
         }
     }
     
