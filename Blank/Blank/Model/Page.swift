@@ -17,4 +17,3 @@ struct Page: Codable, Hashable {
     var currentPageNumber: Int
     var basicWordCGRect: [CGRect] // [ (25,59,20,30) , (252,89,30,50) , ..... ]
 }
-
