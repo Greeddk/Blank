@@ -92,8 +92,6 @@ protocol IsCDService {
 }
 
 class CDService: IsCDService {
-    
-    
     static let shared = CDService()
     private init() {}
     
@@ -109,11 +107,7 @@ class CDService: IsCDService {
         fetchRequest.sortDescriptors = [sort]
         fetchRequest.predicate = NSPredicate(format: "id = %@", id.uuidString)
         
-        do {
-            return try viewContext.fetch(fetchRequest).first
-        } catch {
-            throw error
-        }
+        return try viewContext.fetch(fetchRequest).first
     }
     
     func createFile(from file: File) throws {
@@ -123,15 +117,47 @@ class CDService: IsCDService {
         entity.fileURL = file.fileURL
         entity.totalPageCount = file.totalPageCount.int16
         
-        // TODO: - 페이지 삽입작업
+        for page in file.pages {
+            let pageEntity = PageEntity(context: viewContext)
+            pageEntity.id = page.id
+            pageEntity.currentPageNumber = page.currentPageNumber.int16
+            pageEntity.fileId = file.id
+            pageEntity.rect = page.basicWordCGRect.map({ $0.stringValue })
+        }
+        
+        try viewContext.save()
     }
     
     func appendSession(to page: Page, session: Session) throws {
+        guard let pageEntity: PageEntity = try readEntity(id: page.id) else {
+            return
+        }
         
+        let sessionEntity = SessionEntity(context: viewContext)
+        sessionEntity.id = session.id
+        sessionEntity.pageId = pageEntity.id
+        pageEntity.addToSessions(sessionEntity)
+        
+        try viewContext.save()
     }
     
     func appendAllWords(to session: Session, words: [Word]) throws {
+        guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
+            return
+        }
         
+        words.forEach { word in
+            let wordEntity = WordEntity(context: viewContext)
+            wordEntity.id = word.id
+            wordEntity.sessionId = sessionEntity.id
+            wordEntity.isCorrect = word.isCorrect
+            wordEntity.rect = word.rect.stringValue
+            wordEntity.wordValue = word.wordValue
+            
+            sessionEntity.addToWords(wordEntity)
+        }
+        
+        try viewContext.save()
     }
     
     func readFiles() throws -> [File] {
