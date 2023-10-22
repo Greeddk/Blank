@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-protocol IsCDService {
+fileprivate protocol IsCDService {
     
     /*
      ========== Create ==========
@@ -88,15 +88,19 @@ protocol IsCDService {
     func deleteWord(_ word: Word) throws
 }
 
+enum CDServiceError: Error {
+    case entityAlreadyExist
+}
+
 class CDService: IsCDService {
     static let shared = CDService()
     private init() {}
     
-    var viewContext = PersistenceController.shared.container.viewContext
+    private var viewContext = PersistenceController.shared.container.viewContext
     
-    private func readEntity<T: NSFetchRequestResult>(id: UUID) throws -> T? {
+    private func readEntity<T: NSManagedObject>(id: UUID) throws -> T? {
         // Entity의 fetchRequest 생성
-        let fetchRequest = NSFetchRequest<T>()
+        let fetchRequest = T.fetchRequest()
         
         // 정렬 또는 조건 설정
         let sort = NSSortDescriptor(key: "id", ascending: false)
@@ -104,7 +108,7 @@ class CDService: IsCDService {
         fetchRequest.sortDescriptors = [sort]
         fetchRequest.predicate = NSPredicate(format: "id = %@", id.uuidString)
         
-        return try viewContext.fetch(fetchRequest).first
+        return try viewContext.fetch(fetchRequest).first as? T
     }
     
     private func addAllWordsToSessionEntity(to sessionEntity: SessionEntity, words: [Word]) throws {
@@ -165,7 +169,7 @@ class CDService: IsCDService {
     
     func readFiles() throws -> [File] {
         // Entity의 fetchRequest 생성
-        let fetchRequest = NSFetchRequest<FileEntity>()
+        let fetchRequest = FileEntity.fetchRequest()
         
         // 정렬 또는 조건 설정
         let sort = NSSortDescriptor(key: "id", ascending: false)
@@ -193,7 +197,7 @@ class CDService: IsCDService {
     
     func readFile(from url: URL) throws -> File? {
         // Entity의 fetchRequest 생성
-        let fetchRequest = NSFetchRequest<FileEntity>()
+        let fetchRequest = FileEntity.fetchRequest()
         
         // 정렬 또는 조건 설정
         let sort = NSSortDescriptor(key: "id", ascending: false)
@@ -219,7 +223,7 @@ class CDService: IsCDService {
     
     func readFile(from fileName: String) throws -> File? {
         // Entity의 fetchRequest 생성
-        let fetchRequest = NSFetchRequest<FileEntity>()
+        let fetchRequest = FileEntity.fetchRequest()
         
         // 정렬 또는 조건 설정
         let sort = NSSortDescriptor(key: "id", ascending: false)
@@ -245,7 +249,7 @@ class CDService: IsCDService {
     
     func loadAllPages(of file: File) throws -> [Page] {
         // Entity의 fetchRequest 생성
-        let fetchRequest = NSFetchRequest<PageEntity>()
+        let fetchRequest = PageEntity.fetchRequest()
         
         // 정렬 또는 조건 설정
         let sort = NSSortDescriptor(key: "id", ascending: false)
@@ -273,7 +277,7 @@ class CDService: IsCDService {
     
     func loadAllSessions(of page: Page) throws -> [Session] {
         // Entity의 fetchRequest 생성
-        let fetchRequest = NSFetchRequest<SessionEntity>()
+        let fetchRequest = SessionEntity.fetchRequest()
         
         // 정렬 또는 조건 설정
         let sort = NSSortDescriptor(key: "id", ascending: false)
@@ -295,7 +299,7 @@ class CDService: IsCDService {
     
     func loadAllWords(of session: Session) throws -> [Word] {
         // Entity의 fetchRequest 생성
-        let fetchRequest = NSFetchRequest<WordEntity>()
+        let fetchRequest = WordEntity.fetchRequest()
         
         // 정렬 또는 조건 설정
         let sort = NSSortDescriptor(key: "id", ascending: false)
