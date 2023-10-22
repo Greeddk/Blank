@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+extension String {
+    var cgRect: CGRect? {
+        CGRect(stringValue: self)
+    }
+}

@@ -97,7 +97,13 @@ struct PersistenceView: View {
                     }
                 }
             }
-            Text("Select an item")
+            VStack {
+                Text("Select an item")
+                // CGRect -> String 변환 테스트
+                Text("193.257890765;248.66435;304.345;150.2434".cgRect.debugDescription)
+                Text(CGRect(x: 3949.334552, y: 2345.433, width: 124.4442574674543, height: 235.66677888).stringValue)
+            }
+            
         }
     }
 

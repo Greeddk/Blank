@@ -99,20 +99,21 @@ class CDService: IsCDService {
     
     var viewContext = PersistenceController.shared.container.viewContext
     
-    private func readFileEntity(id: UUID) throws -> FileEntity? {
-        nil
-    }
-    
-    private func readPageEntity(id: UUID) throws -> PageEntity? {
-        nil
-    }
-    
-    private func readSessionEntity(id: UUID) throws -> SessionEntity? {
-        nil
-    }
-    
-    private func readWordEntity(id: UUID) throws -> WordEntity? {
-        nil
+    private func readEntity<T: NSFetchRequestResult>(id: UUID) throws -> T? {
+        // Entity의 fetchRequest 생성
+        let fetchRequest = NSFetchRequest<T>()
+        
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.fetchLimit = 1
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id.uuidString)
+        
+        do {
+            return try viewContext.fetch(fetchRequest).first
+        } catch {
+            throw error
+        }
     }
     
     func createFile(from file: File) throws {
