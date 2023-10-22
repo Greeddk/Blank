@@ -10,16 +10,53 @@ import CoreData
 struct PersistenceController {
     static let shared = PersistenceController()
 
-    /// 코어데이터 미리보기 용도로 PageEntity 엔티티 생성
+    /// 코어데이터 미리보기 용도로 FileEntity 엔티티 생성
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
+        
         for _ in 0..<10 {
-            let newPage = PageEntity(context: viewContext)
-            newPage.id = .init()
-            newPage.fileId = UUID()
-            newPage.currentPageNumber = Int16.random(in: 1...100)
+            let newFile = FileEntity(context: viewContext)
+            let uuid = UUID()
+            newFile.id = uuid
+            newFile.fileName = "\(uuid.uuidString).pdf"
+            newFile.fileURL = .init(string: "https://google.com")
+            newFile.totalPageCount = 1000
+            
+            // 페이지 생성
+            let pageEnd = Int.random(in: 5...30)
+            for _ in 0..<pageEnd {
+                let pageId = UUID()
+                
+                let page = PageEntity(context: viewContext)
+                page.id = pageId
+                page.currentPageNumber = Int16.random(in: Int16(2)...Int16(pageEnd))
+                page.fileId = uuid
+
+                // 세션 생성
+                for _ in 0..<Int.random(in: 0...15) {
+                    let sessionId = UUID()
+                    let session = SessionEntity(context: viewContext)
+                    session.id = sessionId
+                    session.pageId = pageId
+                    
+                    // 워드 생성
+                    for i in 0..<Int.random(in: 0...200) {
+                        let word = WordEntity(context: viewContext)
+                        word.isCorrect = Bool.random()
+                        word.id = UUID()
+                        word.sessionId = sessionId
+                        word.wordValue = "WORD\(i)"
+                        
+                        
+                        session.addToWords(word)
+                    }
+                    page.addToSessions(session)
+                }
+                newFile.addToPages(page)
+            }
         }
+        
         do {
             try viewContext.save()
         } catch {
@@ -35,9 +72,11 @@ struct PersistenceController {
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Blank")
+        
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
+        
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -54,6 +93,7 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
 }

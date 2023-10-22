@@ -15,18 +15,74 @@ struct PersistenceView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \PageEntity.id, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \FileEntity.id, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<PageEntity>
+    private var items: FetchedResults<FileEntity>
+    
+    @ViewBuilder func wordsView(_ words: [WordEntity]) -> some View {
+        ScrollView {
+            ForEach(words) { wordEntity in
+                HStack {
+                    Text(wordEntity.id?.uuidString ?? "unknown")
+                        .foregroundStyle(.gray)
+                    Text(wordEntity.wordValue ?? "")
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder func sessionsView(_ sessions: [SessionEntity]) -> some View {
+        ForEach(sessions) { sessionEntity in
+            HStack {
+                Text(sessionEntity.id?.uuidString ?? "unknown")
+                    .foregroundStyle(.gray)
+                Text("Words Count: \(sessionEntity.words?.count ?? -99)")
+                NavigationLink {
+                    if let words = sessionEntity.words?.allObjects as? [WordEntity] {
+                        wordsView(words)
+                    }
+                } label: {
+                    Text("[단어 보기]")
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder func pagesView(_ pages: [PageEntity]) -> some View {
+        ForEach(pages) { pageEntity in
+            HStack {
+                Text(pageEntity.id?.uuidString ?? "unknown")
+                    .foregroundStyle(.gray)
+                Text("currentPageNumber: \(pageEntity.currentPageNumber)")
+                Text("CDRect: \(pageEntity.rect ?? "")")
+                Text("session 수: \(pageEntity.sessions?.count ?? -99)")
+                NavigationLink {
+                    if let sessions = pageEntity.sessions?.allObjects as? [SessionEntity] {
+                        sessionsView(sessions)
+                    }
+                } label: {
+                    Text("[세션 보기]")
+                }
+            }
+        }
+    }
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(items) { pageEntity in
+                ForEach(items) { fileEntity in
                     NavigationLink {
-                        Text(pageEntity.fileId?.uuidString ?? "unknown")
+                        Text("파일 ID: \(fileEntity.id?.uuidString ?? "unknown")")
+                        Text("Pages 수: \(fileEntity.pages?.count ?? -99)")
+                        NavigationLink {
+                            if let pages = fileEntity.pages?.allObjects as? [PageEntity] {
+                                pagesView(pages)
+                            }
+                        } label: {
+                            Text("[페이지 보기]")
+                        }
                     } label: {
-                        Text(pageEntity.fileId?.uuidString ?? "unknown")
+                        Text(fileEntity.fileName ?? "unknown")
                     }
                 }
                 .onDelete(perform: deleteItems)
@@ -41,16 +97,22 @@ struct PersistenceView: View {
                     }
                 }
             }
-            Text("Select an item")
+            VStack {
+                Text("Select an item")
+                // CGRect -> String 변환 테스트
+                Text("193.257890765;248.66435;304.345;150.2434".cgRect.debugDescription)
+                Text(CGRect(x: 3949.334552, y: 2345.433, width: 124.4442574674543, height: 235.66677888).stringValue)
+            }
+            
         }
     }
 
     private func addItem() {
         withAnimation {
-            let newPage = PageEntity(context: viewContext)
-            newPage.currentPageNumber = 900 + Int16.random(in: 1...100)
-            newPage.fileId = UUID()
-            newPage.id = UUID()
+            // let newPage = PageEntity(context: viewContext)
+            // newPage.currentPageNumber = 900 + Int16.random(in: 1...100)
+            // newPage.fileId = UUID()
+            // newPage.id = UUID()
 
             do {
                 try viewContext.save()

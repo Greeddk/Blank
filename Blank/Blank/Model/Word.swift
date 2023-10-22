@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct Word: Codable, Hashable {
-    
     var id: UUID
-    var string: String
+    var wordValue: String
     var rect: CGRect
-    var correct: Bool = false
+    var isCorrect: Bool = false
 }
