@@ -47,6 +47,7 @@ struct OCREditView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
+        .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
         .onAppear {
             print("OCREditView's basicWords.", page)

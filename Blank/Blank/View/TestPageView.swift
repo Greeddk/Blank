@@ -38,6 +38,7 @@ struct TestPageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
+        .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
     }
     
