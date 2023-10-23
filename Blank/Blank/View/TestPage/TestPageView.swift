@@ -16,6 +16,8 @@ struct TestPageView: View {
     @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
 
+    @State var page: Page
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -44,7 +46,7 @@ struct TestPageView: View {
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-        TestPagePinchZoomView(image: generatedImage, basicWords: .constant([]))
+        TestPagePinchZoomView(image: generatedImage, page: $page)
     }
     
     private var backBtn: some View {

@@ -56,7 +56,7 @@ struct OCREditView: View {
     
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
-        OCRPinchZoomView(image: generatedImage, basicWords: .constant([]))
+        OCRPinchZoomView(image: generatedImage, page: $page)
     }
     
     private var backBtn: some View {
@@ -79,7 +79,7 @@ struct OCREditView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)) {
+        NavigationLink(destination: TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page)) {
             Text("시험보기")
                 .fontWeight(.bold)
         }

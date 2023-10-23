@@ -94,7 +94,14 @@ struct OverView: View {
                 )
                 WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page)
             } else {
-                TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)
+// 나중에 조건 수정
+                let page = Page(id: UUID(),
+                                fileId: overViewModel.currentFile.id,
+                                currentPageNumber: overViewModel.currentPage,
+                                basicWords: overViewModel.basicWords,
+                                basicWordCGRects: []
+)
+                TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page)
             }
         }
 

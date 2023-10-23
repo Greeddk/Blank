@@ -13,8 +13,8 @@ struct TestPageImageView: View {
     @State private var recognizedBoxes: [(String, CGRect)] = []
     //경섭추가코드
     @Binding var zoomScale: CGFloat
-    @Binding var basicWords: [BasicWord]
-
+    @Binding var page: Page
+    
     var body: some View {
         GeometryReader { proxy in
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
@@ -28,15 +28,14 @@ struct TestPageImageView: View {
                         height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
                     )
                     .overlay {
-                        ForEach(recognizedBoxes.indices, id: \.self) { index in
-                            let rect = recognizedBoxes[index]
-                            let box = adjustRect(rect.1, in: proxy)
+                        ForEach(page.sessions[0].words, id: \.self) { word in
+                            let box = adjustRect(word.rect, in: proxy)
                             @State var width = box.width
                             @State var height = box.height
                             @State var originX = box.origin.x
                             @State var originY = box.origin.y
 
-                            TextView(height: $height, width: $width, scale: $zoomScale)
+                            TextView(name: word.wordValue, height: $height, width: $width, scale: $zoomScale)
                                 .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))
                         }
                     }
