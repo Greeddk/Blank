@@ -15,11 +15,15 @@ struct ResultPageView: View {
     @State var visionStart: Bool = false
     
     @StateObject var scoringViewModel: ScoringViewModel
+    @StateObject var overViewModel: OverViewModel
     
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
-                resultImage
+                VStack{
+                    resultImage
+                    Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
+                }
                 bottomCorrectInfo
             }
             .toolbar {
@@ -59,7 +63,7 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]))
+        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
     }
     
     private var homeBtn: some View {

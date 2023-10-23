@@ -27,6 +27,19 @@ class OverViewModel: ObservableObject {
         self.currentFile = currentFile
     }
     
+    func createNewPageAndSession() -> Page {
+            var page = Page(id: UUID(),
+                            fileId: currentFile.id,
+                            currentPageNumber: currentPage,
+                            basicWords: basicWords,
+                            basicWordCGRects: []
+            )
+            let newSession = Session(id: UUID(), pageId: page.id, words: [])
+            page.sessions.append(newSession)
+            
+            return page
+        }
+    
     // PDF의 원하는 페이지를 로드해주는 메소드
     func updateCurrentPage(from input: String) {
         let originalPage = self.currentPage

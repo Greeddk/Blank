@@ -17,11 +17,15 @@ struct TestPageView: View {
     @State private var hasTypeValueChanged = false
     
     @StateObject var scoringViewModel = ScoringViewModel()
+    @StateObject var overViewModel: OverViewModel
+
+    @Binding var page: Page
 
     var body: some View {
         NavigationStack {
             VStack {
                 testImage
+                Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -58,7 +62,10 @@ struct TestPageView: View {
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-        TestPagePinchZoomView(image: generatedImage, basicWords: .constant([]))
+
+        TestPagePinchZoomView(image: generatedImage, page: $page)
+//        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
+
     }
     
     private var backBtn: some View {

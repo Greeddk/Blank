@@ -29,7 +29,7 @@ struct UITextViewRepresentable: UIViewRepresentable {
     @Binding var isFocused: Bool
     @Binding var height: CGFloat
     @Binding var scale: CGFloat
-    var fontSize: CGFloat = 1.5
+    var fontSize: CGFloat = 1.9
 
     func makeUIView(context: UIViewRepresentableContext<UITextViewRepresentable>) -> UITextView {
         let textView = UITextView(frame: .zero)
@@ -37,6 +37,7 @@ struct UITextViewRepresentable: UIViewRepresentable {
         textView.font = UIFont(name: "Avenir", size: (height/fontSize) * scale)
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textContainer.maximumNumberOfLines = 2
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: -10)
         return textView
     }
 

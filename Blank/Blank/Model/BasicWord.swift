@@ -11,4 +11,5 @@ struct BasicWord: Codable, Hashable, Identifiable {
     var id: UUID
     var wordValue: String
     var rect: CGRect
+    var isSelectedWord: Bool
 }
