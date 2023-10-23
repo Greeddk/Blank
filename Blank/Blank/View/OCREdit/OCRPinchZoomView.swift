@@ -11,7 +11,6 @@ struct OCRPinchZoomView: View {
 
     // Image 정보를 받을 수 있도록 프로퍼티 추가 - 경섭
     var image: UIImage?
-    @Binding var visionStart:Bool
     @Binding var basicWords: [BasicWord]
 
     //

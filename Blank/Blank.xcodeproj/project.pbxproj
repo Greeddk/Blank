@@ -293,9 +293,9 @@
 			isa = PBXGroup;
 			children = (
 				42ED60CD2ADE7F290043AF2F /* OCREditView.swift */,
-				EB8978FA2AE6A0BC00494BE7 /* TextView.swift */,
-				EB8978FC2AE6A16900494BE7 /* OCRImageView.swift */,
 				EB69FC792AE6B5AE00ADF7B6 /* OCRPinchZoomView.swift */,
+				EB8978FC2AE6A16900494BE7 /* OCRImageView.swift */,
+				EB8978FA2AE6A0BC00494BE7 /* TextView.swift */,
 				EBEB727E2AE548C400316D66 /* ScrribleModalView.swift */,
 				EBEB72802AE548F700316D66 /* ScrribleVideoView.swift */,
 				EBEB72822AE5491200316D66 /* ScrribleType.swift */,
