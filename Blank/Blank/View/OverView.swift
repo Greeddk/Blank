@@ -33,24 +33,28 @@ struct OverView: View {
     @State private var currentPageText: String = ""
     @State var titleName = "파일이름"
     
-
-
-
+    
+    
+    
+    
+    
+    
+    
     var body: some View {
         NavigationStack {
             VStack {
                 if overViewModel.isLoading && overViewModel.currentProgress < 1.0 {
                     progressStatus
-
+                    
                 } else if !overViewModel.thumbnails.isEmpty {
                     //경섭추가코드
                     
-                    PinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords)
+                    PinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords, viewName: "OverView", overViewModel: overViewModel)
                     //경섭추가코드
                     bottomScrollView
                     
                     // 하단 빈공간 코드
-//                    Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
+                    //                    Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
                     
                 }
             }
@@ -66,11 +70,11 @@ struct OverView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     leftBtns
                 }
-
+                
                 ToolbarItem(placement: .topBarTrailing) {
                     testBtn
                 }
-
+                
                 ToolbarItem(placement: .principal) {
                     centerBtn
                 }
@@ -86,41 +90,31 @@ struct OverView: View {
         .navigationDestination(isPresented: $isLinkActive) {
             if !goToTestPage {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
-                let page = Page(id: UUID(), 
-                                fileId: overViewModel.currentFile.id,
-                                currentPageNumber: overViewModel.currentPage,
-                                basicWords: overViewModel.basicWords,
-                                basicWordCGRects: []
-                )
-                WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page)
+                let page = overViewModel.createNewPageAndSession()
+                WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page, overViewModel: overViewModel)
             } else {
-// 나중에 조건 수정
-                let page = Page(id: UUID(),
-                                fileId: overViewModel.currentFile.id,
-                                currentPageNumber: overViewModel.currentPage,
-                                basicWords: overViewModel.basicWords,
-                                basicWordCGRects: []
-)
-                TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page)
+                // 나중에 조건 수정
+                //                let page = overViewModel.createNewPageAndSession()
+                //                TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page)
             }
         }
-
+        
     }
-
+    
     private var progressStatus: some View {
         VStack(spacing: 20) {
             ProgressView(value: overViewModel.currentProgress)
                 .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-
+            
             Text("파일을 로딩 중 입니다.")
-
+            
             Text("\(Int(overViewModel.currentProgress * 100))%") // 퍼센트로 변환하여 표시
         }
         .background(.white)
     }
-
-
-
+    
+    
+    
     private var bottomScrollView: some View {
         ScrollView(.horizontal, showsIndicators: true) {
             Spacer().frame(height: 10)
@@ -160,7 +154,7 @@ struct OverView: View {
     
     
     
-
+    
     private var centerBtn: some View {
         Button {
             showPopover = true
@@ -176,7 +170,7 @@ struct OverView: View {
             popoverContent
         }
     }
-
+    
     private var popoverContent: some View {
         VStack {
             Form {
@@ -201,7 +195,7 @@ struct OverView: View {
             currentPageText = "\(overViewModel.currentPage)"
         }
     }
-
+    
     private var leftBtns: some View {
         HStack {
             Button {
@@ -209,7 +203,7 @@ struct OverView: View {
             } label: {
                 Image(systemName: "chevron.left")
             }
-
+            
             Button {
                 showModal = true
             } label: {
@@ -218,7 +212,7 @@ struct OverView: View {
             .sheet(isPresented: $showModal) {
                 OverViewModalView(overViewModel: overViewModel)
             }
-
+            
             Menu {
                 // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
                 Text("전체통계")
@@ -226,12 +220,12 @@ struct OverView: View {
                 Text("2회차")
                 Text("3회차")
                 Text("4회차")
-
+                
             } label: {
                 Label("결과보기", systemImage: "chevron.down")
                     .labelStyle(.titleAndIcon)
             }
-
+            
             Button {
                 // TODO: 원본 페이지 상태로 변경
             } label: {
@@ -239,52 +233,53 @@ struct OverView: View {
             }
         }
     }
-
+    
     private var testBtn: some View {
         
         Button("시험준비") {
             visionStart = true
             isLinkActive = true
+            
         }
-
-//        Button {
-//            // TODO: 해당 페이지 이미지 파일로 넘겨주기, layer 분리, 이미지 받아서 텍스트로 변환, 2회차 이상일때 내용수정 Alert 만들기
-//            isLinkActive = true
-//            // TODO: 2회차 이상일때 alert 띄울 로직
-//            //            showingAlert = true
-//        } label: {
-//            Text("시험준비")
-//                .fontWeight(.bold)
-//        }
-//        .alert("내용수정" ,isPresented: $showingAlert) {
-//            Button("시험보기") {
-//                goToTestPage = true
-//            }
-//            Button("수정하기") {
-//
-//            }
-//            Button("취소", role: .cancel) {
-//
-//
-//            }
-//        } message: {
-//            Text("""
-//                 기존에 시험을 본 내용이 있습니다.
-//                 바로 시험을 보시겠습니까?
-//                 수정하시겠습니까?
-//                 """)
-//        }
+        
+        //        Button {
+        //            // TODO: 해당 페이지 이미지 파일로 넘겨주기, layer 분리, 이미지 받아서 텍스트로 변환, 2회차 이상일때 내용수정 Alert 만들기
+        //            isLinkActive = true
+        //            // TODO: 2회차 이상일때 alert 띄울 로직
+        //            //            showingAlert = true
+        //        } label: {
+        //            Text("시험준비")
+        //                .fontWeight(.bold)
+        //        }
+        //        .alert("내용수정" ,isPresented: $showingAlert) {
+        //            Button("시험보기") {
+        //                goToTestPage = true
+        //            }
+        //            Button("수정하기") {
+        //
+        //            }
+        //            Button("취소", role: .cancel) {
+        //
+        //
+        //            }
+        //        } message: {
+        //            Text("""
+        //                 기존에 시험을 본 내용이 있습니다.
+        //                 바로 시험을 보시겠습니까?
+        //                 수정하시겠습니까?
+        //                 """)
+        //        }
     }
     
 }
 
-        
-
-    
 
 
 
-    
+
+
+
+
 
 
 

@@ -14,6 +14,7 @@ struct OCRImageView: View {
     //경섭추가코드
     @Binding var zoomScale: CGFloat
     @Binding var page: Page
+    @StateObject var overViewModel: OverViewModel
 
     var body: some View {
         GeometryReader { proxy in
@@ -28,6 +29,19 @@ struct OCRImageView: View {
                         height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
                     )
                     .overlay {
+//                        ForEach(overViewModel.basicWords.indices, id: \.self) { index in
+//                            let box = adjustRect(overViewModel.basicWords[index].rect , in: proxy)
+//                            @State var width = box.width
+//                            @State var height = box.height
+//                            @State var originX = box.origin.x
+//                            @State var originY = box.origin.y
+//
+//                            TextView(name: overViewModel.basicWords[index].wordValue,
+//                                     height: $height,
+//                                     width: $width,
+//                                     scale: $zoomScale)
+//                                .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))
+//                        }
                         ForEach(page.sessions[0].words, id: \.self) { word in
                             let box = adjustRect(word.rect, in: proxy)
                             @State var width = box.width

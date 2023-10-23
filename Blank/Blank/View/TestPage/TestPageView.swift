@@ -15,6 +15,8 @@ struct TestPageView: View {
     @State var visionStart: Bool = false
     @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
+    
+    @StateObject var overViewModel: OverViewModel
 
     @State var page: Page
 
@@ -22,6 +24,7 @@ struct TestPageView: View {
         NavigationStack {
             VStack {
                 testImage
+                Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -46,7 +49,10 @@ struct TestPageView: View {
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
+
         TestPagePinchZoomView(image: generatedImage, page: $page)
+//        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
+
     }
     
     private var backBtn: some View {
@@ -69,7 +75,7 @@ struct TestPageView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)) {
+        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel)) {
             Text("채점")
                 .fontWeight(.bold)
         }

@@ -17,8 +17,11 @@ struct ImageView: View {
     var uiImage: UIImage?
     @Binding var visionStart:Bool
     @State private var recognizedBoxes: [(String, CGRect)] = []
+    
+    @StateObject var overViewModel: OverViewModel
     //경섭추가코드
     @Binding var zoomScale: CGFloat
+    var viewName: String?
     
     @Binding var basicWords: [BasicWord]
     
@@ -45,7 +48,7 @@ struct ImageView: View {
                         if let image = uiImage {
                             recognizeTextTwo(from: image) { recognizedTexts in
                                 self.recognizedBoxes = recognizedTexts
-                                basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1) }
+                                basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
                                 //                                for (text, rect) in recognizedTexts {
                                 //                                    print("Text: \(text), Rect: \(rect)")
                                 //                                }
@@ -53,19 +56,133 @@ struct ImageView: View {
                             
                             
                         }
+                        
+//                        print("Recognized boxes: \(self.recognizedBoxes)")
+                        print("view name : \(self.viewName)")
                     })
                 
                 // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
                     .overlay {
                         // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
                         
-                        ForEach(recognizedBoxes.indices, id: \.self) { index in
-                            let box = recognizedBoxes[index]
-                            Rectangle()
-                                .path(in:
-                                        adjustRect(box.1, in: proxy))
-                                .stroke(Color.red, lineWidth: 1)
+                        if viewName == "OverView" {
+                            
+
+                            ForEach(recognizedBoxes.indices, id: \.self) { index in
+                                let box = recognizedBoxes[index]
+                                Rectangle()
+                                    .path(in:
+                                            adjustRect(box.1, in: proxy))
+                                    .stroke(Color.red, lineWidth: 1)
+                            }
+                            
                         }
+                        
+                        if viewName == "WordSelectView" {
+                            
+                            
+                    
+                            
+//                            
+//                            ForEach(basicWords.indices, id: \.self) { index in
+//                                Rectangle()
+//                                    .path(in: adjustRect(basicWords[index].rect, in: proxy))
+//                                    .stroke(Color.green, lineWidth: 2)
+//                                    .onTapGesture {
+//                                        withAnimation {
+//                                            basicWords[index].isSelectedWord.toggle()
+//                                        }
+//                                    }
+//                            }
+                            
+//                            ForEach(basicWords.indices, id: \.self) { index in
+//                                if basicWords[index].isSelectedWord  {
+//                                    Rectangle()
+//                                        .path(in: adjustRect(basicWords[index].rect, in: proxy))
+//                                        .stroke(Color.green, lineWidth: 2)
+//                                        .onTapGesture {
+//                                            withAnimation {
+//                                                basicWords[index].isSelectedWord.toggle()
+//                                            }
+//                                        }
+//                                } else {
+//                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
+//                                    Rectangle()
+//                                        .fill(Color.clear)
+//                                        .frame(width: adjustRect(basicWords[index].rect, in: proxy).width, height: adjustRect(basicWords[index].rect, in: proxy).height)
+//                                        .onTapGesture {
+//                                            withAnimation {
+//                                                basicWords[index].isSelectedWord.toggle()
+//                                            }
+//                                        }
+//                                }
+//                            }
+                            
+                            ForEach(overViewModel.basicWords.indices, id: \.self) { index in
+                                
+                               
+                                if overViewModel.basicWords[index].isSelectedWord  {
+                                    
+                                    Rectangle()
+                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+                                        .fill(Color.green.opacity(0.4))
+                                        .onTapGesture {
+                                            withAnimation {
+                                                print("3 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                                overViewModel.basicWords[index].isSelectedWord.toggle()
+                                                print("4 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                            }
+                                        }
+                                    
+//                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
+//                                    Rectangle()
+//                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+//                                        .fill(Color.black.opacity(0.01))
+//                                        .onTapGesture {
+//                                            withAnimation {
+//                                                print("1 : \(overViewModel.basicWords[index].isSelectedWord)")
+//                                                overViewModel.basicWords[index].isSelectedWord.toggle()
+//                                                print("2 : \(overViewModel.basicWords[index].isSelectedWord)")
+//                                            }
+//                                        }
+                                    
+                                } else {
+                                    
+                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
+                                    Rectangle()
+                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+                                        .fill(Color.black.opacity(0.01))
+                                        .onTapGesture {
+                                            withAnimation {
+                                                print("1 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                                overViewModel.basicWords[index].isSelectedWord.toggle()
+                                                print("2 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                            }
+                                        }
+                                    
+//                                    Rectangle()
+//                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+//                                        .fill(Color.green.opacity(0.4))
+//                                        .onTapGesture {
+//                                            withAnimation {
+//                                                print("3 : \(overViewModel.basicWords[index].isSelectedWord)")
+//                                                overViewModel.basicWords[index].isSelectedWord.toggle()
+//                                                print("4 : \(overViewModel.basicWords[index].isSelectedWord)")
+//                                            }
+//                                        }
+                                    
+                                }
+                            }
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                        }
+                        
+
                         
                         
                     }
@@ -148,6 +265,7 @@ struct ImageView: View {
         
         request.recognitionLanguages = ["ko-KR"]
         request.recognitionLevel = .accurate
+        request.minimumTextHeight = 0.01
         
         do {
             try requestHandler.perform([request])
@@ -155,6 +273,8 @@ struct ImageView: View {
             print("Error performing text recognition request: \(error)")
         }
     }
+    
+    
 }
 
 //
