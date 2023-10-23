@@ -86,8 +86,10 @@ struct OverView: View {
         .navigationDestination(isPresented: $isLinkActive) {
             if !goToTestPage {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
-                let page = Page(id: UUID(), 
+                let pageId = UUID()
+                let page = Page(id: UUID(),
                                 fileId: overViewModel.currentFile.id,
+                                sessions: [.init(id: UUID(), pageId: pageId)], 
                                 currentPageNumber: overViewModel.currentPage,
                                 basicWords: overViewModel.basicWords,
                                 basicWordCGRects: []

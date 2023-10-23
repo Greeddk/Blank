@@ -14,6 +14,8 @@ struct ResultPageView: View {
     @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     
+    @StateObject var scoringViewModel: ScoringViewModel
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
@@ -45,7 +47,7 @@ struct ResultPageView: View {
             if seeCorrect == true {
                 // TODO: 정답률, 문제개수, 정답개수 받아오기
                 Spacer().frame(width: 50)
-                CorrectInfoView()
+                CorrectInfoView(scoringViewModel: scoringViewModel)
                     .frame(minWidth: 600, maxWidth: 800, minHeight: 50, maxHeight: 70)
                 Spacer().frame(width: 50)
             }
