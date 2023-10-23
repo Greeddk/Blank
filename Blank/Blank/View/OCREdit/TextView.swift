@@ -16,7 +16,7 @@ struct TextView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            UITextViewRepresentable(text: $name, isFocused: $isFocused, height: $height)
+            UITextViewRepresentable(text: $name, isFocused: $isFocused, height: $height, scale: $scale)
                 .frame(width: width, height: height)
         }
         .border(isFocused ? Color.yellow : Color.green, width: 1.5)
@@ -28,12 +28,13 @@ struct UITextViewRepresentable: UIViewRepresentable {
     @Binding var text: String
     @Binding var isFocused: Bool
     @Binding var height: CGFloat
-    var scale: CGFloat = 1.5
+    @Binding var scale: CGFloat
+    var fontSize: CGFloat = 1.5
 
     func makeUIView(context: UIViewRepresentableContext<UITextViewRepresentable>) -> UITextView {
         let textView = UITextView(frame: .zero)
         textView.delegate = context.coordinator
-        textView.font = UIFont(name: "Avenir", size: (height/scale))
+        textView.font = UIFont(name: "Avenir", size: (height/fontSize) * scale)
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textContainer.maximumNumberOfLines = 2
         return textView

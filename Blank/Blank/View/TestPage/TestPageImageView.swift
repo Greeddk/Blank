@@ -1,13 +1,13 @@
 //
-//  OCRImageView.swift
+//  TestPageImageView.swift
 //  Blank
 //
-//  Created by 조용현 on 10/23/23.
+//  Created by 조용현 on 10/24/23.
 //
 
 import SwiftUI
 
-struct OCRImageView: View {
+struct TestPageImageView: View {
 
     var uiImage: UIImage?
     @State private var recognizedBoxes: [(String, CGRect)] = []
@@ -36,7 +36,7 @@ struct OCRImageView: View {
                             @State var originX = box.origin.x
                             @State var originY = box.origin.y
 
-                            TextView(name: rect.0, height: $height, width: $width, scale: $zoomScale)
+                            TextView(height: $height, width: $width, scale: $zoomScale)
                                 .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))
                         }
                     }
@@ -62,6 +62,6 @@ struct OCRImageView: View {
     }
 }
 
-#Preview {
-    HomeView().environmentObject(HomeViewModel())
-}
+//#Preview {
+//    TestPageImageView()
+//}
