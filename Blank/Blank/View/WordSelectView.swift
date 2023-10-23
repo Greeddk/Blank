@@ -76,6 +76,12 @@ struct WordSelectView: View {
         }
         .onTapGesture {
             // TODO: 선택된 단어를 배열로 저장
+            
+            // words: [] <- 선택한 단어를 저장
+            // 오버뷰에서 선택한 현재 세션이 어떤 세션인지 알려주는 @State/Binding 변수가 있어야됨
+            let session = Session(id: UUID(), pageId: page.id, words: [])
+            
+            page.sessions.append(session)
         }
     }
 }
