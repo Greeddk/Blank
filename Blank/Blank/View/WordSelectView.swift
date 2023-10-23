@@ -73,7 +73,7 @@ struct WordSelectView: View {
             // ForEach(basicWords, id: \.id) { basicWord in
             //     Text("\(basicWord.wordValue), \(basicWord.rect.debugDescription)")
             // }
-            PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: $page.basicWords, viewName: "WordSelectView", overViewModel: overViewModel)
+            PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: $page.basicWords, viewName: "WordSelectView", overViewModel: overViewModel,page: $page)
         }
         
     }

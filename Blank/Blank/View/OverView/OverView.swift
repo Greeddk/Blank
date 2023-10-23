@@ -49,7 +49,7 @@ struct OverView: View {
                 } else if !overViewModel.thumbnails.isEmpty {
                     //경섭추가코드
                     
-                    PinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords, viewName: "OverView", overViewModel: overViewModel)
+                    OverViewPinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords, overViewModel: overViewModel)
                     //경섭추가코드
                     bottomScrollView
                     

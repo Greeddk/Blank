@@ -16,6 +16,9 @@ struct ResultPageView: View {
     
     @StateObject var overViewModel: OverViewModel
     
+    @Binding var page:Page
+    
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
@@ -62,7 +65,7 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
+        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), viewName: "ResultPageView", overViewModel: overViewModel,page: $page)
     }
     
     private var homeBtn: some View {

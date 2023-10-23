@@ -75,7 +75,7 @@ struct TestPageView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel)) {
+        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: $page)) {
             Text("채점")
                 .fontWeight(.bold)
         }

@@ -13,7 +13,12 @@ struct TextView: View {
     @Binding var width: CGFloat
     @State var isFocused: Bool = false
     @Binding var scale: CGFloat
+    
+    @Binding var page:Page
+    @Binding var orinX: UUID
 
+    
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             UITextViewRepresentable(text: $name, isFocused: $isFocused, height: $height, scale: $scale)
@@ -88,6 +93,6 @@ struct UITextViewRepresentable: UIViewRepresentable {
 }
 
 
-#Preview {
-    TextView(name: "안녕하세요", height: .constant(30), width: .constant(100), isFocused: false, scale: .constant(1.0))
-}
+//#Preview {
+//    TextView(name: "안녕하세요", height: .constant(30), width: .constant(100), isFocused: false, scale: .constant(1.0))
+//}

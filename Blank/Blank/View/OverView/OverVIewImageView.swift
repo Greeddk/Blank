@@ -1,18 +1,14 @@
-
 //
-//  ImageView.swift
+//  OverVIewImageView.swift
 //  Blank
 //
-//  Created by 조용현 on 10/19/23.
+//  Created by Sup on 10/24/23.
 //
-
-
-
 
 import SwiftUI
 import Vision
 
-struct ImageView: View {
+struct OverVIewImageView: View {
     //경섭추가코드
     var uiImage: UIImage?
     @Binding var visionStart:Bool
@@ -21,11 +17,9 @@ struct ImageView: View {
     @StateObject var overViewModel: OverViewModel
     //경섭추가코드
     @Binding var zoomScale: CGFloat
-    var viewName: String?
+    
     
     @Binding var basicWords: [BasicWord]
-    
-    @Binding var page:Page
     
     var body: some View {
         GeometryReader { proxy in
@@ -67,66 +61,7 @@ struct ImageView: View {
                     .overlay {
                         // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
                         
-                        if viewName == "WordSelectView" {
-                            
-                            ForEach(overViewModel.basicWords.indices, id: \.self) { index in
-                                
-                               
-                                if overViewModel.basicWords[index].isSelectedWord  {
-                                    
-                                    Rectangle()
-                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
-                                        .fill(Color.blue.opacity(0.4))
-                                        .onTapGesture {
-                                            withAnimation {
-                                                overViewModel.basicWords[index].isSelectedWord.toggle()
-                                            }
-                                        }
-                                } else {
-                                    
-                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
-                                    Rectangle()
-                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
-                                        .fill(Color.black.opacity(0.01))
-                                        .onTapGesture {
-                                            withAnimation {
-                                                overViewModel.basicWords[index].isSelectedWord.toggle()
-                                            }
-                                        }
-                                    
-
-                                    
-                                }
-                            }
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                        }
                         
-                        if viewName == "ResultPageView" {
-                            
-//                            ForEach(overViewModel.basicWords.indices, id: \.self) { index in
-                                ForEach(page.sessions[0].words.indices, id: \.self) { idx in
-                                    if page.sessions[0].words[idx].isCorrect {
-                                        
-                                        Rectangle()
-                                            .path(in: adjustRect(page.sessions[0].words[idx].rect, in: proxy))
-                                            .fill(Color.green.opacity(0.4))
-                                    } else {
-                                        Rectangle()
-                                            .path(in: adjustRect(page.sessions[0].words[idx].rect, in: proxy))
-                                            .fill(Color.red.opacity(0.4))
-                                        
-                                    }
-                                    
-                                }
-                            
-                            
-                        }
                         
 
                         
