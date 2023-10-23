@@ -57,7 +57,7 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        PinchZoomView(image: generatedImage, visionStart: $visionStart)
+        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]))
     }
     
     private var homeBtn: some View {

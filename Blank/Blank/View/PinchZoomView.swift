@@ -1,4 +1,18 @@
+
+
+//
+//  PinchZoomView.swift
+//  Blank
+//
+//  Created by 조용현 on 10/19/23.
+//
+
+
+
 import SwiftUI
+
+
+
 
 
 struct PinchZoomView: View {
@@ -6,6 +20,7 @@ struct PinchZoomView: View {
     // Image 정보를 받을 수 있도록 프로퍼티 추가 - 경섭
     var image: UIImage?
     @Binding var visionStart:Bool
+    @Binding var basicWords: [BasicWord]
     
     //
     @State private var scale: CGFloat = 1.0
@@ -31,7 +46,7 @@ struct PinchZoomView: View {
 
     var body: some View {
         // ImageView를 불러와서 Gesture 적용
-        ImageView(uiImage: image, visionStart: $visionStart ,scale: $scale)
+        ImageView(uiImage: image, visionStart: $visionStart, zoomScale: $scale, basicWords: $basicWords)
             .gesture(magnification)
     }
     // 변경값을 lastScale에 저장하여 다음 확대시 lastScale에서부터 시작

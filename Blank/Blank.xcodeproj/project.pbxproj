@@ -37,6 +37,8 @@
 		44A556742AE43774002AE4C3 /* Int+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A556732AE43774002AE4C3 /* Int+.swift */; };
 		44A556762AE52990002AE4C3 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A556752AE52990002AE4C3 /* String+.swift */; };
 		44F30BE22AE579E200B67014 /* APICRUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F30BE12AE579E200B67014 /* APICRUDView.swift */; };
+		44F30BE42AE6738000B67014 /* WordSelectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F30BE32AE6738000B67014 /* WordSelectViewModel.swift */; };
+		44F30BE62AE6781F00B67014 /* BasicWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F30BE52AE6781F00B67014 /* BasicWord.swift */; };
 		ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */; };
 		ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */; };
 		ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA632AD7CC7700C44A80 /* Preview Assets.xcassets */; };
@@ -89,6 +91,8 @@
 		44A556732AE43774002AE4C3 /* Int+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+.swift"; sourceTree = "<group>"; };
 		44A556752AE52990002AE4C3 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		44F30BE12AE579E200B67014 /* APICRUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICRUDView.swift; sourceTree = "<group>"; };
+		44F30BE32AE6738000B67014 /* WordSelectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordSelectViewModel.swift; sourceTree = "<group>"; };
+		44F30BE52AE6781F00B67014 /* BasicWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicWord.swift; sourceTree = "<group>"; };
 		ACDBDA592AD7CC7600C44A80 /* Blank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankApp.swift; sourceTree = "<group>"; };
 		ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -243,6 +247,7 @@
 			children = (
 				4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */,
 				42E763892AE1229700624D81 /* OverViewModel.swift */,
+				44F30BE32AE6738000B67014 /* WordSelectViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				ACF338C12ADD0136004D20FC /* Page.swift */,
 				ACF338C32ADD0158004D20FC /* Session.swift */,
 				ACF338C52ADD0172004D20FC /* Word.swift */,
+				44F30BE52AE6781F00B67014 /* BasicWord.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -374,6 +380,7 @@
 				EBEB727F2AE548C400316D66 /* ScrribleModalView.swift in Sources */,
 				ACF338C42ADD0158004D20FC /* Session.swift in Sources */,
 				42ED60D82ADE7F910043AF2F /* PDFThumbnailView.swift in Sources */,
+				44F30BE62AE6781F00B67014 /* BasicWord.swift in Sources */,
 				449CB1EC2ADFAF560086758A /* PhotoPickerRepresentedView.swift in Sources */,
 				44A556762AE52990002AE4C3 /* String+.swift in Sources */,
 				4491DFEC2ADD4CF800CA5B42 /* Persistence.swift in Sources */,
@@ -388,6 +395,7 @@
 				449CB1E72ADEDC5E0086758A /* DummyObjects.swift in Sources */,
 				449CB1EA2ADEE0460086758A /* PDFUtil.swift in Sources */,
 				42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */,
+				44F30BE42AE6738000B67014 /* WordSelectViewModel.swift in Sources */,
 				4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */,
 				449CB1DA2ADED6C10086758A /* DocumentPickerRepresentedView.swift in Sources */,
 				42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */,

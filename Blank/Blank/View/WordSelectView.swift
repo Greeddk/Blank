@@ -14,6 +14,8 @@ struct WordSelectView: View {
     @State var visionStart: Bool = false
     @Binding var generatedImage: UIImage?
     
+    @State var basicWords: [BasicWord] = []
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -41,11 +43,21 @@ struct WordSelectView: View {
             .navigationBarTitleDisplayMode(.inline)
         }
         .background(Color(.systemGray6))
+        .onAppear {
+            print("WordSelectView's basicWords.", basicWords.first as Any)
+        }
+
     }
     
     private var wordSelectImage: some View {
         // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제, 비전 스타트가 여기에 필요한지..?
-        PinchZoomView(image: generatedImage, visionStart: $visionStart)
+        VStack {
+            // ForEach(basicWords, id: \.id) { basicWord in
+            //     Text("\(basicWord.wordValue), \(basicWord.rect.debugDescription)")
+            // }
+            PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: $basicWords)
+        }
+        
     }
     
     private var backBtn: some View {
