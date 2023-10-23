@@ -23,7 +23,7 @@ struct APICRUDView: View {
                 }
                 
                 ForEach(pages ?? [], id: \.id) { page in
-                    Text("Page: \(page.id), \(page.basicWordCGRects.first?.stringValue ?? "")")
+                    Text("Page: \(page.id), \(page.basicWords.first?.rect.stringValue ?? "")")
                 }
                 
                 ForEach(sessions ?? [], id: \.id) { session in

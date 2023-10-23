@@ -16,7 +16,9 @@ class OverViewModel: ObservableObject {
     @Published var isLoading = true
     @Published var currentProgress: Double = 0.0
     
-
+    /// OverView 내에 있는 PinchZoom-ImageView에서 받은 빨간 박스(Basic Words)들을 저장합니다.
+    @Published var basicWords: [BasicWord] = []
+    
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
 

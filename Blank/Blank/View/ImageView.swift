@@ -20,6 +20,7 @@ struct ImageView: View {
     //경섭추가코드
     @Binding var zoomScale: CGFloat
     
+    @Binding var basicWords: [BasicWord]
     
     var body: some View {
         GeometryReader { proxy in
@@ -44,6 +45,7 @@ struct ImageView: View {
                         if let image = uiImage {
                             recognizeTextTwo(from: image) { recognizedTexts in
                                 self.recognizedBoxes = recognizedTexts
+                                basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1) }
                                 //                                for (text, rect) in recognizedTexts {
                                 //                                    print("Text: \(text), Rect: \(rect)")
                                 //                                }

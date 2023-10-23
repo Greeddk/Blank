@@ -43,7 +43,7 @@ struct TestPageView: View {
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-        PinchZoomView(image: generatedImage, visionStart: $visionStart)
+        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]))
     }
     
     private var backBtn: some View {
