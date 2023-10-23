@@ -24,7 +24,7 @@ struct TextView: View {
             UITextViewRepresentable(text: $name, isFocused: $isFocused, height: $height, scale: $scale)
                 .frame(width: width, height: height)
         }
-        .border(isFocused ? Color.yellow : Color.green, width: 1.5)
+        .border(isFocused ? Color.yellow : Color.blue, width: 1.5)
     }
 }
 
@@ -39,9 +39,10 @@ struct UITextViewRepresentable: UIViewRepresentable {
     func makeUIView(context: UIViewRepresentableContext<UITextViewRepresentable>) -> UITextView {
         let textView = UITextView(frame: .zero)
         textView.delegate = context.coordinator
-        textView.font = UIFont(name: "Avenir", size: (height/fontSize) * scale)
+        textView.font = UIFont(name: "Avenir", size: (height/fontSize))
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textContainer.maximumNumberOfLines = 2
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: -10)
         return textView
     }
 
