@@ -32,6 +32,9 @@ struct OverView: View {
     @State private var generatedImage: UIImage?
     @State private var currentPageText: String = ""
     @State var titleName = "파일이름"
+    
+
+
 
     var body: some View {
         NavigationStack {
