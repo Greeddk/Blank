@@ -16,8 +16,10 @@ class OverViewModel: ObservableObject {
     @Published var isLoading = true
     @Published var currentProgress: Double = 0.0
     
+
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
+
     
     init(currentFile: File) {
         self.currentFile = currentFile
@@ -63,6 +65,8 @@ class OverViewModel: ObservableObject {
             
             page.draw(with: .mediaBox, to: ctx.cgContext)
         }
+        
+        
         return image
     }
     
