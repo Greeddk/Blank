@@ -45,7 +45,7 @@ struct WordSelectView: View {
         }
         .background(Color(.systemGray6))
         .onAppear {
-            debugPrint("WordSelectView's basicWords.", page)
+            // print("WordSelectView's basicWords.", page)
         }
 
     }
@@ -70,7 +70,7 @@ struct WordSelectView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)) {
+        NavigationLink(destination: OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page)) {
             Text("다음")
                 .fontWeight(.bold)
         }

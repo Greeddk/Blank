@@ -15,11 +15,20 @@ struct OCREditView: View {
     @State var visionStart: Bool = false
     @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
+    
+    /*
+     전단계 WordSelectView에서 단어를 선택하면
+     해당 단어 목록은 현재 Session 內 Words에 들어가야 할 것 같음
+     */
+    
+    // TODO: - 현재(또는 새로운) 세션 세팅하기
+    @State var page: Page
 
     var body: some View {
         NavigationStack {
             VStack {
                 ocrEditImage
+                
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -39,6 +48,9 @@ struct OCREditView: View {
             .navigationBarBackButtonHidden()
         }
         .background(Color(.systemGray6))
+        .onAppear {
+            print("OCREditView's basicWords.", page)
+        }
     }
     
     private var ocrEditImage: some View {
