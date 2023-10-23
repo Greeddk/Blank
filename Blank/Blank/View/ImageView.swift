@@ -60,18 +60,11 @@ struct ImageView: View {
                         // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
                         
                         ForEach(recognizedBoxes.indices, id: \.self) { index in
-                            let rect = recognizedBoxes[index]
-//                            Rectangle()
-//                                .path(in:
-//                                        adjustRect(box.1, in: proxy))
-//                                .stroke(Color.red, lineWidth: 1)
-                            let box = adjustRect(rect.1, in: proxy)
-                            @State var width = box.width
-                            @State var height = box.height
-                            @State var originX = box.origin.x
-                            @State var originY = box.origin.y
-                            TextView(height: $height, width: $width, scale: $zoomScale)
-                                .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))
+                            let box = recognizedBoxes[index]
+                            Rectangle()
+                                .path(in:
+                                        adjustRect(box.1, in: proxy))
+                                .stroke(Color.red, lineWidth: 1)
                         }
                         
                         
