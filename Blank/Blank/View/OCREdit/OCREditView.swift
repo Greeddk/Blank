@@ -47,6 +47,7 @@ struct OCREditView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
+        .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
         .onAppear {
             print("OCREditView's basicWords.", page)
@@ -55,7 +56,7 @@ struct OCREditView: View {
     
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
-        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]))
+        OCRPinchZoomView(image: generatedImage, basicWords: .constant([]))
     }
     
     private var backBtn: some View {
