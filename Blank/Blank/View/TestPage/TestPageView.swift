@@ -16,10 +16,11 @@ struct TestPageView: View {
     @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
     
+    @StateObject var scoringViewModel = ScoringViewModel()
     @StateObject var overViewModel: OverViewModel
-
-    @State var page: Page
-
+    
+    @Binding var page: Page
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -45,14 +46,26 @@ struct TestPageView: View {
         }
         .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
+        .onAppear {
+            // ⭐️⭐️⭐️⭐️⭐️⭐️ 세션의 Words를 scoringViewModel.words 에 대입
+            scoringViewModel.words = [
+                .init(id: .init(), sessionId: .init(), wordValue: "감귤", rect: .zero),
+                .init(id: .init(), sessionId: .init(), wordValue: "금귤", rect: .zero),
+                .init(id: .init(), sessionId: .init(), wordValue: "판다", rect: .zero),
+                .init(id: .init(), sessionId: .init(), wordValue: "기린", rect: .zero),
+            ]
+            scoringViewModel.currentWritingValues = ["감귤", "김귤", "판다", "가란"]
+            scoringViewModel.score()
+            
+        }
     }
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-
+        
         TestPagePinchZoomView(image: generatedImage, page: $page)
-//        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
-
+        //        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
+        
     }
     
     private var backBtn: some View {
@@ -75,13 +88,14 @@ struct TestPageView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel)) {
+        NavigationLink(destination:
+                        ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, scoringViewModel: scoringViewModel, overViewModel: overViewModel)) {
             Text("채점")
                 .fontWeight(.bold)
         }
-        .onTapGesture {
-            // TODO: 채점하기 로직
-        }
+                        .onTapGesture {
+                            // TODO: 채점하기 로직
+                        }
     }
 }
 
