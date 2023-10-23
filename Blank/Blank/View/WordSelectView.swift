@@ -14,7 +14,8 @@ struct WordSelectView: View {
     @State var visionStart: Bool = false
     @Binding var generatedImage: UIImage?
     
-    @State var basicWords: [BasicWord] = []
+    // @State var basicWords: [BasicWord] = []
+    @State var page: Page
     
     var body: some View {
         NavigationStack {
@@ -44,7 +45,7 @@ struct WordSelectView: View {
         }
         .background(Color(.systemGray6))
         .onAppear {
-            print("WordSelectView's basicWords.", basicWords.first as Any)
+            debugPrint("WordSelectView's basicWords.", page)
         }
 
     }
@@ -55,7 +56,7 @@ struct WordSelectView: View {
             // ForEach(basicWords, id: \.id) { basicWord in
             //     Text("\(basicWord.wordValue), \(basicWord.rect.debugDescription)")
             // }
-            PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: $basicWords)
+            PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: $page.basicWords)
         }
         
     }

@@ -13,7 +13,7 @@ struct OverView: View {
     @Environment(\.dismiss) private var dismiss
     
     //뷰모델
-    @ObservedObject var overViewModel: OverViewModel
+    @StateObject var overViewModel: OverViewModel
     
     //향후 오버뷰 페이지로 돌아오기 위한 flag
     @State var isLinkActive = false
@@ -41,6 +41,7 @@ struct OverView: View {
 
                 } else if !overViewModel.thumbnails.isEmpty {
                     //경섭추가코드
+                    
                     PinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords)
                     //경섭추가코드
                     bottomScrollView
@@ -81,7 +82,14 @@ struct OverView: View {
 
         .navigationDestination(isPresented: $isLinkActive) {
             if !goToTestPage {
-                WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, basicWords: overViewModel.basicWords)
+                // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
+                let page = Page(id: UUID(), 
+                                fileId: overViewModel.currentFile.id,
+                                currentPageNumber: overViewModel.currentPage,
+                                basicWords: overViewModel.basicWords,
+                                basicWordCGRects: []
+                )
+                WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page)
             } else {
                 TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage)
             }
