@@ -37,8 +37,10 @@ struct TestPagePinchZoomView: View {
 
     var body: some View {
         // ImageView를 불러와서 Gesture 적용
-        TestPageImageView(uiImage: image, zoomScale: $scale, page: $page)
-            .gesture(magnification)
+        ZoomableContainer {
+            TestPageImageView(uiImage: image, zoomScale: $scale, page: $page)
+        }
+//            .gesture(magnification)
     }
     // 변경값을 lastScale에 저장하여 다음 확대시 lastScale에서부터 시작
     func adjustScale(from state: MagnificationGesture.Value) {
