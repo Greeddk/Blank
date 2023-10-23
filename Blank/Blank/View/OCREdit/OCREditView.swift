@@ -86,11 +86,8 @@ struct OCREditView: View {
     
     private var nextBtn: some View {
 
-        NavigationLink(destination: TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: page)) {
+        NavigationLink(destination: TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: $page)) {
 
-            
-            
-                
             Text("시험보기")
                 .fontWeight(.bold)
         }
