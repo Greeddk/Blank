@@ -237,7 +237,7 @@ struct OverView: View {
         
         Button("시험준비") {
             visionStart = true
-            isLinkActive = true
+//            isLinkActive = true
         }
 
 //        Button {
