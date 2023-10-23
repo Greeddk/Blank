@@ -47,6 +47,8 @@
 		ACF338C42ADD0158004D20FC /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C32ADD0158004D20FC /* Session.swift */; };
 		ACF338C62ADD0172004D20FC /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C52ADD0172004D20FC /* Word.swift */; };
 		EB69FC7A2AE6B5AE00ADF7B6 /* OCRPinchZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB69FC792AE6B5AE00ADF7B6 /* OCRPinchZoomView.swift */; };
+		EB69FC7D2AE6C71F00ADF7B6 /* TestPageImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB69FC7C2AE6C71F00ADF7B6 /* TestPageImageView.swift */; };
+		EB69FC7F2AE6C77C00ADF7B6 /* TestPagePinchZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB69FC7E2AE6C77C00ADF7B6 /* TestPagePinchZoomView.swift */; };
 		EB8978ED2AE5644400494BE7 /* handWrite.mov in Resources */ = {isa = PBXBuildFile; fileRef = EB8978E82AE5644400494BE7 /* handWrite.mov */; };
 		EB8978EE2AE5644400494BE7 /* insert.mov in Resources */ = {isa = PBXBuildFile; fileRef = EB8978E92AE5644400494BE7 /* insert.mov */; };
 		EB8978EF2AE5644400494BE7 /* delete.mov in Resources */ = {isa = PBXBuildFile; fileRef = EB8978EA2AE5644400494BE7 /* delete.mov */; };
@@ -105,6 +107,8 @@
 		ACF338C32ADD0158004D20FC /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		ACF338C52ADD0172004D20FC /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		EB69FC792AE6B5AE00ADF7B6 /* OCRPinchZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRPinchZoomView.swift; sourceTree = "<group>"; };
+		EB69FC7C2AE6C71F00ADF7B6 /* TestPageImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPageImageView.swift; sourceTree = "<group>"; };
+		EB69FC7E2AE6C77C00ADF7B6 /* TestPagePinchZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPagePinchZoomView.swift; sourceTree = "<group>"; };
 		EB8978E82AE5644400494BE7 /* handWrite.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = handWrite.mov; sourceTree = "<group>"; };
 		EB8978E92AE5644400494BE7 /* insert.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = insert.mov; sourceTree = "<group>"; };
 		EB8978EA2AE5644400494BE7 /* delete.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = delete.mov; sourceTree = "<group>"; };
@@ -282,11 +286,21 @@
 				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
 				EBEB727D2AE548AB00316D66 /* OCREdit */,
-				42ED60D12ADE7F450043AF2F /* TestPageView.swift */,
+				EB69FC7B2AE6BF2200ADF7B6 /* TestPage */,
 				42ED60D32ADE7F570043AF2F /* ResultPageView.swift */,
 				42ED60D52ADE7F6C0043AF2F /* CorrectInfoView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		EB69FC7B2AE6BF2200ADF7B6 /* TestPage */ = {
+			isa = PBXGroup;
+			children = (
+				42ED60D12ADE7F450043AF2F /* TestPageView.swift */,
+				EB69FC7C2AE6C71F00ADF7B6 /* TestPageImageView.swift */,
+				EB69FC7E2AE6C77C00ADF7B6 /* TestPagePinchZoomView.swift */,
+			);
+			path = TestPage;
 			sourceTree = "<group>";
 		};
 		EBEB727D2AE548AB00316D66 /* OCREdit */ = {
@@ -398,6 +412,7 @@
 				ACF338C02ADD00DC004D20FC /* File.swift in Sources */,
 				4491DFAA2ADD1E2E00CA5B42 /* HomeViewModel.swift in Sources */,
 				42ED60C82ADE7EF50043AF2F /* OverView.swift in Sources */,
+				EB69FC7F2AE6C77C00ADF7B6 /* TestPagePinchZoomView.swift in Sources */,
 				ACF338C22ADD0136004D20FC /* Page.swift in Sources */,
 				44F30BE22AE579E200B67014 /* APICRUDView.swift in Sources */,
 				EB8978FB2AE6A0BC00494BE7 /* TextView.swift in Sources */,
@@ -417,6 +432,7 @@
 				ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */,
 				449CB1F02AE14A290086758A /* CGRect+.swift in Sources */,
 				4491DFF32ADD4EEB00CA5B42 /* PersistenceView.swift in Sources */,
+				EB69FC7D2AE6C71F00ADF7B6 /* TestPageImageView.swift in Sources */,
 				44A556742AE43774002AE4C3 /* Int+.swift in Sources */,
 				4491DFF92ADECF7F00CA5B42 /* UIImage+.swift in Sources */,
 				EBEB72622AE0BC8500316D66 /* ImageView.swift in Sources */,
