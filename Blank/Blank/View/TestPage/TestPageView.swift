@@ -40,6 +40,7 @@ struct TestPageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
+        .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
         .onAppear {
             // ⭐️⭐️⭐️⭐️⭐️⭐️ 세션의 Words를 scoringViewModel.words 에 대입
@@ -57,7 +58,7 @@ struct TestPageView: View {
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]))
+        TestPagePinchZoomView(image: generatedImage, basicWords: .constant([]))
     }
     
     private var backBtn: some View {
