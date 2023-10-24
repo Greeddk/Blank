@@ -17,10 +17,12 @@ struct TestPageView: View {
     @State private var hasTypeValueChanged = false
     
     @StateObject var overViewModel: OverViewModel
-
-    @State var page: Page
+    
+    // @State var page: Page
+    @Binding var page: Page
+    
     @StateObject var scoringViewModel = ScoringViewModel()
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -54,10 +56,8 @@ struct TestPageView: View {
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-
         TestPagePinchZoomView(image: generatedImage, page: $page, scoringViewModel: scoringViewModel)
 //        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
-
     }
     
     private var backBtn: some View {
@@ -80,7 +80,7 @@ struct TestPageView: View {
     }
     
     private var nextBtn: some View {
-        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: $page)) {
+        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, scoringViewModel: scoringViewModel, overViewModel: overViewModel, page: $page)) {
             Text("채점")
                 .fontWeight(.bold)
         }

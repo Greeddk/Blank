@@ -2,7 +2,7 @@
 //  ScoringViewModel.swift
 //  Blank
 //
-//  Created by 윤범태 on 2023/10/24.
+//  Created by 윤범태 on 2023/10/24.\
 //
 
 import Foundation

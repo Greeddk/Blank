@@ -41,8 +41,10 @@ struct OCRImageView: View {
                             TextView(name: word.wordValue, height: $height, width: $width, scale: $zoomScale, page: $page, orinX: $real, currentWordId: word.id, scoringViewModel: .init())
                                 .position(CGPoint(x: (originX + (width / 2)), y: (originY + (height / 2 ))))
                         }
+
                     }
-            }
+                }
+            
         }
     }
     

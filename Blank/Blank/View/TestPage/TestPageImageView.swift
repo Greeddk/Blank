@@ -44,7 +44,8 @@ struct TestPageImageView: View {
 //                                .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))
                         }
                     }
-            }
+                }
+            
         }
     }
     

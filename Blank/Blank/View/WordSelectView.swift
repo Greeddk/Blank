@@ -107,6 +107,7 @@ struct WordSelectView: View {
             for w in overViewModel.basicWords {
                 if w.isSelectedWord  {
                     page.sessions[0].words.append(Word(id: UUID(), sessionId: UUID(), wordValue: w.wordValue, rect: w.rect))
+                    print("\(w.wordValue)")
                 }
 
             }

@@ -6,9 +6,6 @@
 //  Created by 조용현 on 10/19/23.
 //
 
-
-
-
 import SwiftUI
 import Vision
 
@@ -30,111 +27,167 @@ struct ImageView: View {
     var body: some View {
         GeometryReader { proxy in
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
-            ScrollView([.horizontal, .vertical]) {
-                Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
-                    .resizable()
-                    .scaledToFit()
-                
-                // GeometryReader를 통해 화면크기에 맞게 이미지 사이즈 조정
-                
-                //                이미지가 없다면 , 현재 뷰의 너비(GeometryReader의 너비)를 사용하고
-                //                더 작은 값을 반환할건데
-                //                이미지 > GeometryReader 일 때 이미지는 GeometryReader의 크기에 맞게 축소.
-                //                반대로 GeometryReader > 이미지면  이미지의 원래 크기를 사용
-                    .frame(
+            Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
+                .resizable()
+                .scaledToFit()
+            
+            // GeometryReader를 통해 화면크기에 맞게 이미지 사이즈 조정
+            
+            //                이미지가 없다면 , 현재 뷰의 너비(GeometryReader의 너비)를 사용하고
+            //                더 작은 값을 반환할건데
+            //                이미지 > GeometryReader 일 때 이미지는 GeometryReader의 크기에 맞게 축소.
+            //                반대로 GeometryReader > 이미지면  이미지의 원래 크기를 사용
+                .frame(
+                    
+                    width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) * zoomScale,
+                    height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
+                )
+                .onChange(of: visionStart, perform: { newValue in
+                    if let image = uiImage {
+                        recognizeTextTwo(from: image) { recognizedTexts in
+                            self.recognizedBoxes = recognizedTexts
+                            basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
+                            //                                for (text, rect) in recognizedTexts {
+                            //                                    print("Text: \(text), Rect: \(rect)")
+                            //                                }
+                        }
+                    }
+                    
+                    //                        print("Recognized boxes: \(self.recognizedBoxes)")
+                    print("view name : \(self.viewName)")
+                })
+            
+            // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
+                .overlay {
+                    // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
+                    
+                    if viewName == "OverView" {
                         
-                        width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) * zoomScale,
-                        height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
-                    )
-                    .onChange(of: visionStart, perform: { newValue in
-                        if let image = uiImage {
-                            recognizeTextTwo(from: image) { recognizedTexts in
-                                self.recognizedBoxes = recognizedTexts
-                                basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
-                                //                                for (text, rect) in recognizedTexts {
-                                //                                    print("Text: \(text), Rect: \(rect)")
-                                //                                }
-                            }
-                            
-                            
+                        
+                        ForEach(recognizedBoxes.indices, id: \.self) { index in
+                            let box = recognizedBoxes[index]
+                            Rectangle()
+                                .path(in:
+                                        adjustRect(box.1, in: proxy))
+                                .stroke(Color.red, lineWidth: 1)
                         }
                         
-//                        print("Recognized boxes: \(self.recognizedBoxes)")
+                    }
                     
-                    })
-                
-                // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
-                    .overlay {
-                        // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
+                    if viewName == "WordSelectView" {
+                        //
+                        //                            ForEach(basicWords.indices, id: \.self) { index in
+                        //                                Rectangle()
+                        //                                    .path(in: adjustRect(basicWords[index].rect, in: proxy))
+                        //                                    .stroke(Color.green, lineWidth: 2)
+                        //                                    .onTapGesture {
+                        //                                        withAnimation {
+                        //                                            basicWords[index].isSelectedWord.toggle()
+                        //                                        }
+                        //                                    }
+                        //                            }
                         
-                        if viewName == "WordSelectView" {
+                        //                            ForEach(basicWords.indices, id: \.self) { index in
+                        //                                if basicWords[index].isSelectedWord  {
+                        //                                    Rectangle()
+                        //                                        .path(in: adjustRect(basicWords[index].rect, in: proxy))
+                        //                                        .stroke(Color.green, lineWidth: 2)
+                        //                                        .onTapGesture {
+                        //                                            withAnimation {
+                        //                                                basicWords[index].isSelectedWord.toggle()
+                        //                                            }
+                        //                                        }
+                        //                                } else {
+                        //                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
+                        //                                    Rectangle()
+                        //                                        .fill(Color.clear)
+                        //                                        .frame(width: adjustRect(basicWords[index].rect, in: proxy).width, height: adjustRect(basicWords[index].rect, in: proxy).height)
+                        //                                        .onTapGesture {
+                        //                                            withAnimation {
+                        //                                                basicWords[index].isSelectedWord.toggle()
+                        //                                            }
+                        //                                        }
+                        //                                }
+                        //                            }
+                        
+                        ForEach(overViewModel.basicWords.indices, id: \.self) { index in
                             
-                            ForEach(overViewModel.basicWords.indices, id: \.self) { index in
+                            
+                            if overViewModel.basicWords[index].isSelectedWord  {
                                 
-                               
-                                if overViewModel.basicWords[index].isSelectedWord  {
-                                    
-                                    Rectangle()
-                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
-                                        .fill(Color.blue.opacity(0.4))
-                                        .onTapGesture {
-                                            withAnimation {
-                                                overViewModel.basicWords[index].isSelectedWord.toggle()
-                                            }
+                                Rectangle()
+                                    .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+                                    .fill(Color.green.opacity(0.4))
+                                    .onTapGesture {
+                                        withAnimation {
+                                            print("3 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                            overViewModel.basicWords[index].isSelectedWord.toggle()
+                                            print("4 : \(overViewModel.basicWords[index].isSelectedWord)")
                                         }
-                                } else {
-                                    
-                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
-                                    Rectangle()
-                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
-                                        .fill(Color.black.opacity(0.01))
-                                        .onTapGesture {
-                                            withAnimation {
-                                                overViewModel.basicWords[index].isSelectedWord.toggle()
-                                            }
+                                    }
+                                
+                                //                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
+                                //                                    Rectangle()
+                                //                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+                                //                                        .fill(Color.black.opacity(0.01))
+                                //                                        .onTapGesture {
+                                //                                            withAnimation {
+                                //                                                print("1 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                //                                                overViewModel.basicWords[index].isSelectedWord.toggle()
+                                //                                                print("2 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                //                                            }
+                                //                                        }
+                                
+                            } else {
+                                
+                                // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
+                                Rectangle()
+                                    .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+                                    .fill(Color.black.opacity(0.01))
+                                    .onTapGesture {
+                                        withAnimation {
+                                            print("1 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                            overViewModel.basicWords[index].isSelectedWord.toggle()
+                                            print("2 : \(overViewModel.basicWords[index].isSelectedWord)")
                                         }
-                                    
-
-                                    
-                                }
+                                    }
+                                
+                                //                                    Rectangle()
+                                //                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+                                //                                        .fill(Color.green.opacity(0.4))
+                                //                                        .onTapGesture {
+                                //                                            withAnimation {
+                                //                                                print("3 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                //                                                overViewModel.basicWords[index].isSelectedWord.toggle()
+                                //                                                print("4 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                //                                            }
+                                //                                        }
+                                
                             }
-                            
-                            
-                            
-                            
-                            
-                            
-                            
                         }
                         
                         if viewName == "ResultPageView" {
                             
-//                            ForEach(overViewModel.basicWords.indices, id: \.self) { index in
-                                ForEach(page.sessions[0].words.indices, id: \.self) { idx in
-                                    if page.sessions[0].words[idx].isCorrect {
-                                        
-                                        Rectangle()
-                                            .path(in: adjustRect(page.sessions[0].words[idx].rect, in: proxy))
-                                            .fill(Color.green.opacity(0.4))
-                                    } else {
-                                        Rectangle()
-                                            .path(in: adjustRect(page.sessions[0].words[idx].rect, in: proxy))
-                                            .fill(Color.red.opacity(0.4))
-                                        
-                                    }
+                            //                            ForEach(overViewModel.basicWords.indices, id: \.self) { index in
+                            ForEach(page.sessions[0].words.indices, id: \.self) { idx in
+                                if page.sessions[0].words[idx].isCorrect {
+                                    
+                                    Rectangle()
+                                        .path(in: adjustRect(page.sessions[0].words[idx].rect, in: proxy))
+                                        .fill(Color.green.opacity(0.4))
+                                } else {
+                                    Rectangle()
+                                        .path(in: adjustRect(page.sessions[0].words[idx].rect, in: proxy))
+                                        .fill(Color.red.opacity(0.4))
                                     
                                 }
-                            
-                            
+                                
+                            }
                         }
                         
-
-                        
-                        
                     }
-                
-                
-            }
+                    
+                }
         }
     }
     
@@ -148,15 +201,15 @@ struct ImageView: View {
         
         // Image 뷰 너비와 UIImage 너비 사이의 비율
         let scaleY: CGFloat = geometry.size.height / imageSize.height
-//        let scaleX: CGFloat = geometry.size.width / imageSize.width
+        //        let scaleX: CGFloat = geometry.size.width / imageSize.width
         
-//        print("----------------")
-//        print("imageSize.width: \(imageSize.width) , imageSize.height: \(imageSize.height)" )
-//        print("geometry.size.width: \(geometry.size.width) , geometry.size.height: \(geometry.size.width)")
-//        print("scaleX: \(scaleX) , scaleY: \(scaleY) , scale: \(zoomScale)")
-//        print("rect.origin.x: \(rect.origin.x) , rect.origin.y: \(rect.origin.y)")
-//        print("rect.size.width: \(rect.size.width) , rect.size.height: \(rect.size.height)")
-//        print("----------------")
+        //        print("----------------")
+        //        print("imageSize.width: \(imageSize.width) , imageSize.height: \(imageSize.height)" )
+        //        print("geometry.size.width: \(geometry.size.width) , geometry.size.height: \(geometry.size.width)")
+        //        print("scaleX: \(scaleX) , scaleY: \(scaleY) , scale: \(zoomScale)")
+        //        print("rect.origin.x: \(rect.origin.x) , rect.origin.y: \(rect.origin.y)")
+        //        print("rect.size.width: \(rect.size.width) , rect.size.height: \(rect.size.height)")
+        //        print("----------------")
         
         
         return CGRect(
