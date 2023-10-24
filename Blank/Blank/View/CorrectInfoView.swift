@@ -16,7 +16,7 @@ struct CorrectInfoView: View {
             HStack {
                 // TODO: 정답률, 문제개수, 정답개수 받아오기
                 Spacer()
-                Text("정답률: \(scoringViewModel.correctRateTextValue)%")
+                Text("정답률: \(scoringViewModel.correctRateTextValue)")
                     .font(.system(size: 40))
                     .fontWeight(.bold)
                 Spacer()
