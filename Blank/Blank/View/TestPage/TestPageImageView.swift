@@ -19,7 +19,6 @@ struct TestPageImageView: View {
     var body: some View {
         GeometryReader { proxy in
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
-            ScrollView([.horizontal, .vertical]) {
                 Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
                     .resizable()
                     .scaledToFit()
@@ -44,7 +43,6 @@ struct TestPageImageView: View {
 //                                .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))
                         }
                     }
-                }
             
         }
     }
