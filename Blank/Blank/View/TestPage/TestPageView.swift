@@ -19,6 +19,7 @@ struct TestPageView: View {
     @StateObject var overViewModel: OverViewModel
 
     @State var page: Page
+    @StateObject var scoringViewModel = ScoringViewModel()
 
     var body: some View {
         NavigationStack {
@@ -45,12 +46,16 @@ struct TestPageView: View {
         }
         .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
+        .onAppear {
+            scoringViewModel.currentWritingWords = page.sessions[0].words.map { Word(id: $0.id, sessionId: $0.id, wordValue: "", rect: $0.rect) }
+            scoringViewModel.targetWords = page.sessions[0].words
+        }
     }
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
 
-        TestPagePinchZoomView(image: generatedImage, page: $page)
+        TestPagePinchZoomView(image: generatedImage, page: $page, scoringViewModel: scoringViewModel)
 //        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
 
     }
@@ -81,6 +86,8 @@ struct TestPageView: View {
         }
         .onTapGesture {
             // TODO: 채점하기 로직
+            scoringViewModel.score()
+            
         }
     }
 }

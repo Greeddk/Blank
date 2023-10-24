@@ -14,6 +14,7 @@ struct TestPageImageView: View {
     //경섭추가코드
     @Binding var zoomScale: CGFloat
     @Binding var page: Page
+    @StateObject var scoringViewModel: ScoringViewModel
     
     var body: some View {
         GeometryReader { proxy in
@@ -28,17 +29,16 @@ struct TestPageImageView: View {
                         height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
                     )
                     .overlay {
-                        ForEach(page.sessions[0].words, id: \.self) { wor in
-                            
-                            let box = adjustRect( wor.rect  , in: proxy)
+                        // ForEach(page.sessions[0].words, id: \.self) { word in
+                        ForEach(scoringViewModel.targetWords, id: \.self) { word in
+                            let box = adjustRect( word.rect, in: proxy)
                             @State var width = box.width
                             @State var height = box.height
                             @State var originX = box.origin.x
                             @State var originY = box.origin.y
-                            @State var real = wor.id
+                            @State var real = word.id
                             
-                            
-                            TextView(name: wor.wordValue , height: $height, width: $width, scale: $zoomScale, page: $page, orinX: $real)
+                            TextView(name: "", height: $height, width: $width, scale: $zoomScale, page: $page, orinX: $real, currentWordId: word.id, scoringViewModel: scoringViewModel)
                                 .position(CGPoint(x: originX + (width / 2), y: (originY + (height / 2 ))))
 //                            TextView(name: w.wordValue ,height: $height, width: $width, scale: $zoomScale, page: $page, originX: $real)
 //                                .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))

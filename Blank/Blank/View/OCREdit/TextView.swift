@@ -16,8 +16,9 @@ struct TextView: View {
     
     @Binding var page:Page
     @Binding var orinX: UUID
-
     
+    @State var currentWordId: UUID
+    @StateObject var scoringViewModel: ScoringViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -25,6 +26,10 @@ struct TextView: View {
                 .frame(width: width, height: height)
         }
         .border(isFocused ? Color.yellow : Color.blue, width: 1.5)
+        .onChange(of: name) { newValue in
+            scoringViewModel.changeTargetWordValue(id: currentWordId, newValue: newValue)
+            // print("newValue:", newValue, scoringViewModel.currentWritingWords)
+        }
     }
 }
 
