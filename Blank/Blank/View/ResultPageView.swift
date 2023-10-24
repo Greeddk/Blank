@@ -47,6 +47,9 @@ struct ResultPageView: View {
             .navigationBarBackButtonHidden()
         }
         .background(Color(.systemGray6))
+        .onAppear {
+            scoringViewModel.score()
+        }
     }
     
     private var bottomCorrectInfo: some View {

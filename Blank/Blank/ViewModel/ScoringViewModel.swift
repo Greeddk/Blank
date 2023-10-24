@@ -27,15 +27,19 @@ final class ScoringViewModel: ObservableObject {
     // }
     
     func score() {
+        print("[DEBUG]",  #function,currentWritingWords.count, targetWords.count)
         guard currentWritingWords.count == targetWords.count else {
-            print("currentWritingValues.count와 words.count가 같아야 채점할 수 있습니다.")
+            print("[DEBUG] currentWritingValues.count와 targetWords.count가 같아야 채점할 수 있습니다.")
             return
         }
         
-        currentWritingWords.enumerated().forEach { (index, currentWords) in
+        currentWritingWords.enumerated().forEach { (index, currentWord) in
+            print("[DEBUG]", #function, index, currentWord)
             // words[index].isCorrect = currentValue == words[index].wordValue
-            let targetWordIndex = targetWords.firstIndex(where: { $0.id == currentWords.id })!
-            targetWords[targetWordIndex].isCorrect = currentWords.wordValue == targetWords[targetWordIndex].wordValue
+            let targetWordIndex = targetWords.firstIndex(where: { $0.id == currentWord.id })!
+            print("[DEBUG]", currentWord.wordValue, targetWords[targetWordIndex].wordValue)
+            print("[DEBUG]", targetWords[targetWordIndex].isCorrect)
+            targetWords[targetWordIndex].isCorrect = currentWord.wordValue == targetWords[targetWordIndex].wordValue
         }
     }
     
@@ -48,8 +52,9 @@ final class ScoringViewModel: ObservableObject {
     }
     
     var correctCount: Int {
+        // print("[DEBUG] \(Date())", words)
         // words.reduce(0, { $0 + ($1.isCorrect ? 1 : 0) })
-        currentWritingWords.reduce(0, { $0 + ($1.isCorrect ? 1 : 0) })
+        return targetWords.reduce(0, { $0 + ($1.isCorrect ? 1 : 0) })
     }
     
     var totalWordCount: Int {

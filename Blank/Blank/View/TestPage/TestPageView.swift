@@ -86,8 +86,7 @@ struct TestPageView: View {
         }
         .onTapGesture {
             // TODO: 채점하기 로직
-            scoringViewModel.score()
-            
+            // => ResultPageView에 있음 (onTapGesture가 작동하지 않아서)
         }
     }
 }
