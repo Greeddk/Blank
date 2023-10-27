@@ -47,7 +47,8 @@ struct UITextViewRepresentable: UIViewRepresentable {
         textView.font = UIFont(name: "Avenir", size: (height/fontSize))
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textContainer.maximumNumberOfLines = 2
-        textView.textContainerInset = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: -10)
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.autocapitalizationType = .none
         return textView
     }
 
