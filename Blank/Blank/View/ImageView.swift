@@ -72,40 +72,6 @@ struct ImageView: View {
                         }
                         
                         if viewName == "WordSelectView" {
-                            //
-                            //                            ForEach(basicWords.indices, id: \.self) { index in
-                            //                                Rectangle()
-                            //                                    .path(in: adjustRect(basicWords[index].rect, in: proxy))
-                            //                                    .stroke(Color.green, lineWidth: 2)
-                            //                                    .onTapGesture {
-                            //                                        withAnimation {
-                            //                                            basicWords[index].isSelectedWord.toggle()
-                            //                                        }
-                            //                                    }
-                            //                            }
-                            
-                            //                            ForEach(basicWords.indices, id: \.self) { index in
-                            //                                if basicWords[index].isSelectedWord  {
-                            //                                    Rectangle()
-                            //                                        .path(in: adjustRect(basicWords[index].rect, in: proxy))
-                            //                                        .stroke(Color.green, lineWidth: 2)
-                            //                                        .onTapGesture {
-                            //                                            withAnimation {
-                            //                                                basicWords[index].isSelectedWord.toggle()
-                            //                                            }
-                            //                                        }
-                            //                                } else {
-                            //                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
-                            //                                    Rectangle()
-                            //                                        .fill(Color.clear)
-                            //                                        .frame(width: adjustRect(basicWords[index].rect, in: proxy).width, height: adjustRect(basicWords[index].rect, in: proxy).height)
-                            //                                        .onTapGesture {
-                            //                                            withAnimation {
-                            //                                                basicWords[index].isSelectedWord.toggle()
-                            //                                            }
-                            //                                        }
-                            //                                }
-                            //                            }
                             
                             ForEach(overViewModel.basicWords.indices, id: \.self) { index in
                                 
@@ -118,22 +84,11 @@ struct ImageView: View {
                                         .onTapGesture {
                                             withAnimation {
                                                 print("3 : \(overViewModel.basicWords[index].isSelectedWord)")
-                                                overViewModel.basicWords[index].isSelectedWord.toggle()
+                                                overViewModel.basicWords[index].isSelectedWord = false
                                                 print("4 : \(overViewModel.basicWords[index].isSelectedWord)")
                                             }
                                         }
                                     
-                                    //                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
-                                    //                                    Rectangle()
-                                    //                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
-                                    //                                        .fill(Color.black.opacity(0.01))
-                                    //                                        .onTapGesture {
-                                    //                                            withAnimation {
-                                    //                                                print("1 : \(overViewModel.basicWords[index].isSelectedWord)")
-                                    //                                                overViewModel.basicWords[index].isSelectedWord.toggle()
-                                    //                                                print("2 : \(overViewModel.basicWords[index].isSelectedWord)")
-                                    //                                            }
-                                    //                                        }
                                     
                                 } else {
                                     
@@ -144,7 +99,7 @@ struct ImageView: View {
                                         .onTapGesture {
                                             withAnimation {
                                                 print("1 : \(overViewModel.basicWords[index].isSelectedWord)")
-                                                overViewModel.basicWords[index].isSelectedWord.toggle()
+                                                overViewModel.basicWords[index].isSelectedWord = true
                                                 print("2 : \(overViewModel.basicWords[index].isSelectedWord)")
                                             }
                                         }

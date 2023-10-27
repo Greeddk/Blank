@@ -10,7 +10,7 @@ import SwiftUI
 struct TestPageImageView: View {
     
     var uiImage: UIImage?
-    @State private var recognizedBoxes: [(String, CGRect)] = []
+//    @State private var recognizedBoxes: [(String, CGRect)] = []
     //경섭추가코드
     @Binding var zoomScale: CGFloat
     @Binding var page: Page

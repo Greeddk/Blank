@@ -10,11 +10,11 @@ import SwiftUI
 struct OCRImageView: View {
     
     var uiImage: UIImage?
-    @State private var recognizedBoxes: [(String, CGRect)] = []
+//    @State private var recognizedBoxes: [(String, CGRect)] = []
     //경섭추가코드
     @Binding var zoomScale: CGFloat
     @Binding var page: Page
-    @StateObject var overViewModel: OverViewModel
+    @ObservedObject var overViewModel: OverViewModel
     
     var body: some View {
         GeometryReader { proxy in
