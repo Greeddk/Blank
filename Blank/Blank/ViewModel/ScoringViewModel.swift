@@ -64,8 +64,8 @@ final class ScoringViewModel: ObservableObject {
     var correctRate: Double {
         Double(correctCount) / Double(totalWordCount)
     }
-    
+
     var correctRateTextValue: String {
-        "\(correctRate * 100)%"
+        return String(format: "%.1f%%", correctRate * 100)
     }
 }
