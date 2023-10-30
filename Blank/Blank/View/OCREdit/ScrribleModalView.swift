@@ -48,10 +48,23 @@ struct ScrribleModalView: View {
                 Spacer()
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                closeBtn
+            }
+        }
+
+    }
+
+    private var closeBtn: some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "xmark.circle")
+        }
     }
 }
 
 #Preview {
     ScrribleModalView(selectedType: .constant(ScrribleType.write), hasTypeValueChanged: .constant(false))
 }
-

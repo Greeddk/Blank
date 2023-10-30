@@ -75,15 +75,17 @@ struct OCREditView: View {
     
     private var showModalBtn: some View {
         Button {
-            showingModal = true
+            showingModal.toggle()
         } label: {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
+            NavigationView {
+                ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
+            }
         }
     }
-    
+
     private var nextBtn: some View {
 
         NavigationLink(destination: TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: $page)) {
