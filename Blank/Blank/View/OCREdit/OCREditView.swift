@@ -79,12 +79,17 @@ struct OCREditView: View {
     
     private var showModalButton: some View {
         Button {
-            showingModal = true
+            showingModal.toggle()
         } label: {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
+            NavigationView {
+                    ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
+            }
+
+
+
         }
     }
     
@@ -92,6 +97,7 @@ struct OCREditView: View {
         Button {
             goToTestPage = true
         } label: {
+
             Text("시험보기")
                 .fontWeight(.bold)
         }
