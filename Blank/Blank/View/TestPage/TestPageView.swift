@@ -15,6 +15,7 @@ struct TestPageView: View {
     @State var visionStart: Bool = false
     @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
+    @State private var goToResultPage = false
     
     @StateObject var overViewModel: OverViewModel
     
@@ -31,12 +32,12 @@ struct TestPageView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    backBtn
+                    backButton
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {
-                        showModalBtn
-                        nextBtn
+                        showModalButton
+                        goToNextPageButton
                     }
                 }
             }
@@ -45,6 +46,9 @@ struct TestPageView: View {
             .navigationTitle("시험")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
+        }
+        .navigationDestination(isPresented: $goToResultPage) {
+            ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, scoringViewModel: scoringViewModel, overViewModel: overViewModel, page: $page)
         }
         .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
@@ -60,7 +64,7 @@ struct TestPageView: View {
 //        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
     }
     
-    private var backBtn: some View {
+    private var backButton: some View {
         Button {
             dismiss()
         } label: {
@@ -68,7 +72,7 @@ struct TestPageView: View {
         }
     }
     
-    private var showModalBtn: some View {
+    private var showModalButton: some View {
         Button {
             showingModal = true
         } label: {
@@ -79,15 +83,14 @@ struct TestPageView: View {
         }
     }
     
-    private var nextBtn: some View {
-        NavigationLink(destination: ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, scoringViewModel: scoringViewModel, overViewModel: overViewModel, page: $page)) {
+    private var goToNextPageButton: some View {
+        Button {
+            goToResultPage = true
+        } label: {
             Text("채점")
                 .fontWeight(.bold)
         }
-        .onTapGesture {
-            // TODO: 채점하기 로직
-            // => ResultPageView에 있음 (onTapGesture가 작동하지 않아서)
-        }
+        .buttonStyle(.borderedProminent)
     }
 }
 

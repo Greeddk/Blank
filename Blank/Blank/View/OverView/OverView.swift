@@ -40,15 +40,8 @@ struct OverView: View {
                     progressStatus
                     
                 } else if !overViewModel.thumbnails.isEmpty {
-                    //경섭추가코드
-                    
                     OverViewPinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords, overViewModel: overViewModel)
-                    //경섭추가코드
                     bottomScrollView
-                    
-                    // 하단 빈공간 코드
-                    //                    Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
-                    
                 }
             }
             .background(Color(.systemGray4))
@@ -61,15 +54,15 @@ struct OverView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    leftBtns
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    testBtn
+                    leftButtons
                 }
                 
                 ToolbarItem(placement: .principal) {
-                    centerBtn
+                    centerButton
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    goToNextPageButton
                 }
             }
             .toolbarBackground(.white, for: .navigationBar)
@@ -148,7 +141,7 @@ struct OverView: View {
     
     
     
-    private var centerBtn: some View {
+    private var centerButton: some View {
         Button {
             showPopover = true
         } label: {
@@ -167,8 +160,6 @@ struct OverView: View {
     private var popoverContent: some View {
         VStack {
             Form {
-                // TODO: 파일 이름 변경가능?
-                //                TextField("\(overViewModel.currentFile.fileName)", text: $overViewModel.currentFile.fileName)
                 Text("\(overViewModel.currentFile.fileName)")
                 HStack {
                     Text("페이지 : ")
@@ -189,7 +180,7 @@ struct OverView: View {
         }
     }
     
-    private var leftBtns: some View {
+    private var leftButtons: some View {
         HStack {
             Button {
                 dismiss()
@@ -227,53 +218,41 @@ struct OverView: View {
         }
     }
     
-    private var testBtn: some View {
+    private var goToNextPageButton: some View {
         
-        Button("시험준비") {
-            visionStart = true
+        Button {
+            // TODO: 해당 페이지 이미지 파일로 넘겨주기, layer 분리, 이미지 받아서 텍스트로 변환, 2회차 이상일때 내용수정 Alert 만들기
             isLinkActive = true
-            
+            visionStart = true
+            // TODO: 2회차 이상일때 alert 띄울 로직
+            //            showingAlert = true
+        } label: {
+            Text("시험준비")
+                .fontWeight(.bold)
         }
+        .alert("내용수정" ,isPresented: $showingAlert) {
+            Button("시험보기") {
+                goToTestPage = true
+            }
+            Button("수정하기") {
+
+            }
+            Button("취소", role: .cancel) {
+
+
+            }
+        } message: {
+            Text("""
+                 기존에 시험을 본 내용이 있습니다.
+                 바로 시험을 보시겠습니까?
+                 수정하시겠습니까?
+                 """)
+        }
+        .buttonStyle(.borderedProminent)
         
-        //        Button {
-        //            // TODO: 해당 페이지 이미지 파일로 넘겨주기, layer 분리, 이미지 받아서 텍스트로 변환, 2회차 이상일때 내용수정 Alert 만들기
-        //            isLinkActive = true
-        //            // TODO: 2회차 이상일때 alert 띄울 로직
-        //            //            showingAlert = true
-        //        } label: {
-        //            Text("시험준비")
-        //                .fontWeight(.bold)
-        //        }
-        //        .alert("내용수정" ,isPresented: $showingAlert) {
-        //            Button("시험보기") {
-        //                goToTestPage = true
-        //            }
-        //            Button("수정하기") {
-        //
-        //            }
-        //            Button("취소", role: .cancel) {
-        //
-        //
-        //            }
-        //        } message: {
-        //            Text("""
-        //                 기존에 시험을 본 내용이 있습니다.
-        //                 바로 시험을 보시겠습니까?
-        //                 수정하시겠습니까?
-        //                 """)
-        //        }
     }
     
 }
-
-
-
-
-
-
-
-
-
 
 
 //#Preview {

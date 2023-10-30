@@ -227,6 +227,7 @@
 				42ED60C72ADE7EF50043AF2F /* OverView.swift */,
 				AC2851792AE7292500C70F4F /* OverVIewImageView.swift */,
 				AC28517B2AE7294300C70F4F /* OverViewPinchZoomView.swift */,
+				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 			);
 			path = OverView;
 			sourceTree = "<group>";
@@ -306,7 +307,6 @@
 				EBEB72612AE0BC8500316D66 /* ImageView.swift */,
 				EBEB72632AE0BCA800316D66 /* PinchZoomView.swift */,
 				AC2851782AE7291100C70F4F /* OverView */,
-				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
 				EBEB727D2AE548AB00316D66 /* OCREdit */,
 				EB69FC7B2AE6BF2200ADF7B6 /* TestPage */,
