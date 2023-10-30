@@ -17,9 +17,11 @@ struct WordSelectView: View {
     
     @State var goToOCRView = false
     // @State var basicWords: [BasicWord] = []
-    @State var page: Page
     
-    @StateObject var overViewModel: OverViewModel
+    
+    // @State var page: Page
+    // @StateObject var overViewModel: OverViewModel
+    @StateObject var wordSelectViewModel: WordSelectViewModel
     
     var body: some View {
         NavigationStack {
@@ -50,7 +52,7 @@ struct WordSelectView: View {
         }
         .background(Color(.systemGray6))
         .navigationDestination(isPresented: $goToOCRView) {
-            OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: $page)
+            // OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: .constant(.init))
         }
         .popup(isPresented: $showingAlert) {
             HStack {
@@ -86,7 +88,7 @@ struct WordSelectView: View {
     private var wordSelectImage: some View {
         // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제, 비전 스타트가 여기에 필요한지..?
         VStack {
-            PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: $page.basicWords, viewName: "WordSelectView", overViewModel: overViewModel,page: $page)
+            PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: $wordSelectViewModel.basicWords, resultWords: .constant([]), viewName: "WordSelectView")
         }
         
     }
@@ -103,10 +105,10 @@ struct WordSelectView: View {
         Button {
             // TODO: 선택된 단어를 배열로 저장
             var words: [Word] = []
-            for w in overViewModel.basicWords.filter({ $0.isSelectedWord }) {
-                words.append(Word(id: UUID(), sessionId: page.sessions[0].id, wordValue: w.wordValue, rect: w.rect))
+            for w in wordSelectViewModel.basicWords.filter({ $0.isSelectedWord }) {
+                words.append(Word(id: UUID(), sessionId: wordSelectViewModel.session.id, wordValue: w.wordValue, rect: w.rect))
             }
-            page.sessions[0].words = words
+            wordSelectViewModel.selectedWords = words
             goToOCRView = true
         } label: {
             Text("다음")

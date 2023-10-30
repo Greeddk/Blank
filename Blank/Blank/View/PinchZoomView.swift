@@ -17,14 +17,16 @@ struct PinchZoomView: View {
     var image: UIImage?
     @Binding var visionStart:Bool
     @Binding var basicWords: [BasicWord]
+    @Binding var resultWords: [Word]
     var viewName: String?
     
-    @StateObject var overViewModel: OverViewModel
     
-    @Binding var page:Page
+    // @StateObject var overViewModel: OverViewModel
+    // @Binding var page:Page
     
     //
-    @StateObject var scoringViewModel = ScoringViewModel()
+    // @StateObject var wordSelectViewModel: WordSelectViewModel
+    // @StateObject var scoringViewModel = ScoringViewModel()
     
     //
     @State private var scale: CGFloat = 1.0
@@ -51,7 +53,7 @@ struct PinchZoomView: View {
     var body: some View {
         // ImageView를 불러와서 Gesture 적용
 //        ZoomableContainer {
-        ImageView(uiImage: image, visionStart: $visionStart, overViewModel: overViewModel, scoringViewModel: scoringViewModel, zoomScale: $scale, viewName: self.viewName, basicWords: $basicWords, page: $page )
+        ImageView(uiImage: image, visionStart: $visionStart, zoomScale: $scale, viewName: self.viewName, basicWords: $basicWords, targetWords: $resultWords)
                 .gesture(magnification)
 //        }
     }

@@ -8,5 +8,15 @@
 import Foundation
 
 class WordSelectViewModel: ObservableObject {
-    @Published var basicWordRects: [BasicWord] = []
+    @Published var basicWords: [BasicWord] = []
+    @Published var selectedWords: [Word] = []
+    @Published var page: Page
+    @Published var session: Session
+    
+    init(page: Page, basicWords: [BasicWord] = []) {
+        self.page = page
+        self.basicWords = basicWords
+        // 새로운 세션
+        self.session = .init(id: UUID(), pageId: page.id)
+    }
 }

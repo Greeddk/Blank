@@ -77,7 +77,8 @@ struct OverView: View {
             if !goToTestPage {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
                 let page = overViewModel.createNewPageAndSession()
-                WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page, overViewModel: overViewModel)
+                let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
+                WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
             } else {
                 // 나중에 조건 수정
                 //                let page = overViewModel.createNewPageAndSession()

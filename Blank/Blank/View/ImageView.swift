@@ -14,15 +14,17 @@ struct ImageView: View {
     @Binding var visionStart:Bool
     @State private var recognizedBoxes: [(String, CGRect)] = []
     
-    @StateObject var overViewModel: OverViewModel
-    @StateObject var scoringViewModel: ScoringViewModel
+    // @StateObject var overViewModel: OverViewModel
+    // @StateObject var scoringViewModel: ScoringViewModel
     //경섭추가코드
     @Binding var zoomScale: CGFloat
     var viewName: String?
     
+    // 다른 뷰에서도 사용할 수 있기 때문에 뷰모델로 전달하지 않고 개별 배열로 전달해봄
     @Binding var basicWords: [BasicWord]
+    @Binding var targetWords: [Word]
     
-    @Binding var page:Page
+    // @Binding var page:Page
     
     var body: some View {
         GeometryReader { proxy in
@@ -73,19 +75,19 @@ struct ImageView: View {
                         
                         if viewName == "WordSelectView" {
                             
-                            ForEach(overViewModel.basicWords.indices, id: \.self) { index in
+                            ForEach(basicWords.indices, id: \.self) { index in
                                 
                                 
-                                if overViewModel.basicWords[index].isSelectedWord  {
+                                if basicWords[index].isSelectedWord  {
                                     
                                     Rectangle()
-                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+                                        .path(in: adjustRect(basicWords[index].rect, in: proxy))
                                         .fill(Color.green.opacity(0.4))
                                         .onTapGesture {
                                             withAnimation {
-                                                print("3 : \(overViewModel.basicWords[index].isSelectedWord)")
-                                                overViewModel.basicWords[index].isSelectedWord = false
-                                                print("4 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                                print("3 : \(basicWords[index].isSelectedWord)")
+                                                basicWords[index].isSelectedWord = false
+                                                print("4 : \(basicWords[index].isSelectedWord)")
                                             }
                                         }
                                     
@@ -94,13 +96,13 @@ struct ImageView: View {
                                     
                                     // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
                                     Rectangle()
-                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
+                                        .path(in: adjustRect(basicWords[index].rect, in: proxy))
                                         .fill(Color.black.opacity(0.01))
                                         .onTapGesture {
                                             withAnimation {
-                                                print("1 : \(overViewModel.basicWords[index].isSelectedWord)")
-                                                overViewModel.basicWords[index].isSelectedWord = true
-                                                print("2 : \(overViewModel.basicWords[index].isSelectedWord)")
+                                                print("1 : \(basicWords[index].isSelectedWord)")
+                                                basicWords[index].isSelectedWord = true
+                                                print("2 : \(basicWords[index].isSelectedWord)")
                                             }
                                         }
                                     
@@ -121,8 +123,8 @@ struct ImageView: View {
                         }
                         
                         if viewName == "ResultPageView" {
-                            ForEach(scoringViewModel.targetWords, id: \.id) { word in
-                                let _ = print("343irhfifskd", word.wordValue, word.rect, word.isCorrect)
+                            ForEach(targetWords, id: \.id) { word in
+                                // let _ = print("343irhfifskd", word.wordValue, word.rect, word.isCorrect)
                                 Rectangle()
                                     .path(in: adjustRect(word.rect, in: proxy))
                                     .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
