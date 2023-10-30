@@ -106,6 +106,7 @@ struct OverView: View {
             Spacer().frame(height: 10)
             ScrollViewReader { proxy in
                 LazyHStack(spacing: 10) {
+                    Spacer()
                     ForEach(overViewModel.thumbnails.indices, id: \.self) { index in
                         VStack {
                             Image(uiImage: overViewModel.thumbnails[index])
@@ -121,6 +122,7 @@ struct OverView: View {
                             overViewModel.currentPage = index + 1
                         }
                     }
+                    Spacer()
                 }
                 .onChange(of: overViewModel.currentPage, perform: { value in
                     withAnimation {
