@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
@@ -26,13 +27,13 @@ struct WordSelectView: View {
                 wordSelectImage
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
             }
-            .alert("단어를 터치해 주세요" ,isPresented: $showingAlert) {
-                Button("확인", role: .cancel) {
-                    
-                }
-            } message: {
-                Text("시험을 보고싶은 단어를 터치해주세요")
-            }
+            // .alert("단어를 터치해 주세요" ,isPresented: $showingAlert) {
+            //     Button("확인", role: .cancel) {
+            //         
+            //     }
+            // } message: {
+            //     Text("시험을 보고싶은 단어를 터치해주세요")
+            // }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     backButton
@@ -51,7 +52,35 @@ struct WordSelectView: View {
         .navigationDestination(isPresented: $goToOCRView) {
             OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: $page)
         }
-        
+        .popup(isPresented: $showingAlert) {
+            HStack {
+                Image(systemName: "hand.tap.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100)
+                    .foregroundStyle(.white)
+                    .padding()
+                VStack {
+                    Text("단어를 터치해 주세요.")
+                        .font(.largeTitle)
+                        .foregroundStyle(.white)
+                    Text("시험을 보고싶은 단어를 터치해주세요")
+                        .foregroundStyle(.white)
+                }
+                .padding()
+            }
+            .background(.black.opacity(0.8))
+            .clipShape(.rect(cornerRadius: 10))
+            .padding()
+            .offset(x: 0, y: 100)
+        } customize: {
+            $0
+                .position(.top)
+                .autohideIn(3.0)
+                .closeOnTap(false) // 팝업을 터치했을 때 없애야 하나?
+                .closeOnTapOutside(false)
+                .animation(.smooth)
+        }
     }
     
     private var wordSelectImage: some View {
