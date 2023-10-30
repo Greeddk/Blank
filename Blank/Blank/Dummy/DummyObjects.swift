@@ -13,6 +13,5 @@ let DUMMY_FILE: File = .init(
     id: .init(),
     fileURL: Bundle.main.url(forResource: "sample", withExtension: "pdf")!,
     fileName: "정보처리기사 실기", 
-    totalPageCount: 1200,
-    pages: []
+    totalPageCount: 1200
 )

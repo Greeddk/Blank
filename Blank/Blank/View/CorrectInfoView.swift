@@ -34,5 +34,5 @@ struct CorrectInfoView: View {
 }
 
 #Preview {
-    CorrectInfoView(scoringViewModel: .init())
+    CorrectInfoView(scoringViewModel: .init(page: .init(id: .init(), fileId: .init(), currentPageNumber: 0, basicWordCGRects: [])))
 }

@@ -59,8 +59,7 @@ class HomeViewModel: ObservableObject {
                 File(id: UUID(),
                      fileURL: url,
                      fileName: url.lastPathComponent,
-                     totalPageCount: pageCount(of: url) ?? 0,
-                     pages: []
+                     totalPageCount: pageCount(of: url) ?? 0
                 )
             }
             

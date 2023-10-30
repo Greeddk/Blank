@@ -19,4 +19,8 @@ class WordSelectViewModel: ObservableObject {
         // 새로운 세션
         self.session = .init(id: UUID(), pageId: page.id)
     }
+    
+    var writingWords: [Word] {
+        selectedWords.map { .init(id: $0.id, sessionId: $0.sessionId, wordValue: "", rect: $0.rect) }
+    }
 }

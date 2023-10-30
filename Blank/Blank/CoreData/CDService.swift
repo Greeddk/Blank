@@ -133,15 +133,15 @@ class CDService: IsCDService {
         fileEntity.fileURL = file.fileURL
         fileEntity.totalPageCount = file.totalPageCount.int16
         
-        for page in file.pages {
-            let pageEntity = PageEntity(context: viewContext)
-            pageEntity.id = page.id
-            pageEntity.currentPageNumber = page.currentPageNumber.int16
-            pageEntity.fileId = file.id
-            pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
-            
-            fileEntity.addToPages(pageEntity)
-        }
+        // for page in file.pages {
+        //     let pageEntity = PageEntity(context: viewContext)
+        //     pageEntity.id = page.id
+        //     pageEntity.currentPageNumber = page.currentPageNumber.int16
+        //     pageEntity.fileId = file.id
+        //     pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
+        //     
+        //     fileEntity.addToPages(pageEntity)
+        // }
         
         try viewContext.save()
     }
@@ -184,8 +184,7 @@ class CDService: IsCDService {
                     id: id,
                     fileURL: fileURL,
                     fileName: fileName,
-                    totalPageCount: Int(fileEntity.totalPageCount),
-                    pages: []
+                    totalPageCount: Int(fileEntity.totalPageCount)
                 )
             } else {
                 return nil
@@ -216,8 +215,7 @@ class CDService: IsCDService {
             id: id,
             fileURL: fileURL,
             fileName: fileName,
-            totalPageCount: Int(fileEntity.totalPageCount),
-            pages: []
+            totalPageCount: Int(fileEntity.totalPageCount)
         )
     }
     
@@ -242,8 +240,7 @@ class CDService: IsCDService {
             id: id,
             fileURL: fileURL,
             fileName: fileName,
-            totalPageCount: Int(fileEntity.totalPageCount),
-            pages: []
+            totalPageCount: Int(fileEntity.totalPageCount)
         )
     }
     
@@ -432,8 +429,7 @@ class CDService: IsCDService {
             id: id,
             fileURL: fileURL,
             fileName: fileName,
-            totalPageCount: Int(fileEntity.totalPageCount),
-            pages: []
+            totalPageCount: Int(fileEntity.totalPageCount)
         )
     }
     

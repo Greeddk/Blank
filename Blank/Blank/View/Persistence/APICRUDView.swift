@@ -42,7 +42,7 @@ struct APICRUDView: View {
                 id: fileUUID,
                 fileURL: Bundle.main.url(forResource: "sample", withExtension: "pdf")!,
                 fileName: "\(fileUUID).pdf",
-                totalPageCount: 500, pages: [])
+                totalPageCount: 500)
             do {
                 // File
                 try CDService.shared.createFile(from: file)
@@ -53,13 +53,13 @@ struct APICRUDView: View {
                     id: fileUUID,
                     fileURL: Bundle.main.url(forResource: "sample", withExtension: "pdf")!,
                     fileName: "dkdkdkdk.pdf",
-                    totalPageCount: 500, pages: []))
+                    totalPageCount: 500))
                 
                 try CDService.shared.deleteFile(.init(
                     id: fileUUID,
                     fileURL: Bundle.main.url(forResource: "sample", withExtension: "pdf")!,
                     fileName: "dkdkdkdk.pdf",
-                    totalPageCount: 500, pages: []))
+                    totalPageCount: 500))
                 
                 // Page
                 let page2Id = UUID()

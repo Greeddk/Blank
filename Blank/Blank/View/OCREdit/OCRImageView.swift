@@ -13,8 +13,8 @@ struct OCRImageView: View {
 //    @State private var recognizedBoxes: [(String, CGRect)] = []
     //경섭추가코드
     @Binding var zoomScale: CGFloat
-    @Binding var page: Page
-    @ObservedObject var overViewModel: OverViewModel
+    // @Binding var page: Page
+    @Binding var words: [Word]
     
     var body: some View {
         GeometryReader { proxy in
@@ -28,16 +28,15 @@ struct OCRImageView: View {
                         height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
                     )
                     .overlay {
-                        
-                        ForEach(page.sessions[0].words, id: \.self) { word in
-                            let box = adjustRect(word.rect, in: proxy)
+                        ForEach(words.indices, id: \.self) { index in
+                            let box = adjustRect(words[index].rect, in: proxy)
                             @State var width = box.width
                             @State var height = box.height
                             @State var originX = box.origin.x
                             @State var originY = box.origin.y
-                            @State var real = word.id
+                            @State var real = words[index].id
                             
-                            TextView(name: word.wordValue, height: $height, width: $width, scale: $zoomScale, page: $page, orinX: $real, currentWordId: word.id, scoringViewModel: .init())
+                            TextView(name: $words[index].wordValue, height: $height, width: $width, scale: $zoomScale, orinX: $real)
                                 .position(CGPoint(x: (originX + (width / 2)), y: (originY + (height / 2 ))))
                         }
 

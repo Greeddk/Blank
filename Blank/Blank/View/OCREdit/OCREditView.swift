@@ -17,7 +17,8 @@ struct OCREditView: View {
     @State private var hasTypeValueChanged = false
     @State private var goToTestPage = false
     
-    @StateObject var overViewModel: OverViewModel
+    // @StateObject var overViewModel: OverViewModel
+    @StateObject var wordSelectViewModel: WordSelectViewModel
     
     /*
      전단계 WordSelectView에서 단어를 선택하면
@@ -25,8 +26,8 @@ struct OCREditView: View {
      */
     
     // TODO: - 현재(또는 새로운) 세션 세팅하기
-    @Binding var page: Page
-
+    // @Binding var page: Page
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -52,21 +53,26 @@ struct OCREditView: View {
             .navigationBarBackButtonHidden()
         }
         .navigationDestination(isPresented: $goToTestPage) {
-            TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: $page)
+            TestPageView(
+                isLinkActive: $isLinkActive,
+                generatedImage: $generatedImage,
+                scoringViewModel: .init(
+                    page: wordSelectViewModel.page,
+                    currentWritingWords: wordSelectViewModel.writingWords,
+                    targetWords: wordSelectViewModel.selectedWords
+                )
+            )
         }
         .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
-        .onAppear {
-            print("OCREditView's basicWords.", page)
-        }
     }
     
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
-
-        OCRPinchZoomView(image: generatedImage, page: $page,overViewModel: overViewModel)
-//        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
-
+        
+        OCRPinchZoomView(image: generatedImage, words: $wordSelectViewModel.selectedWords)
+        //        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
+        
     }
     
     private var backButton: some View {
@@ -85,11 +91,11 @@ struct OCREditView: View {
         }
         .sheet(isPresented: $showingModal) {
             NavigationView {
-                    ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
+                ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
             }
-
-
-
+            
+            
+            
         }
     }
     
@@ -97,7 +103,7 @@ struct OCREditView: View {
         Button {
             goToTestPage = true
         } label: {
-
+            
             Text("시험보기")
                 .fontWeight(.bold)
         }

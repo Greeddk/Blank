@@ -2,7 +2,7 @@
 //  ScoringViewModel.swift
 //  Blank
 //
-//  Created by 윤범태 on 2023/10/24.\
+//  Created by 윤범태 on 2023/10/24.
 //
 
 import Foundation
@@ -18,13 +18,17 @@ final class ScoringViewModel: ObservableObject {
      == 반드시 == initCurrentWritingValues을 words.count와 동일하게 설정해야 합니다.
      */
     
-    // @Published var currentWritingValues: [String] = []
+    @Published var page: Page
+    /// 현재 풀고있는 단어들
     @Published var currentWritingWords: [Word] = []
+    /// 정답 단어들
     @Published var targetWords: [Word] = []
     
-    // func initCurrentWritingValues(count: Int) {
-    //     currentWritingValues = .init(repeating: "", count: count)
-    // }
+    init(page: Page, currentWritingWords: [Word] = [], targetWords: [Word] = []) {
+        self.page = page
+        self.currentWritingWords = currentWritingWords
+        self.targetWords = targetWords
+    }
     
     func score() {
         print("[DEBUG]",  #function,currentWritingWords.count, targetWords.count)
@@ -43,6 +47,7 @@ final class ScoringViewModel: ObservableObject {
         }
     }
     
+    /// 워드의 ID를 찾아 해당 워드값을 새값으로 바꿈
     func changeTargetWordValue(id: UUID, newValue: String) {
         guard let index = currentWritingWords.firstIndex(where: { $0.id == id }) else {
             return

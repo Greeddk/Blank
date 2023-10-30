@@ -15,10 +15,9 @@ struct ResultPageView: View {
     @State var visionStart: Bool = false
     
     @StateObject var scoringViewModel: ScoringViewModel
-    @StateObject var overViewModel: OverViewModel
     
-    @Binding var page:Page
-    
+    // @StateObject var overViewModel: OverViewModel
+    // @Binding var page:Page
     
     var body: some View {
         NavigationStack {
@@ -49,6 +48,7 @@ struct ResultPageView: View {
         .background(Color(.systemGray6))
         .onAppear {
             scoringViewModel.score()
+            
         }
     }
     

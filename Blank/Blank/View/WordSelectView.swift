@@ -52,7 +52,8 @@ struct WordSelectView: View {
         }
         .background(Color(.systemGray6))
         .navigationDestination(isPresented: $goToOCRView) {
-            // OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: .constant(.init))
+            OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+
         }
         .popup(isPresented: $showingAlert) {
             HStack {

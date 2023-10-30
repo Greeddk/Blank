@@ -17,5 +17,6 @@ struct File: Codable, Equatable, Hashable {
     var fileName: String
     /// PDF 문서의 총 페이지를 표시하기 위한 변수
     var totalPageCount: Int
-    var pages: [Page]
+    // var pages: [Page]
+    var solvedPageCount: Int = 0
 }
