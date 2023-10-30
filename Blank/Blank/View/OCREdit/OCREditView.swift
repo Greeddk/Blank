@@ -15,6 +15,7 @@ struct OCREditView: View {
     @State var visionStart: Bool = false
     @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
+    @State private var goToTestPage = false
     
     @StateObject var overViewModel: OverViewModel
     
@@ -35,12 +36,12 @@ struct OCREditView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    backBtn
+                    backButton
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {
-                        showModalBtn
-                        nextBtn
+                        showModalButton
+                        goToNextPageButton
                     }
                 }
             }
@@ -49,6 +50,9 @@ struct OCREditView: View {
             .navigationTitle("오타수정")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
+        }
+        .navigationDestination(isPresented: $goToTestPage) {
+            TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: $page)
         }
         .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
@@ -65,7 +69,7 @@ struct OCREditView: View {
 
     }
     
-    private var backBtn: some View {
+    private var backButton: some View {
         Button {
             dismiss()
         } label: {
@@ -73,7 +77,7 @@ struct OCREditView: View {
         }
     }
     
-    private var showModalBtn: some View {
+    private var showModalButton: some View {
         Button {
             showingModal.toggle()
         } label: {
@@ -88,23 +92,16 @@ struct OCREditView: View {
 
         }
     }
-
-    private var nextBtn: some View {
-
-        NavigationLink(destination: TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, overViewModel: overViewModel, page: $page)) {
+    
+    private var goToNextPageButton: some View {
+        Button {
+            goToTestPage = true
+        } label: {
 
             Text("시험보기")
                 .fontWeight(.bold)
         }
-        .simultaneousGesture(TapGesture().onEnded{
-            print("\(page.sessions[0].words)")
-            print("시험보기 온탭이 먹힘")
-        })
-        .onTapGesture {
-            // TODO: 고친 Text값 저장 및 테스트 페이지에 빈칸화 작업
-//            print("\(page.sessions[0].words)")
-//            print("시험보기 온탭이 먹힘")
-        }
+        .buttonStyle(.borderedProminent)
     }
 }
 

@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		42034C4A2AEB7AF70052CCEC /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42034C492AEB7AF70052CCEC /* ZoomableContainer.swift */; };
-		42180F862AE7381E00CEBC8B /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42180F852AE7381E00CEBC8B /* ZoomableContainer.swift */; };
+		425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */; };
 		42CDE1A72AE78AAB0033295E /* elementarySchoolEnglishWord.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 42CDE1A62AE78AAB0033295E /* elementarySchoolEnglishWord.pdf */; };
 		42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E763892AE1229700624D81 /* OverViewModel.swift */; };
 		42E7638E2AE1234A00624D81 /* samplepdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 42E7638D2AE1234A00624D81 /* samplepdf.pdf */; };
@@ -69,8 +68,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		42034C492AEB7AF70052CCEC /* ZoomableContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
-		42180F852AE7381E00CEBC8B /* ZoomableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
+		425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
 		42CDE1A62AE78AAB0033295E /* elementarySchoolEnglishWord.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = elementarySchoolEnglishWord.pdf; sourceTree = "<group>"; };
 		42E763892AE1229700624D81 /* OverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModel.swift; sourceTree = "<group>"; };
 		42E7638D2AE1234A00624D81 /* samplepdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplepdf.pdf; sourceTree = "<group>"; };
@@ -205,8 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				449CB1E92ADEE0460086758A /* PDFUtil.swift */,
-				42034C492AEB7AF70052CCEC /* ZoomableContainer.swift */,
-				42180F852AE7381E00CEBC8B /* ZoomableContainer.swift */,
+				425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -227,6 +224,7 @@
 				42ED60C72ADE7EF50043AF2F /* OverView.swift */,
 				AC2851792AE7292500C70F4F /* OverVIewImageView.swift */,
 				AC28517B2AE7294300C70F4F /* OverViewPinchZoomView.swift */,
+				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 			);
 			path = OverView;
 			sourceTree = "<group>";
@@ -306,7 +304,6 @@
 				EBEB72612AE0BC8500316D66 /* ImageView.swift */,
 				EBEB72632AE0BCA800316D66 /* PinchZoomView.swift */,
 				AC2851782AE7291100C70F4F /* OverView */,
-				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
 				EBEB727D2AE548AB00316D66 /* OCREdit */,
 				EB69FC7B2AE6BF2200ADF7B6 /* TestPage */,
@@ -438,6 +435,7 @@
 				4491DFAA2ADD1E2E00CA5B42 /* HomeViewModel.swift in Sources */,
 				42ED60C82ADE7EF50043AF2F /* OverView.swift in Sources */,
 				EB69FC7F2AE6C77C00ADF7B6 /* TestPagePinchZoomView.swift in Sources */,
+				425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */,
 				ACF338C22ADD0136004D20FC /* Page.swift in Sources */,
 				44F30BE22AE579E200B67014 /* APICRUDView.swift in Sources */,
 				EB8978FB2AE6A0BC00494BE7 /* TextView.swift in Sources */,
@@ -448,8 +446,6 @@
 				449CB1EA2ADEE0460086758A /* PDFUtil.swift in Sources */,
 				42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */,
 				EB69FC7A2AE6B5AE00ADF7B6 /* OCRPinchZoomView.swift in Sources */,
-				42180F862AE7381E00CEBC8B /* ZoomableContainer.swift in Sources */,
-				42034C4A2AEB7AF70052CCEC /* ZoomableContainer.swift in Sources */,
 				44F30BE42AE6738000B67014 /* WordSelectViewModel.swift in Sources */,
 				4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */,
 				449CB1DA2ADED6C10086758A /* DocumentPickerRepresentedView.swift in Sources */,

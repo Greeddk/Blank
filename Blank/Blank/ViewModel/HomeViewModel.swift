@@ -102,7 +102,7 @@ class HomeViewModel: ObservableObject {
             Bundle.main.url(forResource: "sample", withExtension: "pdf"),
             Bundle.main.url(forResource: "blank", withExtension: "pdf"),
             Bundle.main.url(forResource: "toeic", withExtension: "pdf"),
-            Bundle.main.url(forResource: "horizontal", withExtension: "pdf"),
+            Bundle.main.url(forResource: "elementarySchoolEnglishWord", withExtension: "pdf")
         ].compactMap { $0 }
         
         sampleFiles.forEach { fileURL in

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ResultPageView: View {
-    @Environment(\.dismiss) private var dismiss
     @Binding var isLinkActive: Bool
+    @State var isActive = false
     @State var seeCorrect: Bool = true
     @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
@@ -31,12 +31,12 @@ struct ResultPageView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                     homeBtn
+                     homeButton
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {
-                        seeCorrectBtn
-                        backToOverViewBtn
+                        seeCorrectButton
+                        backToOverViewButton
                     }
                 }
             }
@@ -72,14 +72,20 @@ struct ResultPageView: View {
         PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), viewName: "ResultPageView", overViewModel: overViewModel,page: $page, scoringViewModel: scoringViewModel)
     }
     
-    private var homeBtn: some View {
+    private var homeButton: some View {
         // destination 임시처리
-        NavigationLink(destination: HomeView()) {
+//        NavigationLink(destination: HomeView()) {
+//            Image(systemName: "house")
+//        }
+        Button {
+            
+        } label: {
             Image(systemName: "house")
         }
+
     }
     
-    private var seeCorrectBtn: some View {
+    private var seeCorrectButton: some View {
         Button {
             seeCorrect.toggle()
         } label: {
@@ -91,13 +97,14 @@ struct ResultPageView: View {
         }
     }
     
-    private var backToOverViewBtn: some View {
+    private var backToOverViewButton: some View {
         Button {
             isLinkActive = false
         } label: {
             Text("페이지 선택으로 이동")
                 .fontWeight(.bold)
         }
+        .buttonStyle(.borderedProminent)
     }
 }
 

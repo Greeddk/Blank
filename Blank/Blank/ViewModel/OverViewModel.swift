@@ -21,24 +21,24 @@ class OverViewModel: ObservableObject {
     
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
-
+    
     
     init(currentFile: File) {
         self.currentFile = currentFile
     }
     
     func createNewPageAndSession() -> Page {
-            var page = Page(id: UUID(),
-                            fileId: currentFile.id,
-                            currentPageNumber: currentPage,
-                            basicWords: basicWords,
-                            basicWordCGRects: []
-            )
-            let newSession = Session(id: UUID(), pageId: page.id, words: [])
-            page.sessions.append(newSession)
-            
-            return page
-        }
+        var page = Page(id: UUID(),
+                        fileId: currentFile.id,
+                        currentPageNumber: currentPage,
+                        basicWords: basicWords,
+                        basicWordCGRects: []
+        )
+        let newSession = Session(id: UUID(), pageId: page.id, words: [])
+        page.sessions.append(newSession)
+        
+        return page
+    }
     
     // PDF의 원하는 페이지를 로드해주는 메소드
     func updateCurrentPage(from input: String) {
@@ -54,15 +54,15 @@ class OverViewModel: ObservableObject {
     
     // PDF 전체 페이지 수를 반환하는 메소드
     func pdfTotalPage() -> Int {
-//         guard let pdfDocument = pdfDocument else { return 0 }
+        //         guard let pdfDocument = pdfDocument else { return 0 }
         return pdfDocument.pageCount
     }
     
     // PDF의 현재 페이지를 이미지로 반환하는 메소드
     func generateImage() -> UIImage? {
-//        guard let pdfDocument = pdfDocument, currentPage > 0, currentPage <= pdfDocument.pageCount else {
-//            return nil
-//        }
+        //        guard let pdfDocument = pdfDocument, currentPage > 0, currentPage <= pdfDocument.pageCount else {
+        //            return nil
+        //        }
         
         guard let page = pdfDocument.page(at: currentPage - 1) else {
             return nil
@@ -86,36 +86,36 @@ class OverViewModel: ObservableObject {
     }
     
     // PDF의 모든 페이지를 썸네일 이미지로 배열에 저장하는 메소드
-//         func loadPDF() async {
-//            guard let pdfDocument = pdfDocument else {
-//                return
-//            }
-//
-//            thumbnails.removeAll() // 이미지 배열 초기화
-//
-//            DispatchQueue.global().async {
-//                for i in 0..<pdfDocument.pageCount {
-//                    guard let page = pdfDocument.page(at: i) else {
-//                        continue
-//                    }
-//
-//                    let image = page.thumbnail(of: CGSize(width: 500, height: 700), for: .mediaBox)
-//                    DispatchQueue.main.async {
-//                        self.thumbnails.append(image)
-//                    }
-//                }
-//            }
-//        }
+    //         func loadPDF() async {
+    //            guard let pdfDocument = pdfDocument else {
+    //                return
+    //            }
+    //
+    //            thumbnails.removeAll() // 이미지 배열 초기화
+    //
+    //            DispatchQueue.global().async {
+    //                for i in 0..<pdfDocument.pageCount {
+    //                    guard let page = pdfDocument.page(at: i) else {
+    //                        continue
+    //                    }
+    //
+    //                    let image = page.thumbnail(of: CGSize(width: 500, height: 700), for: .mediaBox)
+    //                    DispatchQueue.main.async {
+    //                        self.thumbnails.append(image)
+    //                    }
+    //                }
+    //            }
+    //        }
     
     // PDF의 모든 페이지를 썸네일 이미지로 배열에 저장하는 메소드, 진행률도 표시
     func loadThumbnails() {
         isLoading = true
         currentProgress = 0.0
-
-//        guard let pdfDocument = pdfDocument else {
-//            return
-//        }
-
+        
+        //        guard let pdfDocument = pdfDocument else {
+        //            return
+        //        }
+        
         if thumbnails.count != pdfDocument.pageCount {
             thumbnails.removeAll()
             
@@ -124,7 +124,7 @@ class OverViewModel: ObservableObject {
                     guard let page = pdfDocument.page(at: i) else {
                         continue
                     }
-
+                    
                     let image = page.thumbnail(of: CGSize(width: 100, height: 150), for: .mediaBox)
                     
                     await MainActor.run {
@@ -141,7 +141,7 @@ class OverViewModel: ObservableObject {
             isLoading = false // Loading complete
         }
     }
-
-
-
+    
+    
+    
 }

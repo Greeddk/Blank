@@ -35,10 +35,10 @@ struct WordSelectView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    backBtn
+                    backButton
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    nextBtn
+                    goToNextPageButton
                 }
             }
             .toolbarBackground(.white, for: .navigationBar)
@@ -62,7 +62,7 @@ struct WordSelectView: View {
         
     }
     
-    private var backBtn: some View {
+    private var backButton: some View {
         Button {
             dismiss()
         } label: {
@@ -70,24 +70,20 @@ struct WordSelectView: View {
         }
     }
     
-    private var nextBtn: some View {
+    private var goToNextPageButton: some View {
         Button {
             // TODO: 선택된 단어를 배열로 저장
-            print(#function, overViewModel.basicWords.count)
-            print(#function, overViewModel.basicWords.filter{ $0.isSelectedWord }.count)
             var words: [Word] = []
             for w in overViewModel.basicWords.filter({ $0.isSelectedWord }) {
                 words.append(Word(id: UUID(), sessionId: page.sessions[0].id, wordValue: w.wordValue, rect: w.rect))
             }
             page.sessions[0].words = words
-            print(#function, page.sessions[0].words.count)
-            print("\(page.sessions[0].words)")
-            print("워드셀렉트 온탭이 먹힘")
             goToOCRView = true
         } label: {
             Text("다음")
                 .fontWeight(.bold)
         }
+        .buttonStyle(.borderedProminent)
     }
 }
 

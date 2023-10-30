@@ -14,6 +14,7 @@ struct PDFThumbnailView: View {
     var body: some View {
         VStack {
             thumbnail
+                .shadow(color: Color.black.opacity(0.3), radius: 2, x: 1, y: 1)
                 .frame(width: 200, height: 250)
             Spacer().frame(height: 15)
             Text("\(file.fileName)")
@@ -21,6 +22,7 @@ struct PDFThumbnailView: View {
                 .fontWeight(.bold)
             Text("전체 페이지수: \(file.totalPageCount)")
             Text("시험 본 페이지: \(file.pages.count)")
+            Spacer()
         }
         .padding()
         .onAppear {
