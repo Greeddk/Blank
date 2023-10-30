@@ -17,15 +17,16 @@ struct ScrribleModalView: View {
     var body: some View {
         VStack {
             Text("손글씨 입력 쓰기")
-                .font(.title)
+                .font(.largeTitle)
+                .bold()
+                .padding(.top, 50)
+                .padding()
 
-            HStack(spacing: 40) {
-                Spacer()
+            HStack(alignment: .center, spacing: 20) {
                 Picker("타입", selection: $selectedType) {
                     ForEach(ScrribleType.allCases, id: \.self) {
                         Text($0.description)
                     }
-
                 }
                 .pickerStyle(.segmented)
                 .onChange(of: selectedType) { newValue in
@@ -33,20 +34,36 @@ struct ScrribleModalView: View {
                         hasTypeValueChanged = true
                     }
                 }
-                Spacer()
-
-
             }
             .padding()
 
             Text(selectedType.explain)
-                .font(.subheadline)
+                .font(.system(size: 20))
+                .multilineTextAlignment(.center)
+                .padding()
 
-            HStack {
-                Spacer()
+
+            HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
                 ScrribleVideoView(player: selectedType.video, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
-                Spacer()
+                    .padding()
             }
+            .padding()
+            Spacer()
+        }
+       
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                closeBtn
+            }
+        }
+
+    }
+
+    private var closeBtn: some View {
+        Button {
+            dismiss()
+        } label: {
+            Text("완료")
         }
     }
 }
@@ -54,4 +71,3 @@ struct ScrribleModalView: View {
 #Preview {
     ScrribleModalView(selectedType: .constant(ScrribleType.write), hasTypeValueChanged: .constant(false))
 }
-
