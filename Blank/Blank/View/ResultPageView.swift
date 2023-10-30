@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ResultPageView: View {
-    @Environment(\.dismiss) private var dismiss
     @Binding var isLinkActive: Bool
+    @State var isActive = false
     @State var seeCorrect: Bool = true
     @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
@@ -74,9 +74,15 @@ struct ResultPageView: View {
     
     private var homeButton: some View {
         // destination 임시처리
-        NavigationLink(destination: HomeView()) {
+//        NavigationLink(destination: HomeView()) {
+//            Image(systemName: "house")
+//        }
+        Button {
+            
+        } label: {
             Image(systemName: "house")
         }
+
     }
     
     private var seeCorrectButton: some View {

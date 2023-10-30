@@ -24,6 +24,7 @@ struct HomeView: View {
     @State var showImagePicker = false
     @State var showPDFCreateAlert = false
     @State var showFileDeleteAlert = false
+    @State var isPopToHomeActive = false
     
     @EnvironmentObject var homeViewModel: HomeViewModel
     
