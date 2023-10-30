@@ -13,8 +13,6 @@ struct TestPageImageView: View {
     //    @State private var recognizedBoxes: [(String, CGRect)] = []
     //경섭추가코드
     @Binding var zoomScale: CGFloat
-    // @Binding var page: Page
-    // @StateObject var scoringViewModel: ScoringViewModel
     @Binding var words: [Word]
     
     var body: some View {

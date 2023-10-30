@@ -16,11 +16,7 @@ struct WordSelectView: View {
     @Binding var generatedImage: UIImage?
     
     @State var goToOCRView = false
-    // @State var basicWords: [BasicWord] = []
     
-    
-    // @State var page: Page
-    // @StateObject var overViewModel: OverViewModel
     @StateObject var wordSelectViewModel: WordSelectViewModel
     
     var body: some View {
@@ -29,13 +25,6 @@ struct WordSelectView: View {
                 wordSelectImage
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
             }
-            // .alert("단어를 터치해 주세요" ,isPresented: $showingAlert) {
-            //     Button("확인", role: .cancel) {
-            //         
-            //     }
-            // } message: {
-            //     Text("시험을 보고싶은 단어를 터치해주세요")
-            // }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     backButton
@@ -121,5 +110,5 @@ struct WordSelectView: View {
 
 
 #Preview {
-    HomeView().environmentObject(HomeViewModel())
+    HomeView()
 }

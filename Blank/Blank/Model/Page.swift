@@ -14,10 +14,9 @@ struct Page: Codable, Hashable {
     
     var id: UUID
     var fileId: UUID
-    var sessions: [Session] = []// 전체 회차 sessions  / 특정 n회차 세션 접근 page.sessions.session
     var currentPageNumber: Int
-    var basicWords: [BasicWord] = [] // [ (25,59,20,30) , (252,89,30,50) , ..... ]
     
-    // TODO: - 삭제해야됨
-    var basicWordCGRects: [CGRect]
+    // var sessions: [Session] = []// 전체 회차 sessions  / 특정 n회차 세션 접근 page.sessions.session
+    // var basicWords: [BasicWord] = [] // [ (25,59,20,30) , (252,89,30,50) , ..... ]
+
 }

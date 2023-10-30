@@ -261,8 +261,7 @@ class CDService: IsCDService {
                 return Page(
                     id: id,
                     fileId: fileId,
-                    currentPageNumber: Int(pageEntity.currentPageNumber),
-                    basicWordCGRects: rects.compactMap({ $0.cgRect })
+                    currentPageNumber: Int(pageEntity.currentPageNumber)
                 )
             } else {
                 return nil
@@ -285,7 +284,7 @@ class CDService: IsCDService {
         let sessions: [Session] = entities.compactMap { sessionEntity in
             if let id = sessionEntity.id,
                let pageId = sessionEntity.pageId {
-                return Session(id: id, pageId: pageId, words: [])
+                return Session(id: id, pageId: pageId)
             } else {
                 return nil
             }
@@ -347,7 +346,7 @@ class CDService: IsCDService {
             pageEntity.id = page.id
             pageEntity.currentPageNumber = page.currentPageNumber.int16
             pageEntity.fileId = file.id
-            pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
+            // pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
             
             fileEntity.addToPages(pageEntity)
         }
@@ -444,8 +443,7 @@ class CDService: IsCDService {
         return Page(
             id: id,
             fileId: fileId,
-            currentPageNumber: Int(pageEntity.currentPageNumber),
-            basicWordCGRects: rects.compactMap({ $0.cgRect })
+            currentPageNumber: Int(pageEntity.currentPageNumber)
         )
     }
     
@@ -456,7 +454,7 @@ class CDService: IsCDService {
             return nil
         }
               
-        return Session(id: id, pageId: pageId, words: [])
+        return Session(id: id, pageId: pageId)
     }
     
     func readWord(id: UUID) throws -> Word? {

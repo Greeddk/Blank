@@ -17,16 +17,12 @@ struct OCREditView: View {
     @State private var hasTypeValueChanged = false
     @State private var goToTestPage = false
     
-    // @StateObject var overViewModel: OverViewModel
     @StateObject var wordSelectViewModel: WordSelectViewModel
     
     /*
      전단계 WordSelectView에서 단어를 선택하면
      해당 단어 목록은 현재 Session 內 Words에 들어가야 할 것 같음
      */
-    
-    // TODO: - 현재(또는 새로운) 세션 세팅하기
-    // @Binding var page: Page
     
     var body: some View {
         NavigationStack {
@@ -69,9 +65,7 @@ struct OCREditView: View {
     
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
-        
         OCRPinchZoomView(image: generatedImage, words: $wordSelectViewModel.selectedWords)
-        //        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), overViewModel: overViewModel)
         
     }
     
@@ -93,9 +87,6 @@ struct OCREditView: View {
             NavigationView {
                 ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
             }
-            
-            
-            
         }
     }
     
