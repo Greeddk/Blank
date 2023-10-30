@@ -14,10 +14,19 @@ struct ResultPageView: View {
     @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     
+    @StateObject var scoringViewModel: ScoringViewModel
+    @StateObject var overViewModel: OverViewModel
+    
+    @Binding var page:Page
+    
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
-                resultImage
+                VStack{
+                    resultImage
+                    Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
+                }
                 bottomCorrectInfo
             }
             .toolbar {
@@ -38,6 +47,9 @@ struct ResultPageView: View {
             .navigationBarBackButtonHidden()
         }
         .background(Color(.systemGray6))
+        .onAppear {
+            scoringViewModel.score()
+        }
     }
     
     private var bottomCorrectInfo: some View {
@@ -45,7 +57,7 @@ struct ResultPageView: View {
             if seeCorrect == true {
                 // TODO: 정답률, 문제개수, 정답개수 받아오기
                 Spacer().frame(width: 50)
-                CorrectInfoView()
+                CorrectInfoView(scoringViewModel: scoringViewModel)
                     .frame(minWidth: 600, maxWidth: 800, minHeight: 50, maxHeight: 70)
                 Spacer().frame(width: 50)
             }
@@ -57,7 +69,7 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]))
+        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), viewName: "ResultPageView", overViewModel: overViewModel,page: $page, scoringViewModel: scoringViewModel)
     }
     
     private var homeBtn: some View {

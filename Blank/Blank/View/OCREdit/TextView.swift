@@ -13,13 +13,23 @@ struct TextView: View {
     @Binding var width: CGFloat
     @State var isFocused: Bool = false
     @Binding var scale: CGFloat
-
+    
+    @Binding var page:Page
+    @Binding var orinX: UUID
+    
+    @State var currentWordId: UUID
+    @StateObject var scoringViewModel: ScoringViewModel
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             UITextViewRepresentable(text: $name, isFocused: $isFocused, height: $height, scale: $scale)
                 .frame(width: width, height: height)
         }
-        .border(isFocused ? Color.yellow : Color.green, width: 1.5)
+        .border(isFocused ? Color.yellow : Color.blue, width: 1.5)
+        .onChange(of: name) { newValue in
+            scoringViewModel.changeTargetWordValue(id: currentWordId, newValue: newValue)
+            // print("newValue:", newValue, scoringViewModel.currentWritingWords)
+        }
     }
 }
 
@@ -29,14 +39,16 @@ struct UITextViewRepresentable: UIViewRepresentable {
     @Binding var isFocused: Bool
     @Binding var height: CGFloat
     @Binding var scale: CGFloat
-    var fontSize: CGFloat = 1.5
+    var fontSize: CGFloat = 1.9
 
     func makeUIView(context: UIViewRepresentableContext<UITextViewRepresentable>) -> UITextView {
         let textView = UITextView(frame: .zero)
         textView.delegate = context.coordinator
-        textView.font = UIFont(name: "Avenir", size: (height/fontSize) * scale)
+        textView.font = UIFont(name: "Avenir", size: (height/fontSize))
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.textContainer.maximumNumberOfLines = 2
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.autocapitalizationType = .none
         return textView
     }
 
@@ -88,6 +100,6 @@ struct UITextViewRepresentable: UIViewRepresentable {
 }
 
 
-#Preview {
-    TextView(name: "안녕하세요", height: .constant(30), width: .constant(100), isFocused: false, scale: .constant(1.0))
-}
+//#Preview {
+//    TextView(name: "안녕하세요", height: .constant(30), width: .constant(100), isFocused: false, scale: .constant(1.0))
+//}

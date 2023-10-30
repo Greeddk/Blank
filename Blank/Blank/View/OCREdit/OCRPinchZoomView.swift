@@ -12,6 +12,7 @@ struct OCRPinchZoomView: View {
     // Image 정보를 받을 수 있도록 프로퍼티 추가 - 경섭
     var image: UIImage?
     @Binding var page: Page
+    @StateObject var overViewModel: OverViewModel
 
     //
     @State private var scale: CGFloat = 1.0
@@ -37,8 +38,10 @@ struct OCRPinchZoomView: View {
 
     var body: some View {
         // ImageView를 불러와서 Gesture 적용
-        OCRImageView(uiImage: image, zoomScale: $scale, page: $page)
-            .gesture(magnification)
+        ZoomableContainer {
+            OCRImageView(uiImage: image, zoomScale: $scale, page: $page,overViewModel: overViewModel)
+//                .gesture(magnification)
+        }
     }
     // 변경값을 lastScale에 저장하여 다음 확대시 lastScale에서부터 시작
     func adjustScale(from state: MagnificationGesture.Value) {

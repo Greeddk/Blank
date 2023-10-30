@@ -17,6 +17,14 @@ struct PinchZoomView: View {
     var image: UIImage?
     @Binding var visionStart:Bool
     @Binding var basicWords: [BasicWord]
+    var viewName: String?
+    
+    @StateObject var overViewModel: OverViewModel
+    
+    @Binding var page:Page
+    
+    //
+    @StateObject var scoringViewModel = ScoringViewModel()
     
     //
     @State private var scale: CGFloat = 1.0
@@ -42,8 +50,10 @@ struct PinchZoomView: View {
 
     var body: some View {
         // ImageView를 불러와서 Gesture 적용
-        ImageView(uiImage: image, visionStart: $visionStart, zoomScale: $scale, basicWords: $basicWords)
-            .gesture(magnification)
+//        ZoomableContainer {
+        ImageView(uiImage: image, visionStart: $visionStart, overViewModel: overViewModel, scoringViewModel: scoringViewModel, zoomScale: $scale, viewName: self.viewName, basicWords: $basicWords, page: $page )
+                .gesture(magnification)
+//        }
     }
     // 변경값을 lastScale에 저장하여 다음 확대시 lastScale에서부터 시작
     func adjustScale(from state: MagnificationGesture.Value) {
