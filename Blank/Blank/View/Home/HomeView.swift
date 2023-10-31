@@ -26,7 +26,7 @@ struct HomeView: View {
     @State var showFileDeleteAlert = false
     @State var isPopToHomeActive = false
     
-    @EnvironmentObject var homeViewModel: HomeViewModel
+    @StateObject var homeViewModel: HomeViewModel = .init()
     
     // 새 PDF 생성 관련
     @State var newPDFFileName = ""

@@ -133,15 +133,15 @@ class CDService: IsCDService {
         fileEntity.fileURL = file.fileURL
         fileEntity.totalPageCount = file.totalPageCount.int16
         
-        for page in file.pages {
-            let pageEntity = PageEntity(context: viewContext)
-            pageEntity.id = page.id
-            pageEntity.currentPageNumber = page.currentPageNumber.int16
-            pageEntity.fileId = file.id
-            pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
-            
-            fileEntity.addToPages(pageEntity)
-        }
+        // for page in file.pages {
+        //     let pageEntity = PageEntity(context: viewContext)
+        //     pageEntity.id = page.id
+        //     pageEntity.currentPageNumber = page.currentPageNumber.int16
+        //     pageEntity.fileId = file.id
+        //     pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
+        //     
+        //     fileEntity.addToPages(pageEntity)
+        // }
         
         try viewContext.save()
     }
@@ -184,8 +184,7 @@ class CDService: IsCDService {
                     id: id,
                     fileURL: fileURL,
                     fileName: fileName,
-                    totalPageCount: Int(fileEntity.totalPageCount),
-                    pages: []
+                    totalPageCount: Int(fileEntity.totalPageCount)
                 )
             } else {
                 return nil
@@ -216,8 +215,7 @@ class CDService: IsCDService {
             id: id,
             fileURL: fileURL,
             fileName: fileName,
-            totalPageCount: Int(fileEntity.totalPageCount),
-            pages: []
+            totalPageCount: Int(fileEntity.totalPageCount)
         )
     }
     
@@ -242,8 +240,7 @@ class CDService: IsCDService {
             id: id,
             fileURL: fileURL,
             fileName: fileName,
-            totalPageCount: Int(fileEntity.totalPageCount),
-            pages: []
+            totalPageCount: Int(fileEntity.totalPageCount)
         )
     }
     
@@ -264,8 +261,7 @@ class CDService: IsCDService {
                 return Page(
                     id: id,
                     fileId: fileId,
-                    currentPageNumber: Int(pageEntity.currentPageNumber),
-                    basicWordCGRects: rects.compactMap({ $0.cgRect })
+                    currentPageNumber: Int(pageEntity.currentPageNumber)
                 )
             } else {
                 return nil
@@ -288,7 +284,7 @@ class CDService: IsCDService {
         let sessions: [Session] = entities.compactMap { sessionEntity in
             if let id = sessionEntity.id,
                let pageId = sessionEntity.pageId {
-                return Session(id: id, pageId: pageId, words: [])
+                return Session(id: id, pageId: pageId)
             } else {
                 return nil
             }
@@ -350,7 +346,7 @@ class CDService: IsCDService {
             pageEntity.id = page.id
             pageEntity.currentPageNumber = page.currentPageNumber.int16
             pageEntity.fileId = file.id
-            pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
+            // pageEntity.rect = page.basicWordCGRects.map({ $0.stringValue })
             
             fileEntity.addToPages(pageEntity)
         }
@@ -432,8 +428,7 @@ class CDService: IsCDService {
             id: id,
             fileURL: fileURL,
             fileName: fileName,
-            totalPageCount: Int(fileEntity.totalPageCount),
-            pages: []
+            totalPageCount: Int(fileEntity.totalPageCount)
         )
     }
     
@@ -448,8 +443,7 @@ class CDService: IsCDService {
         return Page(
             id: id,
             fileId: fileId,
-            currentPageNumber: Int(pageEntity.currentPageNumber),
-            basicWordCGRects: rects.compactMap({ $0.cgRect })
+            currentPageNumber: Int(pageEntity.currentPageNumber)
         )
     }
     
@@ -460,7 +454,7 @@ class CDService: IsCDService {
             return nil
         }
               
-        return Session(id: id, pageId: pageId, words: [])
+        return Session(id: id, pageId: pageId)
     }
     
     func readWord(id: UUID) throws -> Word? {

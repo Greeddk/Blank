@@ -21,7 +21,7 @@ struct PDFThumbnailView: View {
                 .font(.title2)
                 .fontWeight(.bold)
             Text("전체 페이지수: \(file.totalPageCount)")
-            Text("시험 본 페이지: \(file.pages.count)")
+            Text("시험 본 페이지: \(file.solvedPageCount)")
             Spacer()
         }
         .padding()

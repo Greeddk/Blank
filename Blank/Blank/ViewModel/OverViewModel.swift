@@ -30,12 +30,10 @@ class OverViewModel: ObservableObject {
     func createNewPageAndSession() -> Page {
         var page = Page(id: UUID(),
                         fileId: currentFile.id,
-                        currentPageNumber: currentPage,
-                        basicWords: basicWords,
-                        basicWordCGRects: []
+                        currentPageNumber: currentPage
         )
-        let newSession = Session(id: UUID(), pageId: page.id, words: [])
-        page.sessions.append(newSession)
+        // let newSession = Session(id: UUID(), pageId: page.id, words: [])
+        // page.sessions.append(newSession)
         
         return page
     }

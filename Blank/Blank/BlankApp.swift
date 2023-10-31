@@ -11,8 +11,6 @@ import SwiftUI
 struct BlankApp: App {
     let persistenceController = PersistenceController.shared
     
-    @StateObject var homeViewModel = HomeViewModel()
-    
     init() {
         HomeViewModel.copySampleFiles()
     }
@@ -24,7 +22,6 @@ struct BlankApp: App {
                     \.managedObjectContext,
                      persistenceController.container.viewContext
                 )
-                .environmentObject(homeViewModel)
         }
     }
 }

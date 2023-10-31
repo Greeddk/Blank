@@ -11,11 +11,8 @@ struct TestPagePinchZoomView: View {
 
     // Image 정보를 받을 수 있도록 프로퍼티 추가 - 경섭
     var image: UIImage?
-    @Binding var page: Page
-    // @Binding var currentEnteringWords: [Word]
-    @StateObject var scoringViewModel: ScoringViewModel
-
-    //
+    @Binding var words: [Word]
+    
     @State private var scale: CGFloat = 1.0
     @State var lastScale: CGFloat = 1.0
     private let minScale = 1.0
@@ -39,14 +36,10 @@ struct TestPagePinchZoomView: View {
 
     var body: some View {
         // ImageView를 불러와서 Gesture 적용
-
-        // TestPageImageView(uiImage: image, zoomScale: $scale, page: $page, scoringViewModel: scoringViewModel)
-        //     .gesture(magnification)
-
         ZoomableContainer {
-            TestPageImageView(uiImage: image, zoomScale: $scale, page: $page, scoringViewModel: scoringViewModel)
+            TestPageImageView(uiImage: image, zoomScale: $scale, words: $words)
         }
-//            .gesture(magnification)
+           // .gesture(magnification)
     }
     // 변경값을 lastScale에 저장하여 다음 확대시 lastScale에서부터 시작
     func adjustScale(from state: MagnificationGesture.Value) {

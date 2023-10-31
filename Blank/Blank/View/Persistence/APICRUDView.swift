@@ -22,9 +22,9 @@ struct APICRUDView: View {
                     Text("\(file.fileName)")
                 }
                 
-                ForEach(pages ?? [], id: \.id) { page in
-                    Text("Page: \(page.id), \(page.basicWords.first?.rect.stringValue ?? "")")
-                }
+                // ForEach(pages ?? [], id: \.id) { page in
+                //     Text("Page: \(page.id), \(page.basicWords.first?.rect.stringValue ?? "")")
+                // }
                 
                 ForEach(sessions ?? [], id: \.id) { session in
                     Text("Session: \(session.id)")
@@ -42,7 +42,7 @@ struct APICRUDView: View {
                 id: fileUUID,
                 fileURL: Bundle.main.url(forResource: "sample", withExtension: "pdf")!,
                 fileName: "\(fileUUID).pdf",
-                totalPageCount: 500, pages: [])
+                totalPageCount: 500)
             do {
                 // File
                 try CDService.shared.createFile(from: file)
@@ -53,18 +53,18 @@ struct APICRUDView: View {
                     id: fileUUID,
                     fileURL: Bundle.main.url(forResource: "sample", withExtension: "pdf")!,
                     fileName: "dkdkdkdk.pdf",
-                    totalPageCount: 500, pages: []))
+                    totalPageCount: 500))
                 
                 try CDService.shared.deleteFile(.init(
                     id: fileUUID,
                     fileURL: Bundle.main.url(forResource: "sample", withExtension: "pdf")!,
                     fileName: "dkdkdkdk.pdf",
-                    totalPageCount: 500, pages: []))
+                    totalPageCount: 500))
                 
                 // Page
                 let page2Id = UUID()
-                let page1: Page = .init(id: UUID(), fileId: fileUUID, currentPageNumber: 15, basicWordCGRects: [.init(x: 0, y: 35, width: 484.44, height: 3939.434)])
-                let page2: Page = .init(id: page2Id, fileId: fileUUID, currentPageNumber: 15, basicWordCGRects: [.init(x: 466, y: 335, width: 4.44, height: 39.411111)])
+                let page1: Page = .init(id: UUID(), fileId: fileUUID, currentPageNumber: 15)
+                let page2: Page = .init(id: page2Id, fileId: fileUUID, currentPageNumber: 15)
                 
                 try CDService.shared.updateAllPages(pages: [
                     page1, page2], to: file)
@@ -77,11 +77,6 @@ struct APICRUDView: View {
                 let sessionID = UUID()
                 let session: Session = .init(id: sessionID, pageId: page2Id)
                 try CDService.shared.appendSession(to: page2, session: session)
-                // try CDService.shared.appendAllWords(to: session, words: [
-                //     .init(id: UUID(), sessionId: sessionID, wordValue: "WORD:\(UUID().uuidString)", rect: .zero),
-                //     .init(id: UUID(), sessionId: sessionID, wordValue: "WORD:\(UUID().uuidString)", rect: .zero),
-                //     .init(id: UUID(), sessionId: sessionID, wordValue: "WORD:\(UUID().uuidString)", rect: .zero),
-                // ])
                 
                 sessions = try CDService.shared.loadAllSessions(of: page2)
                 words = try CDService.shared.loadAllWords(of: session)

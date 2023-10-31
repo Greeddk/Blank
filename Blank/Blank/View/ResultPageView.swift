@@ -15,10 +15,9 @@ struct ResultPageView: View {
     @State var visionStart: Bool = false
     
     @StateObject var scoringViewModel: ScoringViewModel
-    @StateObject var overViewModel: OverViewModel
     
-    @Binding var page:Page
-    
+    // @StateObject var overViewModel: OverViewModel
+    // @Binding var page:Page
     
     var body: some View {
         NavigationStack {
@@ -49,6 +48,7 @@ struct ResultPageView: View {
         .background(Color(.systemGray6))
         .onAppear {
             scoringViewModel.score()
+            
         }
     }
     
@@ -69,7 +69,8 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), viewName: "ResultPageView", overViewModel: overViewModel,page: $page, scoringViewModel: scoringViewModel)
+        // PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), viewName: "ResultPageView")
+        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), resultWords: $scoringViewModel.targetWords, viewName: "ResultPageView")
     }
     
     private var homeButton: some View {

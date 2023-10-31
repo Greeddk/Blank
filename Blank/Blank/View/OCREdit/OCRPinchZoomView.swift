@@ -11,10 +11,8 @@ struct OCRPinchZoomView: View {
 
     // Image 정보를 받을 수 있도록 프로퍼티 추가 - 경섭
     var image: UIImage?
-    @Binding var page: Page
-    @StateObject var overViewModel: OverViewModel
-
-    //
+    @Binding var words: [Word]
+    
     @State private var scale: CGFloat = 1.0
     @State var lastScale: CGFloat = 1.0
     private let minScale = 1.0
@@ -39,7 +37,7 @@ struct OCRPinchZoomView: View {
     var body: some View {
         // ImageView를 불러와서 Gesture 적용
         ZoomableContainer {
-            OCRImageView(uiImage: image, zoomScale: $scale, page: $page,overViewModel: overViewModel)
+            OCRImageView(uiImage: image, zoomScale: $scale, words: $words)
 //                .gesture(magnification)
         }
     }
