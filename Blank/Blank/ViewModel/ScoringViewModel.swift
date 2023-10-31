@@ -38,15 +38,20 @@ final class ScoringViewModel: ObservableObject {
         }
         
         currentWritingWords.enumerated().forEach { (index, currentWord) in
-            print("[DEBUG]", #function, index, currentWord)
-            // words[index].isCorrect = currentValue == words[index].wordValue
             let targetWordIndex = targetWords.firstIndex(where: { $0.id == currentWord.id })!
             print("[DEBUG]", currentWord.wordValue, targetWords[targetWordIndex].wordValue)
             print("[DEBUG]", targetWords[targetWordIndex].isCorrect)
             
-            // 채점 로직: 채점시에는 대소문자 구분없이 글자만 같으면 정답으로 처리한다.
-            let isCorrect = currentWord.wordValue.lowercased() == targetWords[targetWordIndex].wordValue.lowercased()
-            targetWords[targetWordIndex].isCorrect = isCorrect
+            // 채점 로직: 
+            // 1) 채점시에는 대소문자 구분없이 글자만 같으면 정답으로 처리한다.
+            // 2) 띄어쓰기 입력은 받되 채점시 고려안함
+            let currentWordValue = currentWord.wordValue
+                .lowercased()
+                .replacingOccurrences(of: " ", with: "")
+            let targetWordValue = targetWords[targetWordIndex].wordValue
+                .lowercased()
+                .replacingOccurrences(of: " ", with: "")
+            targetWords[targetWordIndex].isCorrect = currentWordValue == targetWordValue
         }
     }
     
