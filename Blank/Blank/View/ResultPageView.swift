@@ -74,12 +74,8 @@ struct ResultPageView: View {
     }
     
     private var homeButton: some View {
-        // destination 임시처리
-//        NavigationLink(destination: HomeView()) {
-//            Image(systemName: "house")
-//        }
         Button {
-            
+            NavigationUtil.popToRootView()
         } label: {
             Image(systemName: "house")
         }
