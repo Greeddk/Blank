@@ -43,7 +43,10 @@ final class ScoringViewModel: ObservableObject {
             let targetWordIndex = targetWords.firstIndex(where: { $0.id == currentWord.id })!
             print("[DEBUG]", currentWord.wordValue, targetWords[targetWordIndex].wordValue)
             print("[DEBUG]", targetWords[targetWordIndex].isCorrect)
-            targetWords[targetWordIndex].isCorrect = currentWord.wordValue == targetWords[targetWordIndex].wordValue
+            
+            // 채점 로직: 채점시에는 대소문자 구분없이 글자만 같으면 정답으로 처리한다.
+            let isCorrect = currentWord.wordValue.lowercased() == targetWords[targetWordIndex].wordValue.lowercased()
+            targetWords[targetWordIndex].isCorrect = isCorrect
         }
     }
     
