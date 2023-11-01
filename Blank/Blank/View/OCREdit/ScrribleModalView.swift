@@ -49,9 +49,24 @@ struct ScrribleModalView: View {
                     .padding()
             }
             .padding()
+
+            HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
+                TextField(selectedType.text.0, text: $text)
+                    .frame(width: 600)
+                    .font(.system(size: 25))
+                    .textFieldStyle(.roundedBorder)
+                    .padding()
+                    .onAppear() {
+                        text = selectedType.text.1
+                    }
+
+                    .onChange(of: selectedType) { newValue in
+                        text = selectedType.text.1
+                    }
+            }
+
             Spacer()
         }
-       
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 closeBtn
