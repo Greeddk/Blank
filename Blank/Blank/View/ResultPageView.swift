@@ -30,7 +30,7 @@ struct ResultPageView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                     homeButton
+                    homeButton
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {
@@ -70,7 +70,8 @@ struct ResultPageView: View {
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
         // PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), viewName: "ResultPageView")
-        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), resultWords: $scoringViewModel.targetWords, viewName: "ResultPageView")
+        //        PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: .constant([]), resultWords: $scoringViewModel.targetWords, viewName: "ResultPageView")
+        ImageView(uiImage: generatedImage, visionStart: $visionStart, zoomScale: .constant(1.0), viewName: "ResultPageView", basicWords: .constant([]), targetWords: $scoringViewModel.targetWords)
     }
     
     private var homeButton: some View {
@@ -79,7 +80,7 @@ struct ResultPageView: View {
         } label: {
             Image(systemName: "house")
         }
-
+        
     }
     
     private var seeCorrectButton: some View {

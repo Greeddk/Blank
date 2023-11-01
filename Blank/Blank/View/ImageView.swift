@@ -29,7 +29,7 @@ struct ImageView: View {
     var body: some View {
         GeometryReader { proxy in
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
-            ScrollView {
+            ZoomableContainer {
                 Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
                     .resizable()
                     .scaledToFit()

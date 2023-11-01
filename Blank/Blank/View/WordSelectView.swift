@@ -42,7 +42,7 @@ struct WordSelectView: View {
         .background(Color(.systemGray6))
         .navigationDestination(isPresented: $goToOCRView) {
             OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
-
+            
         }
         .popup(isPresented: $showingAlert) {
             HStack {
@@ -77,10 +77,7 @@ struct WordSelectView: View {
     
     private var wordSelectImage: some View {
         // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제, 비전 스타트가 여기에 필요한지..?
-        VStack {
-            PinchZoomView(image: generatedImage, visionStart: $visionStart, basicWords: $wordSelectViewModel.basicWords, resultWords: .constant([]), viewName: "WordSelectView")
-        }
-        
+        ImageView(uiImage: generatedImage, visionStart: $visionStart, zoomScale: .constant(1.0), viewName: "WordSelectView", basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]))
     }
     
     private var backButton: some View {

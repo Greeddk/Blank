@@ -50,8 +50,8 @@ struct ZoomableContainer<Content: View>: View {
             scrollView.maximumZoomScale = maxAllowedScale
             scrollView.minimumZoomScale = 1
             scrollView.bouncesZoom = true
-            scrollView.showsHorizontalScrollIndicator = true
-            scrollView.showsVerticalScrollIndicator = true
+            scrollView.showsHorizontalScrollIndicator = false
+            scrollView.showsVerticalScrollIndicator = false
             scrollView.clipsToBounds = false
 
             // Create a UIHostingController to hold our SwiftUI content

@@ -40,7 +40,10 @@ struct OverView: View {
                     progressStatus
                     
                 } else if !overViewModel.thumbnails.isEmpty {
-                    OverViewPinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords, overViewModel: overViewModel)
+//                    OverViewPinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords, overViewModel: overViewModel)
+//                    ZoomableContainer {
+                        OverVIewImageView(uiImage: generatedImage, visionStart: $visionStart, overViewModel: overViewModel, zoomScale: .constant(1.0), basicWords: $overViewModel.basicWords )
+//                    }
                     bottomScrollView
                 }
             }

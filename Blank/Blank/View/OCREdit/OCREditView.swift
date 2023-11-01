@@ -65,7 +65,9 @@ struct OCREditView: View {
     
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
-        OCRPinchZoomView(image: generatedImage, words: $wordSelectViewModel.selectedWords)
+        ZoomableContainer {
+            OCRImageView(uiImage: generatedImage, zoomScale: .constant(1.0), words: $wordSelectViewModel.selectedWords)
+        }
         
     }
     
