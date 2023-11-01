@@ -65,7 +65,7 @@ struct OverView: View {
                     goToNextPageButton
                 }
             }
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden()
             .navigationTitle(titleName)

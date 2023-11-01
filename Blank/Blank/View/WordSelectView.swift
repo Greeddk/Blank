@@ -33,7 +33,7 @@ struct WordSelectView: View {
                     goToNextPageButton
                 }
             }
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden(true)
             .navigationTitle("단어선택")

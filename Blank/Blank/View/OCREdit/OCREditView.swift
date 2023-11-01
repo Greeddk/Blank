@@ -43,7 +43,7 @@ struct OCREditView: View {
                 }
             }
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .navigationTitle("오타수정")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()

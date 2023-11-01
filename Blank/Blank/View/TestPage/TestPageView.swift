@@ -37,7 +37,7 @@ struct TestPageView: View {
                 }
             }
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .navigationTitle("시험")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()

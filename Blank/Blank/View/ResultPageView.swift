@@ -40,7 +40,7 @@ struct ResultPageView: View {
                 }
             }
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .navigationTitle("결과")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
