@@ -81,7 +81,10 @@ struct OverViewImageView: View {
                         
                         
                     }
+                //                        print("Recognized boxes: \(self.recognizedBoxes)")
+                
             }
+            
         }
     }
     
