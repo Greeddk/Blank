@@ -17,7 +17,7 @@ struct WordSelectView: View {
     
     @State var goToOCRView = false
     
-    @StateObject var wordSelectViewModel: WordSelectViewModel
+    @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
     var body: some View {
         NavigationStack {
@@ -77,7 +77,9 @@ struct WordSelectView: View {
     
     private var wordSelectImage: some View {
         // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제, 비전 스타트가 여기에 필요한지..?
-        ImageView(uiImage: generatedImage, visionStart: $visionStart, zoomScale: .constant(1.0), viewName: "WordSelectView", basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]))
+        VStack {
+            ImageView(uiImage: generatedImage, visionStart: $visionStart, zoomScale: .constant(1.0), viewName: "WordSelectView", basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]))
+        }
     }
     
     private var backButton: some View {
