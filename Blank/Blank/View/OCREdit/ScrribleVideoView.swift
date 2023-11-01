@@ -9,30 +9,39 @@ import SwiftUI
 import AVKit
 
 struct ScrribleVideoView: View {
-    @State var player: AVPlayer?
+    @Binding var player: AVPlayer
     @Binding var selectedType: ScrribleType
     @Binding var hasTypeValueChanged: Bool
-
+    
+    
+    
     var body: some View {
-
-        VideoPlayer(player: player)
-            .onAppear() {
-                player?.play()
-            }
-            .frame(width: 550 ,height: 100)
-            .onChange(of: selectedType) { newValue in
-                if newValue != ScrribleType.write {
+        VStack {
+            PlayerUIView(player: player)
+                .frame(width: 600, height: 100)
+                .disabled(true)
+                .onAppear() {
                     player = selectedType.video
-                    player?.play()
+                    player.play()
+                    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                        player.seek(to: .zero)
+                        player.play()
+                    }
                 }
-            }
-            .onDisappear {
-                player?.pause()
-                player?.seek(to: .zero)
-            }
+            
+                .onChange(of: selectedType) { newValue in
+                    player = newValue.video
+//                    text = newValue.text.1
+                    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                        player.seek(to: .zero)
+                        player.play()
+                    }
+                }
+                .onDisappear {
+                    player.pause()
+                    player.seek(to: .zero)
+                    
+                }
+        }
     }
-}
-
-#Preview {
-    ScrribleVideoView(selectedType: .constant(ScrribleType.write), hasTypeValueChanged: .constant(false))
 }

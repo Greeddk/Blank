@@ -12,7 +12,8 @@ struct ScrribleModalView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var selectedType: ScrribleType
     @Binding var hasTypeValueChanged: Bool
-    @State var name: String = "여기에"
+    @State var player: AVPlayer = AVPlayer(url: Bundle.main.url(forResource: "handWrite", withExtension: "mov")!)
+    @State var text: String = ""
 
     var body: some View {
         VStack {
@@ -44,7 +45,7 @@ struct ScrribleModalView: View {
 
 
             HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                ScrribleVideoView(player: selectedType.video, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
+                ScrribleVideoView(player: $player, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
                     .padding()
             }
             .padding()
