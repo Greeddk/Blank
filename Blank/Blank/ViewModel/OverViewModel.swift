@@ -18,6 +18,7 @@ class OverViewModel: ObservableObject {
     
     /// OverView 내에 있는 PinchZoom-ImageView에서 받은 빨간 박스(Basic Words)들을 저장합니다.
     @Published var basicWords: [BasicWord] = []
+    @Published var selectedPage: Page?
     
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
@@ -36,6 +37,57 @@ class OverViewModel: ObservableObject {
         // page.sessions.append(newSession)
         
         return page
+    }
+    
+    /// CoreData: Page가 CoreData에 있으면 Load, 없으면 생성 후 Save
+    func loadPage() {
+        do {
+            // TODO: HomeView에서 파일을 로딩해서 넘어갈 때 이것을 하게 함
+            if let file = try CDService.shared.readFile(from: currentFile.fileURL.lastPathComponent) {
+                if let page = try CDService.shared.readPage(fileId: file.id, pageNumber: currentPage) {
+                    print("[DEBUG] loadPage 1: file % page Loaded")
+                    selectedPage = page
+                    return
+                }
+                
+                // file은 있으면
+                let page = Page(id: UUID(), fileId: file.id, currentPageNumber: currentPage)
+                try CDService.shared.appendPage(to: file, page: page)
+                print("[DEBUG] loadPage 2: file Loaded, page created")
+                selectedPage = page
+                return
+            }
+            
+            // file도 없으면
+            let file: File = .init(id: UUID(), fileURL: currentFile.fileURL, fileName: currentFile.fileName, totalPageCount: currentFile.totalPageCount)
+            let page = Page(id: UUID(), fileId: file.id, currentPageNumber: currentPage)
+            
+            try CDService.shared.createFile(from: file)
+            try CDService.shared.appendPage(to: file, page: page)
+            print("[DEBUG] loadPage 3: file, page created")
+            
+            selectedPage = page
+        } catch {
+            print(#function, "catched error: ", error)
+        }
+    }
+    
+    func loadSessionsOfPage() {
+        // 세션 로딩
+        do {
+            guard let selectedPage else {
+                print("[DEBUG] selectedPage is nil")
+                return
+            }
+            
+            let sessions = try CDService.shared.loadAllSessions(of: selectedPage)
+            print("[DEBUG] Loaded Sessions:", sessions.count)
+            sessions.forEach {
+                print($0)
+            }
+        } catch {
+            
+        }
     }
     
     // PDF의 원하는 페이지를 로드해주는 메소드

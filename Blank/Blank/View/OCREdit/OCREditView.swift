@@ -54,6 +54,7 @@ struct OCREditView: View {
                 generatedImage: $generatedImage,
                 scoringViewModel: .init(
                     page: wordSelectViewModel.page,
+                    session: wordSelectViewModel.session,
                     currentWritingWords: wordSelectViewModel.writingWords,
                     targetWords: wordSelectViewModel.selectedWords
                 )

@@ -48,9 +48,13 @@ struct OverView: View {
             .onAppear {
                 overViewModel.loadThumbnails()
                 generatedImage = overViewModel.generateImage()
+                overViewModel.loadPage()
+                overViewModel.loadSessionsOfPage()
             }
             .onChange(of: overViewModel.currentPage) { _ in
                 generatedImage = overViewModel.generateImage()
+                overViewModel.loadPage()
+                overViewModel.loadSessionsOfPage()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -76,9 +80,17 @@ struct OverView: View {
         .navigationDestination(isPresented: $isLinkActive) {
             if !goToTestPage {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
-                let page = overViewModel.createNewPageAndSession()
-                let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
-                WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+                // let _ = print("[DEBUG] OverView: Nav Destination")
+                if let page = overViewModel.selectedPage {
+                    let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
+                    WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+                } else {
+                    // let page = overViewModel.createNewPageAndSession()
+                    // let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
+                    // WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+                    Text("Error")
+                }
+                
             } else {
                 // 나중에 조건 수정
                 //                let page = overViewModel.createNewPageAndSession()

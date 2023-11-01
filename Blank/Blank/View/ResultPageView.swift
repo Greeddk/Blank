@@ -48,7 +48,7 @@ struct ResultPageView: View {
         .background(Color(.systemGray6))
         .onAppear {
             scoringViewModel.score()
-            
+            scoringViewModel.saveSessionToDatabase()
         }
     }
     
@@ -60,8 +60,7 @@ struct ResultPageView: View {
                 CorrectInfoView(scoringViewModel: scoringViewModel)
                     .frame(minWidth: 600, maxWidth: 800, minHeight: 50, maxHeight: 70)
                 Spacer().frame(width: 50)
-            }
-            else {
+            } else {
                 
             }
         }
