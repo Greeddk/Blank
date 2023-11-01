@@ -12,7 +12,8 @@ struct ScrribleModalView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var selectedType: ScrribleType
     @Binding var hasTypeValueChanged: Bool
-    @State var name: String = "여기에"
+    @State var player: AVPlayer = AVPlayer(url: Bundle.main.url(forResource: "handWrite", withExtension: "mov")!)
+    @State var text: String = ""
 
     var body: some View {
         VStack {
@@ -44,13 +45,28 @@ struct ScrribleModalView: View {
 
 
             HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                ScrribleVideoView(player: selectedType.video, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
+                ScrribleVideoView(player: $player, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
                     .padding()
             }
             .padding()
+
+            HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
+                TextField(selectedType.text.0, text: $text)
+                    .frame(width: 600)
+                    .font(.system(size: 25))
+                    .textFieldStyle(.roundedBorder)
+                    .padding()
+                    .onAppear() {
+                        text = selectedType.text.1
+                    }
+
+                    .onChange(of: selectedType) { newValue in
+                        text = selectedType.text.1
+                    }
+            }
+
             Spacer()
         }
-       
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 closeBtn

@@ -59,5 +59,20 @@ enum ScrribleType: Int16, CaseIterable {
             return "문자 앞이나 뒤에 수직 선을 그어 문자를 합치거나 \n 단어를 분리합니다."
         }
     }
+
+    var text: (String, String) {
+        switch self {
+        case .write:
+            return ("여기에 글자를 써보세요", "")
+        case .delete:
+            return ("", "단어 위로 줄을 지지직 그어 빠르게 삭제하십시오.")
+        case .select:
+            return ("", "단어 위로 선을 긋거나 단어에 동그라미를 쳐서 선택합니다.")
+        case .insert:
+            return ("", "여기에 글자를 써보세요.")
+        case .link:
+            return ("", "단어에 수직 선을 그어분리하거나 합 치십시오.")
+        }
+    }
 }
 
