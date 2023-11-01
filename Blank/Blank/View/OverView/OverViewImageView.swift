@@ -8,7 +8,7 @@
 import SwiftUI
 import Vision
 
-struct OverVIewImageView: View {
+struct OverViewImageView: View {
     //경섭추가코드
     var uiImage: UIImage?
     @Binding var visionStart:Bool

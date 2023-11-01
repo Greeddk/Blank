@@ -41,7 +41,7 @@ struct OverViewPinchZoomView: View {
 
     var body: some View {
         // ImageView를 불러와서 Gesture 적용
-        OverVIewImageView(uiImage: image, visionStart: $visionStart, overViewModel: overViewModel, zoomScale: $scale, basicWords: $basicWords)
+        OverViewImageView(uiImage: image, visionStart: $visionStart, overViewModel: overViewModel, zoomScale: $scale, basicWords: $basicWords)
             .gesture(magnification)
     }
     // 변경값을 lastScale에 저장하여 다음 확대시 lastScale에서부터 시작
