@@ -75,7 +75,7 @@ struct ResultPageView: View {
     
     private var homeButton: some View {
         Button {
-            NavigationUtil.popToRootView()
+            NavigationUtil.popToRootView(animated: true)
         } label: {
             Image(systemName: "house")
         }
