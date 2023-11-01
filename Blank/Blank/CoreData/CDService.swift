@@ -23,6 +23,9 @@ fileprivate protocol IsCDService {
     /// 세션 내부에 단어들 생성
     func appendAllWords(to session: Session, words: [Word]) throws
     
+    /// 페이지 한 개 추가
+    func appendPage(to file: File, page: Page) throws
+    
     /*
      ========== Read ==========
      */
@@ -44,6 +47,9 @@ fileprivate protocol IsCDService {
     
     /// ID로부터 한 개의 Page 읽기
     func readPage(id: UUID) throws -> Page?
+    
+    /// 파일 ID와 페이지 번호로부터 한 개의 Page 읽기
+    func readPage(fileId: UUID, pageNumber: Int) throws -> Page?
     
     /// 페이지 오브젝트로부터 모든 세션 읽기
     func loadAllSessions(of page: Page) throws -> [Session]
@@ -93,6 +99,26 @@ enum CDServiceError: Error {
 }
 
 class CDService: IsCDService {
+    func appendPage(to file: File, page: Page) throws {
+        guard let fileEntity: FileEntity = try readEntity(id: file.id) else {
+            return
+        }
+        print(#function, "file Entity Loaded: \(fileEntity.fileName as Any)")
+        
+        let pageEntity = PageEntity(context: viewContext)
+        pageEntity.id = page.id
+        pageEntity.fileId = file.id
+        pageEntity.currentPageNumber = Int16(page.currentPageNumber)
+        fileEntity.addToPages(pageEntity)
+        
+        do {
+            try viewContext.save()
+            print(#function, "viewContextSaved pageId: \(pageEntity.id as Any)")
+        } catch {
+            print(#function, error)
+        }
+    }
+    
     static let shared = CDService()
     private init() {}
     
@@ -124,6 +150,7 @@ class CDService: IsCDService {
         }
         
         try viewContext.save()
+        print(#function, "word Saved:", words.count)
     }
     
     func createFile(from file: File) throws {
@@ -157,13 +184,14 @@ class CDService: IsCDService {
         pageEntity.addToSessions(sessionEntity)
         
         try viewContext.save()
+        print(#function, "Saved session, id: \(session.id), pageId: \(page.id)")
     }
     
     func appendAllWords(to session: Session, words: [Word]) throws {
         guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
             return
         }
-        
+        print("[DEBUG]", #function, "Session Loaded: id: \(sessionEntity.id as Any)")
         try addAllWordsToSessionEntity(to: sessionEntity, words: words)
     }
     
@@ -276,8 +304,8 @@ class CDService: IsCDService {
         let fetchRequest = SessionEntity.fetchRequest()
         
         // 정렬 또는 조건 설정
-        let sort = NSSortDescriptor(key: "id", ascending: false)
-        fetchRequest.sortDescriptors = [sort]
+        // let sort = NSSortDescriptor(key: "id", ascending: false)
+        // fetchRequest.sortDescriptors = [sort]
         fetchRequest.predicate = NSPredicate(format: "pageId = %@", page.id.uuidString)
         
         let entities = try viewContext.fetch(fetchRequest)
@@ -445,6 +473,37 @@ class CDService: IsCDService {
             fileId: fileId,
             currentPageNumber: Int(pageEntity.currentPageNumber)
         )
+    }
+    
+    func readPage(fileId: UUID, pageNumber: Int) throws -> Page? {
+        let fetchRequest = PageEntity.fetchRequest()
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.fetchLimit = 1
+        fetchRequest.predicate = NSPredicate(format: "fileId = %@ AND currentPageNumber = %@", fileId.uuidString, String(pageNumber))
+        
+        // guard let fileEntity = try viewContext.fetch(fetchRequest).first,
+        //       let id = fileEntity.id,
+        //       let fileName = fileEntity.fileName,
+        //       let fileURL = fileEntity.fileURL else {
+        //     return nil
+        // }
+        // 
+        // return File(
+        //     id: id,
+        //     fileURL: fileURL,
+        //     fileName: fileName,
+        //     totalPageCount: Int(fileEntity.totalPageCount)
+        // )
+        
+        guard let pageEntity = try viewContext.fetch(fetchRequest).first,
+              let id = pageEntity.id,
+              let fileId = pageEntity.fileId else {
+            return nil
+        }
+        
+        return .init(id: id, fileId: fileId, currentPageNumber: Int(pageEntity.currentPageNumber))
     }
     
     func readSession(id: UUID) throws -> Session? {

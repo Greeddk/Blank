@@ -128,6 +128,7 @@ struct HomeView: View {
             LazyVGrid(columns: columns) {
                 ForEach(homeViewModel.filteredFileList, id: \.id) { file in
                     NavigationLink(destination: mode == .normal ? OverView(overViewModel: OverViewModel(currentFile: file)) : nil) {
+                    // NavigationLink(value: file) {
                         // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
                         ZStack(alignment:.topTrailing) {
                             PDFThumbnailView(file: file)
@@ -141,7 +142,9 @@ struct HomeView: View {
                     .foregroundColor(.black)
                     .disabled(mode == .edit)
                     .onTapGesture {
-                        updateSelection(file)
+                        if mode == .edit {
+                            updateSelection(file)
+                        }
                     }
                 }
             }

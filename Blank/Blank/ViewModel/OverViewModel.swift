@@ -18,6 +18,13 @@ class OverViewModel: ObservableObject {
     
     /// OverView 내에 있는 PinchZoom-ImageView에서 받은 빨간 박스(Basic Words)들을 저장합니다.
     @Published var basicWords: [BasicWord] = []
+    @Published var selectedPage: Page?
+    @Published var sessions: [Session] = []
+    @Published var statsOfSessions: [UUID: SessionStatistics] = [:]
+    @Published var currentSession: Session?
+    @Published var wordsOfSession: [UUID: [Word]] = [:]
+    @Published var totalStats: [CGRect: WordStatistics] = [:]
+    @Published var isTotalStatsViewMode = false
     
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
@@ -25,6 +32,10 @@ class OverViewModel: ObservableObject {
     
     init(currentFile: File) {
         self.currentFile = currentFile
+    }
+    
+    var totalSessionCount: Int {
+        sessions.count
     }
     
     func createNewPageAndSession() -> Page {
@@ -38,7 +49,92 @@ class OverViewModel: ObservableObject {
         return page
     }
     
-    // PDF의 원하는 페이지를 로드해주는 메소드
+    /// CoreData: Page가 CoreData에 있으면 Load, 없으면 생성 후 Save
+    func loadPage() {
+        do {
+            // TODO: HomeView에서 파일을 로딩해서 넘어갈 때 이것을 하게 함
+            if let file = try CDService.shared.readFile(from: currentFile.fileURL.lastPathComponent) {
+                if let page = try CDService.shared.readPage(fileId: file.id, pageNumber: currentPage) {
+                    print("[DEBUG] loadPage 1: file % page Loaded")
+                    selectedPage = page
+                    return
+                }
+                
+                // file은 있으면
+                let page = Page(id: UUID(), fileId: file.id, currentPageNumber: currentPage)
+                try CDService.shared.appendPage(to: file, page: page)
+                print("[DEBUG] loadPage 2: file Loaded, page created")
+                selectedPage = page
+                return
+            }
+            
+            // file도 없으면
+            let file: File = .init(id: UUID(), fileURL: currentFile.fileURL, fileName: currentFile.fileName, totalPageCount: currentFile.totalPageCount)
+            let page = Page(id: UUID(), fileId: file.id, currentPageNumber: currentPage)
+            
+            try CDService.shared.createFile(from: file)
+            try CDService.shared.appendPage(to: file, page: page)
+            print("[DEBUG] loadPage 3: file, page created")
+            
+            selectedPage = page
+        } catch {
+            print(#function, "catched error: ", error)
+        }
+    }
+    
+    func loadSessionsOfPage() {
+        // 세션 로딩
+        do {
+            guard let selectedPage else {
+                print("[DEBUG] selectedPage is nil")
+                return
+            }
+            
+            sessions = try CDService.shared.loadAllSessions(of: selectedPage)
+            print("[DEBUG] Loaded Sessions:", sessions.count)
+            sessions.forEach {
+                if let words = try? CDService.shared.loadAllWords(of: $0) {
+                    wordsOfSession[$0.id] = words
+                    
+                    statsOfSessions[$0.id] = .init(
+                        correctCount: words.reduce(0, {
+                            return $0 + ($1.isCorrect ? 1 : 0)
+                        }),
+                        totalCount: words.count
+                    )
+                }
+            }
+        } catch {
+            
+        }
+    }
+    
+    func selectCurrentSessionAndWords(index: Int) -> [Word] {
+        guard index < sessions.count else {
+            return []
+        }
+        
+        currentSession = sessions[index]
+        
+        guard let currentSession else {
+            return []
+        }
+        
+        return wordsOfSession[currentSession.id, default: []]
+    }
+    
+    func generateTotalStatistics() {
+        let allWords = wordsOfSession.values.flatMap { $0 }
+        
+        allWords.forEach { word in
+            totalStats[word.rect, default: .init(id: word.rect, correctSessionCount: 0, totalSessionCount: 0)].correctSessionCount += (word.isCorrect ? 1 : 0)
+            totalStats[word.rect, default: .init(id: word.rect, correctSessionCount: 0, totalSessionCount: 0)].totalSessionCount += 1
+        }
+        
+        print(totalStats)
+    }
+    
+    /// PDF의 원하는 페이지를 로드해주는 메소드
     func updateCurrentPage(from input: String) {
         let originalPage = self.currentPage
         if let pageNumber = Int(input),
@@ -50,13 +146,13 @@ class OverViewModel: ObservableObject {
         }
     }
     
-    // PDF 전체 페이지 수를 반환하는 메소드
+    /// PDF 전체 페이지 수를 반환하는 메소드
     func pdfTotalPage() -> Int {
         //         guard let pdfDocument = pdfDocument else { return 0 }
         return pdfDocument.pageCount
     }
     
-    // PDF의 현재 페이지를 이미지로 반환하는 메소드
+    /// PDF의 현재 페이지를 이미지로 반환하는 메소드
     func generateImage() -> UIImage? {
         //        guard let pdfDocument = pdfDocument, currentPage > 0, currentPage <= pdfDocument.pageCount else {
         //            return nil
