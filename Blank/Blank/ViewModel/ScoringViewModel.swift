@@ -19,13 +19,15 @@ final class ScoringViewModel: ObservableObject {
      */
     
     @Published var page: Page
+    @Published var session: Session
     /// 현재 풀고있는 단어들
     @Published var currentWritingWords: [Word] = []
     /// 정답 단어들
     @Published var targetWords: [Word] = []
     
-    init(page: Page, currentWritingWords: [Word] = [], targetWords: [Word] = []) {
+    init(page: Page, session: Session, currentWritingWords: [Word] = [], targetWords: [Word] = []) {
         self.page = page
+        self.session = session
         self.currentWritingWords = currentWritingWords
         self.targetWords = targetWords
     }
@@ -67,6 +69,21 @@ final class ScoringViewModel: ObservableObject {
         }
         
         currentWritingWords[index].wordValue = newValue
+    }
+    
+    /// CoreData에 현재 세션을 저장
+    func saveSessionToDatabase() {
+        // CoreData에 세션 저장
+        do {
+            for i in 0..<targetWords.count {
+                targetWords[i].sessionId = session.id
+            }
+            
+            try CDService.shared.appendSession(to: page, session: session)
+            try CDService.shared.appendAllWords(to: session, words: targetWords)
+        } catch {
+            print(error)
+        }
     }
     
     var correctCount: Int {
