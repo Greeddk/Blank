@@ -23,6 +23,8 @@ class OverViewModel: ObservableObject {
     @Published var statsOfSessions: [UUID: SessionStatistics] = [:]
     @Published var currentSession: Session?
     @Published var wordsOfSession: [UUID: [Word]] = [:]
+    @Published var totalStats: [CGRect: WordStatistics] = [:]
+    @Published var isTotalStatsViewMode = false
     
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
@@ -119,6 +121,17 @@ class OverViewModel: ObservableObject {
         }
         
         return wordsOfSession[currentSession.id, default: []]
+    }
+    
+    func generateTotalStatistics() {
+        let allWords = wordsOfSession.values.flatMap { $0 }
+        
+        allWords.forEach { word in
+            totalStats[word.rect, default: .init(id: word.rect, correctSessionCount: 0, totalSessionCount: 0)].correctSessionCount += (word.isCorrect ? 1 : 0)
+            totalStats[word.rect, default: .init(id: word.rect, correctSessionCount: 0, totalSessionCount: 0)].totalSessionCount += 1
+        }
+        
+        print(totalStats)
     }
     
     /// PDF의 원하는 페이지를 로드해주는 메소드

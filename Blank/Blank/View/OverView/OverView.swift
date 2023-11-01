@@ -215,15 +215,16 @@ struct OverView: View {
             Menu {
                 // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
                 Button("전체통계") {
-                    
+                    overViewModel.generateTotalStatistics()
+                    overViewModel.isTotalStatsViewMode = true
                 }
                 .disabled(overViewModel.sessions.isEmpty)
                 
                 ForEach(overViewModel.sessions.indices, id: \.self) { index in
                     let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
                     Button("\(index + 1)회차 (\(percentageValue))") {
+                        overViewModel.isTotalStatsViewMode = false
                         let words = overViewModel.selectCurrentSessionAndWords(index: index)
-                        print(words)
                     }
                 }
             } label: {

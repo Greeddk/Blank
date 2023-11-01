@@ -56,14 +56,30 @@ struct OverViewImageView: View {
                 // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
                     .overlay {
                         // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
-                        if let currentSession = overViewModel.currentSession,
-                           let words = overViewModel.wordsOfSession[currentSession.id] {
+                        if overViewModel.isTotalStatsViewMode {
+                            ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
+                                if let stat = overViewModel.totalStats[key] {
+                                    Rectangle()
+                                        .path(in: adjustRect(key, in: proxy))
+                                        .fill(stat.isAllCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
+                                        .onTapGesture {
+                                            overViewModel.totalStats[key]?.isSelected = true
+                                            
+                                            print("\(stat.correctSessionCount) / \(stat.totalSessionCount)")
+                                            print("\(stat.correctRate.percentageTextValue(decimalPlaces: 0))")
+                                        }
+                                }
+                            }
+                        } else if let currentSession = overViewModel.currentSession,
+                                  let words = overViewModel.wordsOfSession[currentSession.id] {
                             ForEach(words, id: \.id) { word in
                                 Rectangle()
                                     .path(in: adjustRect(word.rect, in: proxy))
                                     .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
                             }
                         }
+                        
+                        
                     }
             }
         }
