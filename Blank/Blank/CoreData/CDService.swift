@@ -150,6 +150,7 @@ class CDService: IsCDService {
         }
         
         try viewContext.save()
+        print(#function, "word Saved:", words.count)
     }
     
     func createFile(from file: File) throws {
@@ -190,7 +191,7 @@ class CDService: IsCDService {
         guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
             return
         }
-        
+        print("[DEBUG]", #function, "Session Loaded: id: \(sessionEntity.id as Any)")
         try addAllWordsToSessionEntity(to: sessionEntity, words: words)
     }
     
@@ -303,8 +304,8 @@ class CDService: IsCDService {
         let fetchRequest = SessionEntity.fetchRequest()
         
         // 정렬 또는 조건 설정
-        let sort = NSSortDescriptor(key: "id", ascending: false)
-        fetchRequest.sortDescriptors = [sort]
+        // let sort = NSSortDescriptor(key: "id", ascending: false)
+        // fetchRequest.sortDescriptors = [sort]
         fetchRequest.predicate = NSPredicate(format: "pageId = %@", page.id.uuidString)
         
         let entities = try viewContext.fetch(fetchRequest)

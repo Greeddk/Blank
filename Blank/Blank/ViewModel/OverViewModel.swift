@@ -84,6 +84,7 @@ class OverViewModel: ObservableObject {
             print("[DEBUG] Loaded Sessions:", sessions.count)
             sessions.forEach {
                 print($0)
+                print(try? CDService.shared.loadAllWords(of: $0))
             }
         } catch {
             
