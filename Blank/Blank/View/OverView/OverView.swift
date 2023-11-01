@@ -174,6 +174,11 @@ struct OverView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     Text(" / \(overViewModel.pdfTotalPage())")
+                    Button {
+                        overViewModel.updateCurrentPage(from: currentPageText)
+                    } label: {
+                        Text("이동")
+                    }
                 }
             }
         }
