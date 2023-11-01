@@ -19,6 +19,9 @@ class OverViewModel: ObservableObject {
     /// OverView 내에 있는 PinchZoom-ImageView에서 받은 빨간 박스(Basic Words)들을 저장합니다.
     @Published var basicWords: [BasicWord] = []
     @Published var selectedPage: Page?
+    @Published var sessions: [Session] = []
+    @Published var statsOfSessions: [UUID: SessionStatistics] = [:]
+    
     
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
@@ -26,6 +29,10 @@ class OverViewModel: ObservableObject {
     
     init(currentFile: File) {
         self.currentFile = currentFile
+    }
+    
+    var totalSessionCount: Int {
+        sessions.count
     }
     
     func createNewPageAndSession() -> Page {
@@ -80,11 +87,18 @@ class OverViewModel: ObservableObject {
                 return
             }
             
-            let sessions = try CDService.shared.loadAllSessions(of: selectedPage)
+            sessions = try CDService.shared.loadAllSessions(of: selectedPage)
             print("[DEBUG] Loaded Sessions:", sessions.count)
             sessions.forEach {
-                print($0)
-                print(try? CDService.shared.loadAllWords(of: $0))
+                if let words = try? CDService.shared.loadAllWords(of: $0) {
+                    
+                    statsOfSessions[$0.id] = .init(
+                        correctCount: words.reduce(0, {
+                            return $0 + ($1.isCorrect ? 1 : 0)
+                        }),
+                        totalCount: words.count
+                    )
+                }
             }
         } catch {
             

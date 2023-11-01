@@ -214,12 +214,16 @@ struct OverView: View {
             
             Menu {
                 // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
-                Text("전체통계")
-                Text("1회차")
-                Text("2회차")
-                Text("3회차")
-                Text("4회차")
+                Button("전체통계") {
+                    
+                }
+                .disabled(overViewModel.sessions.isEmpty)
                 
+                ForEach(overViewModel.sessions.indices, id: \.self) { index in
+                    Button("\(index + 1)회차 (\(overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"))") {
+                        
+                    }
+                }
             } label: {
                 Label("결과보기", systemImage: "chevron.down")
                     .labelStyle(.titleAndIcon)

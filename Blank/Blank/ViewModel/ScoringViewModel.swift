@@ -75,12 +75,12 @@ final class ScoringViewModel: ObservableObject {
     func saveSessionToDatabase() {
         // CoreData에 세션 저장
         do {
-            for i in 0..<currentWritingWords.count {
+            for i in 0..<targetWords.count {
                 targetWords[i].sessionId = session.id
             }
             
             try CDService.shared.appendSession(to: page, session: session)
-            try CDService.shared.appendAllWords(to: session, words: currentWritingWords)
+            try CDService.shared.appendAllWords(to: session, words: targetWords)
         } catch {
             print(error)
         }
