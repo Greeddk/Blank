@@ -21,7 +21,8 @@ class OverViewModel: ObservableObject {
     @Published var selectedPage: Page?
     @Published var sessions: [Session] = []
     @Published var statsOfSessions: [UUID: SessionStatistics] = [:]
-    
+    @Published var currentSession: Session?
+    @Published var wordsOfSession: [UUID: [Word]] = [:]
     
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
@@ -91,6 +92,7 @@ class OverViewModel: ObservableObject {
             print("[DEBUG] Loaded Sessions:", sessions.count)
             sessions.forEach {
                 if let words = try? CDService.shared.loadAllWords(of: $0) {
+                    wordsOfSession[$0.id] = words
                     
                     statsOfSessions[$0.id] = .init(
                         correctCount: words.reduce(0, {
@@ -105,7 +107,21 @@ class OverViewModel: ObservableObject {
         }
     }
     
-    // PDF의 원하는 페이지를 로드해주는 메소드
+    func selectCurrentSessionAndWords(index: Int) -> [Word] {
+        guard index < sessions.count else {
+            return []
+        }
+        
+        currentSession = sessions[index]
+        
+        guard let currentSession else {
+            return []
+        }
+        
+        return wordsOfSession[currentSession.id, default: []]
+    }
+    
+    /// PDF의 원하는 페이지를 로드해주는 메소드
     func updateCurrentPage(from input: String) {
         let originalPage = self.currentPage
         if let pageNumber = Int(input),
@@ -117,13 +133,13 @@ class OverViewModel: ObservableObject {
         }
     }
     
-    // PDF 전체 페이지 수를 반환하는 메소드
+    /// PDF 전체 페이지 수를 반환하는 메소드
     func pdfTotalPage() -> Int {
         //         guard let pdfDocument = pdfDocument else { return 0 }
         return pdfDocument.pageCount
     }
     
-    // PDF의 현재 페이지를 이미지로 반환하는 메소드
+    /// PDF의 현재 페이지를 이미지로 반환하는 메소드
     func generateImage() -> UIImage? {
         //        guard let pdfDocument = pdfDocument, currentPage > 0, currentPage <= pdfDocument.pageCount else {
         //            return nil

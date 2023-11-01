@@ -220,8 +220,10 @@ struct OverView: View {
                 .disabled(overViewModel.sessions.isEmpty)
                 
                 ForEach(overViewModel.sessions.indices, id: \.self) { index in
-                    Button("\(index + 1)회차 (\(overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"))") {
-                        
+                    let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
+                    Button("\(index + 1)회차 (\(percentageValue))") {
+                        let words = overViewModel.selectCurrentSessionAndWords(index: index)
+                        print(words)
                     }
                 }
             } label: {

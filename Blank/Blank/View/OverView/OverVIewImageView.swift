@@ -49,32 +49,25 @@ struct OverVIewImageView: View {
                                 //                                    print("Text: \(text), Rect: \(rect)")
                                 //                                }
                             }
-                            
-                            
                         }
-                        
-//                        print("Recognized boxes: \(self.recognizedBoxes)")
-                    
+                        //                        print("Recognized boxes: \(self.recognizedBoxes)")
                     })
                 
                 // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
                     .overlay {
                         // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
-                        
-                        
-                        
-
-                        
-                        
+                        if let currentSession = overViewModel.currentSession,
+                           let words = overViewModel.wordsOfSession[currentSession.id] {
+                            ForEach(words, id: \.id) { word in
+                                Rectangle()
+                                    .path(in: adjustRect(word.rect, in: proxy))
+                                    .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
+                            }
+                        }
                     }
-                
-                
             }
         }
     }
-    
-    
-    
     
     // ---------- Mark : 반자동   ----------------
     func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
@@ -83,20 +76,18 @@ struct OverVIewImageView: View {
         
         // Image 뷰 너비와 UIImage 너비 사이의 비율
         let scaleY: CGFloat = geometry.size.height / imageSize.height
-//        let scaleX: CGFloat = geometry.size.width / imageSize.width
+        //        let scaleX: CGFloat = geometry.size.width / imageSize.width
         
-//        print("----------------")
-//        print("imageSize.width: \(imageSize.width) , imageSize.height: \(imageSize.height)" )
-//        print("geometry.size.width: \(geometry.size.width) , geometry.size.height: \(geometry.size.width)")
-//        print("scaleX: \(scaleX) , scaleY: \(scaleY) , scale: \(zoomScale)")
-//        print("rect.origin.x: \(rect.origin.x) , rect.origin.y: \(rect.origin.y)")
-//        print("rect.size.width: \(rect.size.width) , rect.size.height: \(rect.size.height)")
-//        print("----------------")
+        //        print("----------------")
+        //        print("imageSize.width: \(imageSize.width) , imageSize.height: \(imageSize.height)" )
+        //        print("geometry.size.width: \(geometry.size.width) , geometry.size.height: \(geometry.size.width)")
+        //        print("scaleX: \(scaleX) , scaleY: \(scaleY) , scale: \(zoomScale)")
+        //        print("rect.origin.x: \(rect.origin.x) , rect.origin.y: \(rect.origin.y)")
+        //        print("rect.size.width: \(rect.size.width) , rect.size.height: \(rect.size.height)")
+        //        print("----------------")
         
         
         return CGRect(
-            
-            
             x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))   *  zoomScale   ,
             
             // 좌우반전
@@ -107,11 +98,6 @@ struct OverVIewImageView: View {
             height : rect.height * scaleY * zoomScale
         )
     }
-    
-    
-    
-    
-    
     
     // completion은 recognizeText함수자체가 이미지에서 텍스트를 인식하는 비동기 작업을 수행하니까
     // 함수가 종료되었을 때가 아닌 작업이 완료되었을때 completion클로저를 호출해야됨
@@ -154,8 +140,6 @@ struct OverVIewImageView: View {
             print("Error performing text recognition request: \(error)")
         }
     }
-    
-    
 }
 
 //
