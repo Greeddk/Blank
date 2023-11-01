@@ -37,7 +37,7 @@ struct TestPageView: View {
                 }
             }
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .navigationTitle("시험")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
@@ -53,7 +53,10 @@ struct TestPageView: View {
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-        TestPagePinchZoomView(image: generatedImage, words: $scoringViewModel.currentWritingWords)
+//        TestPagePinchZoomView(image: generatedImage, words: $scoringViewModel.currentWritingWords)
+        ZoomableContainer {
+            TestPageImageView(uiImage: generatedImage, zoomScale: .constant(1.0), words: $scoringViewModel.currentWritingWords)
+        }
     }
     
     private var backButton: some View {

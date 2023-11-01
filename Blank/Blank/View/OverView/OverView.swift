@@ -40,7 +40,13 @@ struct OverView: View {
                     progressStatus
                     
                 } else if !overViewModel.thumbnails.isEmpty {
-                    OverViewPinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords, overViewModel: overViewModel)
+                    ZoomableContainer {
+                        OverViewImageView(uiImage: overViewModel.generateImage(),
+                                          visionStart: $visionStart,
+                                          overViewModel: overViewModel,
+                                          zoomScale: .constant(1.0),
+                                          basicWords: $overViewModel.basicWords )
+                    }
                     bottomScrollView
                 }
             }
@@ -69,7 +75,7 @@ struct OverView: View {
                     goToNextPageButton
                 }
             }
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden()
             .navigationTitle(titleName)
@@ -186,6 +192,11 @@ struct OverView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     Text(" / \(overViewModel.pdfTotalPage())")
+                    Button {
+                        overViewModel.updateCurrentPage(from: currentPageText)
+                    } label: {
+                        Text("이동")
+                    }
                 }
             }
         }

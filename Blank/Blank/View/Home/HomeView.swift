@@ -56,7 +56,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationTitle("문서")
             .navigationBarTitleDisplayMode(.inline)

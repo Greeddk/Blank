@@ -24,64 +24,50 @@ struct OverViewImageView: View {
     var body: some View {
         GeometryReader { proxy in
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
-            ScrollView([.horizontal, .vertical]) {
-                Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
-                    .resizable()
-                    .scaledToFit()
-                
-                // GeometryReader를 통해 화면크기에 맞게 이미지 사이즈 조정
-                
-                //                이미지가 없다면 , 현재 뷰의 너비(GeometryReader의 너비)를 사용하고
-                //                더 작은 값을 반환할건데
-                //                이미지 > GeometryReader 일 때 이미지는 GeometryReader의 크기에 맞게 축소.
-                //                반대로 GeometryReader > 이미지면  이미지의 원래 크기를 사용
-                    .frame(
-                        
-                        width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) * zoomScale,
-                        height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
-                    )
-                    .onChange(of: visionStart, perform: { newValue in
-                        if let image = uiImage {
-                            recognizeTextTwo(from: image) { recognizedTexts in
-                                self.recognizedBoxes = recognizedTexts
-                                basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
-                                //                                for (text, rect) in recognizedTexts {
-                                //                                    print("Text: \(text), Rect: \(rect)")
-                                //                                }
-                            }
+            Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
+                .resizable()
+                .scaledToFit()
+                .frame(
+                    width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) * zoomScale,
+                    height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
+                )
+                .onChange(of: visionStart, perform: { newValue in
+                    if let image = uiImage {
+                        recognizeTextTwo(from: image) { recognizedTexts in
+                            self.recognizedBoxes = recognizedTexts
+                            basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
                         }
                         //                        print("Recognized boxes: \(self.recognizedBoxes)")
-                    })
+                    }
+                })
                 
                 // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
-                    .overlay {
-                        // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
-                        if overViewModel.isTotalStatsViewMode {
-                            ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
-                                if let stat = overViewModel.totalStats[key] {
-                                    Rectangle()
-                                        .path(in: adjustRect(key, in: proxy))
-                                        .fill(stat.isAllCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
-                                        .onTapGesture {
-                                            overViewModel.totalStats[key]?.isSelected = true
-                                            
-                                            print("\(stat.correctSessionCount) / \(stat.totalSessionCount)")
-                                            print("\(stat.correctRate.percentageTextValue(decimalPlaces: 0))")
-                                        }
-                                }
-                            }
-                        } else if let currentSession = overViewModel.currentSession,
-                                  let words = overViewModel.wordsOfSession[currentSession.id] {
-                            ForEach(words, id: \.id) { word in
+                .overlay {
+                    // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
+                    if overViewModel.isTotalStatsViewMode {
+                        ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
+                            if let stat = overViewModel.totalStats[key] {
                                 Rectangle()
-                                    .path(in: adjustRect(word.rect, in: proxy))
-                                    .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
+                                    .path(in: adjustRect(key, in: proxy))
+                                    .fill(stat.isAllCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
+                                    .onTapGesture {
+                                        overViewModel.totalStats[key]?.isSelected = true
+                                        
+                                        print("\(stat.correctSessionCount) / \(stat.totalSessionCount)")
+                                        print("\(stat.correctRate.percentageTextValue(decimalPlaces: 0))")
+                                    }
                             }
                         }
-                        
-                        
+                    } else if let currentSession = overViewModel.currentSession,
+                                let words = overViewModel.wordsOfSession[currentSession.id] {
+                        ForEach(words, id: \.id) { word in
+                            Rectangle()
+                                .path(in: adjustRect(word.rect, in: proxy))
+                                .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
+                        }
                     }
-            }
+                    
+                }
         }
     }
     

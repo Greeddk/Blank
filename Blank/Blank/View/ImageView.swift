@@ -29,7 +29,7 @@ struct ImageView: View {
     var body: some View {
         GeometryReader { proxy in
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
-            ScrollView {
+            ZoomableContainer {
                 Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
                     .resizable()
                     .scaledToFit()
@@ -55,9 +55,7 @@ struct ImageView: View {
                                 //                                }
                             }
                         }
-                        
-                        //                        print("Recognized boxes: \(self.recognizedBoxes)")
-                        print("view name : \(self.viewName)")
+//                        print("view name : \(self.viewName)")
                     })
                 // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
                     .overlay {
@@ -74,9 +72,7 @@ struct ImageView: View {
                         }
                         
                         if viewName == "WordSelectView" {
-                            
                             ForEach(basicWords.indices, id: \.self) { index in
-                                
                                 
                                 if basicWords[index].isSelectedWord  {
                                     
@@ -97,7 +93,7 @@ struct ImageView: View {
                                     // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
                                     Rectangle()
                                         .path(in: adjustRect(basicWords[index].rect, in: proxy))
-                                        .fill(Color.black.opacity(0.01))
+                                        .fill(Color.black.opacity(0.001))
                                         .onTapGesture {
                                             withAnimation {
                                                 print("1 : \(basicWords[index].isSelectedWord)")
@@ -105,18 +101,6 @@ struct ImageView: View {
                                                 print("2 : \(basicWords[index].isSelectedWord)")
                                             }
                                         }
-                                    
-                                    //                                    Rectangle()
-                                    //                                        .path(in: adjustRect(overViewModel.basicWords[index].rect, in: proxy))
-                                    //                                        .fill(Color.green.opacity(0.4))
-                                    //                                        .onTapGesture {
-                                    //                                            withAnimation {
-                                    //                                                print("3 : \(overViewModel.basicWords[index].isSelectedWord)")
-                                    //                                                overViewModel.basicWords[index].isSelectedWord.toggle()
-                                    //                                                print("4 : \(overViewModel.basicWords[index].isSelectedWord)")
-                                    //                                            }
-                                    //                                        }
-                                    
                                 }
                             }
                             
