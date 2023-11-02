@@ -40,7 +40,13 @@ struct OverView: View {
                     progressStatus
                     
                 } else if !overViewModel.thumbnails.isEmpty {
-                    OverViewPinchZoomView(image: overViewModel.generateImage(), visionStart: $visionStart, basicWords: $overViewModel.basicWords, overViewModel: overViewModel)
+                    ZoomableContainer {
+                        OverViewImageView(uiImage: overViewModel.generateImage(),
+                                          visionStart: $visionStart,
+                                          overViewModel: overViewModel,
+                                          zoomScale: .constant(1.0),
+                                          basicWords: $overViewModel.basicWords )
+                    }
                     bottomScrollView
                 }
             }
@@ -48,9 +54,13 @@ struct OverView: View {
             .onAppear {
                 overViewModel.loadThumbnails()
                 generatedImage = overViewModel.generateImage()
+                overViewModel.loadPage()
+                overViewModel.loadSessionsOfPage()
             }
             .onChange(of: overViewModel.currentPage) { _ in
                 generatedImage = overViewModel.generateImage()
+                overViewModel.loadPage()
+                overViewModel.loadSessionsOfPage()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -65,7 +75,7 @@ struct OverView: View {
                     goToNextPageButton
                 }
             }
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden()
             .navigationTitle(titleName)
@@ -76,9 +86,17 @@ struct OverView: View {
         .navigationDestination(isPresented: $isLinkActive) {
             if !goToTestPage {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
-                let page = overViewModel.createNewPageAndSession()
-                let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
-                WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+                // let _ = print("[DEBUG] OverView: Nav Destination")
+                if let page = overViewModel.selectedPage {
+                    let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
+                    WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+                } else {
+                    // let page = overViewModel.createNewPageAndSession()
+                    // let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
+                    // WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+                    Text("Error")
+                }
+                
             } else {
                 // 나중에 조건 수정
                 //                let page = overViewModel.createNewPageAndSession()
@@ -174,6 +192,11 @@ struct OverView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     Text(" / \(overViewModel.pdfTotalPage())")
+                    Button {
+                        overViewModel.updateCurrentPage(from: currentPageText)
+                    } label: {
+                        Text("이동")
+                    }
                 }
             }
         }
@@ -202,12 +225,19 @@ struct OverView: View {
             
             Menu {
                 // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
-                Text("전체통계")
-                Text("1회차")
-                Text("2회차")
-                Text("3회차")
-                Text("4회차")
+                Button("전체통계") {
+                    overViewModel.generateTotalStatistics()
+                    overViewModel.isTotalStatsViewMode = true
+                }
+                .disabled(overViewModel.sessions.isEmpty)
                 
+                ForEach(overViewModel.sessions.indices, id: \.self) { index in
+                    let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
+                    Button("\(index + 1)회차 (\(percentageValue))") {
+                        overViewModel.isTotalStatsViewMode = false
+                        let words = overViewModel.selectCurrentSessionAndWords(index: index)
+                    }
+                }
             } label: {
                 Label("결과보기", systemImage: "chevron.down")
                     .labelStyle(.titleAndIcon)

@@ -43,7 +43,7 @@ struct OCREditView: View {
                 }
             }
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(.white, for: .navigationBar)
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .navigationTitle("오타수정")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
@@ -54,6 +54,7 @@ struct OCREditView: View {
                 generatedImage: $generatedImage,
                 scoringViewModel: .init(
                     page: wordSelectViewModel.page,
+                    session: wordSelectViewModel.session,
                     currentWritingWords: wordSelectViewModel.writingWords,
                     targetWords: wordSelectViewModel.selectedWords
                 )
@@ -65,7 +66,9 @@ struct OCREditView: View {
     
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
-        OCRPinchZoomView(image: generatedImage, words: $wordSelectViewModel.selectedWords)
+        ZoomableContainer {
+            OCRImageView(uiImage: generatedImage, zoomScale: .constant(1.0), words: $wordSelectViewModel.selectedWords)
+        }
         
     }
     
