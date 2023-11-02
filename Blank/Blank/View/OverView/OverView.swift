@@ -81,10 +81,6 @@ struct OverView: View {
                     let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords, currentImage: overViewModel.currentImage)
                     WordSelectView(isLinkActive: $isLinkActive, wordSelectViewModel: wordSelectViewModel)
                 } else {
-<<<<<<< HEAD
-=======
-                    
->>>>>>> dev
                     Text("Error")
                 }
             } else {
