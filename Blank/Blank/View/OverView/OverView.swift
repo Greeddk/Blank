@@ -16,7 +16,7 @@ struct OverView: View {
     @StateObject var overViewModel: OverViewModel
     
     //향후 오버뷰 페이지로 돌아오기 위한 flag
-    @State var goToWordSelectView = false
+    @State var goToNextPage = false
     
     //n회차 alert flag
     @State var showingAlert = false
@@ -56,6 +56,7 @@ struct OverView: View {
                 generatedImage = overViewModel.generateImage()
                 overViewModel.loadPage()
                 overViewModel.loadSessionsOfPage()
+                goToTestPage = false
             }
             .onChange(of: overViewModel.currentPage) { _ in
                 generatedImage = overViewModel.generateImage()
@@ -83,7 +84,7 @@ struct OverView: View {
             
         }
         .ignoresSafeArea(.keyboard)
-        .navigationDestination(isPresented: $goToWordSelectView) {
+        .navigationDestination(isPresented: $goToNextPage) {
             if !goToTestPage {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
                 // let _ = print("[DEBUG] OverView: Nav Destination")
@@ -94,9 +95,20 @@ struct OverView: View {
                     
                     Text("Error")
                 }
-                
+            // 바로 시험보기 버튼을 눌렀을 시
             } else {
-            
+                if let page = overViewModel.selectedPage {
+                    let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
+                    TestPageView(
+                        generatedImage: $generatedImage,
+                        scoringViewModel: .init(
+                            page: wordSelectViewModel.page,
+                            session: wordSelectViewModel.session,
+                            currentWritingWords: wordSelectViewModel.writingWords,
+                            targetWords: wordSelectViewModel.selectedWords
+                        )
+                    )
+                }
             }
         }
         
@@ -251,10 +263,13 @@ struct OverView: View {
         
         Button {
             // TODO: 해당 페이지 이미지 파일로 넘겨주기, layer 분리, 이미지 받아서 텍스트로 변환, 2회차 이상일때 내용수정 Alert 만들기
-            goToWordSelectView = true
-            visionStart = true
             // TODO: 2회차 이상일때 alert 띄울 로직
-            //            showingAlert = true
+            visionStart = true
+            if overViewModel.sessions.count >= 1 {
+                showingAlert = true
+            } else {
+                goToNextPage = true
+            }
         } label: {
             Text("시험준비")
                 .fontWeight(.bold)
@@ -262,12 +277,12 @@ struct OverView: View {
         .alert("내용수정" ,isPresented: $showingAlert) {
             Button("시험보기") {
                 goToTestPage = true
+                goToNextPage = true
             }
             Button("수정하기") {
-
+                goToNextPage = true
             }
             Button("취소", role: .cancel) {
-
 
             }
         } message: {
