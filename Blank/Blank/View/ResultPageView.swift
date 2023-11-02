@@ -96,7 +96,8 @@ struct ResultPageView: View {
     
     private var backToOverViewButton: some View {
         Button {
-            isLinkActive = false
+//            isLinkActive = false
+            NavigationUtil.popToOverView(animated: true)
         } label: {
             Text("페이지 선택으로 이동")
                 .fontWeight(.bold)
