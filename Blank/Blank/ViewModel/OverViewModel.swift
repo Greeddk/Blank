@@ -179,28 +179,6 @@ class OverViewModel: ObservableObject {
         return image
     }
     
-    // PDF의 모든 페이지를 썸네일 이미지로 배열에 저장하는 메소드
-    //         func loadPDF() async {
-    //            guard let pdfDocument = pdfDocument else {
-    //                return
-    //            }
-    //
-    //            thumbnails.removeAll() // 이미지 배열 초기화
-    //
-    //            DispatchQueue.global().async {
-    //                for i in 0..<pdfDocument.pageCount {
-    //                    guard let page = pdfDocument.page(at: i) else {
-    //                        continue
-    //                    }
-    //
-    //                    let image = page.thumbnail(of: CGSize(width: 500, height: 700), for: .mediaBox)
-    //                    DispatchQueue.main.async {
-    //                        self.thumbnails.append(image)
-    //                    }
-    //                }
-    //            }
-    //        }
-    
     // PDF의 모든 페이지를 썸네일 이미지로 배열에 저장하는 메소드, 진행률도 표시
     func loadThumbnails() {
         isLoading = true

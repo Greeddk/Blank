@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ResultPageView: View {
-    @Binding var isLinkActive: Bool
-    @State var isActive = false
     @State var seeCorrect: Bool = true
     @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
@@ -91,7 +89,6 @@ struct ResultPageView: View {
     
     private var backToOverViewButton: some View {
         Button {
-//            isLinkActive = false
             NavigationUtil.popToOverView(animated: true)
         } label: {
             Text("페이지 선택으로 이동")

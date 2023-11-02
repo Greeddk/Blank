@@ -11,7 +11,6 @@ import PopupView
 struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingAlert = true
-    @Binding var isLinkActive: Bool
     @State var visionStart: Bool = false
     @Binding var generatedImage: UIImage?
     
@@ -41,8 +40,7 @@ struct WordSelectView: View {
         }
         .background(Color(.systemGray6))
         .navigationDestination(isPresented: $goToOCRView) {
-            OCREditView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
-            
+            OCREditView(generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
         }
         .popup(isPresented: $showingAlert) {
             HStack {

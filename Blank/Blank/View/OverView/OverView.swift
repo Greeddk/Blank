@@ -16,7 +16,7 @@ struct OverView: View {
     @StateObject var overViewModel: OverViewModel
     
     //향후 오버뷰 페이지로 돌아오기 위한 flag
-    @State var isLinkActive = false
+    @State var goToWordSelectView = false
     
     //n회차 alert flag
     @State var showingAlert = false
@@ -83,13 +83,13 @@ struct OverView: View {
             
         }
         .ignoresSafeArea(.keyboard)
-        .navigationDestination(isPresented: $isLinkActive) {
+        .navigationDestination(isPresented: $goToWordSelectView) {
             if !goToTestPage {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
                 // let _ = print("[DEBUG] OverView: Nav Destination")
                 if let page = overViewModel.selectedPage {
                     let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
-                    WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+                    WordSelectView(generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
                 } else {
                     
                     Text("Error")
@@ -251,7 +251,7 @@ struct OverView: View {
         
         Button {
             // TODO: 해당 페이지 이미지 파일로 넘겨주기, layer 분리, 이미지 받아서 텍스트로 변환, 2회차 이상일때 내용수정 Alert 만들기
-            isLinkActive = true
+            goToWordSelectView = true
             visionStart = true
             // TODO: 2회차 이상일때 alert 띄울 로직
             //            showingAlert = true
