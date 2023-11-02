@@ -21,6 +21,9 @@ struct ImageView: View {
     // 다른 뷰에서도 사용할 수 있기 때문에 뷰모델로 전달하지 않고 개별 배열로 전달해봄
     @Binding var basicWords: [BasicWord]
     @Binding var targetWords: [Word]
+    @Binding var currentWritingWords: [Word]
+    
+    @State var isAreaTouched: [Int: Bool] = [:]
     
     let cornerRadiusSize: CGFloat = 6
     let fontSizeRatio: CGFloat = 1.9
@@ -95,22 +98,34 @@ struct ImageView: View {
                                 }
                             }
                         } else if viewName == "ResultPageView" {
-                            // TargetWords의 wordValue에는 원래 값이 넘어온다
+                            // TargetWords의 wordValue에는 원래 값 + 맞고 틀림 여부(isCorrect)이 넘어온다
                             ForEach(targetWords.indices, id: \.self) { index in
                                 let adjustRect = adjustRect(targetWords[index].rect, in: proxy)
+                                let isCorrect = targetWords[index].isCorrect
+                                let originalValue = targetWords[index].wordValue
+                                let wroteValue = currentWritingWords[index].wordValue
+                                
+                                let correctColor = Color(red: 183 / 255, green: 255 / 255, blue: 157 / 255) // Color.green.opacity(0.4)
+                                let wrongColor = Color(red: 253 / 255, green: 169 / 255, blue: 169 / 255) // Color.red.opacity(0.4)
+                                let flippedAreaColor = Color(white: 238/255)
+                                
                                 RoundedRectangle(cornerSize: .init(width: cornerRadiusSize, height: cornerRadiusSize))
                                     .path(in: adjustRect)
-                                // .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
-                                    .fill(targetWords[index].isCorrect ? Color(red: 183 / 255, green: 255 / 255, blue: 157 / 255) : Color(red: 253 / 255, green: 169 / 255, blue: 169 / 255))
-                                    .shadow(color: .black, radius: 2, x: 0, y: 2)
+                                    .fill(isCorrect ? correctColor : isAreaTouched[index, default: false] ? flippedAreaColor : wrongColor)
+                                    .shadow(color: .black, radius: 2, x: 2, y: 2)
                                     .overlay(
-                                        Text("\(targetWords[index].isCorrect ? targetWords[index].wordValue : targetWords[index].wordValue)")
+                                        Text("\(isCorrect ? originalValue : isAreaTouched[index, default: false] ? originalValue : wroteValue)")
                                             .font(.system(size: adjustRect.height / fontSizeRatio, weight: .semibold))
                                             .offset(
                                                 x: -(proxy.size.width / 2) + adjustRect.origin.x + (adjustRect.size.width / 2),
                                                 y: -(proxy.size.height / 2) + adjustRect.origin.y + (adjustRect.size.height / 2)
                                             )
                                     )
+                                    .onTapGesture {
+                                        if !targetWords[index].isCorrect {
+                                            isAreaTouched[index, default: false].toggle()
+                                        }
+                                    }
                             }
                         }
                     }
