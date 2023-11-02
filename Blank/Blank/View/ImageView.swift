@@ -14,8 +14,6 @@ struct ImageView: View {
     @Binding var visionStart:Bool
     @State private var recognizedBoxes: [(String, CGRect)] = []
     
-    // @StateObject var overViewModel: OverViewModel
-    // @StateObject var scoringViewModel: ScoringViewModel
     //경섭추가코드
     @Binding var zoomScale: CGFloat
     var viewName: String?
@@ -24,7 +22,8 @@ struct ImageView: View {
     @Binding var basicWords: [BasicWord]
     @Binding var targetWords: [Word]
     
-    // @Binding var page:Page
+    let cornerRadiusSize: CGFloat = 6
+    let fontSizeRatio: CGFloat = 1.9
     
     var body: some View {
         GeometryReader { proxy in
@@ -41,7 +40,6 @@ struct ImageView: View {
                 //                이미지 > GeometryReader 일 때 이미지는 GeometryReader의 크기에 맞게 축소.
                 //                반대로 GeometryReader > 이미지면  이미지의 원래 크기를 사용
                     .frame(
-                        
                         width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) * zoomScale,
                         height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
                     )
@@ -55,7 +53,7 @@ struct ImageView: View {
                                 //                                }
                             }
                         }
-//                        print("view name : \(self.viewName)")
+                        //                        print("view name : \(self.viewName)")
                     })
                 // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
                     .overlay {
@@ -69,13 +67,9 @@ struct ImageView: View {
                                             adjustRect(box.1, in: proxy))
                                     .stroke(Color.red, lineWidth: 1)
                             }
-                        }
-                        
-                        if viewName == "WordSelectView" {
+                        } else if viewName == "WordSelectView" {
                             ForEach(basicWords.indices, id: \.self) { index in
-                                
                                 if basicWords[index].isSelectedWord  {
-                                    
                                     Rectangle()
                                         .path(in: adjustRect(basicWords[index].rect, in: proxy))
                                         .fill(Color.green.opacity(0.4))
@@ -86,10 +80,7 @@ struct ImageView: View {
                                                 print("4 : \(basicWords[index].isSelectedWord)")
                                             }
                                         }
-                                    
-                                    
                                 } else {
-                                    
                                     // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
                                     Rectangle()
                                         .path(in: adjustRect(basicWords[index].rect, in: proxy))
@@ -103,15 +94,23 @@ struct ImageView: View {
                                         }
                                 }
                             }
-                            
-                        }
-                        
-                        if viewName == "ResultPageView" {
-                            ForEach(targetWords, id: \.id) { word in
-                                // let _ = print("343irhfifskd", word.wordValue, word.rect, word.isCorrect)
-                                Rectangle()
-                                    .path(in: adjustRect(word.rect, in: proxy))
-                                    .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
+                        } else if viewName == "ResultPageView" {
+                            // TargetWords의 wordValue에는 원래 값이 넘어온다
+                            ForEach(targetWords.indices, id: \.self) { index in
+                                let adjustRect = adjustRect(targetWords[index].rect, in: proxy)
+                                RoundedRectangle(cornerSize: .init(width: cornerRadiusSize, height: cornerRadiusSize))
+                                    .path(in: adjustRect)
+                                // .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
+                                    .fill(targetWords[index].isCorrect ? Color(red: 183 / 255, green: 255 / 255, blue: 157 / 255) : Color(red: 253 / 255, green: 169 / 255, blue: 169 / 255))
+                                    .shadow(color: .black, radius: 2, x: 0, y: 2)
+                                    .overlay(
+                                        Text("\(targetWords[index].isCorrect ? targetWords[index].wordValue : targetWords[index].wordValue)")
+                                            .font(.system(size: adjustRect.height / fontSizeRatio, weight: .semibold))
+                                            .offset(
+                                                x: -(proxy.size.width / 2) + adjustRect.origin.x + (adjustRect.size.width / 2),
+                                                y: -(proxy.size.height / 2) + adjustRect.origin.y + (adjustRect.size.height / 2)
+                                            )
+                                    )
                             }
                         }
                     }
@@ -151,11 +150,6 @@ struct ImageView: View {
             height : rect.height * scaleY * zoomScale
         )
     }
-    
-    
-    
-    
-    
     
     // completion은 recognizeText함수자체가 이미지에서 텍스트를 인식하는 비동기 작업을 수행하니까
     // 함수가 종료되었을 때가 아닌 작업이 완료되었을때 completion클로저를 호출해야됨
