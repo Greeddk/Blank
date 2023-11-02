@@ -12,6 +12,17 @@ struct NavigationUtil {
         findNavigationController(viewController: UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }?.rootViewController)?.popToRootViewController(animated: animated)
     }
     
+    static func popToOverView(animated: Bool = false) {
+            guard let navigationController = findNavigationController(viewController: UIApplication.shared.connectedScenes.flatMap { ($0 as? UIWindowScene)?.windows ?? [] }.first { $0.isKeyWindow }?.rootViewController) else {
+                return
+            }
+            
+            if navigationController.viewControllers.count > 1 {
+                let overViewController = navigationController.viewControllers[1]  // 루트 뷰 바로 다음에 있는 뷰 컨트롤러를 가져옵니다.
+                navigationController.popToViewController(overViewController, animated: animated)
+            }
+        }
+    
     static func findNavigationController(viewController: UIViewController?) -> UINavigationController? {
         guard let viewController = viewController else {
             return nil

@@ -91,16 +91,12 @@ struct OverView: View {
                     let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
                     WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
                 } else {
-                    // let page = overViewModel.createNewPageAndSession()
-                    // let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
-                    // WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+                    
                     Text("Error")
                 }
                 
             } else {
-                // 나중에 조건 수정
-                //                let page = overViewModel.createNewPageAndSession()
-                //                TestPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, page: page)
+            
             }
         }
         
@@ -235,7 +231,7 @@ struct OverView: View {
                     let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
                     Button("\(index + 1)회차 (\(percentageValue))") {
                         overViewModel.isTotalStatsViewMode = false
-                        let words = overViewModel.selectCurrentSessionAndWords(index: index)
+                        _ = overViewModel.selectCurrentSessionAndWords(index: index)
                     }
                 }
             } label: {
