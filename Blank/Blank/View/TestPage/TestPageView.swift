@@ -11,7 +11,7 @@ struct TestPageView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = false
     @Binding var isLinkActive: Bool
-    @Binding var generatedImage: UIImage?
+    // @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
@@ -43,7 +43,7 @@ struct TestPageView: View {
             .navigationBarBackButtonHidden()
         }
         .navigationDestination(isPresented: $goToResultPage) {
-            ResultPageView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, scoringViewModel: scoringViewModel)
+            ResultPageView(isLinkActive: $isLinkActive, scoringViewModel: scoringViewModel)
             
         }
         .ignoresSafeArea(.keyboard)
@@ -55,7 +55,7 @@ struct TestPageView: View {
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
 //        TestPagePinchZoomView(image: generatedImage, words: $scoringViewModel.currentWritingWords)
         ZoomableContainer {
-            TestPageImageView(uiImage: generatedImage, zoomScale: .constant(1.0), words: $scoringViewModel.currentWritingWords)
+            TestPageImageView(uiImage: scoringViewModel.currentImage, zoomScale: .constant(1.0), words: $scoringViewModel.currentWritingWords)
         }
     }
     
