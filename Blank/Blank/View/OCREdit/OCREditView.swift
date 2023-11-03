@@ -87,9 +87,7 @@ struct OCREditView: View {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            NavigationView {
-                ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
-            }
+            ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
         }
     }
     
