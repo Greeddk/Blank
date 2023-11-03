@@ -16,60 +16,62 @@ struct ScrribleModalView: View {
     @State var text: String = ""
 
     var body: some View {
-        VStack {
-            Text("손글씨 입력 쓰기")
-                .font(.largeTitle)
-                .bold()
-                .padding(.top, 50)
-                .padding()
-
-            HStack(alignment: .center, spacing: 20) {
-                Picker("타입", selection: $selectedType) {
-                    ForEach(ScrribleType.allCases, id: \.self) {
-                        Text($0.description)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .onChange(of: selectedType) { newValue in
-                    if newValue != ScrribleType.write {
-                        hasTypeValueChanged = true
-                    }
-                }
-            }
-            .padding()
-
-            Text(selectedType.explain)
-                .font(.system(size: 20))
-                .multilineTextAlignment(.center)
-                .padding()
-
-
-            HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                ScrribleVideoView(player: $player, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
+        NavigationView {
+            VStack {
+                Text("손글씨 입력 쓰기")
+                    .font(.largeTitle)
+                    .bold()
+                    .padding(.top, 50)
                     .padding()
-            }
-            .padding()
 
-            HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                TextField(selectedType.text.0, text: $text)
-                    .frame(width: 600)
-                    .font(.system(size: 25))
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
-                    .onAppear() {
-                        text = selectedType.text.1
+                HStack(alignment: .center, spacing: 20) {
+                    Picker("타입", selection: $selectedType) {
+                        ForEach(ScrribleType.allCases, id: \.self) {
+                            Text($0.description)
+                        }
                     }
-
+                    .pickerStyle(.segmented)
                     .onChange(of: selectedType) { newValue in
-                        text = selectedType.text.1
+                        if newValue != ScrribleType.write {
+                            hasTypeValueChanged = true
+                        }
                     }
-            }
+                }
+                .padding()
 
-            Spacer()
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                closeBtn
+                Text(selectedType.explain)
+                    .font(.system(size: 20))
+                    .multilineTextAlignment(.center)
+                    .padding()
+
+
+                HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
+                    ScrribleVideoView(player: $player, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
+                        .padding()
+                }
+                .padding()
+
+                HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
+                    TextField(selectedType.text.0, text: $text)
+                        .frame(width: 600)
+                        .font(.system(size: 25))
+                        .textFieldStyle(.roundedBorder)
+                        .padding()
+                        .onAppear() {
+                            text = selectedType.text.1
+                        }
+
+                        .onChange(of: selectedType) { newValue in
+                            text = selectedType.text.1
+                        }
+                }
+
+                Spacer()
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    closeBtn
+                }
             }
         }
 
