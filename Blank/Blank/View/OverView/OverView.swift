@@ -29,7 +29,7 @@ struct OverView: View {
     
     @State var visionStart = false
     
-    @State private var generatedImage: UIImage?
+    // @State private var generatedImage: UIImage?
     @State private var currentPageText: String = ""
     @State var titleName = "파일이름"
     
@@ -41,11 +41,9 @@ struct OverView: View {
                     
                 } else if !overViewModel.thumbnails.isEmpty {
                     ZoomableContainer {
-                        OverViewImageView(uiImage: overViewModel.generateImage(),
-                                          visionStart: $visionStart,
+                        OverViewImageView(visionStart: $visionStart,
                                           overViewModel: overViewModel,
-                                          zoomScale: .constant(1.0),
-                                          basicWords: $overViewModel.basicWords )
+                                          zoomScale: .constant(1.0))
                     }
                     bottomScrollView
                 }
@@ -53,14 +51,7 @@ struct OverView: View {
             .background(Color(.systemGray4))
             .onAppear {
                 overViewModel.loadThumbnails()
-                generatedImage = overViewModel.generateImage()
-                overViewModel.loadPage()
-                overViewModel.loadSessionsOfPage()
-            }
-            .onChange(of: overViewModel.currentPage) { _ in
-                generatedImage = overViewModel.generateImage()
-                overViewModel.loadPage()
-                overViewModel.loadSessionsOfPage()
+                setImagesAndData()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -86,20 +77,16 @@ struct OverView: View {
         .navigationDestination(isPresented: $isLinkActive) {
             if !goToTestPage {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
-                // let _ = print("[DEBUG] OverView: Nav Destination")
                 if let page = overViewModel.selectedPage {
-                    let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
-                    WordSelectView(isLinkActive: $isLinkActive, generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+                    let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords, currentImage: overViewModel.currentImage)
+                    WordSelectView(isLinkActive: $isLinkActive, wordSelectViewModel: wordSelectViewModel)
                 } else {
-                    
                     Text("Error")
                 }
-                
             } else {
             
             }
         }
-        
     }
     
     private var progressStatus: some View {
@@ -113,8 +100,6 @@ struct OverView: View {
         }
         .background(.white)
     }
-    
-    
     
     private var bottomScrollView: some View {
         ScrollView(.horizontal, showsIndicators: true) {
@@ -135,6 +120,7 @@ struct OverView: View {
                         }
                         .onTapGesture {
                             overViewModel.currentPage = index + 1
+                            setImagesAndData()
                         }
                     }
                     Spacer()
@@ -154,9 +140,6 @@ struct OverView: View {
         .background(Color.white)
         .frame(height : UIScreen.main.bounds.height * 0.11)
     }
-    
-    
-    
     
     private var centerButton: some View {
         Button {
@@ -281,6 +264,15 @@ struct OverView: View {
         
     }
     
+}
+
+extension OverView {
+    private func setImagesAndData() {
+        overViewModel.generateCurrentImage()
+        overViewModel.generateBasicWordsFromCurrentImage()
+        overViewModel.loadPage()
+        overViewModel.loadSessionsOfPage()
+    }
 }
 
 //#Preview {
