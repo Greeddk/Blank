@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var showingModal = true
+    @State private var showingModal = false
     @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     @State var type = ScrribleType.write

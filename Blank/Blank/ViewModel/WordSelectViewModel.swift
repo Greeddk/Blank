@@ -20,6 +20,7 @@ class WordSelectViewModel: ObservableObject {
         self.session = .init(id: UUID(), pageId: page.id)
     }
     
+    /// 새로운 답안 작성 공간 생성
     var writingWords: [Word] {
         selectedWords.map { .init(id: $0.id, sessionId: $0.sessionId, wordValue: "", rect: $0.rect) }
     }

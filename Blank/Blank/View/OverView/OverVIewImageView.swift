@@ -41,7 +41,7 @@ struct OverViewImageView: View {
                     }
                 })
                 
-                // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
+                // 통계가 나타나는 부분
                 .overlay {
                     // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
                     if overViewModel.isTotalStatsViewMode {
@@ -78,15 +78,6 @@ struct OverViewImageView: View {
         
         // Image 뷰 너비와 UIImage 너비 사이의 비율
         let scaleY: CGFloat = geometry.size.height / imageSize.height
-        //        let scaleX: CGFloat = geometry.size.width / imageSize.width
-        
-        //        print("----------------")
-        //        print("imageSize.width: \(imageSize.width) , imageSize.height: \(imageSize.height)" )
-        //        print("geometry.size.width: \(geometry.size.width) , geometry.size.height: \(geometry.size.width)")
-        //        print("scaleX: \(scaleX) , scaleY: \(scaleY) , scale: \(zoomScale)")
-        //        print("rect.origin.x: \(rect.origin.x) , rect.origin.y: \(rect.origin.y)")
-        //        print("rect.size.width: \(rect.size.width) , rect.size.height: \(rect.size.height)")
-        //        print("----------------")
         
         
         return CGRect(

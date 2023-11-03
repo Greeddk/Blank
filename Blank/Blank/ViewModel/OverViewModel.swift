@@ -25,6 +25,7 @@ class OverViewModel: ObservableObject {
     @Published var wordsOfSession: [UUID: [Word]] = [:]
     @Published var totalStats: [CGRect: WordStatistics] = [:]
     @Published var isTotalStatsViewMode = false
+    @Published var lastSession: Session?
     
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
@@ -32,6 +33,7 @@ class OverViewModel: ObservableObject {
     
     init(currentFile: File) {
         self.currentFile = currentFile
+        
     }
     
     var totalSessionCount: Int {
@@ -104,6 +106,10 @@ class OverViewModel: ObservableObject {
                     )
                 }
             }
+            //마지막으로 시험 본 세션을 불러서 저장하는 코드
+            if sessions.count >= 1 {
+                lastSession = sessions.last
+            }
         } catch {
             
         }
@@ -154,9 +160,6 @@ class OverViewModel: ObservableObject {
     
     /// PDF의 현재 페이지를 이미지로 반환하는 메소드
     func generateImage() -> UIImage? {
-        //        guard let pdfDocument = pdfDocument, currentPage > 0, currentPage <= pdfDocument.pageCount else {
-        //            return nil
-        //        }
         
         guard let page = pdfDocument.page(at: currentPage - 1) else {
             return nil

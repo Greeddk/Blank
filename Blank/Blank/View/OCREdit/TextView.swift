@@ -35,9 +35,11 @@ struct UITextViewRepresentable: UIViewRepresentable {
         let textView = UITextView(frame: .zero)
         textView.delegate = context.coordinator
         textView.font = UIFont(name: "Avenir", size: (height/fontSize))
+        textView.textAlignment = .center
+//        textView.adjustsFontForContentSizeCategory = true
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        textView.textContainer.maximumNumberOfLines = 2
-        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.textContainer.maximumNumberOfLines = 1
+        textView.textContainerInset = UIEdgeInsets(top: height * 0.1, left: 0, bottom: 0, right: 0)
         textView.autocapitalizationType = .none
         return textView
     }

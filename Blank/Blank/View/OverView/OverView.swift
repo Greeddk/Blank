@@ -15,7 +15,6 @@ struct OverView: View {
     //뷰모델
     @StateObject var overViewModel: OverViewModel
     
-    //향후 오버뷰 페이지로 돌아오기 위한 flag
     @State var goToNextPage = false
     
     //n회차 alert flag
@@ -96,20 +95,38 @@ struct OverView: View {
                     Text("Error")
                 }
             // 바로 시험보기 버튼을 눌렀을 시
-            } else {
-                if let page = overViewModel.selectedPage {
+            } else if let page = overViewModel.selectedPage, let lastSession = overViewModel.lastSession, let words = overViewModel.wordsOfSession[lastSession.id] {
+                    
                     let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
+                    
                     TestPageView(
                         generatedImage: $generatedImage,
                         scoringViewModel: .init(
                             page: wordSelectViewModel.page,
                             session: wordSelectViewModel.session,
-                            currentWritingWords: wordSelectViewModel.writingWords,
-                            targetWords: wordSelectViewModel.selectedWords
+                            currentWritingWords: words.map { .init(id: $0.id, sessionId: $0.sessionId, wordValue: "", rect: $0.rect, isCorrect: $0.isCorrect) },
+                            targetWords: words
                         )
                     )
                 }
+        }
+        .alert("내용수정" ,isPresented: $showingAlert) {
+            Button("시험보기") {
+                goToTestPage = true
+                goToNextPage = true
             }
+            Button("수정하기") {
+                goToNextPage = true
+            }
+            Button("취소", role: .cancel) {
+
+            }
+        } message: {
+            Text("""
+                 기존에 시험을 본 내용이 있습니다.
+                 바로 시험을 보시겠습니까?
+                 수정하시겠습니까?
+                 """)
         }
         
     }
@@ -273,24 +290,6 @@ struct OverView: View {
         } label: {
             Text("시험준비")
                 .fontWeight(.bold)
-        }
-        .alert("내용수정" ,isPresented: $showingAlert) {
-            Button("시험보기") {
-                goToTestPage = true
-                goToNextPage = true
-            }
-            Button("수정하기") {
-                goToNextPage = true
-            }
-            Button("취소", role: .cancel) {
-
-            }
-        } message: {
-            Text("""
-                 기존에 시험을 본 내용이 있습니다.
-                 바로 시험을 보시겠습니까?
-                 수정하시겠습니까?
-                 """)
         }
         .buttonStyle(.borderedProminent)
         
