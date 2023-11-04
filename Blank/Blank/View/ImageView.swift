@@ -15,8 +15,15 @@ struct ImageView: View {
     @State private var recognizedBoxes: [(String, CGRect)] = []
     
     //경섭추가코드
-    @Binding var zoomScale: CGFloat
+    
     var viewName: String?
+    
+    //for drag gesture
+    @State var startLocation: CGPoint?
+    @State var endLocation: CGPoint?
+    
+    @Binding var isSelectArea: Bool
+    
     
     // 다른 뷰에서도 사용할 수 있기 때문에 뷰모델로 전달하지 않고 개별 배열로 전달해봄
     @Binding var basicWords: [BasicWord]
@@ -27,6 +34,9 @@ struct ImageView: View {
     
     let cornerRadiusSize: CGFloat = 6
     let fontSizeRatio: CGFloat = 1.9
+    
+    
+    
     
     var body: some View {
         GeometryReader { proxy in
@@ -43,8 +53,8 @@ struct ImageView: View {
                 //                이미지 > GeometryReader 일 때 이미지는 GeometryReader의 크기에 맞게 축소.
                 //                반대로 GeometryReader > 이미지면  이미지의 원래 크기를 사용
                     .frame(
-                        width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) * zoomScale,
-                        height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
+                        width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) ,
+                        height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height)
                     )
                     .onChange(of: visionStart, perform: { newValue in
                         if let image = uiImage {
@@ -56,7 +66,6 @@ struct ImageView: View {
                                 //                                }
                             }
                         }
-                        //                        print("view name : \(self.viewName)")
                     })
                 // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
                     .overlay {
@@ -71,32 +80,26 @@ struct ImageView: View {
                                     .stroke(Color.red, lineWidth: 1)
                             }
                         } else if viewName == "WordSelectView" {
-                            ForEach(basicWords.indices, id: \.self) { index in
-                                if basicWords[index].isSelectedWord  {
-                                    Rectangle()
-                                        .path(in: adjustRect(basicWords[index].rect, in: proxy))
-                                        .fill(Color.green.opacity(0.4))
-                                        .onTapGesture {
-                                            withAnimation {
-                                                print("3 : \(basicWords[index].isSelectedWord)")
-                                                basicWords[index].isSelectedWord = false
-                                                print("4 : \(basicWords[index].isSelectedWord)")
-                                            }
-                                        }
-                                } else {
-                                    // 선택되지 않은 상태의 처리 (예: 투명한 영역에 탭 제스처 인식기 추가)
-                                    Rectangle()
-                                        .path(in: adjustRect(basicWords[index].rect, in: proxy))
-                                        .fill(Color.black.opacity(0.001))
-                                        .onTapGesture {
-                                            withAnimation {
-                                                print("1 : \(basicWords[index].isSelectedWord)")
-                                                basicWords[index].isSelectedWord = true
-                                                print("2 : \(basicWords[index].isSelectedWord)")
-                                            }
-                                        }
-                                }
+                            
+                            if let start = startLocation, let end = endLocation {
+                                Rectangle()
+                                    .stroke(Color.blue.opacity(0.4), lineWidth: 2)
+                                    .frame(width: abs(end.x - start.x), height: abs(end.y - start.y))
+                                    .position(x: (start.x + end.x) / 2, y: (start.y + end.y) / 2)
                             }
+                            ForEach(basicWords.indices, id: \.self) { index in
+                                Rectangle()
+                                    .path(in: adjustRect(basicWords[index].rect, in: proxy))
+                                    .fill( basicWords[index].isSelectedWord  ? Color.green.opacity(0.4) : Color.white.opacity(0.01))
+                                    .onTapGesture {
+                                        withAnimation {
+                                            basicWords[index].isSelectedWord = isSelectArea ? true : false
+                                        }
+                                    }
+                            }
+                            
+            
+                            
                         } else if viewName == "ResultPageView" {
                             // TargetWords의 wordValue에는 원래 값 + 맞고 틀림 여부(isCorrect)이 넘어온다
                             ForEach(targetWords.indices, id: \.self) { index in
@@ -122,6 +125,7 @@ struct ImageView: View {
                                             )
                                     )
                                     .onTapGesture {
+                                        // 기존 탭제스쳐 방식
                                         if !targetWords[index].isCorrect {
                                             isAreaTouched[index, default: false].toggle()
                                         }
@@ -129,7 +133,34 @@ struct ImageView: View {
                             }
                         }
                     }
-            }
+            } // 여기
+            .gesture(
+            DragGesture()
+                .onChanged{ value in
+                    if startLocation == nil {
+                        startLocation = value.location
+                    }
+
+                    endLocation = value.location
+                    
+                    // 드래그 경로에 있는 단어 선택 1. rect구하기
+                    let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
+                                          y: min(startLocation!.y, endLocation!.y),
+                                          width: abs(endLocation!.x - startLocation!.x),
+                                          height: abs(endLocation!.y - startLocation!.y))
+                    
+                    for index in basicWords.indices {
+                        if dragRect.intersects(adjustRect(basicWords[index].rect, in: proxy)) {
+                            basicWords[index].isSelectedWord = isSelectArea ? true : false
+                        }
+                    }
+                }
+                .onEnded{ value in
+                    // drag 끝나면 초기화
+                    startLocation = nil
+                    endLocation = nil
+                }
+            )
         }
     }
     
@@ -155,14 +186,14 @@ struct ImageView: View {
         return CGRect(
             
             
-            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))   *  zoomScale   ,
+            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))  ,
             
             // 좌우반전
             //                x:  (imageSize.width - rect.origin.x - rect.size.width) * scaleX * scale ,
             
-            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY * zoomScale ,
-            width: rect.width * scaleY * zoomScale,
-            height : rect.height * scaleY * zoomScale
+            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY ,
+            width: rect.width * scaleY ,
+            height : rect.height * scaleY
         )
     }
     

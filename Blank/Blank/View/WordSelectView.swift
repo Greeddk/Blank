@@ -16,6 +16,8 @@ struct WordSelectView: View {
     
     @State var goToOCRView = false
     
+    @State var isSelectArea = true
+    
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
     var body: some View {
@@ -29,7 +31,29 @@ struct WordSelectView: View {
                     backButton
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    goToNextPageButton
+                    
+                    HStack{
+
+                        // segment 버튼 
+                        Picker("도구 선택", selection: $isSelectArea) {
+                            Image(systemName: "arrow.rectanglepath")
+                                .symbolRenderingMode(.monochrome)
+                                .foregroundStyle(.black)
+                                .tag(true)
+                            
+                            Image(systemName: "eraser.line.dashed.fill")
+                                .symbolRenderingMode(.monochrome)
+                                .foregroundStyle(.black)
+                                .tag(false)
+                        }
+                        .tint(.red)
+                        .pickerStyle(.segmented)
+                        
+                        
+                        goToNextPageButton
+                        
+                    }
+                    
                 }
             }
             .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
@@ -77,7 +101,7 @@ struct WordSelectView: View {
     private var wordSelectImage: some View {
         // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제, 비전 스타트가 여기에 필요한지..?
         VStack {
-            ImageView(uiImage: wordSelectViewModel.currentImage, visionStart: $visionStart, zoomScale: .constant(1.0), viewName: "WordSelectView", basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]), currentWritingWords: .constant([]))
+            ImageView(uiImage: wordSelectViewModel.currentImage, visionStart: $visionStart, viewName: "WordSelectView", isSelectArea: $isSelectArea, basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]), currentWritingWords: .constant([]))
         }
     }
     
@@ -104,6 +128,11 @@ struct WordSelectView: View {
         }
         .buttonStyle(.borderedProminent)
     }
+    
+    
+
+    
+    
 }
 
 
