@@ -110,12 +110,12 @@ struct OverView: View {
                     )
                 }
         }
-        .alert("내용수정" ,isPresented: $showingAlert) {
-            Button("시험보기") {
+        .alert("시험지 선택" ,isPresented: $showingAlert) {
+            Button("마지막 회차 다시 보기") {
                 goToTestPage = true
                 goToNextPage = true
             }
-            Button("수정하기") {
+            Button("새빈칸 시험지 만들기") {
                 goToNextPage = true
             }
             Button("취소", role: .cancel) {
@@ -124,8 +124,8 @@ struct OverView: View {
         } message: {
             Text("""
                  기존에 시험을 본 내용이 있습니다.
-                 바로 시험을 보시겠습니까?
-                 수정하시겠습니까?
+                 마지막 회차 시험을 바로 보시겠습니까?
+                 새로 빈칸 시험지를 만드시겠습니까?
                  """)
         }
         
