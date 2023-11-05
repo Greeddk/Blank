@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ResultPageView: View {
     @State var seeCorrect: Bool = true
-    @Binding var generatedImage: UIImage?
+    // @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     
     @StateObject var scoringViewModel: ScoringViewModel
@@ -63,7 +63,14 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        ImageView(uiImage: generatedImage, visionStart: $visionStart, zoomScale: .constant(1.0), viewName: "ResultPageView", basicWords: .constant([]), targetWords: $scoringViewModel.targetWords, currentWritingWords: $scoringViewModel.currentWritingWords)
+        ImageView(
+            uiImage: scoringViewModel.currentImage,
+            visionStart: $visionStart,
+            viewName: "ResultPageView", isSelectArea: .constant(false),
+            basicWords: .constant([]),
+            targetWords: $scoringViewModel.targetWords,
+            currentWritingWords: $scoringViewModel.currentWritingWords
+        )
     }
     
     private var homeButton: some View {

@@ -9,8 +9,9 @@ import SwiftUI
 
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var showingModal = false
-    @Binding var generatedImage: UIImage?
+    @State private var showingModal = true
+//    @Binding var isLinkActive: Bool
+    // @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
@@ -49,12 +50,12 @@ struct OCREditView: View {
         }
         .navigationDestination(isPresented: $goToTestPage) {
             TestPageView(
-                generatedImage: $generatedImage,
                 scoringViewModel: .init(
                     page: wordSelectViewModel.page,
                     session: wordSelectViewModel.session,
                     currentWritingWords: wordSelectViewModel.writingWords,
-                    targetWords: wordSelectViewModel.selectedWords
+                    targetWords: wordSelectViewModel.selectedWords,
+                    currentImage: wordSelectViewModel.currentImage
                 )
             )
         }
@@ -65,7 +66,7 @@ struct OCREditView: View {
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
         ZoomableContainer {
-            OCRImageView(uiImage: generatedImage, zoomScale: .constant(1.0), words: $wordSelectViewModel.selectedWords)
+            OCRImageView(uiImage: wordSelectViewModel.currentImage, zoomScale: .constant(1.0), words: $wordSelectViewModel.selectedWords)
         }
         
     }
@@ -85,9 +86,7 @@ struct OCREditView: View {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            NavigationView {
-                ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
-            }
+            ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
         }
     }
     

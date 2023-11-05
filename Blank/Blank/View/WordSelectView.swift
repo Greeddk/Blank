@@ -12,9 +12,10 @@ struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingAlert = true
     @State var visionStart: Bool = false
-    @Binding var generatedImage: UIImage?
     
     @State var goToOCRView = false
+    
+    @State var isSelectArea = true
     
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
@@ -29,7 +30,29 @@ struct WordSelectView: View {
                     backButton
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    goToNextPageButton
+                    
+                    HStack{
+
+                        // segment 버튼 
+                        Picker("도구 선택", selection: $isSelectArea) {
+                            Image(systemName: "arrow.rectanglepath")
+                                .symbolRenderingMode(.monochrome)
+                                .foregroundStyle(.black)
+                                .tag(true)
+                            
+                            Image(systemName: "eraser.line.dashed.fill")
+                                .symbolRenderingMode(.monochrome)
+                                .foregroundStyle(.black)
+                                .tag(false)
+                        }
+                        .tint(.red)
+                        .pickerStyle(.segmented)
+                        
+                        
+                        goToNextPageButton
+                        
+                    }
+                    
                 }
             }
             .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
@@ -40,7 +63,8 @@ struct WordSelectView: View {
         }
         .background(Color(.systemGray6))
         .navigationDestination(isPresented: $goToOCRView) {
-            OCREditView(generatedImage: $generatedImage, wordSelectViewModel: wordSelectViewModel)
+            OCREditView(wordSelectViewModel: wordSelectViewModel)
+            
         }
         .popup(isPresented: $showingAlert) {
             HStack {
@@ -76,7 +100,7 @@ struct WordSelectView: View {
     private var wordSelectImage: some View {
         // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제, 비전 스타트가 여기에 필요한지..?
         VStack {
-            ImageView(uiImage: generatedImage, visionStart: $visionStart, zoomScale: .constant(1.0), viewName: "WordSelectView", basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]), currentWritingWords: .constant([]))
+            ImageView(uiImage: wordSelectViewModel.currentImage, visionStart: $visionStart, viewName: "WordSelectView", isSelectArea: $isSelectArea, basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]), currentWritingWords: .constant([]))
         }
     }
     
@@ -103,6 +127,7 @@ struct WordSelectView: View {
         }
         .buttonStyle(.borderedProminent)
     }
+    
 }
 
 

@@ -5,7 +5,7 @@
 //  Created by 윤범태 on 2023/10/24.
 //
 
-import Foundation
+import UIKit
 
 final class ScoringViewModel: ObservableObject {
     /*
@@ -24,12 +24,19 @@ final class ScoringViewModel: ObservableObject {
     @Published var currentWritingWords: [Word] = []
     /// 정답 단어들
     @Published var targetWords: [Word] = []
+    /// 넘어온 이미지
+    @Published var currentImage: UIImage?
     
-    init(page: Page, session: Session, currentWritingWords: [Word] = [], targetWords: [Word] = []) {
+    init(page: Page, 
+         session: Session,
+         currentWritingWords: [Word] = [],
+         targetWords: [Word] = [],
+         currentImage: UIImage? = nil) {
         self.page = page
         self.session = session
         self.currentWritingWords = currentWritingWords
         self.targetWords = targetWords
+        self.currentImage = currentImage
     }
     
     func score() {
