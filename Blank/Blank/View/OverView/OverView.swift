@@ -88,12 +88,12 @@ struct OverView: View {
                     let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
                     
                     TestPageView(
-                        generatedImage: $generatedImage,
                         scoringViewModel: .init(
                             page: wordSelectViewModel.page,
                             session: wordSelectViewModel.session,
                             currentWritingWords: words.map { .init(id: $0.id, sessionId: $0.sessionId, wordValue: "", rect: $0.rect, isCorrect: $0.isCorrect) },
-                            targetWords: words
+                            targetWords: words, 
+                            currentImage: overViewModel.currentImage
                         )
                     )
                 }

@@ -30,6 +30,7 @@ struct UITextViewRepresentable: UIViewRepresentable {
     @Binding var text: String
     @Binding var isFocused: Bool
     @Binding var height: CGFloat
+    var fontSize: CGFloat = 1.9
 
     func makeUIView(context: UIViewRepresentableContext<UITextViewRepresentable>) -> UITextField {
         let textView = UITextField(frame: .zero)
