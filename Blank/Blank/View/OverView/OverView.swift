@@ -15,8 +15,7 @@ struct OverView: View {
     //뷰모델
     @StateObject var overViewModel: OverViewModel
     
-    //향후 오버뷰 페이지로 돌아오기 위한 flag
-    @State var isLinkActive = false
+    @State var goToNextPage = false
     
     //n회차 alert flag
     @State var showingAlert = false
@@ -52,6 +51,7 @@ struct OverView: View {
             .onAppear {
                 overViewModel.loadThumbnails()
                 setImagesAndData()
+                goToTestPage = false
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -73,19 +73,48 @@ struct OverView: View {
             .navigationBarTitleDisplayMode(.inline)
             
         }
-        .ignoresSafeArea(.keyboard)
-        .navigationDestination(isPresented: $isLinkActive) {
+        .navigationDestination(isPresented: $goToNextPage) {
             if !goToTestPage {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
                 if let page = overViewModel.selectedPage {
                     let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords, currentImage: overViewModel.currentImage)
-                    WordSelectView(isLinkActive: $isLinkActive, wordSelectViewModel: wordSelectViewModel)
+                    WordSelectView( wordSelectViewModel: wordSelectViewModel)
                 } else {
                     Text("Error")
                 }
-            } else {
-            
+            // 바로 시험보기 버튼을 눌렀을 시
+            } else if let page = overViewModel.selectedPage, let lastSession = overViewModel.lastSession, let words = overViewModel.wordsOfSession[lastSession.id] {
+                    
+                    let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
+                    
+                    TestPageView(
+                        scoringViewModel: .init(
+                            page: wordSelectViewModel.page,
+                            session: wordSelectViewModel.session,
+                            currentWritingWords: words.map { .init(id: $0.id, sessionId: $0.sessionId, wordValue: "", rect: $0.rect, isCorrect: $0.isCorrect) },
+                            targetWords: words, 
+                            currentImage: overViewModel.currentImage
+                        )
+                    )
+                }
+        }
+        .alert("시험지 선택" ,isPresented: $showingAlert) {
+            Button("마지막 회차 다시 보기") {
+                goToTestPage = true
+                goToNextPage = true
             }
+            Button("새빈칸 시험지 만들기") {
+                goToNextPage = true
+            }
+            Button("취소", role: .cancel) {
+
+            }
+        } message: {
+            Text("""
+                 기존에 시험을 본 내용이 있습니다.
+                 마지막 회차 시험을 바로 보시겠습니까?
+                 새로 빈칸 시험지를 만드시겠습니까?
+                 """)
         }
     }
     
@@ -234,31 +263,16 @@ struct OverView: View {
         
         Button {
             // TODO: 해당 페이지 이미지 파일로 넘겨주기, layer 분리, 이미지 받아서 텍스트로 변환, 2회차 이상일때 내용수정 Alert 만들기
-            isLinkActive = true
-            visionStart = true
             // TODO: 2회차 이상일때 alert 띄울 로직
-            //            showingAlert = true
+            visionStart = true
+            if overViewModel.sessions.count >= 1 {
+                showingAlert = true
+            } else {
+                goToNextPage = true
+            }
         } label: {
             Text("시험준비")
                 .fontWeight(.bold)
-        }
-        .alert("내용수정" ,isPresented: $showingAlert) {
-            Button("시험보기") {
-                goToTestPage = true
-            }
-            Button("수정하기") {
-
-            }
-            Button("취소", role: .cancel) {
-
-
-            }
-        } message: {
-            Text("""
-                 기존에 시험을 본 내용이 있습니다.
-                 바로 시험을 보시겠습니까?
-                 수정하시겠습니까?
-                 """)
         }
         .buttonStyle(.borderedProminent)
         

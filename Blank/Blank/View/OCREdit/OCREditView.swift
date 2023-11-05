@@ -10,7 +10,7 @@ import SwiftUI
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = true
-    @Binding var isLinkActive: Bool
+//    @Binding var isLinkActive: Bool
     // @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     @State var type = ScrribleType.write
@@ -50,7 +50,6 @@ struct OCREditView: View {
         }
         .navigationDestination(isPresented: $goToTestPage) {
             TestPageView(
-                isLinkActive: $isLinkActive,
                 scoringViewModel: .init(
                     page: wordSelectViewModel.page,
                     session: wordSelectViewModel.session,

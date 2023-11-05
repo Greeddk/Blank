@@ -11,7 +11,6 @@ import PopupView
 struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingAlert = true
-    @Binding var isLinkActive: Bool
     @State var visionStart: Bool = false
     
     @State var goToOCRView = false
@@ -64,7 +63,7 @@ struct WordSelectView: View {
         }
         .background(Color(.systemGray6))
         .navigationDestination(isPresented: $goToOCRView) {
-            OCREditView(isLinkActive: $isLinkActive, wordSelectViewModel: wordSelectViewModel)
+            OCREditView(wordSelectViewModel: wordSelectViewModel)
             
         }
         .popup(isPresented: $showingAlert) {
@@ -128,10 +127,6 @@ struct WordSelectView: View {
         }
         .buttonStyle(.borderedProminent)
     }
-    
-    
-
-    
     
 }
 

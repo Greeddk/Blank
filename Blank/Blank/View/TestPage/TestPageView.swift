@@ -10,8 +10,7 @@ import SwiftUI
 struct TestPageView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = false
-    @Binding var isLinkActive: Bool
-    // @Binding var generatedImage: UIImage?
+//    @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
@@ -43,7 +42,7 @@ struct TestPageView: View {
             .navigationBarBackButtonHidden()
         }
         .navigationDestination(isPresented: $goToResultPage) {
-            ResultPageView(isLinkActive: $isLinkActive, scoringViewModel: scoringViewModel)
+            ResultPageView(scoringViewModel: scoringViewModel)
             
         }
         .ignoresSafeArea(.keyboard)

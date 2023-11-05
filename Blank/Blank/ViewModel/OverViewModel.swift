@@ -27,6 +27,7 @@ class OverViewModel: ObservableObject {
     @Published var wordsOfSession: [UUID: [Word]] = [:]
     @Published var totalStats: [CGRect: WordStatistics] = [:]
     @Published var isTotalStatsViewMode = false
+    @Published var lastSession: Session?
     
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
@@ -106,6 +107,10 @@ class OverViewModel: ObservableObject {
                     )
                 }
             }
+            //마지막으로 시험 본 세션을 불러서 저장하는 코드
+            if sessions.count >= 1 {
+                lastSession = sessions.last
+            }
         } catch {
             
         }
@@ -156,9 +161,7 @@ class OverViewModel: ObservableObject {
     
     /// PDF의 현재 페이지를 이미지로 반환하는 메소드
     func generateImage() -> UIImage? {
-        //        guard let pdfDocument = pdfDocument, currentPage > 0, currentPage <= pdfDocument.pageCount else {
-        //            return nil
-        //        }
+        
         guard let page = pdfDocument.page(at: currentPage - 1) else {
             return nil
         }
@@ -179,28 +182,6 @@ class OverViewModel: ObservableObject {
         
         return image
     }
-    
-    // PDF의 모든 페이지를 썸네일 이미지로 배열에 저장하는 메소드
-    //         func loadPDF() async {
-    //            guard let pdfDocument = pdfDocument else {
-    //                return
-    //            }
-    //
-    //            thumbnails.removeAll() // 이미지 배열 초기화
-    //
-    //            DispatchQueue.global().async {
-    //                for i in 0..<pdfDocument.pageCount {
-    //                    guard let page = pdfDocument.page(at: i) else {
-    //                        continue
-    //                    }
-    //
-    //                    let image = page.thumbnail(of: CGSize(width: 500, height: 700), for: .mediaBox)
-    //                    DispatchQueue.main.async {
-    //                        self.thumbnails.append(image)
-    //                    }
-    //                }
-    //            }
-    //        }
     
     // PDF의 모든 페이지를 썸네일 이미지로 배열에 저장하는 메소드, 진행률도 표시
     func loadThumbnails() {

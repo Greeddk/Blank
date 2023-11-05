@@ -30,14 +30,17 @@ struct UITextViewRepresentable: UIViewRepresentable {
     @Binding var text: String
     @Binding var isFocused: Bool
     @Binding var height: CGFloat
+    var fontSize: CGFloat = 1.9
 
     func makeUIView(context: UIViewRepresentableContext<UITextViewRepresentable>) -> UITextField {
         let textView = UITextField(frame: .zero)
 
         textView.textAlignment = .center
         textView.delegate = context.coordinator
+        textView.font = UIFont(name: "Avenir", size: (height/fontSize))
+        textView.textAlignment = .center
+//        textView.adjustsFontForContentSizeCategory = true
         textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-//        textView.addLeftPadding()
         textView.adjustsFontSizeToFitWidth = true
         textView.autocapitalizationType = .none
         textView.borderStyle = .none
