@@ -10,14 +10,13 @@ import SwiftUI
 struct TextView: View {
     @State var isFocused: Bool = false
     @Binding var name: String
-    @Binding var height: CGFloat
-    @Binding var width: CGFloat
-    @Binding var scale: CGFloat
-    @Binding var orinX: UUID
+    var height: CGFloat
+    var width: CGFloat
+    var orinX: UUID
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            UITextViewRepresentable(text: $name, isFocused: $isFocused, height: $height)
+            UITextViewRepresentable(text: $name, isFocused: $isFocused, height: height)
                 .frame(width: width, height: height)
         }
         .border(isFocused ? Color.yellow : Color.blue, width: 1.5)
@@ -29,33 +28,30 @@ struct TextView: View {
 struct UITextViewRepresentable: UIViewRepresentable {
     @Binding var text: String
     @Binding var isFocused: Bool
-    @Binding var height: CGFloat
-    var fontSize: CGFloat = 1.9
+    var height: CGFloat
+    var fontScale: CGFloat = 1.9
 
     func makeUIView(context: UIViewRepresentableContext<UITextViewRepresentable>) -> UITextField {
         let textView = UITextField(frame: .zero)
 
-        textView.textAlignment = .center
+        textView.textAlignment = .left
         textView.delegate = context.coordinator
-        textView.font = UIFont(name: "Avenir", size: (height/fontSize))
-        textView.textAlignment = .center
+        textView.font = UIFont(name: "Avenir", size: (height/fontScale))
 //        textView.adjustsFontForContentSizeCategory = true
-        textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+//        textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.adjustsFontSizeToFitWidth = true
         textView.autocapitalizationType = .none
-        textView.borderStyle = .none
-
-
-        textView.font = UIFont(name: "Avenir", size: height/1.9)
-        textView.sizeToFit()
+//        textView.borderStyle = .none
+//        textView.sizeToFit()
+        textView.addLeftPadding()
 
         return textView
     }
 
     func updateUIView(_ uiView: UITextField, context: Context) {
         uiView.text = text
-        uiView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        uiView.setContentCompressionResistancePriority(.required, for: .vertical)
+//        uiView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+//        uiView.setContentCompressionResistancePriority(.required, for: .vertical)
     }
 
     func makeCoordinator() -> UITextViewRepresentable.Coordinator {
@@ -81,4 +77,12 @@ struct UITextViewRepresentable: UIViewRepresentable {
             parent.isFocused = false
         }
      }
+}
+
+extension UITextField {
+    func addLeftPadding() {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.frame.height))
+        self.leftView = paddingView
+        self.leftViewMode = ViewMode.always
+    }
 }

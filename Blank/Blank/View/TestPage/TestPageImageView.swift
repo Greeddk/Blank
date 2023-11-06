@@ -12,7 +12,7 @@ struct TestPageImageView: View {
     var uiImage: UIImage?
     //    @State private var recognizedBoxes: [(String, CGRect)] = []
     //경섭추가코드
-    @Binding var zoomScale: CGFloat
+    var zoomScale: CGFloat = 1.0
     @Binding var words: [Word]
     
     var body: some View {
@@ -23,8 +23,8 @@ struct TestPageImageView: View {
                 .scaledToFit()
                 .frame(
                     
-                    width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) * zoomScale,
-                    height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
+                    width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width),
+                    height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height)
                 )
                 .overlay {
                     // ForEach(page.sessions[0].words, id: \.self) { word in
@@ -36,9 +36,9 @@ struct TestPageImageView: View {
                         @State var originY = box.origin.y
                         @State var real = words[index].id
                         
-                        TextView(name: $words[index].wordValue, height: $height, width: $width, scale: $zoomScale, orinX: $real)
+                        TextView(name: $words[index].wordValue, height: height, width: width, orinX: real)
                             .position(CGPoint(x: originX + (width / 2), y: (originY + (height / 2 ))))
-                            
+
                         //                            TextView(name: w.wordValue ,height: $height, width: $width, scale: $zoomScale, page: $page, originX: $real)
                         //                                .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))
                     }
