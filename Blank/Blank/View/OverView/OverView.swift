@@ -28,6 +28,9 @@ struct OverView: View {
     
     @State var visionStart = false
     
+    @State var seeResult = false
+    @State private var selectedSessionIndex: Int?
+    
     // @State private var generatedImage: UIImage?
     @State private var currentPageText: String = ""
     @State var titleName = "파일이름"
@@ -238,6 +241,9 @@ struct OverView: View {
                 Button("전체통계") {
                     overViewModel.generateTotalStatistics()
                     overViewModel.isTotalStatsViewMode = true
+                    seeResult = false
+                    selectedSessionIndex = nil
+                    
                 }
                 .disabled(overViewModel.sessions.isEmpty)
                 
@@ -246,15 +252,27 @@ struct OverView: View {
                     Button("\(index + 1)회차 (\(percentageValue))") {
                         overViewModel.isTotalStatsViewMode = false
                         _ = overViewModel.selectCurrentSessionAndWords(index: index)
+                        selectedSessionIndex = index
+                        seeResult = true
                     }
                 }
             } label: {
-                Label("결과보기", systemImage: "chevron.down")
-                    .labelStyle(.titleAndIcon)
+                if !seeResult && !overViewModel.isTotalStatsViewMode {
+                    Label("결과보기", systemImage: "chevron.down")
+                        .labelStyle(.titleAndIcon)
+                } else if seeResult {
+                    Label("\(selectedSessionIndex! + 1)회차", systemImage: "chevron.down")
+                        .labelStyle(.titleAndIcon)
+                } else {
+                    Label("전체통계", systemImage: "chevron.down")
+                        .labelStyle(.titleAndIcon)
+                }
             }
             
             Button {
                 // TODO: 원본 페이지 상태로 변경
+                seeResult = false
+                overViewModel.isTotalStatsViewMode = false
             } label: {
                 Text("원본")
             }
