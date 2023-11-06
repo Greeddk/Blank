@@ -61,9 +61,6 @@ struct ImageView: View {
                             recognizeTextTwo(from: image) { recognizedTexts in
                                 self.recognizedBoxes = recognizedTexts
                                 basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
-                                //                                for (text, rect) in recognizedTexts {
-                                //                                    print("Text: \(text), Rect: \(rect)")
-                                //                                }
                             }
                         }
                     })
@@ -71,15 +68,7 @@ struct ImageView: View {
                     .overlay {
                         // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
                         
-                        if viewName == "OverView" {
-                            ForEach(recognizedBoxes.indices, id: \.self) { index in
-                                let box = recognizedBoxes[index]
-                                Rectangle()
-                                    .path(in:
-                                            adjustRect(box.1, in: proxy))
-                                    .stroke(Color.red, lineWidth: 1)
-                            }
-                        } else if viewName == "WordSelectView" {
+                        if viewName == "WordSelectView" {
                             
                             if let start = startLocation, let end = endLocation {
                                 Rectangle()
@@ -98,7 +87,7 @@ struct ImageView: View {
                                     }
                             }
                             
-            
+                            
                             
                         } else if viewName == "ResultPageView" {
                             // TargetWords의 wordValue에는 원래 값 + 맞고 틀림 여부(isCorrect)이 넘어온다
@@ -135,31 +124,31 @@ struct ImageView: View {
                     }
             } // 여기
             .gesture(
-            DragGesture()
-                .onChanged{ value in
-                    if startLocation == nil {
-                        startLocation = value.location
-                    }
-
-                    endLocation = value.location
-                    
-                    // 드래그 경로에 있는 단어 선택 1. rect구하기
-                    let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
-                                          y: min(startLocation!.y, endLocation!.y),
-                                          width: abs(endLocation!.x - startLocation!.x),
-                                          height: abs(endLocation!.y - startLocation!.y))
-                    
-                    for index in basicWords.indices {
-                        if dragRect.intersects(adjustRect(basicWords[index].rect, in: proxy)) {
-                            basicWords[index].isSelectedWord = isSelectArea ? true : false
+                DragGesture()
+                    .onChanged{ value in
+                        if startLocation == nil {
+                            startLocation = value.location
+                        }
+                        
+                        endLocation = value.location
+                        
+                        // 드래그 경로에 있는 단어 선택 1. rect구하기
+                        let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
+                                              y: min(startLocation!.y, endLocation!.y),
+                                              width: abs(endLocation!.x - startLocation!.x),
+                                              height: abs(endLocation!.y - startLocation!.y))
+                        
+                        for index in basicWords.indices {
+                            if dragRect.intersects(adjustRect(basicWords[index].rect, in: proxy)) {
+                                basicWords[index].isSelectedWord = isSelectArea ? true : false
+                            }
                         }
                     }
-                }
-                .onEnded{ value in
-                    // drag 끝나면 초기화
-                    startLocation = nil
-                    endLocation = nil
-                }
+                    .onEnded{ value in
+                        // drag 끝나면 초기화
+                        startLocation = nil
+                        endLocation = nil
+                    }
             )
         }
     }

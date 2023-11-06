@@ -16,6 +16,7 @@ struct WordSelectView: View {
     @State var goToOCRView = false
     
     @State var isSelectArea = true
+    @State var noneOfWordSelected = true
     
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
@@ -64,7 +65,6 @@ struct WordSelectView: View {
         .background(Color(.systemGray6))
         .navigationDestination(isPresented: $goToOCRView) {
             OCREditView(wordSelectViewModel: wordSelectViewModel)
-            
         }
         .popup(isPresented: $showingAlert) {
             HStack {
@@ -102,6 +102,9 @@ struct WordSelectView: View {
         VStack {
             ImageView(uiImage: wordSelectViewModel.currentImage, visionStart: $visionStart, viewName: "WordSelectView", isSelectArea: $isSelectArea, basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]), currentWritingWords: .constant([]))
         }
+        .onChange(of: wordSelectViewModel.basicWords) { _ in
+            noneOfWordSelected = !wordSelectViewModel.basicWords.contains(where: { $0.isSelectedWord })
+        }
     }
     
     private var backButton: some View {
@@ -126,6 +129,7 @@ struct WordSelectView: View {
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)
+        .disabled(noneOfWordSelected)
     }
     
 }
