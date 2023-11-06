@@ -8,7 +8,7 @@
 import Foundation
 import AVKit
 
-enum ScrribleType: Int16, CaseIterable {
+enum ScribbleType: Int16, CaseIterable {
     case write = 0
     case delete
     case select

@@ -65,9 +65,9 @@
 		EB8978FB2AE6A0BC00494BE7 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8978FA2AE6A0BC00494BE7 /* TextView.swift */; };
 		EB8978FD2AE6A16900494BE7 /* OCRImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8978FC2AE6A16900494BE7 /* OCRImageView.swift */; };
 		EBEB72622AE0BC8500316D66 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB72612AE0BC8500316D66 /* ImageView.swift */; };
-		EBEB727F2AE548C400316D66 /* ScrribleModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB727E2AE548C400316D66 /* ScrribleModalView.swift */; };
-		EBEB72812AE548F700316D66 /* ScrribleVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB72802AE548F700316D66 /* ScrribleVideoView.swift */; };
-		EBEB72832AE5491200316D66 /* ScrribleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB72822AE5491200316D66 /* ScrribleType.swift */; };
+		EBEB727F2AE548C400316D66 /* ScribbleModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB727E2AE548C400316D66 /* ScribbleModalView.swift */; };
+		EBEB72812AE548F700316D66 /* ScribbleVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB72802AE548F700316D66 /* ScribbleVideoView.swift */; };
+		EBEB72832AE5491200316D66 /* ScribbleType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBEB72822AE5491200316D66 /* ScribbleType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,9 +131,9 @@
 		EB8978FA2AE6A0BC00494BE7 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		EB8978FC2AE6A16900494BE7 /* OCRImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRImageView.swift; sourceTree = "<group>"; };
 		EBEB72612AE0BC8500316D66 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
-		EBEB727E2AE548C400316D66 /* ScrribleModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrribleModalView.swift; sourceTree = "<group>"; };
-		EBEB72802AE548F700316D66 /* ScrribleVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrribleVideoView.swift; sourceTree = "<group>"; };
-		EBEB72822AE5491200316D66 /* ScrribleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrribleType.swift; sourceTree = "<group>"; };
+		EBEB727E2AE548C400316D66 /* ScribbleModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribbleModalView.swift; sourceTree = "<group>"; };
+		EBEB72802AE548F700316D66 /* ScribbleVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribbleVideoView.swift; sourceTree = "<group>"; };
+		EBEB72822AE5491200316D66 /* ScribbleType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribbleType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,10 +345,10 @@
 				42ED60CD2ADE7F290043AF2F /* OCREditView.swift */,
 				EB8978FC2AE6A16900494BE7 /* OCRImageView.swift */,
 				EB8978FA2AE6A0BC00494BE7 /* TextView.swift */,
-				EBEB727E2AE548C400316D66 /* ScrribleModalView.swift */,
-				EBEB72802AE548F700316D66 /* ScrribleVideoView.swift */,
-				EBEB72822AE5491200316D66 /* ScrribleType.swift */,
+				EBEB727E2AE548C400316D66 /* ScribbleModalView.swift */,
+				EBEB72802AE548F700316D66 /* ScribbleVideoView.swift */,
 				EB0B16C12AF239020040B0B2 /* PlayerUIView.swift */,
+				EBEB72822AE5491200316D66 /* ScribbleType.swift */,
 			);
 			path = OCREdit;
 			sourceTree = "<group>";
@@ -445,7 +445,7 @@
 				4491DFF82ADECF7F00CA5B42 /* FileMananger+.swift in Sources */,
 				449CB1F72AE2BD1C0086758A /* CDService.swift in Sources */,
 				AC28517A2AE7292500C70F4F /* OverViewImageView.swift in Sources */,
-				EBEB727F2AE548C400316D66 /* ScrribleModalView.swift in Sources */,
+				EBEB727F2AE548C400316D66 /* ScribbleModalView.swift in Sources */,
 				ACF338C42ADD0158004D20FC /* Session.swift in Sources */,
 				42ED60D82ADE7F910043AF2F /* PDFThumbnailView.swift in Sources */,
 				44F30BE62AE6781F00B67014 /* BasicWord.swift in Sources */,
@@ -453,7 +453,7 @@
 				44A556762AE52990002AE4C3 /* String+.swift in Sources */,
 				444E6A672AF26B1A00AEC703 /* WordStatistics.swift in Sources */,
 				4491DFEC2ADD4CF800CA5B42 /* Persistence.swift in Sources */,
-				EBEB72812AE548F700316D66 /* ScrribleVideoView.swift in Sources */,
+				EBEB72812AE548F700316D66 /* ScribbleVideoView.swift in Sources */,
 				42ED60CE2ADE7F290043AF2F /* OCREditView.swift in Sources */,
 				4418D0452AEFECBA000EF661 /* TextViewModel.swift in Sources */,
 				ACF338C02ADD00DC004D20FC /* File.swift in Sources */,
@@ -485,7 +485,7 @@
 				4491DFF92ADECF7F00CA5B42 /* UIImage+.swift in Sources */,
 				EBEB72622AE0BC8500316D66 /* ImageView.swift in Sources */,
 				42ED60D62ADE7F6C0043AF2F /* CorrectInfoView.swift in Sources */,
-				EBEB72832AE5491200316D66 /* ScrribleType.swift in Sources */,
+				EBEB72832AE5491200316D66 /* ScribbleType.swift in Sources */,
 				ACF338C62ADD0172004D20FC /* Word.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -620,7 +620,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = Q83JD2ZC9T;
+				DEVELOPMENT_TEAM = TK7CS88A86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
@@ -657,7 +657,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = Q83JD2ZC9T;
+				DEVELOPMENT_TEAM = TK7CS88A86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
