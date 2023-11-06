@@ -28,6 +28,7 @@ class OverViewModel: ObservableObject {
     @Published var totalStats: [CGRect: WordStatistics] = [:]
     @Published var isTotalStatsViewMode = false
     @Published var lastSession: Session?
+    @Published var lastSessionsOfPages: [Int: Session?] = [:]
     
     let currentFile: File
     lazy var pdfDocument: PDFDocument = PDFDocument(url: currentFile.fileURL)!
@@ -42,14 +43,58 @@ class OverViewModel: ObservableObject {
     }
     
     func createNewPageAndSession() -> Page {
-        var page = Page(id: UUID(),
+        let page = Page(id: UUID(),
                         fileId: currentFile.id,
                         currentPageNumber: currentPage
         )
-        // let newSession = Session(id: UUID(), pageId: page.id, words: [])
-        // page.sessions.append(newSession)
-        
+
         return page
+    }
+    
+    func loadLastSessionNumber(index: Int) -> Int {
+        do {
+            if let loadedFile = try CDService.shared.readFile(from: currentFile.fileURL.lastPathComponent) {
+                let pages = try CDService.shared.readAllPages(fileId: loadedFile.id)
+                let page = pages[index]
+                let lastSessionNumber = try CDService.shared.loadAllSessions(of: page).count
+                return lastSessionNumber
+            }
+        } catch {
+            print(#function, error)
+        }
+        return 0
+    }
+    
+    // 오버뷰모달뷰에서 각 페이지의 마지막 세션의 정보를 불러오기 위한 작업
+    func loadModalViewData() {
+        do {
+            if let loadedFile = try CDService.shared.readFile(from: currentFile.fileURL.lastPathComponent) {
+                let pages = try CDService.shared.readAllPages(fileId: loadedFile.id)
+                for page in pages {
+                    if let lastSession = try CDService.shared.loadAllSessions(of: page).last {
+                        lastSessionsOfPages[page.currentPageNumber] = lastSession
+                    }
+                }
+            }
+        } catch {
+            print(#function, error)
+        }
+    }
+    
+    func lastSessionCorrectInfo(index: Int) -> SessionStatistics? {
+        let session = self.lastSessionsOfPages[index]
+        
+        if let shelledSession = session,
+            let realSession = shelledSession,
+           let words = try? CDService.shared.loadAllWords(of: realSession) {
+            let correctCount = words.reduce(0) {
+                $0 + ($1.isCorrect ? 1 : 0)
+            }
+            
+            return SessionStatistics(correctCount: correctCount, totalCount: words.count)
+        }
+        
+        return nil
     }
     
     /// CoreData: Page가 CoreData에 있으면 Load, 없으면 생성 후 Save

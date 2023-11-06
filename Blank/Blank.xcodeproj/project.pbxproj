@@ -148,6 +148,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		428102A82AF8EF9300938A27 /* ResultPage */ = {
+			isa = PBXGroup;
+			children = (
+				42ED60D32ADE7F570043AF2F /* ResultPageView.swift */,
+				42ED60D52ADE7F6C0043AF2F /* CorrectInfoView.swift */,
+			);
+			path = ResultPage;
+			sourceTree = "<group>";
+		};
 		444E6A612AF2531800AEC703 /* Presentable */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,8 +333,7 @@
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
 				EBEB727D2AE548AB00316D66 /* OCREdit */,
 				EB69FC7B2AE6BF2200ADF7B6 /* TestPage */,
-				42ED60D32ADE7F570043AF2F /* ResultPageView.swift */,
-				42ED60D52ADE7F6C0043AF2F /* CorrectInfoView.swift */,
+				428102A82AF8EF9300938A27 /* ResultPage */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -620,7 +628,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = 6S2SA26VAN;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
@@ -657,7 +665,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = 6S2SA26VAN;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;

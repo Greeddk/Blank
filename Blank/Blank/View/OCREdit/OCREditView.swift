@@ -10,10 +10,6 @@ import SwiftUI
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = true
-//    @Binding var isLinkActive: Bool
-    // @Binding var generatedImage: UIImage?
-//    @State var visionStart: Bool = false
-//    @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
     @State private var goToTestPage = false
     

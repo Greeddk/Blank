@@ -51,6 +51,8 @@ fileprivate protocol IsCDService {
     /// 파일 ID와 페이지 번호로부터 한 개의 Page 읽기
     func readPage(fileId: UUID, pageNumber: Int) throws -> Page?
     
+    func readAllPages(fileId: UUID) throws -> [Page]
+    
     /// 페이지 오브젝트로부터 모든 세션 읽기
     func loadAllSessions(of page: Page) throws -> [Session]
     
@@ -483,20 +485,6 @@ class CDService: IsCDService {
         fetchRequest.fetchLimit = 1
         fetchRequest.predicate = NSPredicate(format: "fileId = %@ AND currentPageNumber = %@", fileId.uuidString, String(pageNumber))
         
-        // guard let fileEntity = try viewContext.fetch(fetchRequest).first,
-        //       let id = fileEntity.id,
-        //       let fileName = fileEntity.fileName,
-        //       let fileURL = fileEntity.fileURL else {
-        //     return nil
-        // }
-        // 
-        // return File(
-        //     id: id,
-        //     fileURL: fileURL,
-        //     fileName: fileName,
-        //     totalPageCount: Int(fileEntity.totalPageCount)
-        // )
-        
         guard let pageEntity = try viewContext.fetch(fetchRequest).first,
               let id = pageEntity.id,
               let fileId = pageEntity.fileId else {
@@ -504,6 +492,23 @@ class CDService: IsCDService {
         }
         
         return .init(id: id, fileId: fileId, currentPageNumber: Int(pageEntity.currentPageNumber))
+    }
+    
+    func readAllPages(fileId: UUID) throws -> [Page] {
+        let fetchRequest = PageEntity.fetchRequest()
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "currentPageNumber", ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.predicate = NSPredicate(format: "fileId = %@", fileId.uuidString)
+        
+        return try viewContext.fetch(fetchRequest).compactMap {
+            guard let id = $0.id,
+                  let fileId = $0.fileId else {
+                return nil
+            }
+            print(#function,Page(id: id, fileId: fileId, currentPageNumber: Int($0.currentPageNumber)))
+            return Page(id: id, fileId: fileId, currentPageNumber: Int($0.currentPageNumber))
+        }
     }
     
     func readSession(id: UUID) throws -> Session? {

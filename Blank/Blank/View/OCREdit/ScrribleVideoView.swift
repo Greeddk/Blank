@@ -9,7 +9,6 @@ import SwiftUI
 import AVKit
 
 struct ScrribleVideoView: View {
-//    @Binding var player: AVPlayer
     @State var player: AVPlayer = AVPlayer(url: Bundle.main.url(forResource: "handWrite", withExtension: "mov")!)
     @Binding var selectedType: ScrribleType
 
