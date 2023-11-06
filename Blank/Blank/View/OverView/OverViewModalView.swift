@@ -52,12 +52,13 @@ struct OverViewModalView: View {
                                     Spacer()
                                     
                                 } else {
+                                    let lastSessionNumber = overViewModel.loadLastSessionNumber(index: index)
                                     Rectangle()
                                         .frame(width: 80, height: 20)
                                         .foregroundColor(Color(red: 0.46, green: 0.46, blue: 0.5).opacity(0.12))
                                         .cornerRadius(40)
                                         .overlay(
-                                            Text("n회차")
+                                            Text("\(lastSessionNumber)회차")
                                                 .tint(Color.blue)
                                         )
 

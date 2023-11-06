@@ -51,6 +51,20 @@ class OverViewModel: ObservableObject {
         return page
     }
     
+    func loadLastSessionNumber(index: Int) -> Int {
+        do {
+            if let loadedFile = try CDService.shared.readFile(from: currentFile.fileURL.lastPathComponent) {
+                let pages = try CDService.shared.readAllPages(fileId: loadedFile.id)
+                let page = pages[index]
+                let lastSessionNumber = try CDService.shared.loadAllSessions(of: page).count
+                return lastSessionNumber
+            }
+        } catch {
+            print(#function, error)
+        }
+        return 0
+    }
+    
     // 오버뷰모달뷰에서 각 페이지의 마지막 세션의 정보를 불러오기 위한 작업
     func loadModalViewData() {
         do {
@@ -59,7 +73,6 @@ class OverViewModel: ObservableObject {
                 for page in pages {
                     if let lastSession = try CDService.shared.loadAllSessions(of: page).last {
                         lastSessionsOfPages[page.currentPageNumber] = lastSession
-                        print(lastSession)
                     }
                 }
             }
