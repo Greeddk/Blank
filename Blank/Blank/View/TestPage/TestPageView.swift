@@ -73,7 +73,7 @@ struct TestPageView: View {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            ScribbleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
+            ScribbleModalView()
         }
     }
     

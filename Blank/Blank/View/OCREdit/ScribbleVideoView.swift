@@ -9,12 +9,11 @@ import SwiftUI
 import AVKit
 
 struct ScribbleVideoView: View {
-    @Binding var player: AVPlayer
+    @State var player: AVPlayer = AVPlayer(url: Bundle.main.url(forResource: "handWrite", withExtension: "mov")!)
     @Binding var selectedType: ScribbleType
-    @Binding var hasTypeValueChanged: Bool
+//    @Binding var hasTypeValueChanged: Bool
     
-    
-    
+
     var body: some View {
         VStack {
             PlayerUIView(player: player)
