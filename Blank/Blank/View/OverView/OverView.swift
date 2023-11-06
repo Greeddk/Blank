@@ -32,6 +32,8 @@ struct OverView: View {
     @State private var currentPageText: String = ""
     @State var titleName = "파일이름"
     
+    @State private var disableReadToTestButton = true
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -275,17 +277,27 @@ struct OverView: View {
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)
-        
+        // 단어 영역 생성이 끝날때까지 비활성화
+        .disabled(disableReadToTestButton)
     }
     
 }
 
 extension OverView {
     private func setImagesAndData() {
+        // 이미지를 영역에 표시
         overViewModel.generateCurrentImage()
-        overViewModel.generateBasicWordsFromCurrentImage()
-        overViewModel.loadPage()
-        overViewModel.loadSessionsOfPage()
+        
+        DispatchQueue.global().async {
+            // 평균 1.5초 정도 소요
+            overViewModel.generateBasicWordsFromCurrentImage {
+                DispatchQueue.main.async {
+                    overViewModel.loadPage()
+                    overViewModel.loadSessionsOfPage()
+                    disableReadToTestButton = false
+                }
+            }
+        }
     }
 }
 
