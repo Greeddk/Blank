@@ -29,6 +29,7 @@ struct OverViewModalView: View {
                                     .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
                                     .onTapGesture {
                                         overViewModel.currentPage = index + 1
+                                        setImagesAndData()
                                         dismiss()
                                     }
                                 HStack {
@@ -103,6 +104,24 @@ struct OverViewModalView: View {
     }
 }
 
+extension OverViewModalView {
+    private func setImagesAndData() {
+        // 이미지를 영역에 표시
+        overViewModel.generateCurrentImage()
+        
+        DispatchQueue.global().async {
+            // 평균 1.5초 정도 소요
+            overViewModel.generateBasicWordsFromCurrentImage {
+                DispatchQueue.main.async {
+                    overViewModel.loadPage()
+                    overViewModel.loadSessionsOfPage()
+                }
+            }
+        }
+    }
+}
+
 //#Preview {
 //    OverViewModalView(viewModel: OverViewModel())
 //}
+
