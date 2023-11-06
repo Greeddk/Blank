@@ -8,9 +8,9 @@
 import SwiftUI
 import AVKit
 
-struct ScrribleVideoView: View {
+struct ScribbleVideoView: View {
     @Binding var player: AVPlayer
-    @Binding var selectedType: ScrribleType
+    @Binding var selectedType: ScribbleType
     @Binding var hasTypeValueChanged: Bool
     
     

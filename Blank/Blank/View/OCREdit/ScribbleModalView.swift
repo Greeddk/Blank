@@ -8,9 +8,9 @@
 import SwiftUI
 import AVKit
 
-struct ScrribleModalView: View {
+struct ScribbleModalView: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var selectedType: ScrribleType
+    @Binding var selectedType: ScribbleType
     @Binding var hasTypeValueChanged: Bool
     @State var player: AVPlayer = AVPlayer(url: Bundle.main.url(forResource: "handWrite", withExtension: "mov")!)
     @State var text: String = ""
@@ -26,13 +26,13 @@ struct ScrribleModalView: View {
 
                 HStack(alignment: .center, spacing: 20) {
                     Picker("타입", selection: $selectedType) {
-                        ForEach(ScrribleType.allCases, id: \.self) {
+                        ForEach(ScribbleType.allCases, id: \.self) {
                             Text($0.description)
                         }
                     }
                     .pickerStyle(.segmented)
                     .onChange(of: selectedType) { newValue in
-                        if newValue != ScrribleType.write {
+                        if newValue != ScribbleType.write {
                             hasTypeValueChanged = true
                         }
                     }
@@ -46,7 +46,7 @@ struct ScrribleModalView: View {
 
 
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                    ScrribleVideoView(player: $player, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
+                    ScribbleVideoView(player: $player, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
                         .padding()
                 }
                 .padding()
@@ -87,5 +87,5 @@ struct ScrribleModalView: View {
 }
 
 #Preview {
-    ScrribleModalView(selectedType: .constant(ScrribleType.write), hasTypeValueChanged: .constant(false))
+    ScribbleModalView(selectedType: .constant(ScribbleType.write), hasTypeValueChanged: .constant(false))
 }

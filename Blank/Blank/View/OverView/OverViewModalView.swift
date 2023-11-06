@@ -14,41 +14,44 @@ struct OverViewModalView: View {
     var body: some View {
         let item = GridItem(.adaptive(minimum: 120, maximum: 130), spacing: 20)
         let columns = Array(repeating: item, count: 4)
-        VStack {
-            HStack {
-                Spacer()
-                Button(action: {
-                    dismiss()
-                },label: {
-                    Text("Done")
-                        .padding(20)
-                })
-            }
-            Spacer().frame(height: 0)
-            Divider()
-            Spacer().frame(height: 0)
-            NavigationView {
-                ScrollView {
-                    ScrollViewReader { proxy in
-                        LazyVGrid(columns: columns) {
-                            ForEach(overViewModel.thumbnails.indices, id: \.self) {index in
-                                // TODO: 기기에 따라 크기 조정
-                                VStack {
-                                    Image(uiImage: overViewModel.thumbnails[index])
-                                        .resizable()
-                                        .scaledToFit()
-                                        .border(overViewModel.currentPage == index + 1 ? Color.blue : Color.clear, width: 2)
-                                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
-                                        .onTapGesture {
-                                            overViewModel.currentPage = index + 1
-                                            dismiss()
-                                        }
-                                    HStack {
-                                        Text("\(index+1)")
-                                            .font(.caption)
-                                            .fontWeight(.bold)
-                                        Spacer()
+        NavigationView {
+            ScrollView {
+                ScrollViewReader { proxy in
+                    LazyVGrid(columns: columns) {
+                        ForEach(overViewModel.thumbnails.indices, id: \.self) { index in
+                            
+                            // TODO: 기기에 따라 크기 조정
+                            VStack {
+                                Image(uiImage: overViewModel.thumbnails[index])
+                                    .resizable()
+                                    .scaledToFit()
+                                    .border(overViewModel.currentPage == index + 1 ? Color.blue : Color.clear, width: 2)
+                                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 0)
+                                    .onTapGesture {
+                                        overViewModel.currentPage = index + 1
+                                        dismiss()
                                     }
+                                HStack {
+                                    Text("\(index+1)")
+                                        .font(.caption)
+                                        .fontWeight(.bold)
+                                    Spacer().frame(height: 0)
+                                }
+                                let pageNumberBasedOne = index + 1
+                                if overViewModel.lastSessionsOfPages[pageNumberBasedOne] == nil {
+                                    Rectangle()
+                                        .frame(width: 80, height: 20)
+                                        .foregroundColor(Color(red: 0.46, green: 0.46, blue: 0.5).opacity(0.12))
+                                        .cornerRadius(40)
+                                        .overlay(
+                                            // 해당 페이지 정보 가져오자.
+                                            Text("-")
+                                                .tint(Color.blue)
+                                        )
+                                    Text("[ - ]")
+                                    Spacer()
+                                    
+                                } else {
                                     Rectangle()
                                         .frame(width: 80, height: 20)
                                         .foregroundColor(Color(red: 0.46, green: 0.46, blue: 0.5).opacity(0.12))
@@ -57,24 +60,45 @@ struct OverViewModalView: View {
                                             Text("n회차")
                                                 .tint(Color.blue)
                                         )
-                                    Text("정답률 : 25%")
-                                    Text("문제 : 127개")
-                                    Text("정답 : 32개")
+
+                                    if let info = overViewModel.lastSessionCorrectInfo(index: pageNumberBasedOne) {
+                                        VStack {
+                                            Text("정답률 : \(info.correctRate.percentageTextValue(decimalPlaces: 0))")
+                                            Text("문제 : \(info.totalCount)개")
+                                            Text("정답 : \(info.correctCount)개")
+                                        }
+                                    } else {
+                                        
+                                    }
+                                    
+                                    
                                 }
-                                .foregroundColor(.black)
                             }
+                            .foregroundColor(.black)
                         }
-                        .onAppear(perform:{
-                            withAnimation{
-                                proxy.scrollTo(overViewModel.currentPage - 1, anchor: .top)
-                            }
-                        })
                     }
+                    .onAppear(perform:{
+                        withAnimation{
+                            proxy.scrollTo(overViewModel.currentPage - 1, anchor: .top)
+                        }
+                        overViewModel.loadModalViewData()
+                    })
                 }
-                .padding()
-                .background(Color(.systemGray5))
             }
+            .padding()
+            .background(Color(.systemGray5))
+            .toolbar {
+                Button(action: {
+                    dismiss()
+                },label: {
+                    Text("Done")
+                })
+                .buttonStyle(.borderedProminent)
+            }
+            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         }
+        
     }
 }
 
