@@ -8,9 +8,9 @@
 import SwiftUI
 import AVKit
 
-struct ScribbleModalView: View {
+struct ScrribleModalView: View {
     @Environment(\.dismiss) var dismiss
-    @State var selectedType: ScribbleType = ScribbleType.write
+    @State var selectedType: ScrribleType = ScrribleType.write
     @State var hasTypeValueChanged: Bool = false
 
     @State var text: String = ""
@@ -26,13 +26,13 @@ struct ScribbleModalView: View {
 
                 HStack(alignment: .center, spacing: 20) {
                     Picker("타입", selection: $selectedType) {
-                        ForEach(ScribbleType.allCases, id: \.self) {
+                        ForEach(ScrribleType.allCases, id: \.self) {
                             Text($0.description)
                         }
                     }
                     .pickerStyle(.segmented)
                     .onChange(of: selectedType) { newValue in
-                        if newValue != ScribbleType.write {
+                        if newValue != ScrribleType.write {
                             hasTypeValueChanged = true
                         }
                     }
@@ -46,7 +46,7 @@ struct ScribbleModalView: View {
 
 
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                    ScribbleVideoView(selectedType: $selectedType)
+                    ScrribleVideoView(selectedType: $selectedType)
                         .padding()
                 }
                 .padding()
@@ -87,5 +87,5 @@ struct ScribbleModalView: View {
 }
 
 #Preview {
-    ScribbleModalView()
+    ScrribleModalView()
 }

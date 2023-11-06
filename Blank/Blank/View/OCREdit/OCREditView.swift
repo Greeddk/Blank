@@ -82,7 +82,7 @@ struct OCREditView: View {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            ScribbleModalView()
+            ScrribleModalView()
         }
     }
     
