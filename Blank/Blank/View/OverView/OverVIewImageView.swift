@@ -10,9 +10,7 @@ import Vision
 
 struct OverViewImageView: View {
     //경섭추가코드
-    // var uiImage: UIImage?
     @Binding var visionStart: Bool
-    // @State private var recognizedBoxes: [(String, CGRect)] = []
     
     @StateObject var overViewModel: OverViewModel
     //경섭추가코드

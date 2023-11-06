@@ -19,7 +19,7 @@ class OverViewModel: ObservableObject {
     @Published var currentProgress: Double = 0.0
     
     /// OverView 내에 있는 PinchZoom-ImageView에서 받은 빨간 박스(Basic Words)들을 저장합니다.
-    @Published var basicWords: [BasicWord] = []
+    var basicWords: [BasicWord] = []
     @Published var selectedPage: Page?
     @Published var sessions: [Session] = []
     @Published var statsOfSessions: [UUID: SessionStatistics] = [:]
@@ -306,7 +306,7 @@ class OverViewModel: ObservableObject {
     }
     
     /// currentImage로부터 basicWords를 생성
-    func generateBasicWordsFromCurrentImage() {
+    func generateBasicWordsFromCurrentImage(completionHandler: (() -> Void)? = nil) {
         guard let currentImage else {
             return
         }
@@ -315,6 +315,8 @@ class OverViewModel: ObservableObject {
             self.basicWords = recognizedTexts.map {
                 .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false)
             }
+            
+            completionHandler?()
         }
     }
     
