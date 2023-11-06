@@ -12,8 +12,8 @@ struct OCREditView: View {
     @State private var showingModal = true
 //    @Binding var isLinkActive: Bool
     // @Binding var generatedImage: UIImage?
-    @State var visionStart: Bool = false
-    @State var type = ScrribleType.write
+//    @State var visionStart: Bool = false
+//    @State var type = ScrribleType.write
     @State private var hasTypeValueChanged = false
     @State private var goToTestPage = false
     
@@ -66,7 +66,7 @@ struct OCREditView: View {
     private var ocrEditImage: some View {
         // TODO: 텍스트필드를 사진 위에 올려서 확인할 텍스트와 함께 보여주기
         ZoomableContainer {
-            OCRImageView(uiImage: wordSelectViewModel.currentImage, zoomScale: .constant(1.0), words: $wordSelectViewModel.selectedWords)
+            OCRImageView(wordSelectViewModel: wordSelectViewModel)
         }
         
     }
@@ -86,7 +86,7 @@ struct OCREditView: View {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            ScrribleModalView(selectedType: $type, hasTypeValueChanged: $hasTypeValueChanged)
+            ScrribleModalView()
         }
     }
     

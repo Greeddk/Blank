@@ -10,9 +10,9 @@ import AVKit
 
 struct ScrribleModalView: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var selectedType: ScrribleType
-    @Binding var hasTypeValueChanged: Bool
-    @State var player: AVPlayer = AVPlayer(url: Bundle.main.url(forResource: "handWrite", withExtension: "mov")!)
+    @State var selectedType: ScrribleType = ScrribleType.write
+    @State var hasTypeValueChanged: Bool = false
+
     @State var text: String = ""
 
     var body: some View {
@@ -46,7 +46,7 @@ struct ScrribleModalView: View {
 
 
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                    ScrribleVideoView(player: $player, selectedType: $selectedType, hasTypeValueChanged: $hasTypeValueChanged)
+                    ScrribleVideoView(selectedType: $selectedType)
                         .padding()
                 }
                 .padding()
@@ -87,5 +87,5 @@ struct ScrribleModalView: View {
 }
 
 #Preview {
-    ScrribleModalView(selectedType: .constant(ScrribleType.write), hasTypeValueChanged: .constant(false))
+    ScrribleModalView()
 }
