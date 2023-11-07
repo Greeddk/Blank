@@ -10,25 +10,25 @@ import UIKit
 import AVKit
 
 struct PlayerUIView: UIViewRepresentable {
-    var player: AVPlayer
+    @StateObject var playerViewModel: PlayerViewModel
 
     func updateUIView(_ uiView: UIView, context: Context) {
-        let playerLayer = AVPlayerLayer(player: player)
+        let playerLayer = AVPlayerLayer(player: playerViewModel.player)
         playerLayer.frame = uiView.bounds
         playerLayer.videoGravity = .resizeAspectFill
         uiView.layer.addSublayer(playerLayer)
-        player.play()
+//        playerViewModel.player.play()
     }
 
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: .zero)
 
-        let playerLayer = AVPlayerLayer(player: player)
+        let playerLayer = AVPlayerLayer(player: playerViewModel.player)
         playerLayer.frame = view.bounds
         playerLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(playerLayer)
-        player.play()
+//        playerViewModel.player.play()
 
-        return UIView()
+        return view
     }
 }

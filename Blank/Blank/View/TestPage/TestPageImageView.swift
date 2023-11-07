@@ -30,14 +30,8 @@ struct TestPageImageView: View {
                     // ForEach(page.sessions[0].words, id: \.self) { word in
                     ForEach(words.indices, id: \.self) { index in
                         let box = adjustRect(words[index].rect, in: proxy)
-                        @State var width = box.width
-                        @State var height = box.height
-                        @State var originX = box.origin.x
-                        @State var originY = box.origin.y
-                        @State var real = words[index].id
-                        
-                        TextView(name: $words[index].wordValue, height: height, width: width, orinX: real)
-                            .position(CGPoint(x: originX + (width / 2), y: (originY + (height / 2 ))))
+                        TextView(name: $words[index].wordValue, height: box.height, width: box.width, orinX: words[index].id)
+                            .position(CGPoint(x: box.origin.x + (box.width / 2), y: (box.origin.y + (box.height / 2 ))))
 
                         //                            TextView(name: w.wordValue ,height: $height, width: $width, scale: $zoomScale, page: $page, originX: $real)
                         //                                .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))
