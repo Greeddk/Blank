@@ -506,7 +506,6 @@ class CDService: IsCDService {
                   let fileId = $0.fileId else {
                 return nil
             }
-            print(#function,Page(id: id, fileId: fileId, currentPageNumber: Int($0.currentPageNumber)))
             return Page(id: id, fileId: fileId, currentPageNumber: Int($0.currentPageNumber))
         }
     }

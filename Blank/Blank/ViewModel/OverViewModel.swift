@@ -189,8 +189,6 @@ class OverViewModel: ObservableObject {
             totalStats[word.rect, default: .init(id: word.rect, correctSessionCount: 0, totalSessionCount: 0)].correctSessionCount += (word.isCorrect ? 1 : 0)
             totalStats[word.rect, default: .init(id: word.rect, correctSessionCount: 0, totalSessionCount: 0)].totalSessionCount += 1
         }
-        
-        print(totalStats)
     }
     
     /// PDF의 원하는 페이지를 로드해주는 메소드

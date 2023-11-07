@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */; };
 		425D4E462AF0EEEF00610BE8 /* NavigatioinUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E452AF0EEEF00610BE8 /* NavigatioinUtil.swift */; };
+		428102AC2AFA52B300938A27 /* OverViewStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428102AB2AFA52B300938A27 /* OverViewStatsView.swift */; };
 		42CDE1A72AE78AAB0033295E /* elementarySchoolEnglishWord.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 42CDE1A62AE78AAB0033295E /* elementarySchoolEnglishWord.pdf */; };
 		42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E763892AE1229700624D81 /* OverViewModel.swift */; };
 		42E7638E2AE1234A00624D81 /* samplepdf.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 42E7638D2AE1234A00624D81 /* samplepdf.pdf */; };
@@ -73,6 +74,7 @@
 /* Begin PBXFileReference section */
 		425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
 		425D4E452AF0EEEF00610BE8 /* NavigatioinUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigatioinUtil.swift; sourceTree = "<group>"; };
+		428102AB2AFA52B300938A27 /* OverViewStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewStatsView.swift; sourceTree = "<group>"; };
 		42CDE1A62AE78AAB0033295E /* elementarySchoolEnglishWord.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = elementarySchoolEnglishWord.pdf; sourceTree = "<group>"; };
 		42E763892AE1229700624D81 /* OverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModel.swift; sourceTree = "<group>"; };
 		42E7638D2AE1234A00624D81 /* samplepdf.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplepdf.pdf; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				42ED60C72ADE7EF50043AF2F /* OverView.swift */,
 				AC2851792AE7292500C70F4F /* OverViewImageView.swift */,
 				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
+				428102AB2AFA52B300938A27 /* OverViewStatsView.swift */,
 			);
 			path = OverView;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				44F30BEE2AE74AA800B67014 /* ScoringViewModel.swift in Sources */,
+				428102AC2AFA52B300938A27 /* OverViewStatsView.swift in Sources */,
 				EB0B16C22AF239020040B0B2 /* PlayerUIView.swift in Sources */,
 				44F30BEC2AE6B61E00B67014 /* ScoringTestView.swift in Sources */,
 				425D4E462AF0EEEF00610BE8 /* NavigatioinUtil.swift in Sources */,

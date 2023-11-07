@@ -44,11 +44,8 @@ struct OverView: View {
                     progressStatus
                     
                 } else if !overViewModel.thumbnails.isEmpty {
-                    ZoomableContainer {
                         OverViewImageView(visionStart: $visionStart,
-                                          overViewModel: overViewModel,
-                                          zoomScale: .constant(1.0))
-                    }
+                                          overViewModel: overViewModel)
                     bottomScrollView
                 }
             }
