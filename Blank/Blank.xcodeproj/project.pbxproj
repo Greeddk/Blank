@@ -57,6 +57,7 @@
 		ACF338C62ADD0172004D20FC /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACF338C52ADD0172004D20FC /* Word.swift */; };
 		EB0B16C22AF239020040B0B2 /* PlayerUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0B16C12AF239020040B0B2 /* PlayerUIView.swift */; };
 		EB0B16C42AF23B780040B0B2 /* insert.mov in Resources */ = {isa = PBXBuildFile; fileRef = EB0B16C32AF23B780040B0B2 /* insert.mov */; };
+		EB0B16CA2AFA17640040B0B2 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0B16C92AFA17640040B0B2 /* PlayerViewModel.swift */; };
 		EB69FC7D2AE6C71F00ADF7B6 /* TestPageImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB69FC7C2AE6C71F00ADF7B6 /* TestPageImageView.swift */; };
 		EB8978ED2AE5644400494BE7 /* handWrite.mov in Resources */ = {isa = PBXBuildFile; fileRef = EB8978E82AE5644400494BE7 /* handWrite.mov */; };
 		EB8978EF2AE5644400494BE7 /* delete.mov in Resources */ = {isa = PBXBuildFile; fileRef = EB8978EA2AE5644400494BE7 /* delete.mov */; };
@@ -123,6 +124,7 @@
 		ACF338C52ADD0172004D20FC /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		EB0B16C12AF239020040B0B2 /* PlayerUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerUIView.swift; sourceTree = "<group>"; };
 		EB0B16C32AF23B780040B0B2 /* insert.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = insert.mov; sourceTree = "<group>"; };
+		EB0B16C92AFA17640040B0B2 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
 		EB69FC7C2AE6C71F00ADF7B6 /* TestPageImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPageImageView.swift; sourceTree = "<group>"; };
 		EB8978E82AE5644400494BE7 /* handWrite.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = handWrite.mov; sourceTree = "<group>"; };
 		EB8978EA2AE5644400494BE7 /* delete.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = delete.mov; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				44F30BE32AE6738000B67014 /* WordSelectViewModel.swift */,
 				44F30BED2AE74AA800B67014 /* ScoringViewModel.swift */,
 				4418D0442AEFECBA000EF661 /* TextViewModel.swift */,
+				EB0B16C92AFA17640040B0B2 /* PlayerViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				44F30BEE2AE74AA800B67014 /* ScoringViewModel.swift in Sources */,
+				EB0B16CA2AFA17640040B0B2 /* PlayerViewModel.swift in Sources */,
 				EB0B16C22AF239020040B0B2 /* PlayerUIView.swift in Sources */,
 				44F30BEC2AE6B61E00B67014 /* ScoringTestView.swift in Sources */,
 				425D4E462AF0EEEF00610BE8 /* NavigatioinUtil.swift in Sources */,
@@ -628,7 +632,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = HR74YJR7W4;
 				DEVELOPMENT_TEAM = TK7CS88A86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -666,7 +669,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = HR74YJR7W4;
 				DEVELOPMENT_TEAM = TK7CS88A86;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

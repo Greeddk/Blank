@@ -13,8 +13,6 @@ struct OCREditView: View {
 //    @Binding var isLinkActive: Bool
     // @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
-    @State var type = ScribbleType.write
-    @State private var hasTypeValueChanged = false
     @State private var goToTestPage = false
     
     @StateObject var wordSelectViewModel: WordSelectViewModel

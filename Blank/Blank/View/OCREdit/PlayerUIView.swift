@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 
 struct PlayerUIView: UIViewRepresentable {
-    @ObservedObject var playerViewModel: PlayerViewModel
+    @StateObject var playerViewModel: PlayerViewModel
 
     func updateUIView(_ uiView: UIView, context: Context) {
         let playerLayer = AVPlayerLayer(player: playerViewModel.player)

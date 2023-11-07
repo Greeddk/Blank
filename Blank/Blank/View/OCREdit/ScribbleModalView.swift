@@ -68,14 +68,14 @@ struct ScribbleModalView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    closeBtn
+                    closeButton
                 }
             }
         }
 
     }
 
-    private var closeBtn: some View {
+    private var closeButton: some View {
         Button {
             dismiss()
         } label: {
@@ -83,13 +83,3 @@ struct ScribbleModalView: View {
         }
     }
 }
-
-<<<<<<< HEAD:Blank/Blank/View/OCREdit/ScrribleModalView.swift
-#Preview {
-    ScrribleModalView()
-}
-=======
-//#Preview {
-//    ScribbleModalView(selectedType: .constant(ScribbleType.write), hasTypeValueChanged: .constant(false))
-//}
->>>>>>> 96-bug-moalview-bug-fix:Blank/Blank/View/OCREdit/ScribbleModalView.swift
