@@ -74,8 +74,6 @@ struct OverViewImageView: View {
             height : rect.height * scaleY * zoomScale
         )
     }
-    
-    // => recognizeTextTwo는 OverViewModel로 이동하였습니다.
 }
 
 //

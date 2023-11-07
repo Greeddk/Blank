@@ -47,7 +47,7 @@ class OverViewModel: ObservableObject {
                         fileId: currentFile.id,
                         currentPageNumber: currentPage
         )
-
+        
         return page
     }
     
@@ -85,7 +85,7 @@ class OverViewModel: ObservableObject {
         let session = self.lastSessionsOfPages[index]
         
         if let shelledSession = session,
-            let realSession = shelledSession,
+           let realSession = shelledSession,
            let words = try? CDService.shared.loadAllWords(of: realSession) {
             let correctCount = words.reduce(0) {
                 $0 + ($1.isCorrect ? 1 : 0)
@@ -270,58 +270,18 @@ class OverViewModel: ObservableObject {
         }
     }
     
-    // completion은 recognizeText함수자체가 이미지에서 텍스트를 인식하는 비동기 작업을 수행하니까
-    // 함수가 종료되었을 때가 아닌 작업이 완료되었을때 completion클로저를 호출해야됨
-    func recognizeTextTwo(from image: UIImage, completion: @escaping ([(String, CGRect)]) -> Void) {
-        // 이미지 CGImage로 받음
-        guard let cgImage = image.cgImage else { return }
-        // VNImageRequestHandler옵션에 URL로 경로 할 수도 있고 화면회전에 대한 옵션도 가능
-        let requestHandler = VNImageRequestHandler(cgImage: cgImage)
-        
-        // 텍스트 인식 작업이 완료되었을때 실행할 클로저 정의
-        let request = VNRecognizeTextRequest { (request, error) in
-            var recognizedTexts: [(String, CGRect)] = [] // 단어랑 좌표값담을 빈 배열 튜플 생성
-            
-            if let results = request.results as? [VNRecognizedTextObservation] {
-                for observation in results {
-                    if let topCandidate = observation.topCandidates(1).first {
-                        let words = topCandidate.string.split(separator: " ")
-                        
-                        for word in words {
-                            if let range = topCandidate.string.range(of: String(word)) {
-                                if let box = try? topCandidate.boundingBox(for: range) {
-                                    let boundingBox = VNImageRectForNormalizedRect(box.boundingBox, Int(image.size.width), Int(image.size.height))
-                                    recognizedTexts.append((String(word), boundingBox))
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            completion(recognizedTexts)
-        }
-        
-        request.recognitionLanguages = ["ko-KR"]
-        request.recognitionLevel = .accurate
-        request.minimumTextHeight = 0.01
-        
-        do {
-            try requestHandler.perform([request])
-        } catch {
-            print("Error performing text recognition request: \(error)")
-        }
-    }
-    
     /// currentImage로부터 basicWords를 생성
     func generateBasicWordsFromCurrentImage(completionHandler: (() -> Void)? = nil) {
         guard let currentImage else {
             return
         }
         
-        recognizeTextTwo(from: currentImage) { recognizedTexts in
+        
+        recognizeText(from: currentImage) { recognizedTexts in
             self.basicWords = recognizedTexts.map {
                 .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false)
             }
+            
             
             completionHandler?()
         }
