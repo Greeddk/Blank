@@ -155,6 +155,7 @@ struct OverView: View {
                         .onTapGesture {
                             overViewModel.currentPage = index + 1
                             setImagesAndData()
+                            clearCorrectWordArea()
                         }
                     }
                     Spacer()
@@ -250,10 +251,7 @@ struct OverView: View {
                 ForEach(overViewModel.sessions.indices, id: \.self) { index in
                     let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
                     Button("\(index + 1)회차 (\(percentageValue))") {
-                        overViewModel.isTotalStatsViewMode = false
-                        _ = overViewModel.selectCurrentSessionAndWords(index: index)
-                        selectedSessionIndex = index
-                        seeResult = true
+                        setCorrectWordArea(index)
                     }
                 }
             } label: {
@@ -270,9 +268,9 @@ struct OverView: View {
             }
             
             Button {
-                // TODO: 원본 페이지 상태로 변경
                 seeResult = false
                 overViewModel.isTotalStatsViewMode = false
+                clearCorrectWordArea()
             } label: {
                 Text("원본")
             }
@@ -316,6 +314,21 @@ extension OverView {
                 }
             }
         }
+    }
+    
+    /// 회차가 변경되면 그 회차에 맞춰 단어 사각형 새로 그리기
+    private func setCorrectWordArea(_ index: Int) {
+        overViewModel.isTotalStatsViewMode = false
+        _ = overViewModel.selectCurrentSessionAndWords(index: index)
+        selectedSessionIndex = index
+        seeResult = true
+    }
+    
+    private func clearCorrectWordArea() {
+        overViewModel.isTotalStatsViewMode = false
+        overViewModel.currentSession = nil
+        selectedSessionIndex = nil
+        seeResult = false
     }
 }
 

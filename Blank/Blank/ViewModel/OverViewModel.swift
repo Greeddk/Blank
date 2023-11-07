@@ -140,6 +140,12 @@ class OverViewModel: ObservableObject {
             
             sessions = try CDService.shared.loadAllSessions(of: selectedPage)
             print("[DEBUG] Loaded Sessions:", sessions.count)
+            
+            // 페이지 바뀔때는 wordsOfSession, statsOfSessions를 초기화
+            wordsOfSession = .init()
+            statsOfSessions = .init()
+            totalStats = .init()
+            
             sessions.forEach {
                 if let words = try? CDService.shared.loadAllWords(of: $0) {
                     wordsOfSession[$0.id] = words
@@ -152,7 +158,8 @@ class OverViewModel: ObservableObject {
                     )
                 }
             }
-            //마지막으로 시험 본 세션을 불러서 저장하는 코드
+            
+            // 마지막으로 시험 본 세션을 불러서 저장하는 코드
             if sessions.count >= 1 {
                 lastSession = sessions.last
             }
