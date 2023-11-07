@@ -38,9 +38,16 @@ func recognizeText(from image: UIImage, completion: @escaping ([(String, CGRect)
                             if let box = try? topCandidate.boundingBox(for: wordRange) {
                                 let boundingBox = VNImageRectForNormalizedRect(box.boundingBox,
                                                                                Int(image.size.width),
-                                                                               Int(image.size.height)
+                                                                               Int(image.size.height))
+                                
+                                let changeFalotingToIntBox = CGRect(x: Int(round(boundingBox.origin.x)),
+                                                                    y: Int(round(boundingBox.origin.y)),
+                                                                    width: Int(round(boundingBox.width)),
+                                                                    height: Int(round(boundingBox.height))
                                 )
-                                recognizedTexts.append((String(word), boundingBox))
+                                
+                                
+                                recognizedTexts.append((String(word), changeFalotingToIntBox))
                             }
                         }
                     }
