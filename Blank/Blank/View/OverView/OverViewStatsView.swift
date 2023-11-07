@@ -13,12 +13,12 @@ struct OverViewStatsView: View {
     var zoomScale: CGFloat
     
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: -1) {
             Triangle()
-                .fill(Color.yellow)
-                .frame(width: width/5 / zoomScale, height: width/5 / zoomScale)
+                .fill(Color(UIColor.systemGray5))
+                .frame(width: width/4 / zoomScale, height: width/4 / zoomScale)
             RoundedRectangle(cornerSize: CGSize(width: width / 8 / zoomScale, height: height / 8 / zoomScale))
-                .fill(Color.yellow)
+                .fill(Color(UIColor.systemGray5))
                 .frame(width: width / zoomScale, height: height / zoomScale)
         }
     }
@@ -27,12 +27,12 @@ struct OverViewStatsView: View {
 struct Triangle: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
-
+        
         path.move(to: CGPoint(x: rect.midX, y: rect.minY))
         path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
         path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
         path.closeSubpath()
-
+        
         return path
     }
 }

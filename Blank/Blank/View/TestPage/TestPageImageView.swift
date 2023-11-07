@@ -58,10 +58,10 @@ struct TestPageImageView: View {
         return CGRect(
             
             
-            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)) * zoomScale,
-            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY * zoomScale,
-            width: rect.width * scaleY * zoomScale,
-            height : rect.height * scaleY * zoomScale
+            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)),
+            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY,
+            width: rect.width * scaleY,
+            height : rect.height * scaleY
         )
     }
 }

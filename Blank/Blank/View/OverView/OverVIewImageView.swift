@@ -32,7 +32,7 @@ struct OverViewImageView: View {
                     .overlay {
                         // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
                         if overViewModel.isTotalStatsViewMode {
-                            ZStack(alignment: .top) {
+                            ZStack {
                                 ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
                                     if let stat = overViewModel.totalStats[key] {
                                         Rectangle()
@@ -45,12 +45,18 @@ struct OverViewImageView: View {
                                 }
                                 ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
                                     if let stat = overViewModel.totalStats[key] {
-                                        OverViewStatsView(width: proxy.size.width / 15, height: proxy.size.height / 15, zoomScale: zoomScale)
+                                        OverViewStatsView(width: proxy.size.width / 15, height: proxy.size.height / 20, zoomScale: zoomScale)
                                             .overlay{
-                                                Text("5/10")
-                                                    .font(.system(size: proxy.size.width / 40 / zoomScale))
+                                                VStack {
+                                                    Spacer()
+                                                    Text("\(stat.correctSessionCount)/\(stat.totalSessionCount)")
+                                                        .font(.system(size: proxy.size.height / 50 / zoomScale))
+                                                    Text("(\(stat.correctRate.percentageTextValue(decimalPlaces: 0)))")
+                                                        .font(.system(size: proxy.size.height / 70 / zoomScale))
+                                                    Spacer()
+                                                }
                                             }
-                                            .position(x: adjustRect(key, in: proxy).origin.x + 20, y: adjustRect(key, in: proxy).origin.y + 40)
+                                            .position(x: adjustRect(key, in: proxy).midX, y: adjustRect(key, in: proxy).origin.y + 40 - zoomScale * 5)
                                     }
                                 }
                             }
@@ -67,6 +73,7 @@ struct OverViewImageView: View {
             }
         }
     }
+    
     
     // ---------- Mark : 반자동   ----------------
     func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {

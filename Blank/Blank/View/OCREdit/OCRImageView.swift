@@ -39,8 +39,6 @@ struct OCRImageView: View {
     // ---------- Mark : 반자동   ----------------
     func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
         
-        let zoomScale: CGFloat = 1.0
-        
         let imageSize = self.wordSelectViewModel.currentImage?.size ?? CGSize(width: 1, height: 1)
         
         let scaleY: CGFloat = geometry.size.height / imageSize.height
@@ -48,10 +46,10 @@ struct OCRImageView: View {
         return CGRect(
             
             
-            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)) * zoomScale,
-            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY * zoomScale,
-            width: rect.width * scaleY * zoomScale,
-            height : rect.height * scaleY * zoomScale
+            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)),
+            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY,
+            width: rect.width * scaleY,
+            height : rect.height * scaleY
         )
     }
 }
