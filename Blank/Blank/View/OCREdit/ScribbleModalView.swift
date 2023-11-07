@@ -8,12 +8,10 @@
 import SwiftUI
 import AVKit
 
-struct ScrribleModalView: View {
+struct ScribbleModalView: View {
     @Environment(\.dismiss) var dismiss
-    @State var selectedType: ScrribleType = ScrribleType.write
-    @State var hasTypeValueChanged: Bool = false
-
     @State var text: String = ""
+    @ObservedObject var playerViewModel: PlayerViewModel = PlayerViewModel()
 
     var body: some View {
         NavigationView {
@@ -25,44 +23,44 @@ struct ScrribleModalView: View {
                     .padding()
 
                 HStack(alignment: .center, spacing: 20) {
-                    Picker("타입", selection: $selectedType) {
-                        ForEach(ScrribleType.allCases, id: \.self) {
+                    Picker("타입", selection: $playerViewModel.selectedType) {
+                        ForEach(ScribbleType.allCases, id: \.self) {
                             Text($0.description)
                         }
                     }
                     .pickerStyle(.segmented)
-                    .onChange(of: selectedType) { newValue in
-                        if newValue != ScrribleType.write {
-                            hasTypeValueChanged = true
+                    .onChange(of: playerViewModel.selectedType) { newValue in
+                        if newValue != ScribbleType.write {
+                            playerViewModel.hasTypeValueChanged = true
                         }
                     }
                 }
                 .padding()
 
-                Text(selectedType.explain)
+                Text(playerViewModel.selectedType.explain)
                     .font(.system(size: 20))
                     .multilineTextAlignment(.center)
                     .padding()
 
 
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                    ScrribleVideoView(selectedType: $selectedType)
+                    ScribbleVideoView(playerViewModel: playerViewModel)
                         .padding()
                 }
                 .padding()
 
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                    TextField(selectedType.text.0, text: $text)
+                    TextField(playerViewModel.selectedType.text.0, text: $text)
                         .frame(width: 600)
                         .font(.system(size: 25))
                         .textFieldStyle(.roundedBorder)
                         .padding()
                         .onAppear() {
-                            text = selectedType.text.1
+                            text = playerViewModel.selectedType.text.1
                         }
 
-                        .onChange(of: selectedType) { newValue in
-                            text = selectedType.text.1
+                        .onChange(of: playerViewModel.selectedType) { newValue in
+                            text = playerViewModel.selectedType.text.1
                         }
                 }
 
@@ -86,6 +84,12 @@ struct ScrribleModalView: View {
     }
 }
 
+<<<<<<< HEAD:Blank/Blank/View/OCREdit/ScrribleModalView.swift
 #Preview {
     ScrribleModalView()
 }
+=======
+//#Preview {
+//    ScribbleModalView(selectedType: .constant(ScribbleType.write), hasTypeValueChanged: .constant(false))
+//}
+>>>>>>> 96-bug-moalview-bug-fix:Blank/Blank/View/OCREdit/ScribbleModalView.swift
