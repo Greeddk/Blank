@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct BlankApp: App {
-    
     init() {
         HomeViewModel.copySampleFiles()
     }
