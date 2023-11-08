@@ -12,6 +12,7 @@ struct OCREditView: View {
     @State private var showingModal = false
 //    @Binding var isLinkActive: Bool
     // @Binding var generatedImage: UIImage?
+    @State private var showingAlert = true
     @State var visionStart: Bool = false
     @State private var goToTestPage = false
     
@@ -59,6 +60,44 @@ struct OCREditView: View {
         }
         .ignoresSafeArea(.keyboard)
         .background(Color(.systemGray6))
+        .popup(isPresented: $showingAlert) {
+            HStack {
+                Image(systemName: "pencil.and.scribble")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100)
+                    .foregroundStyle(.white)
+                    .padding()
+                VStack {
+                    Text("Pencil을 활용해 빈칸을 채워보세요")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                    HStack {
+                        Text("자세한 내용은 우측 상단에")
+                            .font(.subheadline)
+                            .foregroundStyle(.white)
+                        Image(systemName: "questionmark.circle.fill")
+                            .foregroundStyle(.white)
+                        Text("클릭해주세요")
+                            .font(.subheadline)
+                            .foregroundStyle(.white)
+                    }
+                }
+                .padding()
+            }
+            .background(.black.opacity(0.8))
+            .clipShape(.rect(cornerRadius: 10))
+            .padding()
+            .offset(x: 250, y: 100)
+        } customize: {
+            $0
+                .position(.top)
+                .autohideIn(3.0)
+                .closeOnTap(false) // 팝업을 터치했을 때 없애야 하나?
+                .closeOnTapOutside(false)
+                .animation(.smooth)
+        }
+
     }
     
     private var ocrEditImage: some View {
