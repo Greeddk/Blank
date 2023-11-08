@@ -114,6 +114,7 @@ struct OCREditView: View {
         } label: {
             Image(systemName: "chevron.left")
         }
+        .buttonStyle(.bordered)
     }
     
     private var showModalButton: some View {
