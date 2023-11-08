@@ -73,6 +73,7 @@ struct OverView: View {
             .navigationBarBackButtonHidden()
             .navigationTitle(titleName)
             .navigationBarTitleDisplayMode(.inline)
+            .ignoresSafeArea(.keyboard)
             
         }
         .navigationDestination(isPresented: $goToNextPage) {
@@ -198,6 +199,7 @@ struct OverView: View {
                     Spacer()
                     TextField("", text: $currentPageText, onCommit:{
                         overViewModel.updateCurrentPage(from: currentPageText)
+                        setImagesAndData()
                     })
                     .multilineTextAlignment(.trailing)
                     .keyboardType(.numberPad)
@@ -205,6 +207,7 @@ struct OverView: View {
                     Text(" / \(overViewModel.pdfTotalPage())")
                     Button {
                         overViewModel.updateCurrentPage(from: currentPageText)
+                        setImagesAndData()
                     } label: {
                         Text("이동")
                     }

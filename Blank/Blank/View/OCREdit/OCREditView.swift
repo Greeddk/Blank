@@ -9,8 +9,10 @@ import SwiftUI
 
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var showingModal = true
-    @State private var hasTypeValueChanged = false
+    @State private var showingModal = false
+//    @Binding var isLinkActive: Bool
+    // @Binding var generatedImage: UIImage?
+    @State var visionStart: Bool = false
     @State private var goToTestPage = false
     
     @StateObject var wordSelectViewModel: WordSelectViewModel
@@ -79,7 +81,9 @@ struct OCREditView: View {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            ScrribleModalView()
+
+            ScribbleModalView()
+
         }
     }
     
