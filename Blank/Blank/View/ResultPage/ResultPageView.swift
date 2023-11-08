@@ -79,6 +79,7 @@ struct ResultPageView: View {
         } label: {
             Image(systemName: "house")
         }
+        .buttonStyle(.bordered)
         
     }
     
@@ -92,6 +93,7 @@ struct ResultPageView: View {
                 Text("정답률보기")
             }
         }
+        .buttonStyle(.bordered)
     }
     
     private var backToOverViewButton: some View {
