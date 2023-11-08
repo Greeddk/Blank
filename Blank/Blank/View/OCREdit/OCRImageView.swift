@@ -39,22 +39,57 @@ struct OCRImageView: View {
         }
     }
 
-    // ---------- Mark : 반자동   ----------------
+    // ---------- Mark : 기존 반자동  코드  ----------------
+//    func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
+//
+//        let zoomScale: CGFloat = 1.0
+//
+//        let imageSize = self.wordSelectViewModel.currentImage?.size ?? CGSize(width: 1, height: 1)
+//
+//        let scaleY: CGFloat = geometry.size.height / imageSize.height
+//
+//        return CGRect(
+//
+//
+//            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)) * zoomScale,
+//            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY * zoomScale,
+//            width: rect.width * scaleY * zoomScale,
+//            height : rect.height * scaleY * zoomScale
+//        )
+//    }
+    
     func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
-
+        
         let zoomScale: CGFloat = 1.0
-
         let imageSize = self.wordSelectViewModel.currentImage?.size ?? CGSize(width: 1, height: 1)
-
+        
+        // Image 뷰 너비와 UIImage 너비 사이의 비율
         let scaleY: CGFloat = geometry.size.height / imageSize.height
-
+        let deviceModel = UIDevice.current.name
+        var deviceX: CGFloat = 0.0
+        
+        switch deviceModel {
+        case "iPad Pro (12.9-inch) (6th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)) * zoomScale
+        case "iPad Pro (11-inch) (4th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.0 )  + (rect.origin.x * scaleY)) * zoomScale
+        case "iPad (10th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY)) * zoomScale
+        case "iPad Air (5th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY)) * zoomScale
+        case "iPad mini (6th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.8 )  + (rect.origin.x * scaleY)) * zoomScale
+        default:
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)) * zoomScale
+        }
+        
+        
         return CGRect(
-
-
-            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)) * zoomScale,
-            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY * zoomScale,
-            width: rect.width * scaleY * zoomScale,
+            x: deviceX  ,
+            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY * zoomScale ,
+            width: rect.width * scaleY * zoomScale ,
             height : rect.height * scaleY * zoomScale
         )
     }
+    
 }

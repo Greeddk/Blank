@@ -68,3 +68,7 @@ func recognizeText(from image: UIImage, completion: @escaping ([(String, CGRect)
         print("Error performing text recognition request: \(error)")
     }
 }
+
+
+
+

@@ -38,6 +38,8 @@ struct ImageView: View {
     
     
     
+    
+    
     var body: some View {
         GeometryReader { proxy in
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
@@ -176,11 +178,33 @@ struct ImageView: View {
         //        print("rect.size.width: \(rect.size.width) , rect.size.height: \(rect.size.height)")
         //        print("----------------")
         
+        let deviceModel = UIDevice.current.name
+        
+        var deviceX: CGFloat = 0.0
+        
+        switch deviceModel {
+        case "iPad Pro (12.9-inch) (6th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))
+        case "iPad Pro (11-inch) (4th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.0 )  + (rect.origin.x * scaleY))
+        case "iPad (10th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY))
+        case "iPad Air (5th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY))
+        case "iPad mini (6th generation)":
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.8 )  + (rect.origin.x * scaleY))
+        default:
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))
+            
+            
+        }
+        
         
         return CGRect(
             
             
-            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))  ,
+//            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))  ,
+            x: deviceX  ,
             
             // 좌우반전
             //                x:  (imageSize.width - rect.origin.x - rect.size.width) * scaleX * scale ,
@@ -190,6 +214,10 @@ struct ImageView: View {
             height : rect.height * scaleY
         )
     }
+    
+    
+    
+    
 }
 
 //
