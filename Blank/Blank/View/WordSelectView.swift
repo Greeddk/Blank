@@ -20,6 +20,8 @@ struct WordSelectView: View {
     
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
+    
+    
     var body: some View {
         NavigationStack {
             VStack {

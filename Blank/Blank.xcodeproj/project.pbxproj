@@ -48,6 +48,9 @@
 		44F30BE62AE6781F00B67014 /* BasicWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F30BE52AE6781F00B67014 /* BasicWord.swift */; };
 		44F30BEC2AE6B61E00B67014 /* ScoringTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F30BEB2AE6B61E00B67014 /* ScoringTestView.swift */; };
 		44F30BEE2AE74AA800B67014 /* ScoringViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F30BED2AE74AA800B67014 /* ScoringViewModel.swift */; };
+		AC11E8692AFBBF45003441A8 /* TestA.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AC11E8682AFBBF45003441A8 /* TestA.pdf */; };
+		AC11E86B2AFBBF4A003441A8 /* TestB.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AC11E86A2AFBBF4A003441A8 /* TestB.pdf */; };
+		AC11E86D2AFBBF4F003441A8 /* TestC.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AC11E86C2AFBBF4F003441A8 /* TestC.pdf */; };
 		AC28517A2AE7292500C70F4F /* OverViewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2851792AE7292500C70F4F /* OverViewImageView.swift */; };
 		ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */; };
 		ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */; };
@@ -117,6 +120,9 @@
 		44F30BE52AE6781F00B67014 /* BasicWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicWord.swift; sourceTree = "<group>"; };
 		44F30BEB2AE6B61E00B67014 /* ScoringTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringTestView.swift; sourceTree = "<group>"; };
 		44F30BED2AE74AA800B67014 /* ScoringViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringViewModel.swift; sourceTree = "<group>"; };
+		AC11E8682AFBBF45003441A8 /* TestA.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = TestA.pdf; sourceTree = "<group>"; };
+		AC11E86A2AFBBF4A003441A8 /* TestB.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = TestB.pdf; sourceTree = "<group>"; };
+		AC11E86C2AFBBF4F003441A8 /* TestC.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = TestC.pdf; sourceTree = "<group>"; };
 		AC2851792AE7292500C70F4F /* OverViewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewImageView.swift; sourceTree = "<group>"; };
 		ACDBDA592AD7CC7600C44A80 /* Blank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankApp.swift; sourceTree = "<group>"; };
@@ -220,6 +226,9 @@
 				449CB1DD2ADEDAD00086758A /* sample.pdf */,
 				449CB1DF2ADEDAD00086758A /* toeic.pdf */,
 				42E7638D2AE1234A00624D81 /* samplepdf.pdf */,
+				AC11E8682AFBBF45003441A8 /* TestA.pdf */,
+				AC11E86A2AFBBF4A003441A8 /* TestB.pdf */,
+				AC11E86C2AFBBF4F003441A8 /* TestC.pdf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -443,8 +452,11 @@
 				EB8978F02AE5644400494BE7 /* select.mov in Resources */,
 				EB8978EF2AE5644400494BE7 /* delete.mov in Resources */,
 				42CDE1A72AE78AAB0033295E /* elementarySchoolEnglishWord.pdf in Resources */,
+				AC11E86D2AFBBF4F003441A8 /* TestC.pdf in Resources */,
+				AC11E8692AFBBF45003441A8 /* TestA.pdf in Resources */,
 				EB8978ED2AE5644400494BE7 /* handWrite.mov in Resources */,
 				EB8978F12AE5644400494BE7 /* link.mov in Resources */,
+				AC11E86B2AFBBF4A003441A8 /* TestB.pdf in Resources */,
 				ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */,
 				42E7638E2AE1234A00624D81 /* samplepdf.pdf in Resources */,
 				449CB1E32ADEDAD00086758A /* toeic.pdf in Resources */,
