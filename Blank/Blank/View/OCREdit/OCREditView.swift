@@ -62,7 +62,7 @@ struct OCREditView: View {
         .background(Color(.systemGray6))
         .popup(isPresented: $showingAlert) {
             HStack {
-                Image(systemName: "pencil.and.scribble")
+                Image("pencil.and.scribble")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100)
