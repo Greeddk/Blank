@@ -13,26 +13,21 @@ struct ScribbleVideoView: View {
 
     var body: some View {
         VStack {
-            PlayerUIView(playerViewModel: playerViewModel)
+            PlayerView(player: $playerViewModel.player)
                 .frame(width: 600, height: 100)
                 .disabled(true)
                 .onAppear() {
-                    playerViewModel.player = playerViewModel.selectedType.video
-                    playerViewModel.player.play()
-                    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: playerViewModel.player.currentItem, queue: .main) { _ in
-                        playerViewModel.player.seek(to: CMTime.zero)
-                        playerViewModel.player.play()
-                    }
+                    playerViewModel.selectedType = ScribbleType.write
+                    playerViewModel.player?.play()
                 }
                 .onChange(of: playerViewModel.selectedType) { newValue in
-                    playerViewModel.player = newValue.video
-                    playerViewModel.player.seek(to: CMTime.zero)
-                    playerViewModel.player.play()
+                    playerViewModel.player?.pause()
+                    playerViewModel.player?.seek(to: .zero)
+                    playerViewModel.player?.play()
                 }
                 .onDisappear {
-                    playerViewModel.player.pause()
-                    playerViewModel.player.seek(to: .zero)
-                    
+                    playerViewModel.player?.pause()
+                    playerViewModel.player?.seek(to: .zero)
                 }
         }
     }
