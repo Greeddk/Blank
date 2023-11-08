@@ -15,18 +15,18 @@ enum ScribbleType: Int16, CaseIterable {
     case insert
     case link
 
-    var video: AVPlayer {
+    var video: URL {
         switch self {
         case .write:
-            return AVPlayer(url: Bundle.main.url(forResource: "handWrite", withExtension: "mov")!)
+            return Bundle.main.url(forResource: "handWrite", withExtension: "mov")!
         case .insert:
-            return AVPlayer(url: Bundle.main.url(forResource: "insert", withExtension: "mov")!)
+            return Bundle.main.url(forResource: "insert", withExtension: "mov")!
         case .select:
-            return AVPlayer(url: Bundle.main.url(forResource: "select", withExtension: "mov")!)
+            return Bundle.main.url(forResource: "select", withExtension: "mov")!
         case .delete:
-            return AVPlayer(url: Bundle.main.url(forResource: "delete", withExtension: "mov")!)
+            return Bundle.main.url(forResource: "delete", withExtension: "mov")!
         case .link:
-            return AVPlayer(url: Bundle.main.url(forResource: "link", withExtension: "mov")!)
+            return Bundle.main.url(forResource: "link", withExtension: "mov")!
         }
     }
 

@@ -9,26 +9,22 @@ import SwiftUI
 import UIKit
 import AVKit
 
-struct PlayerUIView: UIViewRepresentable {
-    @StateObject var playerViewModel: PlayerViewModel
+struct PlayerView: UIViewRepresentable {
+    @Binding var player: AVQueuePlayer?
 
     func updateUIView(_ uiView: UIView, context: Context) {
-        let playerLayer = AVPlayerLayer(player: playerViewModel.player)
+        guard let player = player else { return }
+
+        let playerLayer = AVPlayerLayer(player: player)
         playerLayer.frame = uiView.bounds
         playerLayer.videoGravity = .resizeAspectFill
+        uiView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         uiView.layer.addSublayer(playerLayer)
-//        playerViewModel.player.play()
     }
 
     func makeUIView(context: Context) -> UIView {
-        let view = UIView(frame: .zero)
+        let playerLayer = AVPlayerLayer(player: player)
 
-        let playerLayer = AVPlayerLayer(player: playerViewModel.player)
-        playerLayer.frame = view.bounds
-        playerLayer.videoGravity = .resizeAspectFill
-        view.layer.addSublayer(playerLayer)
-//        playerViewModel.player.play()
-
-        return view
+        return UIView()
     }
 }
