@@ -44,8 +44,9 @@ func recognizeText(from image: UIImage, completion: @escaping ([(String, CGRect)
                                                                     y: Int(round(boundingBox.origin.y)),
                                                                     width: Int(round(boundingBox.width)),
                                                                     height: Int(round(boundingBox.height))
+                                                                    
+                                                                    
                                 )
-                                
                                 
                                 recognizedTexts.append((String(word), changeFalotingToIntBox))
                             }
