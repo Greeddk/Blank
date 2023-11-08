@@ -25,6 +25,12 @@ struct WordSelectView: View {
             VStack {
                 wordSelectImage
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
+                PencilDobuleTapInteractionView {
+                    // 이 클로저는 pencil 더블 탭 시 실행
+                    self.isSelectArea.toggle()
+                        
+                }
+                .frame(width: 0, height: 0)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -33,8 +39,8 @@ struct WordSelectView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     
                     HStack{
-
-                        // segment 버튼 
+                        
+                        // segment 버튼
                         Picker("도구 선택", selection: $isSelectArea) {
                             Image(systemName: "arrow.rectanglepath")
                                 .symbolRenderingMode(.monochrome)
@@ -46,6 +52,7 @@ struct WordSelectView: View {
                                 .foregroundStyle(.black)
                                 .tag(false)
                         }
+                        .id(isSelectArea)
                         .tint(.red)
                         .pickerStyle(.segmented)
                         
