@@ -45,7 +45,11 @@ struct OverViewImageView: View {
                                 }
                                 ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
                                     if let stat = overViewModel.totalStats[key] {
-                                        OverViewStatsView(width: proxy.size.width / 15, height: proxy.size.height / 20, zoomScale: zoomScale)
+//                                        OverViewStatsView(width: proxy.size.width / 15, height: proxy.size.height / 20, zoomScale: zoomScale)
+                                        Image("PopoverShape")
+                                            .resizable()
+                                            .shadow(radius: 1)
+                                            .frame(width: proxy.size.width / 15 / zoomScale, height: proxy.size.height / 20 / zoomScale)
                                             .overlay{
                                                 VStack {
                                                     Spacer()
@@ -56,7 +60,7 @@ struct OverViewImageView: View {
                                                     Spacer()
                                                 }
                                             }
-                                            .position(x: adjustRect(key, in: proxy).midX, y: adjustRect(key, in: proxy).origin.y + 40 - zoomScale * 5)
+                                            .position(x: adjustRect(key, in: proxy).midX, y: adjustRect(key, in: proxy).origin.y + 45 - zoomScale * 5)
                                     }
                                 }
                             }
