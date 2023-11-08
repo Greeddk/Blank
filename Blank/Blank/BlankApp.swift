@@ -9,8 +9,6 @@ import SwiftUI
 
 @main
 struct BlankApp: App {
-    let persistenceController = PersistenceController.shared
-    
     init() {
         HomeViewModel.copySampleFiles()
     }
@@ -18,10 +16,6 @@ struct BlankApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .environment(
-                    \.managedObjectContext,
-                     persistenceController.container.viewContext
-                )
         }
     }
 }

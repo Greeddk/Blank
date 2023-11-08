@@ -44,7 +44,6 @@ struct ImageView: View {
                 Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
                     .resizable()
                     .scaledToFit()
-                
                 // GeometryReader를 통해 화면크기에 맞게 이미지 사이즈 조정
                 
                 //                이미지가 없다면 , 현재 뷰의 너비(GeometryReader의 너비)를 사용하고

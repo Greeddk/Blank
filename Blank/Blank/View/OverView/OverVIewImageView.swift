@@ -43,26 +43,28 @@ struct OverViewImageView: View {
                                             }
                                     }
                                 }
-                                ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
-                                    if let stat = overViewModel.totalStats[key] {
-//                                        OverViewStatsView(width: proxy.size.width / 15, height: proxy.size.height / 20, zoomScale: zoomScale)
-                                        Image("PopoverShape")
-                                            .resizable()
-                                            .shadow(radius: 1)
-                                            .frame(width: proxy.size.width / 15 / zoomScale, height: proxy.size.height / 20 / zoomScale)
-                                            .overlay{
-                                                VStack {
-                                                    Spacer()
-                                                    Text("\(stat.correctSessionCount)/\(stat.totalSessionCount)")
-                                                        .font(.system(size: proxy.size.height / 50 / zoomScale))
-                                                    Text("(\(stat.correctRate.percentageTextValue(decimalPlaces: 0)))")
-                                                        .font(.system(size: proxy.size.height / 70 / zoomScale))
-                                                    Spacer()
-                                                }
-                                            }
-                                            .position(x: adjustRect(key, in: proxy).midX, y: adjustRect(key, in: proxy).origin.y + 45 - zoomScale * 5)
-                                    }
-                                }
+                                // 전체통계 뷰 뜨게 하는 기능
+//                                ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
+//                                    if let stat = overViewModel.totalStats[key] {
+//                                        Image("PopoverShape")
+//                                            .resizable()
+//                                            .shadow(radius: 1)
+//                                            .opacity(0.7)
+//                                            .frame(width: proxy.size.width / 15 / zoomScale, height: proxy.size.height / 20 / zoomScale)
+//                                            .overlay{
+//                                                VStack(spacing: -2 * zoomScale) {
+//                                                    Group {
+//                                                        Text("\(stat.correctSessionCount)/\(stat.totalSessionCount)")
+//                                                            .font(.system(size: proxy.size.height / 40 / zoomScale))
+//                                                        Text("(\(stat.correctRate.percentageTextValue(decimalPlaces: 0)))")
+//                                                            .font(.system(size: proxy.size.height / 50 / zoomScale))
+//                                                    }
+//                                                    .scaleEffect(0.8 / zoomScale)
+//                                                }
+//                                            }
+//                                            .position(x: adjustRect(key, in: proxy).midX, y: adjustRect(key, in: proxy).origin.y + 45 - zoomScale * 5)
+//                                    }
+//                                }
                             }
                         } else if let currentSession = overViewModel.currentSession,
                                   let words = overViewModel.wordsOfSession[currentSession.id] {

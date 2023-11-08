@@ -17,6 +17,7 @@ struct TestPageImageView: View {
     
     var body: some View {
         GeometryReader { proxy in
+            ZoomableContainer(zoomScale: $zoomScale) {
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
             Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
                 .resizable()
@@ -32,11 +33,12 @@ struct TestPageImageView: View {
                         let box = adjustRect(words[index].rect, in: proxy)
                         TextView(name: $words[index].wordValue, height: box.height, width: box.width, orinX: words[index].id)
                             .position(CGPoint(x: box.origin.x + (box.width / 2), y: (box.origin.y + (box.height / 2 ))))
-
+                        
                         //                            TextView(name: w.wordValue ,height: $height, width: $width, scale: $zoomScale, page: $page, originX: $real)
                         //                                .position(CGPoint(x: (originX + (width/2)), y: (originY + (height/2))))
                     }
-            }
+                }
+        }
         }
     }
     

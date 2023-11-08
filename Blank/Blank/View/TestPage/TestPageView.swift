@@ -46,7 +46,7 @@ struct TestPageView: View {
             
         }
         .ignoresSafeArea(.keyboard)
-        .background(Color(.systemGray6))
+        .background(Color(.systemGray4))
         
     }
     

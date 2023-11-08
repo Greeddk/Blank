@@ -106,7 +106,7 @@ struct OverView: View {
                 goToTestPage = true
                 goToNextPage = true
             }
-            Button("새빈칸 시험지 만들기") {
+            Button("새 빈칸 시험지 만들기") {
                 goToNextPage = true
             }
             Button("취소", role: .cancel) {
