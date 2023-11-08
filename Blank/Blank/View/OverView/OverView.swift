@@ -58,9 +58,18 @@ struct OverView: View {
                 setImagesAndData()
                 goToTestPage = false
             }
+            .sheet(isPresented: $showModal) {
+                OverViewModalView(overViewModel: overViewModel)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    leftButtons
+                    HStack {
+                        backButton
+                        modalButton
+                        statsButton
+                        showOriginalImageButton
+                    }
+                    
                 }
                 
                 ToolbarItem(placement: .principal) {
@@ -74,8 +83,6 @@ struct OverView: View {
             .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden()
-            .navigationTitle(titleName)
-            .navigationBarTitleDisplayMode(.inline)
             .ignoresSafeArea(.keyboard)
             
         }
@@ -88,32 +95,32 @@ struct OverView: View {
                 } else {
                     Text("Error")
                 }
-            // 바로 시험보기 버튼을 눌렀을 시
+                // 바로 시험보기 버튼을 눌렀을 시
             } else if let page = overViewModel.selectedPage, let lastSession = overViewModel.lastSession, let words = overViewModel.wordsOfSession[lastSession.id] {
-                    
-                    let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
-                    
-                    TestPageView(
-                        scoringViewModel: .init(
-                            page: wordSelectViewModel.page,
-                            session: wordSelectViewModel.session,
-                            currentWritingWords: words.map { .init(id: $0.id, sessionId: $0.sessionId, wordValue: "", rect: $0.rect, isCorrect: $0.isCorrect) },
-                            targetWords: words, 
-                            currentImage: overViewModel.currentImage
-                        )
+                
+                let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
+                
+                TestPageView(
+                    scoringViewModel: .init(
+                        page: wordSelectViewModel.page,
+                        session: wordSelectViewModel.session,
+                        currentWritingWords: words.map { .init(id: $0.id, sessionId: $0.sessionId, wordValue: "", rect: $0.rect, isCorrect: $0.isCorrect) },
+                        targetWords: words,
+                        currentImage: overViewModel.currentImage
                     )
-                }
+                )
+            }
         }
         .alert("시험지 선택" ,isPresented: $showingAlert) {
             Button("마지막 회차 다시 보기") {
                 goToTestPage = true
                 goToNextPage = true
             }
-            Button("새빈칸 시험지 만들기") {
+            Button("새 빈칸 시험지 만들기") {
                 goToNextPage = true
             }
             Button("취소", role: .cancel) {
-
+                
             }
         } message: {
             Text("""
@@ -223,60 +230,83 @@ struct OverView: View {
         }
     }
     
-    private var leftButtons: some View {
-        HStack {
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "chevron.left")
-            }
-            
-            Button {
-                showModal = true
-            } label: {
-                Image(systemName: "square.grid.2x2.fill")
-            }
-            .sheet(isPresented: $showModal) {
-                OverViewModalView(overViewModel: overViewModel)
-            }
-            
-            Menu {
-                // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
-                Button("전체통계") {
-                    overViewModel.generateTotalStatistics()
-                    overViewModel.isTotalStatsViewMode = true
-                    seeResult = false
-                    selectedSessionIndex = nil
-                    
+    private var backButton: some View {
+        Button {
+            dismiss()
+        } label: {
+            RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
+                .fill(.gray.opacity(0.2))
+                .frame(width: 35, height: 35)
+                .overlay {
+                    Image(systemName: "chevron.left")
                 }
-                .disabled(overViewModel.sessions.isEmpty)
+        }
+        
+    }
+    
+    private var modalButton: some View {
+        Button {
+            showModal = true
+        } label: {
+            RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
+                .fill(.gray.opacity(0.2))
+                .frame(width: 35, height: 35)
+                .overlay {
+                    Image(systemName: "square.grid.2x2.fill")
+                }
+        }
+    }
+    
+    private var statsButton: some View {
+        Menu {
+            // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
+            Button("전체통계") {
+                overViewModel.generateTotalStatistics()
+                overViewModel.isTotalStatsViewMode = true
+                seeResult = false
+                selectedSessionIndex = nil
                 
-                ForEach(overViewModel.sessions.indices, id: \.self) { index in
-                    let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
-                    Button("\(index + 1)회차 (\(percentageValue))") {
-                        setCorrectWordArea(index)
+            }
+            .disabled(overViewModel.sessions.isEmpty)
+            
+            ForEach(overViewModel.sessions.indices, id: \.self) { index in
+                let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
+                Button("\(index + 1)회차 (\(percentageValue))") {
+                    setCorrectWordArea(index)
+                }
+            }
+        } label: {
+            RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
+                .fill(.gray.opacity(0.2))
+                .frame(width: 100, height: 35)
+                .overlay {
+                    if !seeResult && !overViewModel.isTotalStatsViewMode {
+                        Label("결과보기", systemImage: "chevron.down")
+                            .labelStyle(.titleAndIcon)
+                    } else if seeResult {
+                        Label("\(selectedSessionIndex! + 1)회차", systemImage: "chevron.down")
+                            .labelStyle(.titleAndIcon)
+                    } else {
+                        Label("전체통계", systemImage: "chevron.down")
+                            .labelStyle(.titleAndIcon)
                     }
                 }
-            } label: {
-                if !seeResult && !overViewModel.isTotalStatsViewMode {
-                    Label("결과보기", systemImage: "chevron.down")
-                        .labelStyle(.titleAndIcon)
-                } else if seeResult {
-                    Label("\(selectedSessionIndex! + 1)회차", systemImage: "chevron.down")
-                        .labelStyle(.titleAndIcon)
-                } else {
-                    Label("전체통계", systemImage: "chevron.down")
-                        .labelStyle(.titleAndIcon)
+        }
+        
+    }
+    
+    private var showOriginalImageButton: some View {
+        Button {
+            seeResult = false
+            overViewModel.isTotalStatsViewMode = false
+            clearCorrectWordArea()
+        } label: {
+            RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
+                .fill(.gray.opacity(0.2))
+                .frame(width: 40, height: 35)
+                .overlay {
+                    Text("원본")
                 }
-            }
-            
-            Button {
-                seeResult = false
-                overViewModel.isTotalStatsViewMode = false
-                clearCorrectWordArea()
-            } label: {
-                Text("원본")
-            }
         }
     }
     
@@ -333,6 +363,7 @@ extension OverView {
         selectedSessionIndex = nil
         seeResult = false
     }
+
 }
 
 //#Preview {

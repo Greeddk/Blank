@@ -120,6 +120,7 @@ struct WordSelectView: View {
         } label: {
             Image(systemName: "chevron.left")
         }
+        .buttonStyle(.bordered)
     }
     
     private var goToNextPageButton: some View {
