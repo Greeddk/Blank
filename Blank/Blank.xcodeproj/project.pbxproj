@@ -26,6 +26,7 @@
 		444E6A632AF2535200AEC703 /* SessionStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444E6A622AF2535200AEC703 /* SessionStatistics.swift */; };
 		444E6A652AF2587000AEC703 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444E6A642AF2587000AEC703 /* Double.swift */; };
 		444E6A672AF26B1A00AEC703 /* WordStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444E6A662AF26B1A00AEC703 /* WordStatistics.swift */; };
+		445F79682AFB89E6007D4998 /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445F79672AFB89E6007D4998 /* ImageUtil.swift */; };
 		4491DFAA2ADD1E2E00CA5B42 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */; };
 		4491DFEC2ADD4CF800CA5B42 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFEB2ADD4CF800CA5B42 /* Persistence.swift */; };
 		4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFED2ADD4D4700CA5B42 /* Blank.xcdatamodeld */; };
@@ -92,6 +93,7 @@
 		444E6A622AF2535200AEC703 /* SessionStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStatistics.swift; sourceTree = "<group>"; };
 		444E6A642AF2587000AEC703 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		444E6A662AF26B1A00AEC703 /* WordStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStatistics.swift; sourceTree = "<group>"; };
+		445F79672AFB89E6007D4998 /* ImageUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
 		4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4491DFEB2ADD4CF800CA5B42 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		4491DFEE2ADD4D4700CA5B42 /* Blank.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Blank.xcdatamodel; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				449CB1E92ADEE0460086758A /* PDFUtil.swift */,
+				445F79672AFB89E6007D4998 /* ImageUtil.swift */,
 				425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */,
 				425D4E452AF0EEEF00610BE8 /* NavigatioinUtil.swift */,
 				ACE0A6572AFA223B005031FE /* RecognizeText.swift */,
@@ -490,6 +493,7 @@
 				449CB1EA2ADEE0460086758A /* PDFUtil.swift in Sources */,
 				42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */,
 				44F30BE42AE6738000B67014 /* WordSelectViewModel.swift in Sources */,
+				445F79682AFB89E6007D4998 /* ImageUtil.swift in Sources */,
 				4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */,
 				449CB1DA2ADED6C10086758A /* DocumentPickerRepresentedView.swift in Sources */,
 				42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */,
@@ -640,7 +644,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = Q83JD2ZC9T;
+				DEVELOPMENT_TEAM = 6S2SA26VAN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
@@ -677,7 +681,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = Q83JD2ZC9T;
+				DEVELOPMENT_TEAM = 6S2SA26VAN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
