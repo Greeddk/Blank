@@ -56,13 +56,15 @@ class OverViewModel: ObservableObject {
         do {
             if let loadedFile = try CDService.shared.readFile(from: currentFile.fileURL.lastPathComponent) {
                 let pages = try CDService.shared.readAllPages(fileId: loadedFile.id)
-                let page = pages[index]
-                let lastSessionNumber = try CDService.shared.loadAllSessions(of: page).count
-                return lastSessionNumber
+                if let page = pages.first(where: { $0.currentPageNumber == index + 1} ) {
+                    let lastSessionNumber = try CDService.shared.loadAllSessions(of: page).count
+                    return lastSessionNumber
+                }
             }
         } catch {
             print(#function, error)
         }
+        
         return 0
     }
     
