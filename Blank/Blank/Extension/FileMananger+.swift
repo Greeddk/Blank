@@ -30,7 +30,7 @@ extension FileManager {
             if FileManager.default.fileExists(atPath: url.path) {
                 do {
                     try FileManager.default.removeItem(at: url)
-                    print("Delete success: \(url)")
+                    // print("Delete success: \(url)")
                 } catch {
                     print("Cannot delete item at \(url) : \(error)")
                 }

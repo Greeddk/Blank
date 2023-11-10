@@ -40,7 +40,7 @@ final class ScoringViewModel: ObservableObject {
     }
     
     func score() {
-        print("[DEBUG]",  #function,currentWritingWords.count, targetWords.count)
+        // print("[DEBUG]",  #function,currentWritingWords.count, targetWords.count)
         guard currentWritingWords.count == targetWords.count else {
             print("[DEBUG] currentWritingValues.count와 targetWords.count가 같아야 채점할 수 있습니다.")
             return
@@ -64,8 +64,8 @@ final class ScoringViewModel: ObservableObject {
             
             targetWords[targetWordIndex].isCorrect = currentWordValue == targetWordValue
             
-            print("[DEBUG]", currentWordValue, targetWordValue)
-            print("[DEBUG]", targetWords[targetWordIndex].isCorrect)
+            // print("[DEBUG]", currentWordValue, targetWordValue)
+            // print("[DEBUG]", targetWords[targetWordIndex].isCorrect)
         }
     }
     
@@ -94,8 +94,6 @@ final class ScoringViewModel: ObservableObject {
     }
     
     var correctCount: Int {
-        // print("[DEBUG] \(Date())", words)
-        // words.reduce(0, { $0 + ($1.isCorrect ? 1 : 0) })
         return targetWords.reduce(0, { $0 + ($1.isCorrect ? 1 : 0) })
     }
     

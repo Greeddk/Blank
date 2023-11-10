@@ -106,7 +106,7 @@ class OverViewModel: ObservableObject {
             // TODO: HomeView에서 파일을 로딩해서 넘어갈 때 이것을 하게 함
             if let file = try CDService.shared.readFile(from: currentFile.fileURL.lastPathComponent) {
                 if let page = try CDService.shared.readPage(fileId: file.id, pageNumber: currentPage) {
-                    print("[DEBUG] loadPage 1: file % page Loaded")
+                    // print("[DEBUG] loadPage 1: file % page Loaded")
                     selectedPage = page
                     return
                 }
@@ -114,7 +114,7 @@ class OverViewModel: ObservableObject {
                 // file은 있으면
                 let page = Page(id: UUID(), fileId: file.id, currentPageNumber: currentPage)
                 try CDService.shared.appendPage(to: file, page: page)
-                print("[DEBUG] loadPage 2: file Loaded, page created")
+                // print("[DEBUG] loadPage 2: file Loaded, page created")
                 selectedPage = page
                 return
             }
@@ -125,7 +125,7 @@ class OverViewModel: ObservableObject {
             
             try CDService.shared.createFile(from: file)
             try CDService.shared.appendPage(to: file, page: page)
-            print("[DEBUG] loadPage 3: file, page created")
+            // print("[DEBUG] loadPage 3: file, page created")
             
             selectedPage = page
         } catch {
@@ -142,7 +142,7 @@ class OverViewModel: ObservableObject {
             }
             
             sessions = try CDService.shared.loadAllSessions(of: selectedPage)
-            print("[DEBUG] Loaded Sessions:", sessions.count)
+            // print("[DEBUG] Loaded Sessions:", sessions.count)
             
             // 페이지 바뀔때는 wordsOfSession, statsOfSessions를 초기화
             wordsOfSession = .init()
@@ -301,8 +301,6 @@ class OverViewModel: ObservableObject {
         let maxHeight: CGFloat = maxWidth * 1.414
         
         let pageRect = page.bounds(for: .mediaBox)
-        print("pageRect:", pageRect)
-        
         let renderer = UIGraphicsImageRenderer(size: pageRect.size)
         
         let originalImage = renderer.image { imageContext in
@@ -315,7 +313,7 @@ class OverViewModel: ObservableObject {
             
             page.draw(with: .mediaBox, to: imageContext.cgContext)
         }
-        print("orgImage:", originalImage.size)
+        
         // maxWidth보다 작으면 기존 이용
         if originalImage.size.width <= maxWidth 
             && originalImage.size.height / originalImage.size.width >= 1.41

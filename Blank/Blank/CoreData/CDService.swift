@@ -193,7 +193,7 @@ class CDService: IsCDService {
         guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
             return
         }
-        print("[DEBUG]", #function, "Session Loaded: id: \(sessionEntity.id as Any)")
+        // print("[DEBUG]", #function, "Session Loaded: id: \(sessionEntity.id as Any)")
         try addAllWordsToSessionEntity(to: sessionEntity, words: words)
     }
     
