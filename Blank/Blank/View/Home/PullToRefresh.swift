@@ -51,7 +51,3 @@ struct ScrollViewOffsetPreferenceKey: PreferenceKey {
     }
 
 }
-
-// #Preview {
-//     PullToRefresh()
-// }
