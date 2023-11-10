@@ -53,7 +53,6 @@ class HomeViewModel: ObservableObject {
                 includingPropertiesForKeys: nil
             )
             
-            
             // TODO: - File 오브젝트 생성 부분
             self.fileList = directoryContents.map { url in
                 File(id: UUID(),
@@ -86,6 +85,10 @@ class HomeViewModel: ObservableObject {
         // TODO: - 이미 존재하는 파일은 복사를 더 할지, 덮어쓸지, 아니면 그냥 지나칠지 물어보기
         guard let documentDirectoryURL = FileManager.documentDirectoryURL else {
             fatalError("[Fatal Error] Document 폴더는 무조건 있습니다.")
+        }
+        
+        guard url.startAccessingSecurityScopedResource() else {
+            return false
         }
         
         return FileManager.default.secureCopyItem(

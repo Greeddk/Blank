@@ -164,7 +164,8 @@ struct HomeView: View {
                 Text("사진 보관함")
             }
         } label: {
-            Text("새 파일")
+            // Text("새 파일")
+            Text("파일 가져오기")
         }
     }
     
