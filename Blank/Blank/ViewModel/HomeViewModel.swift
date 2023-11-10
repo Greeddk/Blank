@@ -52,13 +52,15 @@ class HomeViewModel: ObservableObject {
                 at: documentDirectoryURL,
                 includingPropertiesForKeys: nil
             )
-            
-            // TODO: - File 오브젝트 생성 부분
-            self.fileList = directoryContents.map { url in
-                File(id: UUID(),
+
+            self.fileList = try directoryContents.map { url in
+                let solvedPageCount = try CDService.shared.loadSolvedPageCount(fileName: url.lastPathComponent)
+                
+                return File(id: UUID(),
                      fileURL: url,
                      fileName: url.lastPathComponent,
-                     totalPageCount: pageCount(of: url) ?? 0
+                     totalPageCount: pageCount(of: url) ?? 0,
+                     solvedPageCount: solvedPageCount
                 )
             }
             
