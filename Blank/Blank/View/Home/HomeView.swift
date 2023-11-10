@@ -18,6 +18,7 @@ struct HomeView: View {
     
     // 현재 일반 모드인지, 아니면 편집(=> 파일삭제) 모드인지
     @State var mode: Mode = .normal
+    @State private var refresh: Bool = false
     
     // UI 표시 토글 상태변수
     @State var showFilePicker = false
@@ -125,6 +126,12 @@ struct HomeView: View {
         let item = GridItem(.adaptive(minimum: 225, maximum: 225), spacing: 30)
         let columns = Array(repeating: item, count: 3)
         return ScrollView {
+            PullToRefresh(needRefresh: $refresh,
+                                 coordinateSpaceName: "pullToRefresh") {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    withAnimation { refresh = false }
+                }
+            }
             LazyVGrid(columns: columns) {
                 ForEach(homeViewModel.filteredFileList, id: \.id) { file in
                     NavigationLink(destination: mode == .normal ? OverView(overViewModel: OverViewModel(currentFile: file)) : nil) {
@@ -147,6 +154,12 @@ struct HomeView: View {
                         }
                     }
                 }
+            }
+        }
+        .coordinateSpace(name: "pullToRefresh")
+        .onChange(of: refresh) { needRefresh in
+            if needRefresh {
+                homeViewModel.fetchDocumentFileList()
             }
         }
     }
