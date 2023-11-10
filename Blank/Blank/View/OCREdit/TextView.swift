@@ -16,7 +16,7 @@ struct TextView: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            UITextViewRepresentable(text: $name, isFocused: $isFocused, height: height)
+            UITextViewRepresentable(text: $name, isFocused: $isFocused, width: width, height: height)
                 .frame(width: width, height: height)
         }
         .border(isFocused ? Color.yellow : Color.blue, width: 1.5)
@@ -28,6 +28,7 @@ struct TextView: View {
 struct UITextViewRepresentable: UIViewRepresentable {
     @Binding var text: String
     @Binding var isFocused: Bool
+    var width: CGFloat
     var height: CGFloat
     var fontScale: CGFloat = 1.9
 
@@ -36,14 +37,15 @@ struct UITextViewRepresentable: UIViewRepresentable {
 
         textView.textAlignment = .left
         textView.delegate = context.coordinator
-        textView.font = UIFont(name: "Avenir", size: (height/fontScale))
+        let minSize = min(width, height)
+        textView.font = UIFont(name: "Avenir", size: (minSize/fontScale))
 //        textView.adjustsFontForContentSizeCategory = true
 //        textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         textView.adjustsFontSizeToFitWidth = true
         textView.autocapitalizationType = .none
 //        textView.borderStyle = .none
 //        textView.sizeToFit()
-        textView.addLeftPadding()
+        textView.addLeftPadding(width: width)
 
         return textView
     }
@@ -80,8 +82,8 @@ struct UITextViewRepresentable: UIViewRepresentable {
 }
 
 extension UITextField {
-    func addLeftPadding() {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.frame.height))
+    func addLeftPadding(width: CGFloat) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: width / 6, height: self.frame.height))
         self.leftView = paddingView
         self.leftViewMode = ViewMode.always
     }
