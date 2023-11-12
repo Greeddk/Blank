@@ -16,7 +16,7 @@ struct DocumentPickerReperesentedView: UIViewControllerRepresentable {
     var selectedHandler: SelectedHandler
     
     init(selectedHandler: @escaping SelectedHandler) {
-        self.pickerVC = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf, .jpeg, .image, .gif, .png])
+        self.pickerVC = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf])
         self.selectedHandler = selectedHandler
     }
     

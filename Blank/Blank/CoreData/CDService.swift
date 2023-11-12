@@ -94,6 +94,12 @@ fileprivate protocol IsCDService {
     
     /// Word 삭제
     func deleteWord(_ word: Word) throws
+    
+    /*
+     ========== 기타 ==========
+     */
+    /// load sovled page count
+    func loadSolvedPageCount(fileName: String) throws -> Int
 }
 
 enum CDServiceError: Error {
@@ -101,6 +107,27 @@ enum CDServiceError: Error {
 }
 
 class CDService: IsCDService {
+    func loadSolvedPageCount(fileName: String) throws -> Int {
+        let fileRequest = FileEntity.fetchRequest()
+        fileRequest.fetchLimit = 1
+        fileRequest.predicate = NSPredicate(format: "fileName = %@", fileName)
+        let fileEntity = try viewContext.fetch(fileRequest)
+        
+        guard let fileId = fileEntity.first?.id else {
+            print("FileID is NIL")
+            return 0
+        }
+        
+        let fetchRequest = PageEntity.fetchRequest()
+        // 정렬 또는 조건 설정
+        let sort = NSSortDescriptor(key: "id", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.predicate = NSPredicate(format: "fileId = %@ AND sessions.@count > 0", fileId.uuidString)
+        
+        let pagesHaveAtLeastOneSession = try viewContext.fetch(fetchRequest)
+        return pagesHaveAtLeastOneSession.count
+    }
+    
     func appendPage(to file: File, page: Page) throws {
         guard let fileEntity: FileEntity = try readEntity(id: file.id) else {
             return
@@ -193,7 +220,7 @@ class CDService: IsCDService {
         guard let sessionEntity: SessionEntity = try readEntity(id: session.id) else {
             return
         }
-        print("[DEBUG]", #function, "Session Loaded: id: \(sessionEntity.id as Any)")
+        // print("[DEBUG]", #function, "Session Loaded: id: \(sessionEntity.id as Any)")
         try addAllWordsToSessionEntity(to: sessionEntity, words: words)
     }
     
@@ -274,6 +301,7 @@ class CDService: IsCDService {
         )
     }
     
+    /// 고장남, readAllPages를 대신 사용
     func loadAllPages(of file: File) throws -> [Page] {
         // Entity의 fetchRequest 생성
         let fetchRequest = PageEntity.fetchRequest()
