@@ -59,7 +59,7 @@ struct HomeView: View {
             }
             .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .navigationTitle("문서")
+            .navigationTitle("홈")
             .navigationBarTitleDisplayMode(.inline)
             .padding()
             .navigationBarBackButtonHidden(true)
