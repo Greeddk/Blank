@@ -186,6 +186,7 @@ class OverViewModel: ObservableObject {
     }
     
     func generateTotalStatistics() {
+        totalStats = .init()
         let allWords = wordsOfSession.values.flatMap { $0 }
         
         allWords.forEach { word in

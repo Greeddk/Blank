@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */; };
 		425D4E462AF0EEEF00610BE8 /* NavigatioinUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E452AF0EEEF00610BE8 /* NavigatioinUtil.swift */; };
-		42C0A33B2AFB6A270038E159 /* ame.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 42C0A33A2AFB6A270038E159 /* ame.pdf */; };
-		42CDE1A72AE78AAB0033295E /* elementarySchoolEnglishWord.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 42CDE1A62AE78AAB0033295E /* elementarySchoolEnglishWord.pdf */; };
 		42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E763892AE1229700624D81 /* OverViewModel.swift */; };
 		42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C52ADE7EDB0043AF2F /* HomeView.swift */; };
 		42ED60C82ADE7EF50043AF2F /* OverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C72ADE7EF50043AF2F /* OverView.swift */; };
@@ -219,10 +217,7 @@
 				EB8978EB2AE5644400494BE7 /* select.mov */,
 				AC3E63752B01F5BB000C2944 /* samplePDF.pdf */,
 				42CDE1A62AE78AAB0033295E /* elementarySchoolEnglishWord.pdf */,
-				449CB1DD2ADEDAD00086758A /* sample.pdf */,
 				42C0A33A2AFB6A270038E159 /* ame.pdf */,
-				449CB1DF2ADEDAD00086758A /* toeic.pdf */,
-				42E7638D2AE1234A00624D81 /* samplepdf.pdf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -445,8 +440,6 @@
 				EB0B16C42AF23B780040B0B2 /* insert.mov in Resources */,
 				EB8978F02AE5644400494BE7 /* select.mov in Resources */,
 				EB8978EF2AE5644400494BE7 /* delete.mov in Resources */,
-				42CDE1A72AE78AAB0033295E /* elementarySchoolEnglishWord.pdf in Resources */,
-				42C0A33B2AFB6A270038E159 /* ame.pdf in Resources */,
 				EB8978ED2AE5644400494BE7 /* handWrite.mov in Resources */,
 				EB8978F12AE5644400494BE7 /* link.mov in Resources */,
 				ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */,
@@ -647,7 +640,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = HR74YJR7W4;
+				DEVELOPMENT_TEAM = 6S2SA26VAN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
@@ -685,7 +678,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = HR74YJR7W4;
+				DEVELOPMENT_TEAM = 6S2SA26VAN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
