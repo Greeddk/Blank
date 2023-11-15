@@ -21,7 +21,7 @@ struct ResultPageView: View {
                     resultImage
                     Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
                 }
-                bottomCorrectInfo
+                correctInfo
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -47,13 +47,14 @@ struct ResultPageView: View {
         }
     }
     
-    private var bottomCorrectInfo: some View {
+    private var correctInfo: some View {
         HStack {
             if seeCorrect == true {
                 // TODO: 정답률, 문제개수, 정답개수 받아오기
                 Spacer().frame(width: 50)
                 CorrectInfoView(scoringViewModel: scoringViewModel)
                     .frame(minWidth: 600, maxWidth: 800, minHeight: 50, maxHeight: 70)
+                    .cornerRadius(20)
                 Spacer().frame(width: 50)
             } else {
                 
