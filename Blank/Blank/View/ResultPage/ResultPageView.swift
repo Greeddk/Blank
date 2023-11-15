@@ -63,14 +63,16 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        ImageView(
-            uiImage: scoringViewModel.currentImage,
-            visionStart: $visionStart,
-            viewName: "ResultPageView", isSelectArea: .constant(false),
-            basicWords: .constant([]),
-            targetWords: $scoringViewModel.targetWords,
-            currentWritingWords: $scoringViewModel.currentWritingWords
-        )
+        ZoomableContainer {
+            ImageView(
+                uiImage: scoringViewModel.currentImage,
+                visionStart: $visionStart,
+                viewName: "ResultPageView", isSelectArea: .constant(false),
+                basicWords: .constant([]),
+                targetWords: $scoringViewModel.targetWords,
+                currentWritingWords: $scoringViewModel.currentWritingWords
+            )
+        }
     }
     
     private var homeButton: some View {
