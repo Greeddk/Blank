@@ -106,7 +106,7 @@ struct ImageView: View {
                             RoundedRectangle(cornerSize: .init(width: cornerRadiusSize, height: cornerRadiusSize))
                                 .path(in: adjustRect)
                                 .fill(isCorrect ? correctColor : isAreaTouched[index, default: false] ? flippedAreaColor : wrongColor)
-                                .shadow(color: .black, radius: 2, x: 2, y: 2)
+                                .shadow(color: isCorrect ? .clear : .black, radius: 2, x: 2, y: 2)
                                 .overlay(
                                     Text("\(isCorrect ? originalValue : isAreaTouched[index, default: false] ? originalValue : wroteValue)")
                                         .font(.system(size: adjustRect.height / fontSizeRatio, weight: .semibold))
