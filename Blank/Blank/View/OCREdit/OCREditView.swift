@@ -15,7 +15,8 @@ struct OCREditView: View {
     @State private var showingAlert = true
     @State var visionStart: Bool = false
     @State private var goToTestPage = false
-    
+    @State var isShowingButton = true
+
     @StateObject var wordSelectViewModel: WordSelectViewModel
     
     /*
@@ -28,11 +29,14 @@ struct OCREditView: View {
             VStack {
                 ocrEditImage
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
-                
+
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    backButton
+                    HStack {
+                        backButton
+                        showOriginalImageButton
+                    }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack {
@@ -88,10 +92,10 @@ struct OCREditView: View {
             .background(.black.opacity(0.8))
             .clipShape(.rect(cornerRadius: 10))
             .padding()
-            .offset(x: 250, y: 100)
+            .offset(y: 100)
         } customize: {
             $0
-                .position(.top)
+                .position(.topTrailing)
                 .autohideIn(3.0)
                 .closeOnTap(false) // 팝업을 터치했을 때 없애야 하나?
                 .closeOnTapOutside(false)
@@ -139,6 +143,23 @@ struct OCREditView: View {
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)
+    }
+
+    private var showOriginalImageButton: some View {
+        Button {
+            wordSelectViewModel.isOrginal.toggle()
+        } label: {
+            RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
+                .fill(.gray.opacity(0.2))
+                .frame(width: 40, height: 35)
+                .overlay {
+                    if wordSelectViewModel.isOrginal {
+                        Text("빈칸")
+                    } else {
+                        Text("원본")
+                    }
+                }
+        }
     }
 }
 
