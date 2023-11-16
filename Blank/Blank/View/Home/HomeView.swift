@@ -26,13 +26,17 @@ struct HomeView: View {
     @State var showPDFCreateAlert = false
     @State var showFileDeleteAlert = false
     @State var isPopToHomeActive = false
-    
+    @State var showCreateNewFolder = false
+
     @StateObject var homeViewModel: HomeViewModel = .init()
     
     // 새 PDF 생성 관련
     @State var newPDFFileName = ""
     @State var targetImages: [UIImage]?
     @State var isAllowedCreateNewPDF = false
+    
+    // 새 폴더 생성 관련
+    @State private var newFolderName = ""
     
     var body: some View {
         NavigationStack {
@@ -127,6 +131,25 @@ struct HomeView: View {
             } message: {
                 Text("정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.")
             }
+            // Alert 설정: 새 폴더 만들기
+            .alert("새로운 폴더의 이름을 입력하세요.", isPresented: $showCreateNewFolder) {
+                TextField("", text: $newFolderName, prompt: .init("새 폴더"))
+                Button("Cancel", role: .cancel) {
+                    
+                }
+                Button("OK", role: .destructive) {
+                    if newFolderName.isEmpty {
+                        return
+                    }
+                    
+                    homeViewModel.createNewDirectory(name: newFolderName)
+                    newFolderName = ""
+                    // 새 폴더 생성 완료하면 일반 모드로 이동
+                    mode = .normal
+                }
+            } message: {
+                Text("현재 위치에 새로운 폴더를 생성합니다.")
+            }
         }
     }
     
@@ -134,12 +157,6 @@ struct HomeView: View {
         let item = GridItem(.adaptive(minimum: 225, maximum: 225), spacing: 30)
         let columns = Array(repeating: item, count: 3)
         return ScrollView {
-            PullToRefresh(needRefresh: $refresh,
-                                 coordinateSpaceName: "pullToRefresh") {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    withAnimation { refresh = false }
-                }
-            }
             LazyVGrid(columns: columns) {
                 if !homeViewModel.isLocatedInRootDirectory {
                     VStack {
@@ -210,11 +227,17 @@ struct HomeView: View {
     }
     
     private var fileBtnEditMode: some View {
-        Button {
-            showFileDeleteAlert = true
-        } label: {
-            Image(systemName: "trash")
-                .foregroundColor(.red)
+        HStack {
+            Button("새 폴더") {
+                showCreateNewFolder.toggle()
+            }
+            
+            Button {
+                showFileDeleteAlert = true
+            } label: {
+                Image(systemName: "trash")
+                    .foregroundColor(.red)
+            }
         }
     }
     

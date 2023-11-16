@@ -107,6 +107,23 @@ class HomeViewModel: ObservableObject {
         }
     }
     
+    /// 폴더 추가
+    func createNewDirectory(name: String) {
+        guard let urlWithNewFolder = (currentDirectoryURL ?? FileManager.documentDirectoryURL)?.appendingPathComponent(name) else {
+            return
+        }
+        
+        // 중복되는 경우 생성
+        
+        do {
+            try FileManager.default.createDirectory(at: urlWithNewFolder, withIntermediateDirectories: true)
+        } catch {
+            print(error)
+        }
+        
+        fetchDocumentFileList()
+    }
+    
     /// 파일 삭제 기능
     func removeFiles(urls: [URL]) {
         FileManager.default.delete(at: urls)
