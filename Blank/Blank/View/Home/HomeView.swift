@@ -18,7 +18,6 @@ struct HomeView: View {
     
     // 현재 일반 모드인지, 아니면 편집(=> 파일삭제) 모드인지
     @State var mode: Mode = .normal
-    @State private var refresh: Bool = false
     
     // UI 표시 토글 상태변수
     @State var showFilePicker = false
@@ -200,11 +199,8 @@ struct HomeView: View {
                 }
             }
         }
-        .coordinateSpace(name: "pullToRefresh")
-        .onChange(of: refresh) { needRefresh in
-            if needRefresh {
-                homeViewModel.fetchDocumentFileList()
-            }
+        .refreshable {
+            homeViewModel.fetchDocumentFileList()
         }
     }
     
