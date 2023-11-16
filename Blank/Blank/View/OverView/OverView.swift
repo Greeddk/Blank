@@ -41,8 +41,8 @@ struct OverView: View {
         NavigationStack {
             VStack {
                 if overViewModel.isLoading && overViewModel.currentProgress < 1.0 {
-                    progressStatus
-                    
+                    // progressStatus
+                    ProgressStatusView(currentProgress: $overViewModel.currentProgress)
                 } else if !overViewModel.thumbnails.isEmpty {
                         OverViewImageView(visionStart: $visionStart,
                                           overViewModel: overViewModel)
@@ -128,17 +128,17 @@ struct OverView: View {
         }
     }
     
-    private var progressStatus: some View {
-        VStack(spacing: 20) {
-            ProgressView(value: overViewModel.currentProgress)
-                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-            
-            Text("파일을 로딩 중 입니다.")
-            
-            Text("\(Int(overViewModel.currentProgress * 100))%") // 퍼센트로 변환하여 표시
-        }
-        .background(.white)
-    }
+    // private var progressStatus: some View {
+    //     VStack(spacing: 20) {
+    //         ProgressView(value: overViewModel.currentProgress)
+    //             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+    //         
+    //         Text("파일을 로딩 중 입니다.")
+    //         
+    //         Text("\(Int(overViewModel.currentProgress * 100))%") // 퍼센트로 변환하여 표시
+    //     }
+    //     .background(.white)
+    // }
     
     private var bottomScrollView: some View {
         ScrollView(.horizontal, showsIndicators: true) {

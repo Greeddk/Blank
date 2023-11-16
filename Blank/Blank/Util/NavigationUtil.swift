@@ -1,5 +1,5 @@
 //
-//  NavigatioinUtil.swift
+//  NavigationUtil.swift
 //  Blank
 //
 //  Created by Greed on 10/31/23.

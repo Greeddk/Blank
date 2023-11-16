@@ -72,11 +72,18 @@ struct HomeView: View {
             .sheet(isPresented: $showImagePicker) {
                 // showPDFCreateAlert 1: 이미지 선택 창을 띄우고 끝나면 경고창 띄움
                 // TODO: - 인디케이터 로딩 시작
+                
                 PhotoPickerRepresentedView { images in
                     // TODO: - 인디케이터 로딩 끝
+                    print("이미지 결합 Phase 1 시작")
                     targetImages = images
                     setAllowCreateNewPDF(true)
                     showPDFCreateAlert = true
+                }
+            }
+            .onChange(of: showPDFCreateAlert) {
+                if $0 {
+                    print("이미지 결합 Phase 1 끝")
                 }
             }
             // Alert 설정: PDF 생성
@@ -101,6 +108,7 @@ struct HomeView: View {
                         newPDFFileName = suggestedFileName
                     }
                     
+                    print("이미지 결합 Phase 2 시작")
                     addImageCombinedPDFToDocument(from: targetImages)
                 }
             } message: {
@@ -234,11 +242,12 @@ extension HomeView {
                 setAllowCreateNewPDF(false)
                 return
             }
-            
+
             try pdfData.write(to: targetDirectory.appendingPathComponent("\(newPDFFileName).pdf"))
             homeViewModel.fetchDocumentFileList()
             
             setAllowCreateNewPDF(false)
+            print("이미지 결합 Phase 2 끝")
         } catch {
             print("write pdf error:", error)
             setAllowCreateNewPDF(false)
