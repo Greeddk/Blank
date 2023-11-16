@@ -24,12 +24,14 @@ struct OCRImageView: View {
                         height: max(wordSelectViewModel.currentImage?.size.height ?? proxy.size.height, proxy.size.height)
                     )
                     .overlay {
-                        // ForEach(page.sessions[0].words, id: \.self) { word in
-                        ForEach(wordSelectViewModel.selectedWords.indices, id: \.self) { index in
-                            let box = adjustRect(wordSelectViewModel.selectedWords[index].rect, in: proxy)
-                            let real = wordSelectViewModel.selectedWords[index].id
-                            TextView(name: $wordSelectViewModel.selectedWords[index].wordValue, height: box.height, width: box.width, orinX: real)
-                                .position(CGPoint(x: box.origin.x + (box.width / 2), y: (box.origin.y + (box.height / 2 ))))
+                        if wordSelectViewModel.isOrginal == false {
+                            // ForEach(page.sessions[0].words, id: \.self) { word in
+                            ForEach(wordSelectViewModel.selectedWords.indices, id: \.self) { index in
+                                let box = adjustRect(wordSelectViewModel.selectedWords[index].rect, in: proxy)
+                                let real = wordSelectViewModel.selectedWords[index].id
+                                TextView(name: $wordSelectViewModel.selectedWords[index].wordValue, height: box.height, width: box.width, orinX: real)
+                                    .position(CGPoint(x: box.origin.x + (box.width / 2), y: (box.origin.y + (box.height / 2 ))))
+                            }
                         }
                     }
             }
