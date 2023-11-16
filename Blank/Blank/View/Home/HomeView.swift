@@ -66,7 +66,7 @@ struct HomeView: View {
             // 시트뷰 설정
             .sheet(isPresented: $showFilePicker) {
                 DocumentPickerReperesentedView { url in
-                    addFileToDocument(from: url)
+                    homeViewModel.addFileToDocument(from: url)
                 }
             }
             .sheet(isPresented: $showImagePicker) {
@@ -223,13 +223,6 @@ struct HomeView: View {
 }
 
 extension HomeView {
-    private func addFileToDocument(from url: URL) {
-        let copyResult = homeViewModel.copyFileToDocumentBundle(from: url)
-        if copyResult {
-            homeViewModel.fetchDocumentFileList()
-        }
-    }
-    
     private func addImageCombinedPDFToDocument(from images: [UIImage]) {
         guard images.count > 0 && isAllowedCreateNewPDF else {
             return
@@ -237,7 +230,12 @@ extension HomeView {
         
         do {
             let pdfData = createPDFFromUIImages(from: images)
-            try pdfData.write(to: FileManager.documentDirectoryURL!.appendingPathComponent("\(newPDFFileName).pdf"))
+            guard let targetDirectory = homeViewModel.currentDirectoryURL ?? FileManager.documentDirectoryURL else {
+                setAllowCreateNewPDF(false)
+                return
+            }
+            
+            try pdfData.write(to: targetDirectory.appendingPathComponent("\(newPDFFileName).pdf"))
             homeViewModel.fetchDocumentFileList()
             
             setAllowCreateNewPDF(false)

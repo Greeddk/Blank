@@ -5,14 +5,14 @@
 //  Created by 윤범태 on 2023/10/16.
 //
 
-import Foundation
+import UIKit
 
 class HomeViewModel: ObservableObject {
     @Published var fileList: [FileSystem] = []
     @Published var selectedFileList: Set<File> = []
     @Published var searchText = ""
     
-    private var currentDirectoryURL: URL?
+    @Published private(set) var currentDirectoryURL: URL?
     
     init() {
         fetchDocumentFileList()
@@ -101,6 +101,12 @@ class HomeViewModel: ObservableObject {
         fetchDocumentFileList(from: parentDirectoryURL)
     }
     
+    func addFileToDocument(from url: URL) {
+        if copyFileToDocumentBundle(from: url) {
+            fetchDocumentFileList()
+        }
+    }
+    
     /// 파일 삭제 기능
     func removeFiles(urls: [URL]) {
         FileManager.default.delete(at: urls)
@@ -115,19 +121,20 @@ class HomeViewModel: ObservableObject {
     
     /// 파일을 외부로부터 문서 폴더에 추가
     /// - Returns: 파일 복사의 성공/실패 여부
-    func copyFileToDocumentBundle(from url: URL) -> Bool {
+    func copyFileToDocumentBundle(from fromURL: URL) -> Bool {
         // TODO: - 이미 존재하는 파일은 복사를 더 할지, 덮어쓸지, 아니면 그냥 지나칠지 물어보기
-        guard let documentDirectoryURL = FileManager.documentDirectoryURL else {
-            fatalError("[Fatal Error] Document 폴더는 무조건 있습니다.")
+        guard let targetDirectory = currentDirectoryURL ?? FileManager.documentDirectoryURL else {
+            print("[Fatal Error] toURL 폴더가 없습니다.")
+            return false
         }
         
-        guard url.startAccessingSecurityScopedResource() else {
+        guard fromURL.startAccessingSecurityScopedResource() else {
             return false
         }
         
         return FileManager.default.secureCopyItem(
-            at: url,
-            to: documentDirectoryURL.appendingPathComponent(url.lastPathComponent)
+            at: fromURL,
+            to: targetDirectory.appendingPathComponent(fromURL.lastPathComponent)
         )
     }
     
