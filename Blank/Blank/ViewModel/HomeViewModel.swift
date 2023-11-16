@@ -104,6 +104,12 @@ class HomeViewModel: ObservableObject {
         let sampleFiles: [URL] = [
 //            Bundle.main.url(forResource: "samplepdf", withExtension: "pdf"),
             Bundle.main.url(forResource: "samplePDF", withExtension: "pdf"),
+            Bundle.main.url(forResource: "samplePDF1", withExtension: "pdf"),
+            Bundle.main.url(forResource: "samplePDF2", withExtension: "pdf"),
+            Bundle.main.url(forResource: "samplePDF3", withExtension: "pdf"),
+            Bundle.main.url(forResource: "samplePDF4", withExtension: "pdf"),
+            Bundle.main.url(forResource: "samplePDF5", withExtension: "pdf"),
+            Bundle.main.url(forResource: "samplePDF6", withExtension: "pdf")
 //            Bundle.main.url(forResource: "sample", withExtension: "pdf"),
 //            Bundle.main.url(forResource: "blank", withExtension: "pdf"),
 //            Bundle.main.url(forResource: "toeic", withExtension: "pdf"),

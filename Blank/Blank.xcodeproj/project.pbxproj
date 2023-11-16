@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */; };
 		425D4E462AF0EEEF00610BE8 /* NavigatioinUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E452AF0EEEF00610BE8 /* NavigatioinUtil.swift */; };
+		429E85292B04B8670000E086 /* samplePDF1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 429E85282B04B8660000E086 /* samplePDF1.pdf */; };
+		429E852B2B04B8700000E086 /* samplePDF2.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 429E852A2B04B8700000E086 /* samplePDF2.pdf */; };
+		429E852D2B04B8790000E086 /* samplePDF3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 429E852C2B04B8790000E086 /* samplePDF3.pdf */; };
+		429E852F2B04B8840000E086 /* samplePDF4.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 429E852E2B04B8840000E086 /* samplePDF4.pdf */; };
+		429E85312B04B88F0000E086 /* samplePDF5.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 429E85302B04B88F0000E086 /* samplePDF5.pdf */; };
+		429E85332B04B8980000E086 /* samplePDF6.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 429E85322B04B8980000E086 /* samplePDF6.pdf */; };
 		42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E763892AE1229700624D81 /* OverViewModel.swift */; };
 		42ED60C62ADE7EDB0043AF2F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C52ADE7EDB0043AF2F /* HomeView.swift */; };
 		42ED60C82ADE7EF50043AF2F /* OverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42ED60C72ADE7EF50043AF2F /* OverView.swift */; };
@@ -75,6 +81,12 @@
 /* Begin PBXFileReference section */
 		425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
 		425D4E452AF0EEEF00610BE8 /* NavigatioinUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigatioinUtil.swift; sourceTree = "<group>"; };
+		429E85282B04B8660000E086 /* samplePDF1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplePDF1.pdf; sourceTree = "<group>"; };
+		429E852A2B04B8700000E086 /* samplePDF2.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplePDF2.pdf; sourceTree = "<group>"; };
+		429E852C2B04B8790000E086 /* samplePDF3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplePDF3.pdf; sourceTree = "<group>"; };
+		429E852E2B04B8840000E086 /* samplePDF4.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplePDF4.pdf; sourceTree = "<group>"; };
+		429E85302B04B88F0000E086 /* samplePDF5.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplePDF5.pdf; sourceTree = "<group>"; };
+		429E85322B04B8980000E086 /* samplePDF6.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplePDF6.pdf; sourceTree = "<group>"; };
 		42E763892AE1229700624D81 /* OverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModel.swift; sourceTree = "<group>"; };
 		42ED60C52ADE7EDB0043AF2F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		42ED60C72ADE7EF50043AF2F /* OverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverView.swift; sourceTree = "<group>"; };
@@ -214,6 +226,12 @@
 				EB0B16C32AF23B780040B0B2 /* insert.mov */,
 				EB8978EB2AE5644400494BE7 /* select.mov */,
 				AC3E63752B01F5BB000C2944 /* samplePDF.pdf */,
+				429E85302B04B88F0000E086 /* samplePDF5.pdf */,
+				429E85322B04B8980000E086 /* samplePDF6.pdf */,
+				429E852C2B04B8790000E086 /* samplePDF3.pdf */,
+				429E852E2B04B8840000E086 /* samplePDF4.pdf */,
+				429E852A2B04B8700000E086 /* samplePDF2.pdf */,
+				429E85282B04B8660000E086 /* samplePDF1.pdf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -433,11 +451,17 @@
 			files = (
 				ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */,
 				AC3E63762B01F5BB000C2944 /* samplePDF.pdf in Resources */,
+				429E852F2B04B8840000E086 /* samplePDF4.pdf in Resources */,
+				429E852B2B04B8700000E086 /* samplePDF2.pdf in Resources */,
+				429E85292B04B8670000E086 /* samplePDF1.pdf in Resources */,
+				429E852D2B04B8790000E086 /* samplePDF3.pdf in Resources */,
 				EB0B16C42AF23B780040B0B2 /* insert.mov in Resources */,
 				EB8978F02AE5644400494BE7 /* select.mov in Resources */,
 				EB8978EF2AE5644400494BE7 /* delete.mov in Resources */,
 				EB8978ED2AE5644400494BE7 /* handWrite.mov in Resources */,
+				429E85312B04B88F0000E086 /* samplePDF5.pdf in Resources */,
 				EB8978F12AE5644400494BE7 /* link.mov in Resources */,
+				429E85332B04B8980000E086 /* samplePDF6.pdf in Resources */,
 				ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

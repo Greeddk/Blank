@@ -123,8 +123,19 @@ struct HomeView: View {
     }
     
     private var thumbGridView: some View {
-        let item = GridItem(.adaptive(minimum: 225, maximum: 225), spacing: 30)
-        let columns = Array(repeating: item, count: 3)
+        let item = GridItem(.adaptive(minimum: 120, maximum: 200), spacing: 30)
+        let screenWidth = UIScreen.main.bounds.size.width
+        var columns = Array(repeating: item, count: 3)
+
+        switch screenWidth {
+        case 0..<745: //mini: 744
+            columns = Array(repeating: item, count: 3)
+        case 745..<834: // 10.2, 10.5
+            columns = Array(repeating: item, count: 4)
+        default: //11: 835   12
+            columns = Array(repeating: item, count: 5)
+        }
+        
         return ScrollView {
             PullToRefresh(needRefresh: $refresh,
                                  coordinateSpaceName: "pullToRefresh") {
@@ -139,6 +150,7 @@ struct HomeView: View {
                         // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
                         ZStack(alignment:.topTrailing) {
                             PDFThumbnailView(file: file)
+                                .frame(width: 200)
                             
                             if mode == .edit {
                                 Image(homeViewModel.selectedFileList.contains(file) ? "checkedCheckmark" : "emptyCheckmark")

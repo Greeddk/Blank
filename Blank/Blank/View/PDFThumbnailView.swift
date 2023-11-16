@@ -15,10 +15,10 @@ struct PDFThumbnailView: View {
         VStack {
             thumbnail
                 .shadow(color: Color.black.opacity(0.3), radius: 2, x: 1, y: 1)
-                .frame(width: 200, height: 250)
+                .frame(height: 140)
             Spacer().frame(height: 15)
             Text("\(file.fileName)")
-                .font(.title2)
+                .font(.title3)
                 .fontWeight(.bold)
             Text("전체 페이지수: \(file.totalPageCount)")
             Text("시험 본 페이지: \(file.solvedPageCount)")
@@ -33,7 +33,7 @@ struct PDFThumbnailView: View {
 
 extension PDFThumbnailView {
     private func prepareThumbnail(from url: URL) {
-        guard let thumbnail = generateThumbnail(of: .init(width: 200, height: 250), for: url, atPage: 0) else {
+        guard let thumbnail = generateThumbnail(of: .init(width: 120, height: 150), for: url, atPage: 0) else {
             return
         }
         
