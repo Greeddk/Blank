@@ -1,6 +1,12 @@
 {
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  },
   "images" : [
     {
+      "platform" : "ios",
+      "idiom" : "universal",
       "filename" : "icon-20@2x.png",
       "size" : "20x20",
       "idiom" : "universal",
@@ -9,6 +15,7 @@
     },
     {
       "scale" : "3x",
+      "platform" : "ios",
       "filename" : "icon-20@3x.png",
       "size" : "20x20",
       "platform" : "ios",
@@ -17,11 +24,14 @@
     {
       "filename" : "icon-29@2x.png",
       "platform" : "ios",
+      "idiom" : "universal",
       "scale" : "2x",
       "idiom" : "universal",
       "size" : "29x29"
     },
     {
+      "idiom" : "universal",
+      "size" : "29x29",
       "filename" : "icon-29@3x.png",
       "idiom" : "universal",
       "platform" : "ios",
@@ -30,6 +40,7 @@
     },
     {
       "scale" : "2x",
+      "filename" : "icon-38@2x.png",
       "platform" : "ios",
       "idiom" : "universal",
       "size" : "38x38",
@@ -71,13 +82,18 @@
       "idiom" : "universal"
     },
     {
+      "platform" : "ios",
       "filename" : "icon-64@2x.png",
+      "scale" : "2x",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "64x64",
       "scale" : "2x"
     },
     {
+      "size" : "64x64",
+      "platform" : "ios",
+      "idiom" : "universal",
       "filename" : "icon-64@3x.png",
       "size" : "64x64",
       "scale" : "3x",
@@ -87,6 +103,7 @@
     {
       "filename" : "icon-68@2x.png",
       "size" : "68x68",
+      "idiom" : "universal",
       "scale" : "2x",
       "platform" : "ios",
       "idiom" : "universal"
@@ -94,6 +111,7 @@
     {
       "idiom" : "universal",
       "platform" : "ios",
+      "idiom" : "universal",
       "filename" : "icon-76@2x.png",
       "scale" : "2x",
       "size" : "76x76"
@@ -106,6 +124,8 @@
       "platform" : "ios"
     },
     {
+      "filename" : "ios-marketing.png",
+      "platform" : "ios",
       "size" : "1024x1024",
       "filename" : "ios-marketing.png",
       "idiom" : "universal",

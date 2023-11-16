@@ -75,6 +75,8 @@
 /* Begin PBXFileReference section */
 		425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
 		425D4E452AF0EEEF00610BE8 /* NavigatioinUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigatioinUtil.swift; sourceTree = "<group>"; };
+		42C0A33A2AFB6A270038E159 /* ame.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ame.pdf; sourceTree = "<group>"; };
+		42CDE1A62AE78AAB0033295E /* elementarySchoolEnglishWord.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = elementarySchoolEnglishWord.pdf; sourceTree = "<group>"; };
 		42E763892AE1229700624D81 /* OverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModel.swift; sourceTree = "<group>"; };
 		42ED60C52ADE7EDB0043AF2F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		42ED60C72ADE7EF50043AF2F /* OverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverView.swift; sourceTree = "<group>"; };
@@ -214,6 +216,8 @@
 				EB0B16C32AF23B780040B0B2 /* insert.mov */,
 				EB8978EB2AE5644400494BE7 /* select.mov */,
 				AC3E63752B01F5BB000C2944 /* samplePDF.pdf */,
+				42CDE1A62AE78AAB0033295E /* elementarySchoolEnglishWord.pdf */,
+				42C0A33A2AFB6A270038E159 /* ame.pdf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -637,6 +641,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
 				DEVELOPMENT_TEAM = TK7CS88A86;
+				DEVELOPMENT_TEAM = 6S2SA26VAN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
@@ -675,6 +680,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
 				DEVELOPMENT_TEAM = TK7CS88A86;
+				DEVELOPMENT_TEAM = 6S2SA26VAN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
