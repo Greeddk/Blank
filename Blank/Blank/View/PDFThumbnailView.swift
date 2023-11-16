@@ -17,7 +17,7 @@ struct PDFThumbnailView: View {
                 .shadow(color: Color.black.opacity(0.3), radius: 2, x: 1, y: 1)
                 .frame(height: 140)
             Spacer().frame(height: 15)
-            Text("\(file.fileName)")
+            Text("\((URL(fileURLWithPath: file.fileName).deletingPathExtension().lastPathComponent))")
                 .font(.title3)
                 .fontWeight(.bold)
             Text("전체 페이지수: \(file.totalPageCount)")
