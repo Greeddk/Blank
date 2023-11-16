@@ -15,7 +15,6 @@ struct ImageView: View {
     @State private var recognizedBoxes: [(String, CGRect)] = []
     
     //경섭추가코드
-    
     var viewName: String?
     
     //for drag gesture
@@ -23,7 +22,6 @@ struct ImageView: View {
     @State var endLocation: CGPoint?
     
     @Binding var isSelectArea: Bool
-    
     
     // 다른 뷰에서도 사용할 수 있기 때문에 뷰모델로 전달하지 않고 개별 배열로 전달해봄
     @Binding var basicWords: [BasicWord]
@@ -35,6 +33,7 @@ struct ImageView: View {
     let cornerRadiusSize: CGFloat = 6
     let fontSizeRatio: CGFloat = 1.9
     
+    @State var zoomScale: CGFloat = 1.0
     
     
     
@@ -43,11 +42,10 @@ struct ImageView: View {
     var body: some View {
         GeometryReader { proxy in
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
-            ZoomableContainer {
+            ZoomableContainer(zoomScale: $zoomScale) {
                 Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
                     .resizable()
                     .scaledToFit()
-                
                 // GeometryReader를 통해 화면크기에 맞게 이미지 사이즈 조정
                 
                 //                이미지가 없다면 , 현재 뷰의 너비(GeometryReader의 너비)를 사용하고

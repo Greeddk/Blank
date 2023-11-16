@@ -14,43 +14,69 @@ struct OverViewImageView: View {
     
     @StateObject var overViewModel: OverViewModel
     //경섭추가코드
-    @Binding var zoomScale: CGFloat
+    @State var zoomScale: CGFloat = 1.0
     
     var body: some View {
         GeometryReader { proxy in
-            // ScrollView를 통해 PinchZoom시 좌우상하 이동
-            Image(uiImage: overViewModel.currentImage ?? UIImage())  //경섭추가코드를 받기위한 변경
-                .resizable()
-                .scaledToFit()
-                .frame(
-                    width: max(overViewModel.currentImage?.size.width ?? proxy.size.width, proxy.size.width) * zoomScale,
-                    height: max(overViewModel.currentImage?.size.height ?? proxy.size.height, proxy.size.height) * zoomScale
-                )
+            ZoomableContainer(zoomScale: $zoomScale) {
+                // ScrollView를 통해 PinchZoom시 좌우상하 이동
+                Image(uiImage: overViewModel.currentImage ?? UIImage())  //경섭추가코드를 받기위한 변경
+                    .resizable()
+                    .scaledToFit()
+                    .frame(
+                        width: max(overViewModel.currentImage?.size.width ?? proxy.size.width, proxy.size.width),
+                        height: max(overViewModel.currentImage?.size.height ?? proxy.size.height, proxy.size.height)
+                    )
                 
                 // 통계가 나타나는 부분
-                .overlay {
-                    // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
-                    if overViewModel.isTotalStatsViewMode {
-                        ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
-                            if let stat = overViewModel.totalStats[key] {
-                                Rectangle()
-                                    .path(in: adjustRect(key, in: proxy))
-                                    .fill(stat.isAllCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
-                                    .onTapGesture {
-                                        overViewModel.totalStats[key]?.isSelected = true
+                    .overlay {
+                        // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
+                        if overViewModel.isTotalStatsViewMode {
+                            ZStack {
+                                ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
+                                    if let stat = overViewModel.totalStats[key] {
+                                        Rectangle()
+                                            .path(in: adjustRect(key, in: proxy))
+                                            .fill(stat.isAllCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
+                                            .onTapGesture {
+                                                overViewModel.totalStats[key]?.isSelected = true
+                                            }
                                     }
+                                }
+                                // 전체통계 뷰 뜨게 하는 기능
+                               // ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
+                               //     if let stat = overViewModel.totalStats[key] {
+                               //         Image("PopoverShape")
+                               //             .resizable()
+                               //             .shadow(radius: 1)
+                               //             .opacity(0.7)
+                               //             .frame(width: proxy.size.width / 15 / zoomScale, height: proxy.size.height / 20 / zoomScale)
+                               //             .overlay{
+                               //                 VStack(spacing: -2 * zoomScale) {
+                               //                     Group {
+                               //                         Text("\(stat.correctSessionCount)/\(stat.totalSessionCount)")
+                               //                             .font(.system(size: proxy.size.height / 40 / zoomScale))
+                               //                         Text("(\(stat.correctRate.percentageTextValue(decimalPlaces: 0)))")
+                               //                             .font(.system(size: proxy.size.height / 50 / zoomScale))
+                               //                     }
+                               //                     .scaleEffect(0.8 / zoomScale)
+                               //                 }
+                               //             }
+                               //             .position(x: adjustRect(key, in: proxy).midX, y: adjustRect(key, in: proxy).origin.y + 45 - zoomScale * 5)
+                               //     }
+                               // }
+                            }
+                        } else if let currentSession = overViewModel.currentSession,
+                                  let words = overViewModel.wordsOfSession[currentSession.id] {
+                            ForEach(words, id: \.id) { word in
+                                Rectangle()
+                                    .path(in: adjustRect(word.rect, in: proxy))
+                                    .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
                             }
                         }
-                    } else if let currentSession = overViewModel.currentSession,
-                                let words = overViewModel.wordsOfSession[currentSession.id] {
-                        ForEach(words, id: \.id) { word in
-                            Rectangle()
-                                .path(in: adjustRect(word.rect, in: proxy))
-                                .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
-                        }
+                        
                     }
-                    
-                }
+            }
         }
     }
     
@@ -75,6 +101,7 @@ struct OverViewImageView: View {
 //        )
 //    }
     
+    // ---------- Mark : 반자동   ----------------
     func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
         
         let imageSize = overViewModel.currentImage?.size ?? CGSize(width: 1, height: 1)
