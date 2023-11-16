@@ -8,9 +8,11 @@
 import Foundation
 
 class HomeViewModel: ObservableObject {
-    @Published var fileList: [File] = []
+    @Published var fileList: [FileSystem] = []
     @Published var selectedFileList: Set<File> = []
     @Published var searchText = ""
+    
+    private var currentDirectoryURL: URL?
     
     init() {
         fetchDocumentFileList()
@@ -30,7 +32,7 @@ class HomeViewModel: ObservableObject {
     
     /// 검색(필터링) 결과를 출력
     /// https://www.swiftyplace.com/blog/swiftui-search-bar-best-practices-and-examples
-    var filteredFileList: [File] {
+    var filteredFileList: [FileSystem] {
         guard !searchText.isEmpty else {
             return fileList
         }
@@ -41,32 +43,62 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    /// 파일 목록을 가져와서 [File] 형태로 저장
-    func fetchDocumentFileList() {
-        guard let documentDirectoryURL = FileManager.documentDirectoryURL else {
-            return
-        }
-        
+    /// 현재 `currentDirectoryURL`가 위치한 곳이 루트 디렉토리인가?
+    var isLocatedInRootDirectory: Bool {
+        currentDirectoryURL == FileManager.documentDirectoryURL
+    }
+    
+    func fetchDocumentFileList(from targetDirectoryURL: URL) {
         do {
+            currentDirectoryURL = targetDirectoryURL
+            
             let directoryContents = try FileManager.default.contentsOfDirectory(
-                at: documentDirectoryURL,
+                at: targetDirectoryURL,
                 includingPropertiesForKeys: nil
             )
 
             self.fileList = try directoryContents.map { url in
                 let solvedPageCount = try CDService.shared.loadSolvedPageCount(fileName: url.lastPathComponent)
                 
-                return File(id: UUID(),
-                     fileURL: url,
-                     fileName: url.lastPathComponent,
-                     totalPageCount: pageCount(of: url) ?? 0,
-                     solvedPageCount: solvedPageCount
-                )
+                return if url.hasDirectoryPath {
+                    Folder(id: UUID(), fileURL: url, fileName: url.lastPathComponent)
+                } else {
+                    File(id: UUID(),
+                         fileURL: url,
+                         fileName: url.lastPathComponent,
+                         totalPageCount: pageCount(of: url) ?? 0,
+                         solvedPageCount: solvedPageCount
+                    )
+                }
             }
             
         } catch {
             print(error)
         }
+    }
+    
+    /// 파일 목록을 가져와서 [File] 형태로 저장
+    func fetchDocumentFileList(_ subpath: String? = nil) {
+        guard var targetDirectoryURL = currentDirectoryURL ?? FileManager.documentDirectoryURL else {
+            return
+        }
+        
+        if let subpath {
+            targetDirectoryURL.append(path: subpath)
+        }
+        
+        fetchDocumentFileList(from: targetDirectoryURL)
+    }
+    
+    func fetchFileListFromParentDirectory() {
+        guard let currentDirectoryURL,
+              let documentDirectoryURL = FileManager.documentDirectoryURL,
+              documentDirectoryURL != currentDirectoryURL else {
+            return
+        }
+        
+        let parentDirectoryURL = currentDirectoryURL.deletingLastPathComponent()
+        fetchDocumentFileList(from: parentDirectoryURL)
     }
     
     /// 파일 삭제 기능

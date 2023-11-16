@@ -133,26 +133,45 @@ struct HomeView: View {
                 }
             }
             LazyVGrid(columns: columns) {
-                ForEach(homeViewModel.filteredFileList, id: \.id) { file in
-                    NavigationLink(destination: mode == .normal ? OverView(overViewModel: OverViewModel(currentFile: file)) : nil) {
-                    // NavigationLink(value: file) {
-                        // TODO: 전체페이지와 시험본 페이지를 각 카드뷰에 넘겨주기
-                        ZStack(alignment:.topTrailing) {
-                            PDFThumbnailView(file: file)
-                            
-                            if mode == .edit {
-                                Image(homeViewModel.selectedFileList.contains(file) ? "checkedCheckmark" : "emptyCheckmark")
-                                    .offset(x: -20, y: 10)
+                if !homeViewModel.isLocatedInRootDirectory {
+                    VStack {
+                        FolderThumbnailView(isRoot: true)
+                    }
+                    .onTapGesture {
+                        homeViewModel.fetchFileListFromParentDirectory()
+                    }
+                }
+                
+                ForEach(homeViewModel.filteredFileList, id: \.id) { fileComponent in
+                    if let file = fileComponent as? File {
+                        NavigationLink(
+                            destination: mode == .normal
+                                       ? OverView(overViewModel: OverViewModel(currentFile: file))
+                                       : nil
+                        ) {
+                            ZStack(alignment:.topTrailing) {
+                                PDFThumbnailView(file: file)
+                                
+                                if mode == .edit {
+                                    Image(homeViewModel.selectedFileList.contains(file) ? "checkedCheckmark" : "emptyCheckmark")
+                                        .offset(x: -20, y: 10)
+                                }
                             }
                         }
-                    }
-                    .foregroundColor(.black)
-                    .disabled(mode == .edit)
-                    .onTapGesture {
-                        if mode == .edit {
-                            updateSelection(file)
+                        .foregroundColor(.black)
+                        .disabled(mode == .edit)
+                        .onTapGesture {
+                            if mode == .edit {
+                                updateSelection(file)
+                            }
                         }
+                    } else if let folder = fileComponent as? Folder {
+                        FolderThumbnailView(folder: folder)
+                            .onTapGesture {
+                                homeViewModel.fetchDocumentFileList(folder.fileName)
+                            }
                     }
+                    
                 }
             }
         }
