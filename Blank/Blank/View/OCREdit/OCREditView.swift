@@ -163,12 +163,6 @@ struct OCREditView: View {
     }
 }
 
-
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
 //#Preview {
 //    OCREditView(viewModel: OverViewModel(),isLinkActive: .constant(true))
 //}
