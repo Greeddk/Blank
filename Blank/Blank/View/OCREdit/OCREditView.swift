@@ -28,6 +28,9 @@ struct OCREditView: View {
         NavigationStack {
             VStack {
                 ocrEditImage
+                    .onTapGesture {
+                        hideKeyboard()
+                    }
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
 
             }

@@ -22,6 +22,9 @@ struct TestPageView: View {
         NavigationStack {
             VStack {
                 testImage
+                    .onTapGesture {
+                        hideKeyboard()
+                    }
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
             }
             .toolbar {
