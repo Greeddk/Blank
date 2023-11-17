@@ -118,7 +118,7 @@ struct HomeView: View {
                 Text("선택된 이미지들이 병합되어 PDF로 생성됩니다. 파일 이름을 확장자를 제외하고 입력해주세요.")
             }
             // Alert 설정: 선택한 파일 삭제
-            .alert("선택한 \(homeViewModel.selectedFileList.count)개의 파일 삭제", isPresented: $showFileDeleteAlert) {
+            .alert("선택한 파일 및 폴더 삭제", isPresented: $showFileDeleteAlert) {
                 Button("Cancel", role: .cancel) {
                     
                 }
@@ -129,6 +129,7 @@ struct HomeView: View {
                 }
             } message: {
                 Text("정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.")
+                + Text(!homeViewModel.selectedFolderList.isEmpty ? " 폴더를 삭제하는 경우 폴더 안의 모든 파일이 삭제됩니다." : "")
             }
             // Alert 설정: 새 폴더 만들기
             .alert("새로운 폴더의 이름을 입력하세요.", isPresented: $showCreateNewFolder) {
@@ -155,6 +156,7 @@ struct HomeView: View {
     private var thumbGridView: some View {
         let item = GridItem(.adaptive(minimum: 225, maximum: 225), spacing: 30)
         let columns = Array(repeating: item, count: 3)
+        
         return ScrollView {
             LazyVGrid(columns: columns) {
                 if !homeViewModel.isLocatedInRootDirectory {
@@ -168,32 +170,9 @@ struct HomeView: View {
                 
                 ForEach(homeViewModel.filteredFileList, id: \.id) { fileComponent in
                     if let file = fileComponent as? File {
-                        NavigationLink(
-                            destination: mode == .normal
-                                       ? OverView(overViewModel: OverViewModel(currentFile: file))
-                                       : nil
-                        ) {
-                            ZStack(alignment:.topTrailing) {
-                                PDFThumbnailView(file: file)
-                                
-                                if mode == .edit {
-                                    Image(homeViewModel.selectedFileList.contains(file) ? "checkedCheckmark" : "emptyCheckmark")
-                                        .offset(x: -20, y: 10)
-                                }
-                            }
-                        }
-                        .foregroundColor(.black)
-                        .disabled(mode == .edit)
-                        .onTapGesture {
-                            if mode == .edit {
-                                updateSelection(file)
-                            }
-                        }
+                        pdfThumbnail(file)
                     } else if let folder = fileComponent as? Folder {
-                        FolderThumbnailView(folder: folder)
-                            .onTapGesture {
-                                homeViewModel.fetchDocumentFileList(folder.fileName)
-                            }
+                        folderThumbnail(folder)
                     }
                     
                 }
@@ -202,6 +181,63 @@ struct HomeView: View {
         .refreshable {
             homeViewModel.fetchDocumentFileList()
         }
+    }
+    
+    /// PDF 섬네일
+    @ViewBuilder private func pdfThumbnail(_ file: File) -> some View {
+        NavigationLink(
+            destination: mode == .normal
+                       ? OverView(overViewModel: OverViewModel(currentFile: file))
+                       : nil
+        ) {
+            ZStack(alignment:.topTrailing) {
+                PDFThumbnailView(file: file)
+                
+                if mode == .edit {
+                    checkbox(file)
+                }
+            }
+        }
+        .foregroundColor(.black)
+        .disabled(mode == .edit)
+        .onTapGesture {
+            if mode == .edit {
+                updateSelection(file)
+            }
+        }
+    }
+    
+    @ViewBuilder private func folderThumbnail(_ folder: Folder) -> some View {
+        ZStack(alignment: .topTrailing) {
+            FolderThumbnailView(folder: folder)
+            
+            if mode == .edit {
+                checkbox(folder)
+            }
+        }
+        .onTapGesture {
+            if mode == .normal {
+                homeViewModel.fetchDocumentFileList(folder.fileName)
+            } else if mode == .edit {
+                updateSelection(folder)
+            }
+        }
+    }
+    
+    
+    @ViewBuilder private func checkbox<T: FileSystem>(_ component: T) -> some View {
+        let isContain: Bool = {
+            if let component = component as? File {
+                return homeViewModel.selectedFileList.contains(component)
+            } else if let component = component as? Folder {
+                return homeViewModel.selectedFolderList.contains(component)
+            }
+            
+            return false
+        }()
+        
+        Image(isContain ? "checkedCheckmark" : "emptyCheckmark")
+            .offset(x: -20, y: 10)
     }
     
     private var fileBtnNormalMode: some View {
@@ -283,6 +319,14 @@ extension HomeView {
             homeViewModel.selectedFileList.insert(file)
         } else {
             homeViewModel.selectedFileList.remove(file)
+        }
+    }
+    
+    private func updateSelection(_ folder: Folder) {
+        if !homeViewModel.selectedFolderList.contains(folder) {
+            homeViewModel.selectedFolderList.insert(folder)
+        } else {
+            homeViewModel.selectedFolderList.remove(folder)
         }
     }
 }

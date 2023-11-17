@@ -10,6 +10,7 @@ import UIKit
 class HomeViewModel: ObservableObject {
     @Published var fileList: [FileSystem] = []
     @Published var selectedFileList: Set<File> = []
+    @Published var selectedFolderList: Set<Folder> = []
     @Published var searchText = ""
     
     @Published private(set) var currentDirectoryURL: URL?
@@ -32,7 +33,7 @@ class HomeViewModel: ObservableObject {
     
     /// 검색(필터링) 결과를 출력
     /// https://www.swiftyplace.com/blog/swiftui-search-bar-best-practices-and-examples
-    var filteredFileList: [FileSystem] {
+    var filteredFileList: [any FileSystem] {
         guard !searchText.isEmpty else {
             return fileList
         }
@@ -132,7 +133,11 @@ class HomeViewModel: ObservableObject {
     
     /// selectedFileList에서 URL을 찾아 파일 삭제
     func removeSelectedFiles() {
-        FileManager.default.delete(at: selectedFileList.compactMap({ $0.fileURL }))
+        FileManager.default.delete(
+            at: selectedFileList.compactMap({ $0.fileURL })
+                + selectedFolderList.compactMap({ $0.fileURL })
+        )
+        
         fetchDocumentFileList()
     }
     
