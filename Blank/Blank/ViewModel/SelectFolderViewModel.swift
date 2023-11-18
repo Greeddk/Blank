@@ -11,15 +11,17 @@ class SelectFolderViewModel: ObservableObject {
     @Published private(set) var directoryList: [Folder] = []
     
     init() {
-        guard let documentDirectoryURL = FileManager.documentDirectoryURL,
-              let nextFolder = try? directoryContents(at: documentDirectoryURL).first else {
+        guard let documentDirectoryURL = FileManager.documentDirectoryURL else {
             return
         }
         
-        var rootFolder: Folder = .init(id: .init(), fileURL: FileManager.documentDirectoryURL!, fileName: "Document", subfolder: [])
-        directoryListRecursively(parentFolder: &rootFolder, nextURL: nextFolder.absoluteURL)
+        var rootFolder: Folder = .init(id: .init(), fileURL: documentDirectoryURL, fileName: "Root", subfolder: [])
+        directoryListRecursively(parentFolder: &rootFolder, nextURL: documentDirectoryURL)
         
-        directoryList = [rootFolder]
+        if let documents = rootFolder.subfolder?.first {
+            directoryList = [documents]
+            // print(documents)
+        }
     }
     
     func directoryContents(at targetDirectoryURL: URL) throws -> [URL] {
