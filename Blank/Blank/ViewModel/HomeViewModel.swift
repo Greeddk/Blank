@@ -72,7 +72,6 @@ class HomeViewModel: ObservableObject {
                     )
                 }
             }
-            
         } catch {
             print(error)
         }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Folder: Codable, Equatable, Hashable, FileSystem {
+struct Folder: Codable, Equatable, Hashable, Identifiable, FileSystem {
     static func == (lhs: Folder, rhs: Folder) -> Bool {
         lhs.id == rhs.id && lhs.fileURL == rhs.fileURL
     }
@@ -15,4 +15,5 @@ struct Folder: Codable, Equatable, Hashable, FileSystem {
     var id: UUID
     var fileURL: URL
     var fileName: String
+    var subfolder: [Folder]?
 }

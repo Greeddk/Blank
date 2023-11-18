@@ -20,12 +20,13 @@ struct HomeView: View {
     @State var mode: Mode = .normal
     
     // UI 표시 토글 상태변수
-    @State var showFilePicker = false
-    @State var showImagePicker = false
-    @State var showPDFCreateAlert = false
-    @State var showFileDeleteAlert = false
-    @State var isPopToHomeActive = false
-    @State var showCreateNewFolder = false
+    @State private var showFilePicker = false
+    @State private var showImagePicker = false
+    @State private var showPDFCreateAlert = false
+    @State private var showFileDeleteAlert = false
+    @State private var isPopToHomeActive = false
+    @State private var showCreateNewFolder = false
+    @State private var showMoveFiles = false
 
     @StateObject var homeViewModel: HomeViewModel = .init()
     
@@ -83,6 +84,10 @@ struct HomeView: View {
                     setAllowCreateNewPDF(true)
                     showPDFCreateAlert = true
                 }
+            }
+            // 파일 이동 뷰
+            .sheet(isPresented: $showMoveFiles) {
+                SelectFolderView()
             }
             .onChange(of: showPDFCreateAlert) {
                 if $0 {
@@ -260,6 +265,9 @@ struct HomeView: View {
     
     private var fileBtnEditMode: some View {
         HStack {
+            Button("이동") {
+                showMoveFiles.toggle()
+            }
             Button("새 폴더") {
                 showCreateNewFolder.toggle()
             }

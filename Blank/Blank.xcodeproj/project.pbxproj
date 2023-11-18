@@ -25,6 +25,8 @@
 		444E6A652AF2587000AEC703 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444E6A642AF2587000AEC703 /* Double.swift */; };
 		444E6A672AF26B1A00AEC703 /* WordStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444E6A662AF26B1A00AEC703 /* WordStatistics.swift */; };
 		445F79682AFB89E6007D4998 /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445F79672AFB89E6007D4998 /* ImageUtil.swift */; };
+		4482896E2B09117B00F5912E /* SelectFolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4482896D2B09117B00F5912E /* SelectFolderView.swift */; };
+		448289702B09143A00F5912E /* SelectFolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4482896F2B09143A00F5912E /* SelectFolderViewModel.swift */; };
 		4491DFAA2ADD1E2E00CA5B42 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */; };
 		4491DFEC2ADD4CF800CA5B42 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFEB2ADD4CF800CA5B42 /* Persistence.swift */; };
 		4491DFEF2ADD4D4700CA5B42 /* Blank.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4491DFED2ADD4D4700CA5B42 /* Blank.xcdatamodeld */; };
@@ -93,6 +95,8 @@
 		444E6A642AF2587000AEC703 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		444E6A662AF26B1A00AEC703 /* WordStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordStatistics.swift; sourceTree = "<group>"; };
 		445F79672AFB89E6007D4998 /* ImageUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
+		4482896D2B09117B00F5912E /* SelectFolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFolderView.swift; sourceTree = "<group>"; };
+		4482896F2B09143A00F5912E /* SelectFolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFolderViewModel.swift; sourceTree = "<group>"; };
 		4491DFA92ADD1E2E00CA5B42 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		4491DFEB2ADD4CF800CA5B42 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		4491DFEE2ADD4D4700CA5B42 /* Blank.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Blank.xcdatamodel; sourceTree = "<group>"; };
@@ -207,6 +211,7 @@
 				449CB1D92ADED6C10086758A /* DocumentPickerRepresentedView.swift */,
 				449CB1EB2ADFAF560086758A /* PhotoPickerRepresentedView.swift */,
 				449F7A9B2B0610CB003425AF /* FolderThumbnailView.swift */,
+				4482896D2B09117B00F5912E /* SelectFolderView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -335,6 +340,7 @@
 				44F30BED2AE74AA800B67014 /* ScoringViewModel.swift */,
 				4418D0442AEFECBA000EF661 /* TextViewModel.swift */,
 				EB0B16C92AFA17640040B0B2 /* PlayerViewModel.swift */,
+				4482896F2B09143A00F5912E /* SelectFolderViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -490,6 +496,7 @@
 				449F7A9F2B06216F003425AF /* ProgressStatusView.swift in Sources */,
 				449CB1EC2ADFAF560086758A /* PhotoPickerRepresentedView.swift in Sources */,
 				44A556762AE52990002AE4C3 /* String+.swift in Sources */,
+				4482896E2B09117B00F5912E /* SelectFolderView.swift in Sources */,
 				444E6A672AF26B1A00AEC703 /* WordStatistics.swift in Sources */,
 				4491DFEC2ADD4CF800CA5B42 /* Persistence.swift in Sources */,
 				EBEB72812AE548F700316D66 /* ScribbleVideoView.swift in Sources */,
@@ -518,6 +525,7 @@
 				42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */,
 				42ED60D22ADE7F450043AF2F /* TestPageView.swift in Sources */,
 				42ED60CC2ADE7F1A0043AF2F /* WordSelectView.swift in Sources */,
+				448289702B09143A00F5912E /* SelectFolderViewModel.swift in Sources */,
 				42ED60D42ADE7F570043AF2F /* ResultPageView.swift in Sources */,
 				ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */,
 				449CB1F02AE14A290086758A /* CGRect+.swift in Sources */,
