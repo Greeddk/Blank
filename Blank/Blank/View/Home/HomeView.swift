@@ -128,9 +128,9 @@ struct HomeView: View {
         var columns = Array(repeating: item, count: 3)
 
         switch screenWidth {
-        case 0..<745: //mini: 744
-            columns = Array(repeating: item, count: 3)
-        case 745..<834: // 10.2, 10.5
+//        case 0..<745: //mini: 744
+//            columns = Array(repeating: item, count: 3)
+        case 0..<834: // 10.2, 10.5
             columns = Array(repeating: item, count: 4)
         default: //11: 835   12
             columns = Array(repeating: item, count: 5)
