@@ -9,6 +9,7 @@ import Foundation
 
 class SelectFolderViewModel: ObservableObject {
     @Published private(set) var directoryList: [Folder] = []
+    @Published var selectedFolder: Folder?
     
     init() {
         guard let documentDirectoryURL = FileManager.documentDirectoryURL else {
@@ -55,5 +56,13 @@ class SelectFolderViewModel: ObservableObject {
         for directoryContent in directoryContents {
             directoryListRecursively(parentFolder: &parentFolder.subfolder![lastCount], nextURL: directoryContent.absoluteURL)
         }
+    }
+    
+    func moveFiles(elements: [FileSystem]) {
+        guard let destination = selectedFolder?.fileURL else {
+            return
+        }
+        
+        FileManager.default.move(urls: elements.map({ $0.fileURL }), to: destination)
     }
 }

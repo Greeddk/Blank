@@ -87,7 +87,13 @@ struct HomeView: View {
             }
             // 파일 이동 뷰
             .sheet(isPresented: $showMoveFiles) {
-                SelectFolderView()
+                mode = .normal
+                homeViewModel.fetchDocumentFileList()
+            } content: {
+                SelectFolderView(
+                    selectedFiles: homeViewModel.selectedFileList.compactMap({ $0 as FileSystem })
+                    + homeViewModel.selectedFolderList.compactMap({ $0 as FileSystem })
+                )
             }
             .onChange(of: showPDFCreateAlert) {
                 if $0 {
