@@ -13,7 +13,8 @@ class WordSelectViewModel: ObservableObject {
     @Published var page: Page
     @Published var session: Session
     @Published var currentImage: UIImage?
-    
+    @Published var isOrginal: Bool = false
+
     init(page: Page, basicWords: [BasicWord] = [], currentImage: UIImage? = nil) {
         self.page = page
         self.basicWords = basicWords

@@ -15,7 +15,6 @@ struct ImageView: View {
     @State private var recognizedBoxes: [(String, CGRect)] = []
     
     //경섭추가코드
-    
     var viewName: String?
     
     //for drag gesture
@@ -23,7 +22,6 @@ struct ImageView: View {
     @State var endLocation: CGPoint?
     
     @Binding var isSelectArea: Bool
-    
     
     // 다른 뷰에서도 사용할 수 있기 때문에 뷰모델로 전달하지 않고 개별 배열로 전달해봄
     @Binding var basicWords: [BasicWord]
@@ -35,6 +33,7 @@ struct ImageView: View {
     let cornerRadiusSize: CGFloat = 6
     let fontSizeRatio: CGFloat = 1.9
     
+    @State var zoomScale: CGFloat = 1.0
     
     var body: some View {
         GeometryReader { proxy in
@@ -60,10 +59,7 @@ struct ImageView: View {
                             self.recognizedBoxes = recognizedTexts
                             basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
                         }
-                        
-                        
-                        
-                        
+    
                     }
                 })
             // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
