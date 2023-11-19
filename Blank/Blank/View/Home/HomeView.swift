@@ -63,7 +63,7 @@ struct HomeView: View {
             }
             .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .navigationTitle("문서")
+            .navigationTitle("홈")
             .navigationBarTitleDisplayMode(.inline)
             .padding()
             .navigationBarBackButtonHidden(true)
@@ -165,8 +165,18 @@ struct HomeView: View {
     }
     
     private var thumbGridView: some View {
-        let item = GridItem(.adaptive(minimum: 225, maximum: 225), spacing: 30)
-        let columns = Array(repeating: item, count: 3)
+        let item = GridItem(.adaptive(minimum: 120, maximum: 200), spacing: 30)
+        let screenWidth = UIScreen.main.bounds.size.width
+        var columns = Array(repeating: item, count: 3)
+
+        switch screenWidth {
+//        case 0..<745: //mini: 744
+//            columns = Array(repeating: item, count: 3)
+        case 0..<834: // 10.2, 10.5
+            columns = Array(repeating: item, count: 4)
+        default: //11: 835   12
+            columns = Array(repeating: item, count: 5)
+        }
         
         return ScrollView {
             LazyVGrid(columns: columns) {
