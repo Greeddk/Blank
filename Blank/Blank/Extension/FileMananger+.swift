@@ -34,6 +34,22 @@ extension FileManager {
         }
     }
     
+    /// 파일 이동
+    public func move(urls: [URL], to destination: URL) {
+        guard destination.hasDirectoryPath else {
+            return
+        }
+        
+        for url in urls {
+            do {
+                let targetURL = destination.appendingPathComponent(url.lastPathComponent)
+                try FileManager.default.moveItem(at: url, to: targetURL)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
     /// Document 디렉토리 URL
     static let documentDirectoryURL = try? FileManager.default.url(
         for: .documentDirectory,
@@ -41,5 +57,6 @@ extension FileManager {
         appropriateFor: nil,
         create: true
     )
+    
 }
 

@@ -15,3 +15,9 @@ let DUMMY_FILE: File = .init(
     fileName: "정보처리기사 실기", 
     totalPageCount: 1200
 )
+
+let DUMMY_FOLDER: Folder = .init(
+    id: .init(),
+    fileURL: Bundle.main.url(forResource: "sample", withExtension: "pdf")!,
+    fileName: "토플 시험"
+)

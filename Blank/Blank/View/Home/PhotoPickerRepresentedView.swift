@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import Combine
 
 /// PHPickerViewController를 SwiftUI에서 사용 가능하도록 래핑
 struct PhotoPickerRepresentedView: UIViewControllerRepresentable {
@@ -49,6 +50,8 @@ struct PhotoPickerRepresentedView: UIViewControllerRepresentable {
         var selectedHandler: SelectedHandler
         var pickerVC: PHPickerViewController
         
+        private var cancellable: AnyCancellable?
+        
         init(_ pickerVC: PHPickerViewController, selectedHandler: @escaping SelectedHandler) {
             self.selectedHandler = selectedHandler
             self.pickerVC = pickerVC
@@ -59,31 +62,13 @@ struct PhotoPickerRepresentedView: UIViewControllerRepresentable {
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             pickerVC.dismiss(animated: true)
             
-            // guard let itemProvider = results.first?.itemProvider,
-            //       itemProvider.canLoadObject(ofClass: UIImage.self) else {
-            //     print("Cannot Load Object")
-            //     return
-            // }
-            // 
-            // itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-            //     guard let image = image as? UIImage else {
-            //         print("Image data is nil")
-            //         return
-            //     }
-            //     
-            //     DispatchQueue.main.async {
-            //         self.selectedHandler(image)
-            //     }
-            // }
-            
             // 여러 이미지 가져오기
             let group = DispatchGroup()
             var images: [UIImage] = []
             var order: [String] = []
             var asyncDict: [String: UIImage] = [:]
             
-            for result in results {
-                print("result:", results)
+            for (_, result) in results.enumerated() {
                 let id = result.assetIdentifier ?? UUID().uuidString
                 order.append(id)
                 
@@ -104,7 +89,6 @@ struct PhotoPickerRepresentedView: UIViewControllerRepresentable {
             
             group.notify(queue: .main) {
                 for id in order {
-                    print("id:", id)
                     images.append(asyncDict[id]!)
                 }
                 

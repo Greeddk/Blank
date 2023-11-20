@@ -13,6 +13,7 @@ struct ResultPageView: View {
     @State var visionStart: Bool = false
     
     @StateObject var scoringViewModel: ScoringViewModel
+    @State var zoomScale: CGFloat = 1.0
     
     var body: some View {
         NavigationStack {
@@ -64,7 +65,7 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        ZoomableContainer {
+        ZoomableContainer(zoomScale: $zoomScale) {
             ImageView(
                 uiImage: scoringViewModel.currentImage,
                 visionStart: $visionStart,
