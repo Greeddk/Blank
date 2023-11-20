@@ -10,10 +10,12 @@ import SwiftUI
 struct ZoomableContainer<Content: View>: UIViewRepresentable {
     @Binding var zoomScale: CGFloat
     private var content: () -> Content
+    
     init(zoomScale: Binding<CGFloat>, @ViewBuilder content: @escaping () -> Content) {
         self._zoomScale = zoomScale
         self.content = content
     }
+    
     func makeUIView(context: Context) -> UIScrollView {
         // set up the UIScrollView
         let scrollView = UIScrollView()
@@ -23,6 +25,7 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bouncesZoom = true
+        
         // create a UIHostingController to hold our SwiftUI content
         let hostedView = context.coordinator.hostingController.view!
         hostedView.translatesAutoresizingMaskIntoConstraints = true
@@ -30,6 +33,10 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
         hostedView.frame = scrollView.bounds
         hostedView.backgroundColor = UIColor.systemGray4
         scrollView.addSubview(hostedView)
+        
+        // 두 손가락 이상만 팬제스처가 활성화되도록 함
+        scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
+        
         return scrollView
     }
     func makeCoordinator() -> Coordinator {

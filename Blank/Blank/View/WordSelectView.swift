@@ -18,14 +18,16 @@ struct WordSelectView: View {
     @State var isSelectArea = true
     @State var noneOfWordSelected = true
     
+    @State private var scale: CGFloat = 1.0
+    
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
-    
-    
     
     var body: some View {
         NavigationStack {
             VStack {
-                wordSelectImage
+                ZoomableContainer(zoomScale: $scale) {
+                    wordSelectImage
+                }
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
                 PencilDobuleTapInteractionView {
                     // 이 클로저는 pencil 더블 탭 시 실행
@@ -39,9 +41,7 @@ struct WordSelectView: View {
                     backButton
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    
                     HStack{
-                        
                         // segment 버튼
                         Picker("도구 선택", selection: $isSelectArea) {
                             Image(systemName: "arrow.rectanglepath")
@@ -141,9 +141,7 @@ struct WordSelectView: View {
         .buttonStyle(.borderedProminent)
         .disabled(noneOfWordSelected)
     }
-    
 }
-
 
 #Preview {
     HomeView()
