@@ -34,96 +34,16 @@ struct ImageView: View {
     let fontSizeRatio: CGFloat = 1.9
     
     @State var zoomScale: CGFloat = 1.0
+    @State private var touchType: UITouch.TouchType = .pencil
+    @State private var activeGestures: GestureMask = .all
     
     var body: some View {
         GeometryReader { proxy in
-            // ScrollView를 통해 PinchZoom시 좌우상하 이동
-            Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
-                .resizable()
-                .scaledToFit()
-            
-            // GeometryReader를 통해 화면크기에 맞게 이미지 사이즈 조정
-            
-            //                이미지가 없다면 , 현재 뷰의 너비(GeometryReader의 너비)를 사용하고
-            //                더 작은 값을 반환할건데
-            //                이미지 > GeometryReader 일 때 이미지는 GeometryReader의 크기에 맞게 축소.
-            //                반대로 GeometryReader > 이미지면  이미지의 원래 크기를 사용
-                .frame(
-                    width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) ,
-                    height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height)
-                )
-                .onChange(of: visionStart, perform: { newValue in
-                    if let image = uiImage {
-                        
-                        recognizeText(from: image) { recognizedTexts  in
-                            self.recognizedBoxes = recognizedTexts
-                            basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
-                        }
-    
-                    }
-                })
-            // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
-                .overlay {
-                    // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
-                    
-                    if viewName == "WordSelectView" {
-                        
-                        if let start = startLocation, let end = endLocation {
-                            Rectangle()
-                                .stroke(Color.blue.opacity(0.4), lineWidth: 2)
-                                .frame(width: abs(end.x - start.x), height: abs(end.y - start.y))
-                                .position(x: (start.x + end.x) / 2, y: (start.y + end.y) / 2)
-                        }
-                        ForEach(basicWords.indices, id: \.self) { index in
-                            Rectangle()
-                                .path(in: adjustRect(basicWords[index].rect, in: proxy))
-                                .fill( basicWords[index].isSelectedWord  ? Color.green.opacity(0.4) : Color.white.opacity(0.01))
-                                .onTapGesture {
-                                    withAnimation {
-                                        basicWords[index].isSelectedWord = isSelectArea ? true : false
-                                    }
-                                }
-                        }
-                        
-                        
-                        
-                    } else if viewName == "ResultPageView" {
-                        // TargetWords의 wordValue에는 원래 값 + 맞고 틀림 여부(isCorrect)이 넘어온다
-                        ForEach(targetWords.indices, id: \.self) { index in
-                            let adjustRect = adjustRect(targetWords[index].rect, in: proxy)
-                            let isCorrect = targetWords[index].isCorrect
-                            let originalValue = targetWords[index].wordValue
-                            let wroteValue = currentWritingWords[index].wordValue
-                            
-                            let correctColor = Color(red: 183 / 255, green: 255 / 255, blue: 157 / 255) // Color.green.opacity(0.4)
-                            let wrongColor = Color(red: 253 / 255, green: 169 / 255, blue: 169 / 255) // Color.red.opacity(0.4)
-                            let flippedAreaColor = Color(white: 238/255)
-                            
-                            RoundedRectangle(cornerSize: .init(width: cornerRadiusSize, height: cornerRadiusSize))
-                                .path(in: adjustRect)
-                                .fill(isCorrect ? correctColor : isAreaTouched[index, default: false] ? flippedAreaColor : wrongColor)
-                                .shadow(color: isCorrect ? .clear : .black, radius: 2, x: 2, y: 2)
-                                .overlay(
-                                    Text("\(isCorrect ? originalValue : isAreaTouched[index, default: false] ? originalValue : wroteValue)")
-                                        .font(.system(size: adjustRect.height / fontSizeRatio, weight: .semibold))
-                                        .offset(
-                                            x: -(proxy.size.width / 2) + adjustRect.origin.x + (adjustRect.size.width / 2),
-                                            y: -(proxy.size.height / 2) + adjustRect.origin.y + (adjustRect.size.height / 2)
-                                        )
-                                )
-                                .onTapGesture {
-                                    // 기존 탭제스쳐 방식
-                                    if !targetWords[index].isCorrect {
-                                        isAreaTouched[index, default: false].toggle()
-                                    }
-                                }
-                        }
-                    }
-                }
-            
+            imageWithOverlay(proxy)
+                .modifier(TouchTypeModifier(touchType: $touchType))
                 .gesture(
                     DragGesture()
-                        .onChanged{ value in
+                        .onChanged { value in
                             if startLocation == nil {
                                 startLocation = value.location
                             }
@@ -147,8 +67,105 @@ struct ImageView: View {
                             startLocation = nil
                             endLocation = nil
                         }
-                )
+                    , including: activeGestures)
+            
         }
+    }
+    
+    @ViewBuilder private func imageWithOverlay(_ proxy: GeometryProxy) -> some View {
+        // ScrollView를 통해 PinchZoom시 좌우상하 이동
+        Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
+            .resizable()
+            .scaledToFit()
+        
+        // GeometryReader를 통해 화면크기에 맞게 이미지 사이즈 조정
+        
+        //                이미지가 없다면 , 현재 뷰의 너비(GeometryReader의 너비)를 사용하고
+        //                더 작은 값을 반환할건데
+        //                이미지 > GeometryReader 일 때 이미지는 GeometryReader의 크기에 맞게 축소.
+        //                반대로 GeometryReader > 이미지면  이미지의 원래 크기를 사용
+            .frame(
+                width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) ,
+                height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height)
+            )
+            .onChange(of: visionStart, perform: { newValue in
+                if let image = uiImage {
+                    recognizeText(from: image) { recognizedTexts  in
+                        self.recognizedBoxes = recognizedTexts
+                        basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
+                    }
+                    
+                }
+            })
+        // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
+            .overlay {
+                // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
+                if viewName == "WordSelectView" {
+                    if let start = startLocation, let end = endLocation {
+                        Rectangle()
+                            .stroke(Color.blue.opacity(0.4), lineWidth: 2)
+                            .frame(width: abs(end.x - start.x), height: abs(end.y - start.y))
+                            .position(x: (start.x + end.x) / 2, y: (start.y + end.y) / 2)
+                        // .allowsHitTesting(touchType != .pencil)
+                    }
+                    ForEach(basicWords.indices, id: \.self) { index in
+                        Rectangle()
+                            .path(in: adjustRect(basicWords[index].rect, in: proxy))
+                            .fill( basicWords[index].isSelectedWord  ? Color.green.opacity(0.4) : Color.white.opacity(0.01))
+                            .onTapGesture {
+                                withAnimation {
+                                    basicWords[index].isSelectedWord = isSelectArea ? true : false
+                                }
+                            }
+                    }
+                    
+                    
+                    
+                } else if viewName == "ResultPageView" {
+                    // TargetWords의 wordValue에는 원래 값 + 맞고 틀림 여부(isCorrect)이 넘어온다
+                    ForEach(targetWords.indices, id: \.self) { index in
+                        let adjustRect = adjustRect(targetWords[index].rect, in: proxy)
+                        let isCorrect = targetWords[index].isCorrect
+                        let originalValue = targetWords[index].wordValue
+                        let wroteValue = currentWritingWords[index].wordValue
+                        
+                        let correctColor = Color(red: 183 / 255, green: 255 / 255, blue: 157 / 255) // Color.green.opacity(0.4)
+                        let wrongColor = Color(red: 253 / 255, green: 169 / 255, blue: 169 / 255) // Color.red.opacity(0.4)
+                        let flippedAreaColor = Color(white: 238/255)
+                        
+                        RoundedRectangle(cornerSize: .init(width: cornerRadiusSize, height: cornerRadiusSize))
+                            .path(in: adjustRect)
+                            .fill(isCorrect ? correctColor : isAreaTouched[index, default: false] ? flippedAreaColor : wrongColor)
+                            .shadow(color: isCorrect ? .clear : .black, radius: 2, x: 2, y: 2)
+                            .overlay(
+                                Text("\(isCorrect ? originalValue : isAreaTouched[index, default: false] ? originalValue : wroteValue)")
+                                    .font(.system(size: adjustRect.height / fontSizeRatio, weight: .semibold))
+                                    .offset(
+                                        x: -(proxy.size.width / 2) + adjustRect.origin.x + (adjustRect.size.width / 2),
+                                        y: -(proxy.size.height / 2) + adjustRect.origin.y + (adjustRect.size.height / 2)
+                                    )
+                            )
+                            .onTapGesture {
+                                // 기존 탭제스쳐 방식
+                                if !targetWords[index].isCorrect {
+                                    isAreaTouched[index, default: false].toggle()
+                                }
+                            }
+                    }
+                }
+            }
+            .onChange(of: touchType) { newValue in
+                if viewName == "WordSelectView" {
+                    if touchType == .pencil {
+                        activeGestures = .all
+                    } else {
+                        activeGestures = .subviews
+                    }
+                } else {
+                    activeGestures = .none
+                }
+            }
+        
     }
     
     

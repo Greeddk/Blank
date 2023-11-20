@@ -25,6 +25,8 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bouncesZoom = true
+        // 스크롤뷰의 감속 속도를 빠르게
+        scrollView.decelerationRate = .fast
         
         // create a UIHostingController to hold our SwiftUI content
         let hostedView = context.coordinator.hostingController.view!
@@ -34,20 +36,20 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
         hostedView.backgroundColor = UIColor.systemGray4
         scrollView.addSubview(hostedView)
         
-        // 두 손가락 이상만 팬제스처가 활성화되도록 함
-        scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
-        
         return scrollView
     }
+    
     func makeCoordinator() -> Coordinator {
         return Coordinator(zoomScale: $zoomScale, hostingController: UIHostingController(rootView: self.content()))
     }
+    
     func updateUIView(_ uiView: UIScrollView, context: Context) {
         // update the hosting controller's SwiftUI content
         uiView.zoomScale = zoomScale
         context.coordinator.hostingController.rootView = self.content()
         assert(context.coordinator.hostingController.view.superview == uiView)
     }
+    
     // MARK: - Coordinator
     class Coordinator: NSObject, UIScrollViewDelegate {
         var zoomScale: Binding<CGFloat>
@@ -65,5 +67,11 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
         func scrollViewDidZoom(_ scrollView: UIScrollView) {
             self.zoomScale.wrappedValue = scrollView.zoomScale
         }
+        
+        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {}
+        
+        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {}
+        
+        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {}
     }
 }
