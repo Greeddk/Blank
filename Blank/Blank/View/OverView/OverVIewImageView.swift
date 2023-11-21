@@ -30,10 +30,18 @@ struct OverViewImageView: View {
                         )
                     if overViewModel.isTotalStatsViewMode {
                         ForEach(Array(overViewModel.totalStats.keys), id: \.self) { key in
+                            let rectOfKey = adjustRect(key, in: proxy)
+                            
                             if let stat = overViewModel.totalStats[key] {
-                                @State var isSelected = false
                                 drawRectangle(with: key, color: getColor(rate: stat.correctRate), in: proxy)
                                     .overlay {
+                                        if let word = overViewModel.allWords.first(where: { $0.rect == key }) {
+                                            Text(word.wordValue)
+                                                .font(.system(size: adjustRect(key, in: proxy).height / 1.9, weight: .semibold))
+                                                .foregroundColor(stat.correctRate <= 0.4 ? .white : .black)
+                                                .position(x: adjustRect(key, in: proxy).midX, y: adjustRect(key, in: proxy).midY)
+                                                
+                                        }
                                         if stat.isSelected {
                                             Image("PopoverShape")
                                                 .resizable()
@@ -53,7 +61,13 @@ struct OverViewImageView: View {
                     } else if let currentSession = overViewModel.currentSession,
                               let words = overViewModel.wordsOfSession[currentSession.id] {
                         ForEach(words, id: \.id) { word in
-                            drawRectangle(with: word.rect, color: word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4), in: proxy)
+                            Rectangle()
+                                .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
+                                .cornerRadius(5)
+                                .frame(width: adjustRect(word.rect, in: proxy).width,
+                                       height: adjustRect(word.rect, in: proxy).height)
+                                .position(x: adjustRect(word.rect, in: proxy).midX,
+                                          y: adjustRect(word.rect, in: proxy).midY)
                         }
                     }
                     
@@ -116,6 +130,7 @@ struct OverViewImageView: View {
         Rectangle()
             .fill(color)
             .cornerRadius(5)
+            .shadow(color: .black.opacity(0.4), radius: 4, x: 0, y: 1)
             .frame(width: adjustRect(key, in: proxy).width,
                    height: adjustRect(key, in: proxy).height)
             .position(x: adjustRect(key, in: proxy).midX,

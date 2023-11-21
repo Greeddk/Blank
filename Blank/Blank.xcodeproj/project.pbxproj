@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4220B39D2B0CEDAD003F5849 /* StatModeIndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220B39C2B0CEDAD003F5849 /* StatModeIndexView.swift */; };
 		422355C72B0CA54300905F76 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422355C62B0CA54300905F76 /* Color+.swift */; };
 		425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */; };
 		425D4E462AF0EEEF00610BE8 /* NavigationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E452AF0EEEF00610BE8 /* NavigationUtil.swift */; };
@@ -80,6 +81,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4220B39C2B0CEDAD003F5849 /* StatModeIndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatModeIndexView.swift; sourceTree = "<group>"; };
 		422355C62B0CA54300905F76 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
 		425D4E452AF0EEEF00610BE8 /* NavigationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationUtil.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 				42ED60C72ADE7EF50043AF2F /* OverView.swift */,
 				AC2851792AE7292500C70F4F /* OverViewImageView.swift */,
 				42ED60C92ADE7F090043AF2F /* OverViewModalView.swift */,
+				4220B39C2B0CEDAD003F5849 /* StatModeIndexView.swift */,
 			);
 			path = OverView;
 			sourceTree = "<group>";
@@ -495,6 +498,7 @@
 				449CB1F72AE2BD1C0086758A /* CDService.swift in Sources */,
 				AC28517A2AE7292500C70F4F /* OverViewImageView.swift in Sources */,
 				EBEB727F2AE548C400316D66 /* ScribbleModalView.swift in Sources */,
+				4220B39D2B0CEDAD003F5849 /* StatModeIndexView.swift in Sources */,
 				ACE0A65A2AFAB117005031FE /* PencilDobuleTapInteractionView.swift in Sources */,
 				ACF338C42ADD0158004D20FC /* Session.swift in Sources */,
 				42ED60D82ADE7F910043AF2F /* PDFThumbnailView.swift in Sources */,
