@@ -37,6 +37,8 @@ struct ImageView: View {
     @State private var touchType: UITouch.TouchType = .pencil
     @State private var activeGestures: GestureMask = .all
     
+    @Binding var movedCount: Int
+    
     var body: some View {
         GeometryReader { proxy in
             imageWithOverlay(proxy)
@@ -44,6 +46,13 @@ struct ImageView: View {
                 .gesture(
                     DragGesture()
                         .onChanged { value in
+                            if touchType != .pencil {
+                                activeGestures = .subviews
+                                startLocation = nil
+                                endLocation = nil
+                                return
+                            }
+                            
                             if startLocation == nil {
                                 startLocation = value.location
                             }
@@ -165,7 +174,9 @@ struct ImageView: View {
                     activeGestures = .none
                 }
             }
-        
+            .onChange(of: movedCount) { newValue in
+                activeGestures = .all
+            }
     }
     
     

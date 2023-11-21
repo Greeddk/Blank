@@ -22,10 +22,12 @@ struct WordSelectView: View {
     
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
+    @State var movedCount: Int = 0
+    
     var body: some View {
         NavigationStack {
             VStack {
-                ZoomableContainer(zoomScale: $scale) {
+                ZoomableContainer(zoomScale: $scale, movedCount: $movedCount) {
                     wordSelectImage
                 }
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
@@ -116,7 +118,8 @@ struct WordSelectView: View {
                 isSelectArea: $isSelectArea,
                 basicWords: $wordSelectViewModel.basicWords,
                 targetWords: .constant([]),
-                currentWritingWords: .constant([])
+                currentWritingWords: .constant([]),
+                movedCount: $movedCount
             )
         }
         .onChange(of: wordSelectViewModel.basicWords) { _ in

@@ -11,9 +11,13 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
     @Binding var zoomScale: CGFloat
     private var content: () -> Content
     
-    init(zoomScale: Binding<CGFloat>, @ViewBuilder content: @escaping () -> Content) {
+    @Binding var movedCount: Int
+    
+    init(zoomScale: Binding<CGFloat>, movedCount: Binding<Int> = .constant(0), @ViewBuilder content: @escaping () -> Content) {
         self._zoomScale = zoomScale
         self.content = content
+        self._movedCount = movedCount
+        
     }
     
     func makeUIView(context: Context) -> UIScrollView {
@@ -40,7 +44,7 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        return Coordinator(zoomScale: $zoomScale, hostingController: UIHostingController(rootView: self.content()))
+        return Coordinator(zoomScale: $zoomScale, hostingController: UIHostingController(rootView: self.content()), movedCountBinding: $movedCount)
     }
     
     func updateUIView(_ uiView: UIScrollView, context: Context) {
@@ -55,9 +59,18 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
         var zoomScale: Binding<CGFloat>
         var hostingController: UIHostingController<Content>
         
-        init(zoomScale: Binding<CGFloat>, hostingController: UIHostingController<Content>) {
+        let movedCountBinding: Binding<Int>
+        private var movedCount = 0
+        
+        init(zoomScale: Binding<CGFloat>, hostingController: UIHostingController<Content>, movedCountBinding: Binding<Int>) {
             self.zoomScale = zoomScale
             self.hostingController = hostingController
+            self.movedCountBinding = movedCountBinding
+        }
+        
+        private func incrementMoveCount() {
+            movedCount += 1
+            movedCountBinding.wrappedValue = movedCount
         }
         
         func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -70,7 +83,25 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
         
         func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {}
         
-        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {}
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            incrementMoveCount()
+        }
+        
+        func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+            incrementMoveCount()
+        }
+        
+        func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+            incrementMoveCount()
+        }
+        
+        func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+            incrementMoveCount()
+        }
+        
+        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+            incrementMoveCount()
+        }
         
         func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {}
     }
