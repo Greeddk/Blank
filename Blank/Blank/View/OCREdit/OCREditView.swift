@@ -66,7 +66,7 @@ struct OCREditView: View {
             )
         }
         .ignoresSafeArea(.keyboard)
-        .background(Color(.systemGray6))
+        .background(Color(.systemGray4))
         .popup(isPresented: $showingAlert) {
             HStack {
                 Image("pencil.and.scribble")

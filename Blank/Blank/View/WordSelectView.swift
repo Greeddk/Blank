@@ -71,7 +71,7 @@ struct WordSelectView: View {
             .navigationTitle("단어 선택")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .background(Color(.systemGray6))
+        .background(Color(.systemGray4))
         .navigationDestination(isPresented: $goToOCRView) {
             OCREditView(wordSelectViewModel: wordSelectViewModel)
         }

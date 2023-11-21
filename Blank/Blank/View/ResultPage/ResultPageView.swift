@@ -41,7 +41,7 @@ struct ResultPageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
-        .background(Color(.systemGray6))
+        .background(Color(.systemGray4))
         .onAppear {
             scoringViewModel.score()
             scoringViewModel.saveSessionToDatabase()

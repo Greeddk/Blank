@@ -88,7 +88,7 @@ struct OverViewModalView: View {
                 }
             }
             .padding()
-            .background(Color(.systemGray5))
+            .background(Color(.systemGray4))
             .toolbar {
                 Button(action: {
                     dismiss()
