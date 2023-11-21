@@ -16,6 +16,7 @@ struct OCREditView: View {
     @State var visionStart: Bool = false
     @State private var goToTestPage = false
     @State var isShowingButton = true
+    var sessionNum: Int
     
     @StateObject var wordSelectViewModel: WordSelectViewModel
     
@@ -56,6 +57,7 @@ struct OCREditView: View {
         }
         .navigationDestination(isPresented: $goToTestPage) {
             TestPageView(
+                sessionNum: sessionNum, 
                 scoringViewModel: .init(
                     page: wordSelectViewModel.page,
                     session: wordSelectViewModel.session,

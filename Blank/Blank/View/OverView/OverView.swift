@@ -88,7 +88,7 @@ struct OverView: View {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
                 if let page = overViewModel.selectedPage {
                     let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords, currentImage: overViewModel.currentImage)
-                    WordSelectView( wordSelectViewModel: wordSelectViewModel)
+                    WordSelectView( sessionNum: overViewModel.sessions.count + 1, wordSelectViewModel: wordSelectViewModel)
                 } else {
                     Text("Error")
                 }
@@ -98,6 +98,7 @@ struct OverView: View {
                 let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
                 
                 TestPageView(
+                    sessionNum: overViewModel.sessions.count + 1, 
                     scoringViewModel: .init(
                         page: wordSelectViewModel.page,
                         session: wordSelectViewModel.session,

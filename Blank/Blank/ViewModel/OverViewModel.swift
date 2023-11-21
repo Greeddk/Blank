@@ -213,30 +213,6 @@ class OverViewModel: ObservableObject {
         return pdfDocument.pageCount
     }
     
-    
-//    func generateImage() -> UIImage? {
-//        
-//        guard let page = pdfDocument.page(at: currentPage - 1) else {
-//            return nil
-//        }
-//        
-//        let pageRect = page.bounds(for: .mediaBox)
-//        let renderer = UIGraphicsImageRenderer(size: pageRect.size)
-//        
-//        let image = renderer.image { ctx in
-//            UIColor.white.set()
-//            ctx.fill(CGRect(origin: .zero, size: pageRect.size))
-//            
-//            ctx.cgContext.translateBy(x: 0, y: pageRect.size.height)
-//            ctx.cgContext.scaleBy(x: 1, y: -1)
-//            
-//            page.draw(with: .mediaBox, to: ctx.cgContext)
-//        }
-//        
-//        
-//        return image
-//    }
-    
     // PDF의 모든 페이지를 썸네일 이미지로 배열에 저장하는 메소드, 진행률도 표시
     func loadThumbnails() {
         isLoading = true

@@ -17,6 +17,7 @@ struct WordSelectView: View {
     
     @State var isSelectArea = true
     @State var noneOfWordSelected = true
+    var sessionNum: Int
     
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
@@ -73,7 +74,7 @@ struct WordSelectView: View {
         }
         .background(Color(.systemGray4))
         .navigationDestination(isPresented: $goToOCRView) {
-            OCREditView(wordSelectViewModel: wordSelectViewModel)
+            OCREditView(sessionNum: sessionNum, wordSelectViewModel: wordSelectViewModel)
         }
         .popup(isPresented: $showingAlert) {
             HStack {
