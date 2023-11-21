@@ -44,8 +44,11 @@ struct OverView: View {
                     // progressStatus
                     ProgressStatusView(currentProgress: $overViewModel.currentProgress)
                 } else if !overViewModel.thumbnails.isEmpty {
-                    OverViewImageView(visionStart: $visionStart,
-                                      overViewModel: overViewModel)
+                    ZStack(alignment:.topTrailing) {
+                        OverViewImageView(visionStart: $visionStart,
+                                          overViewModel: overViewModel)
+                        StatIndexView
+                    }
                     bottomScrollView
                 }
             }
@@ -125,6 +128,17 @@ struct OverView: View {
                  새로운 빈칸을 만들거나,
                  지난 회차 시험을 볼 수 있습니다.
                  """)
+        }
+    }
+    
+    private var StatIndexView: some View {
+        HStack {
+            if overViewModel.isTotalStatsViewMode {
+                Spacer()
+                StatModeIndexView()
+                    .frame(minWidth: 150, maxWidth: 200, minHeight: 100, maxHeight: 150)
+                    .cornerRadius(20)
+            }
         }
     }
     
