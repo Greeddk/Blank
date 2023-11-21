@@ -30,7 +30,7 @@ struct ImageView: View {
     
     @State var isAreaTouched: [Int: Bool] = [:]
     
-    let cornerRadiusSize: CGFloat = 6
+    let cornerRadiusSize: CGFloat = 5
     let fontSizeRatio: CGFloat = 1.9
     
     @State var zoomScale: CGFloat = 1.0
@@ -95,14 +95,14 @@ struct ImageView: View {
                             let originalValue = targetWords[index].wordValue
                             let wroteValue = currentWritingWords[index].wordValue
                             
-                            let correctColor = Color(red: 183 / 255, green: 255 / 255, blue: 157 / 255) // Color.green.opacity(0.4)
-                            let wrongColor = Color(red: 253 / 255, green: 169 / 255, blue: 169 / 255) // Color.red.opacity(0.4)
-                            let flippedAreaColor = Color(white: 238/255)
+//                            let correctColor = Color(red: 183 / 255, green: 255 / 255, blue: 157 / 255) // Color.green.opacity(0.4)
+//                            let wrongColor = Color(red: 253 / 255, green: 169 / 255, blue: 169 / 255) // Color.red.opacity(0.4)
+//                            let flippedAreaColor = Color(white: 238/255)
                             
                             RoundedRectangle(cornerSize: .init(width: cornerRadiusSize, height: cornerRadiusSize))
                                 .path(in: adjustRect)
-                                .fill(isCorrect ? correctColor : isAreaTouched[index, default: false] ? flippedAreaColor : wrongColor)
-                                .shadow(color: isCorrect ? .clear : .black, radius: 2, x: 2, y: 2)
+                                .fill(isCorrect ? Color.correctColor : isAreaTouched[index, default: false] ? Color.flippedAreaColor : Color.wrongColor)
+                                .shadow(color: isCorrect ? .clear : .black.opacity(0.4), radius: 4, x: 0, y: 1)
                                 .overlay(
                                     Text("\(isCorrect ? originalValue : isAreaTouched[index, default: false] ? originalValue : wroteValue)")
                                         .font(.system(size: adjustRect.height / fontSizeRatio, weight: .semibold))

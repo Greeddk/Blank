@@ -213,30 +213,6 @@ class OverViewModel: ObservableObject {
         return pdfDocument.pageCount
     }
     
-    /// PDF의 현재 페이지를 이미지로 반환하는 메소드
-    func generateImage() -> UIImage? {
-        
-        guard let page = pdfDocument.page(at: currentPage - 1) else {
-            return nil
-        }
-        
-        let pageRect = page.bounds(for: .mediaBox)
-        let renderer = UIGraphicsImageRenderer(size: pageRect.size)
-        
-        let image = renderer.image { ctx in
-            UIColor.white.set()
-            ctx.fill(CGRect(origin: .zero, size: pageRect.size))
-            
-            ctx.cgContext.translateBy(x: 0, y: pageRect.size.height)
-            ctx.cgContext.scaleBy(x: 1, y: -1)
-            
-            page.draw(with: .mediaBox, to: ctx.cgContext)
-        }
-        
-        
-        return image
-    }
-    
     // PDF의 모든 페이지를 썸네일 이미지로 배열에 저장하는 메소드, 진행률도 표시
     func loadThumbnails() {
         isLoading = true
@@ -289,66 +265,73 @@ class OverViewModel: ObservableObject {
         }
     }
     
+    /// PDF의 현재 페이지를 이미지로 반환하는 메소드
     func generateCurrentImage() {
-        guard let page = pdfDocument.page(at: currentPage - 1) else {
-            return
-        }
-        
-        // TODO: - 더 큰 해상도도 정확히 인식할 수 있어야 함
-        // 현재 가로 해상도 최대 600을 넘어가면 범위 어긋남
-        let maxWidth: CGFloat = 595 // 최대 크기를 더 늘릴 수 있다면 늘려보기
-        let maxHeight: CGFloat = maxWidth * 1.414
-        
-        let pageRect = page.bounds(for: .mediaBox)
-        let renderer = UIGraphicsImageRenderer(size: pageRect.size)
-        
-        let originalImage = renderer.image { imageContext in
-            UIColor.white.set()
-            
-            imageContext.fill(CGRect(origin: .zero, size: pageRect.size))
-            
-            imageContext.cgContext.translateBy(x: 0, y: pageRect.size.height)
-            imageContext.cgContext.scaleBy(x: 1, y: -1)
-            
-            page.draw(with: .mediaBox, to: imageContext.cgContext)
-        }
-        
-        // maxWidth보다 작으면 기존 이용
-        if originalImage.size.width <= maxWidth 
-            && originalImage.size.height / originalImage.size.width >= 1.41
-            && originalImage.size.height / originalImage.size.width <= 1.42 {
-            currentImage = originalImage
-            return
-        }
-        
-        let smallBoxSize: CGSize = .init(width: maxWidth, height: maxHeight)
-        let boxedRenderer = UIGraphicsImageRenderer(size: smallBoxSize)
-        let boxedImage = boxedRenderer.image { imageContext in
-            UIColor.white.set()
-            
-            imageContext.fill(CGRect(origin: .zero, size: smallBoxSize))
-            
-            if originalImage.size.height > originalImage.size.width {
-                let shrinkedWidth = min(maxWidth, maxHeight * (originalImage.size.width / originalImage.size.height))
-                let shrinkedHeight = shrinkedWidth * (originalImage.size.height / originalImage.size.width)
-                
-                let boxX = (smallBoxSize.width - shrinkedWidth) / 2
-                let boxY = (smallBoxSize.height - shrinkedHeight) / 2
-                let shrinkedSize = CGSize(width: shrinkedWidth, height: shrinkedHeight)
-                
-                originalImage.draw(in: .init(origin: .init(x: boxX, y: boxY), size: shrinkedSize))
-            } else {
-                let shrinkedHeight = min(maxHeight, maxWidth * (originalImage.size.height / originalImage.size.width))
-                let shrinkedWidth = shrinkedHeight * (originalImage.size.width / originalImage.size.height)
-                
-                let boxY = (smallBoxSize.height - shrinkedHeight) / 2
-                let boxX = (smallBoxSize.width - shrinkedWidth) / 2
-                let shrinkedSize = CGSize(width: shrinkedWidth, height: shrinkedHeight)
-                originalImage.draw(in: .init(origin: .init(x: boxX, y: boxY), size: shrinkedSize))
+            guard let page = pdfDocument.page(at: currentPage - 1) else {
+                return
             }
+            
+            // TODO: - 더 큰 해상도도 정확히 인식할 수 있어야 함
+            // 현재 가로 해상도 최대 600을 넘어가면 범위 어긋남
+            let maxWidth: CGFloat = 2380 // 최대 크기를 더 늘릴 수 있다면 늘려보기
+            let maxHeight: CGFloat = maxWidth * 1.414
+            
+            let rendererFormat = UIGraphicsImageRendererFormat()
+            rendererFormat.scale = 4.0 // 해상도를 더 높입니다.
+            rendererFormat.preferredRange = .extended // 더 넓은 색상 범위를 사용합니다.
+            
+            let pageRect = page.bounds(for: .mediaBox)
+    //        let renderer = UIGraphicsImageRenderer(size: pageRect.size)
+            let renderer = UIGraphicsImageRenderer(size: pageRect.size, format: rendererFormat)
+            
+            let originalImage = renderer.image { imageContext in
+                UIColor.white.set()
+                
+                imageContext.fill(CGRect(origin: .zero, size: pageRect.size))
+                
+                imageContext.cgContext.translateBy(x: 0, y: pageRect.size.height)
+                imageContext.cgContext.scaleBy(x: 1, y: -1)
+                
+                page.draw(with: .mediaBox, to: imageContext.cgContext)
+            }
+            
+            // maxWidth보다 작으면 기존 이용
+            if originalImage.size.width <= maxWidth
+                && originalImage.size.height / originalImage.size.width >= 1.41
+                && originalImage.size.height / originalImage.size.width <= 1.42 {
+                currentImage = originalImage
+                return
+            }
+            
+            let smallBoxSize: CGSize = .init(width: maxWidth, height: maxHeight)
+    //        let boxedRenderer = UIGraphicsImageRenderer(size: smallBoxSize)
+            let boxedRenderer = UIGraphicsImageRenderer(size: smallBoxSize, format: rendererFormat)
+            let boxedImage = boxedRenderer.image { imageContext in
+                UIColor.white.set()
+                
+                imageContext.fill(CGRect(origin: .zero, size: smallBoxSize))
+                
+                if originalImage.size.height > originalImage.size.width {
+                    let shrinkedWidth = min(maxWidth, maxHeight * (originalImage.size.width / originalImage.size.height))
+                    let shrinkedHeight = shrinkedWidth * (originalImage.size.height / originalImage.size.width)
+                    
+                    let boxX = (smallBoxSize.width - shrinkedWidth) / 2
+                    let boxY = (smallBoxSize.height - shrinkedHeight) / 2
+                    let shrinkedSize = CGSize(width: shrinkedWidth, height: shrinkedHeight)
+                    
+                    originalImage.draw(in: .init(origin: .init(x: boxX, y: boxY), size: shrinkedSize))
+                } else {
+                    let shrinkedHeight = min(maxHeight, maxWidth * (originalImage.size.height / originalImage.size.width))
+                    let shrinkedWidth = shrinkedHeight * (originalImage.size.width / originalImage.size.height)
+                    
+                    let boxY = (smallBoxSize.height - shrinkedHeight) / 2
+                    let boxX = (smallBoxSize.width - shrinkedWidth) / 2
+                    let shrinkedSize = CGSize(width: shrinkedWidth, height: shrinkedHeight)
+                    originalImage.draw(in: .init(origin: .init(x: boxX, y: boxY), size: shrinkedSize))
+                }
+            }
+            
+            currentImage = boxedImage
+            
         }
-        
-        currentImage = boxedImage
-        
-    }
 }

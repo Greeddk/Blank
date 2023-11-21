@@ -15,6 +15,7 @@ struct TestPageView: View {
     @State var type = ScribbleType.write
     @State private var hasTypeValueChanged = false
     @State private var goToResultPage = false
+    var sessionNum: Int
     
     @StateObject var scoringViewModel: ScoringViewModel
     
@@ -40,7 +41,7 @@ struct TestPageView: View {
             }
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
-            .navigationTitle("시험")
+            .navigationTitle("\(sessionNum)회차 시험지")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
