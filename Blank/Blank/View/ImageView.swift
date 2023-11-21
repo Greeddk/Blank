@@ -30,7 +30,7 @@ struct ImageView: View {
     
     @State var isAreaTouched: [Int: Bool] = [:]
     
-    let cornerRadiusSize: CGFloat = 6
+    let cornerRadiusSize: CGFloat = 5
     let fontSizeRatio: CGFloat = 1.9
     
     @State var zoomScale: CGFloat = 1.0
@@ -102,7 +102,7 @@ struct ImageView: View {
                             RoundedRectangle(cornerSize: .init(width: cornerRadiusSize, height: cornerRadiusSize))
                                 .path(in: adjustRect)
                                 .fill(isCorrect ? correctColor : isAreaTouched[index, default: false] ? flippedAreaColor : wrongColor)
-                                .shadow(color: isCorrect ? .clear : .black, radius: 2, x: 2, y: 2)
+                                .shadow(color: isCorrect ? .clear : .black.opacity(0.4), radius: 4, x: 0, y: 1)
                                 .overlay(
                                     Text("\(isCorrect ? originalValue : isAreaTouched[index, default: false] ? originalValue : wroteValue)")
                                         .font(.system(size: adjustRect.height / fontSizeRatio, weight: .semibold))
