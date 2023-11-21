@@ -12,6 +12,10 @@ extension Color {
     static let correctColor = Color(hex: "AEF894")
     static let wrongColor = Color(hex: "FDA5A5")
     static let flippedAreaColor = Color(hex: "EEEEEE")
+    static let blue1 = Color(hex: "E1F5FE")
+    static let blue2 = Color(hex: "81D4FA")
+    static let blue3 = Color(hex: "049BE5")
+    static let blue4 = Color(hex: "00579B")
 
 }
 
