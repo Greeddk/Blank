@@ -68,7 +68,7 @@ struct WordSelectView: View {
             .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden(true)
-            .navigationTitle("단어선택")
+            .navigationTitle("단어 선택")
             .navigationBarTitleDisplayMode(.inline)
         }
         .background(Color(.systemGray6))
@@ -84,10 +84,10 @@ struct WordSelectView: View {
                     .foregroundStyle(.white)
                     .padding()
                 VStack {
-                    Text("단어를 터치해 주세요.")
+                    Text("단어/영역을 선택해주세요.")
                         .font(.largeTitle)
                         .foregroundStyle(.white)
-                    Text("시험을 보고싶은 단어를 터치해주세요")
+                    Text("시험을 보고 싶은 단어/영역을 선택해주세요")
                         .foregroundStyle(.white)
                 }
                 .padding()

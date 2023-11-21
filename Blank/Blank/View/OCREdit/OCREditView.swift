@@ -10,13 +10,13 @@ import SwiftUI
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = false
-//    @Binding var isLinkActive: Bool
+    //    @Binding var isLinkActive: Bool
     // @Binding var generatedImage: UIImage?
     @State private var showingAlert = true
     @State var visionStart: Bool = false
     @State private var goToTestPage = false
     @State var isShowingButton = true
-
+    
     @StateObject var wordSelectViewModel: WordSelectViewModel
     
     /*
@@ -32,7 +32,7 @@ struct OCREditView: View {
                         hideKeyboard()
                     }
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
-
+                
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -76,19 +76,13 @@ struct OCREditView: View {
                     .foregroundStyle(.white)
                     .padding()
                 VStack {
-                    Text("Pencil을 활용해 빈칸을 채워보세요")
+                    Text("잘못 인식된 글자를 수정해주세요.")
                         .font(.headline)
                         .foregroundStyle(.white)
-                    HStack {
-                        Text("자세한 내용은 우측 상단에")
-                            .font(.subheadline)
-                            .foregroundStyle(.white)
-                        Image(systemName: "questionmark.circle.fill")
-                            .foregroundStyle(.white)
-                        Text("클릭해주세요")
-                            .font(.subheadline)
-                            .foregroundStyle(.white)
-                    }
+                    
+                    Text("잘못 인식된 글자가 있다면 수정해주세요.")
+                        .font(.subheadline)
+                        .foregroundStyle(.white)
                 }
                 .padding()
             }
@@ -104,7 +98,7 @@ struct OCREditView: View {
                 .closeOnTapOutside(false)
                 .animation(.smooth)
         }
-
+        
     }
     
     private var ocrEditImage: some View {
@@ -128,9 +122,9 @@ struct OCREditView: View {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-
+            
             ScribbleModalView()
-
+            
         }
     }
     
@@ -144,7 +138,7 @@ struct OCREditView: View {
         }
         .buttonStyle(.borderedProminent)
     }
-
+    
     private var showOriginalImageButton: some View {
         Button {
             wordSelectViewModel.isOrginal.toggle()

@@ -108,12 +108,12 @@ struct OverView: View {
                 )
             }
         }
-        .alert("시험지 선택" ,isPresented: $showingAlert) {
-            Button("마지막 회차 다시 보기") {
-                goToTestPage = true
+        .alert("어떤 시험지를 고르시겠어요?" ,isPresented: $showingAlert) {
+            Button("새로 만들기") {
                 goToNextPage = true
             }
-            Button("새 빈칸 시험지 만들기") {
+            Button("시험 보기") {
+                goToTestPage = true
                 goToNextPage = true
             }
             Button("취소", role: .cancel) {
@@ -121,24 +121,11 @@ struct OverView: View {
             }
         } message: {
             Text("""
-                 기존에 시험을 본 내용이 있습니다.
-                 마지막 회차 시험을 바로 보시겠습니까?
-                 새로 빈칸 시험지를 만드시겠습니까?
+                 새로운 빈칸을 만들거나,
+                 지난 회차 시험을 볼 수 있습니다.
                  """)
         }
     }
-    
-    // private var progressStatus: some View {
-    //     VStack(spacing: 20) {
-    //         ProgressView(value: overViewModel.currentProgress)
-    //             .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-    //         
-    //         Text("파일을 로딩 중 입니다.")
-    //         
-    //         Text("\(Int(overViewModel.currentProgress * 100))%") // 퍼센트로 변환하여 표시
-    //     }
-    //     .background(.white)
-    // }
     
     private var bottomScrollView: some View {
         ScrollView(.horizontal, showsIndicators: true) {
@@ -300,7 +287,7 @@ struct OverView: View {
     
     private var showOriginalImageButton: some View {
         VStack {
-            if seeResult {
+            if seeResult || overViewModel.isTotalStatsViewMode {
                 Button {
                     seeResult = false
                     overViewModel.isTotalStatsViewMode = false
@@ -329,7 +316,7 @@ struct OverView: View {
                 goToNextPage = true
             }
         } label: {
-            Text("시험준비")
+            Text("빈칸 만들기")
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)
