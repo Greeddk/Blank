@@ -79,11 +79,7 @@ struct OCREditView: View {
                     .padding()
                 VStack {
                     Text("잘못 인식된 글자를 수정해주세요.")
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                    
-                    Text("잘못 인식된 글자가 있다면 수정해주세요.")
-                        .font(.subheadline)
+                        .font(.largeTitle)
                         .foregroundStyle(.white)
                 }
                 .padding()
