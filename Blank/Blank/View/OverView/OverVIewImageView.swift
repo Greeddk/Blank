@@ -47,7 +47,7 @@ struct OverViewImageView: View {
                                     .onTapGesture {
                                         overViewModel.totalStats[key]?.isSelected.toggle()
                                     }
-                                    
+                                    .zIndex(stat.isSelected ? 1 : 0)
                             }
                         }
                     } else if let currentSession = overViewModel.currentSession,
