@@ -29,7 +29,8 @@ struct ImageView: View {
     @Binding var currentWritingWords: [Word]
     
     @State var isAreaTouched: [Int: Bool] = [:]
-    
+    @State var blankCGRect: [CGRect] = []
+
     let cornerRadiusSize: CGFloat = 6
     let fontSizeRatio: CGFloat = 1.9
     
@@ -84,7 +85,14 @@ struct ImageView: View {
                                     }
                                 }
                         }
-                        
+//                        ForEach(blankCGRect.indices, id: \.self) { index in
+//                            let cgrect = index
+//                            Rectangle()
+//                                .frame(width: cgrect.width, height: cgrect.height)
+//                                .position(CGPoint(x: cgrect.origin.x, y: cgrect.origin.y))
+//
+//                        }
+
                         
                         
                     } else if viewName == "ResultPageView" {
@@ -122,6 +130,7 @@ struct ImageView: View {
                 }
             
                 .gesture(
+                    
                     DragGesture()
                         .onChanged{ value in
                             if startLocation == nil {
@@ -131,18 +140,25 @@ struct ImageView: View {
                             endLocation = value.location
                             
                             // 드래그 경로에 있는 단어 선택 1. rect구하기
+//                            let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
+//                                                  y: min(startLocation!.y, endLocation!.y),
+//                                                  width: abs(endLocation!.x - startLocation!.x),
+//                                                  height: abs(endLocation!.y - startLocation!.y))
+//
+//                            for index in basicWords.indices {
+//                                if dragRect.intersects(adjustRect(basicWords[index].rect, in: proxy)) {
+//                                    basicWords[index].isSelectedWord = isSelectArea ? true : false
+//                                }
+//                            }
+                        }
+                        .onEnded{ value in
                             let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
                                                   y: min(startLocation!.y, endLocation!.y),
                                                   width: abs(endLocation!.x - startLocation!.x),
                                                   height: abs(endLocation!.y - startLocation!.y))
-                            
-                            for index in basicWords.indices {
-                                if dragRect.intersects(adjustRect(basicWords[index].rect, in: proxy)) {
-                                    basicWords[index].isSelectedWord = isSelectArea ? true : false
-                                }
-                            }
-                        }
-                        .onEnded{ value in
+                            let dragword = BasicWord(id: UUID(), wordValue: "", rect: dragRect, isSelectedWord: true)
+                            print(dragword)
+                            basicWords.append(dragword)
                             // drag 끝나면 초기화
                             startLocation = nil
                             endLocation = nil
@@ -150,7 +166,11 @@ struct ImageView: View {
                 )
         }
     }
-    
+    func dragRectangle(rect: CGRect) {
+
+
+    }
+
     
     // ---------- Mark : 반자동   ----------------
     func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {

@@ -41,7 +41,8 @@ struct WordSelectView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     
                     HStack{
-                        
+                        makeBlankButton
+
                         // segment 버튼
                         Picker("도구 선택", selection: $isSelectArea) {
                             Image(systemName: "arrow.rectanglepath")
@@ -58,7 +59,7 @@ struct WordSelectView: View {
                         .tint(.red)
                         .pickerStyle(.segmented)
                         
-                        
+
                         goToNextPageButton
                         
                     }
@@ -124,7 +125,17 @@ struct WordSelectView: View {
         }
         .buttonStyle(.bordered)
     }
-    
+
+    private var makeBlankButton: some View {
+        Button {
+
+        } label: {
+//            Image(systemName: "chevron.left")
+            Text("blank")
+        }
+        .buttonStyle(.bordered)
+    }
+
     private var goToNextPageButton: some View {
         Button {
             // TODO: 선택된 단어를 배열로 저장
