@@ -264,17 +264,8 @@ struct HomeView: View {
     }
     
     private var addFileButton: some View {
-        Menu {
-            Button("새 폴더") {
-                showCreateNewFolder.toggle()
-            }
-            Button("새 pdf 추가") {
-                showFilePicker = true
-            }
-            Button("새 이미지 추가") {
-                showImagePicker = true
-            }
-        } label: {
+        
+        ZStack(alignment: .top) {
             VStack(spacing: 15) {
                 Spacer().frame(height: 5)
                 ZStack(alignment: .center) {
@@ -289,7 +280,23 @@ struct HomeView: View {
                 Text("신규..")
                 Spacer()
             }
+            Menu {
+                Button("새 폴더") {
+                    showCreateNewFolder.toggle()
+                }
+                Button("새 pdf 추가") {
+                    showFilePicker = true
+                }
+                Button("새 이미지 추가") {
+                    showImagePicker = true
+                }
+            } label: {
+                Rectangle()
+                    .fill(Color.clear)
+                    .frame(width: 110, height: 150)
+            }
         }
+
         
     }
     
