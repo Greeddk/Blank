@@ -95,10 +95,11 @@ struct ImageView: View {
                             let originalValue = targetWords[index].wordValue
                             let wroteValue = currentWritingWords[index].wordValue
                             
+                            
                             RoundedRectangle(cornerSize: .init(width: cornerRadiusSize, height: cornerRadiusSize))
                                 .path(in: adjustRect)
-                                .fill(isCorrect ? Color.correctColor : isAreaTouched[index, default: false] ? Color.flippedAreaColor : Color.wrongColor)
-                                .shadow(color: isCorrect ? .clear : .black.opacity(0.4), radius: 4, x: 0, y: 1)
+                                .fill(isCorrect ? Color.correctColor.shadow(.inner(color: .clear,radius: 0, y: 0)) : isAreaTouched[index, default: false] ? Color.flippedAreaColor.shadow(.inner(color: .black.opacity(0.5),radius: 2, y: -1)) : Color.wrongColor.shadow(.inner(color: .black.opacity(0.5),radius: 2, y: -1)))
+                                .shadow(color: isCorrect ? .clear : .black.opacity(0.7), radius: 0, x: 1, y: 2)
                                 .overlay(
                                     Text("\(isCorrect ? originalValue : isAreaTouched[index, default: false] ? originalValue : wroteValue)")
                                         .font(.system(size: adjustRect.height / fontSizeRatio, weight: .semibold))

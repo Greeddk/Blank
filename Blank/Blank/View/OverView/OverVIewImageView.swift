@@ -128,9 +128,9 @@ struct OverViewImageView: View {
     // Rectangle 그리는 함수
     func drawRectangle(with key: CGRect, color: Color, in proxy: GeometryProxy) -> some View {
         Rectangle()
-            .fill(color)
+            .fill(color.shadow(.inner(color: .black.opacity(0.8),radius: 2, y: -1)))
             .cornerRadius(5)
-            .shadow(color: .black.opacity(0.4), radius: 4, x: 0, y: 1)
+            .shadow(color: .black.opacity(0.4), radius: 0, x: 1, y: 2)
             .frame(width: adjustRect(key, in: proxy).width,
                    height: adjustRect(key, in: proxy).height)
             .position(x: adjustRect(key, in: proxy).midX,
