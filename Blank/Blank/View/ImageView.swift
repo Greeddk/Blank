@@ -139,6 +139,7 @@ struct ImageView: View {
                             
                             endLocation = value.location
                             
+                            // 썹 빈칸 선택, 지우기 기능
                             // 드래그 경로에 있는 단어 선택 1. rect구하기
 //                            let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
 //                                                  y: min(startLocation!.y, endLocation!.y),
@@ -156,9 +157,11 @@ struct ImageView: View {
                                                   y: min(startLocation!.y, endLocation!.y),
                                                   width: abs(endLocation!.x - startLocation!.x),
                                                   height: abs(endLocation!.y - startLocation!.y))
-                            let dragword = BasicWord(id: UUID(), wordValue: "", rect: dragRect, isSelectedWord: true)
+//                            let fixDragRect = reverseAdjustRect(<#T##rect: CGRect##CGRect#>, in: <#T##GeometryProxy#>)
+                            let dragword = BasicWord(id: UUID(), wordValue: "", rect: reverseAdjustRect(dragRect, in: proxy), isSelectedWord: true)
                             print(dragword)
                             basicWords.append(dragword)
+
                             // drag 끝나면 초기화
                             startLocation = nil
                             endLocation = nil
@@ -207,10 +210,7 @@ struct ImageView: View {
         default:
             deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))
             
-            
         }
-        
-        
         return CGRect(
             
             
@@ -225,7 +225,39 @@ struct ImageView: View {
             height : rect.height * scaleY
         )
     }
-    
+
+    func reverseAdjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
+        let imageSize = self.uiImage?.size ?? CGSize(width: 1, height: 1)
+        let scaleY: CGFloat = geometry.size.height / imageSize.height
+        let deviceModel = UIDevice.current.name
+
+        var deviceX: CGFloat = 0.0
+
+        switch deviceModel {
+        case "iPad Pro (12.9-inch) (6th generation)":
+            deviceX = ((rect.origin.x - (geometry.size.width - imageSize.width) / 3.5) / scaleY)
+        case "iPad Pro (11-inch) (4th generation)":
+            deviceX = ((rect.origin.x - (geometry.size.width - imageSize.width) / 3.0) / scaleY)
+        case "iPad (10th generation)":
+            deviceX = ((rect.origin.x - (geometry.size.width - imageSize.width) / 2.9) / scaleY)
+        case "iPad Air (5th generation)":
+            deviceX = ((rect.origin.x - (geometry.size.width - imageSize.width) / 2.9) / scaleY)
+        case "iPad mini (6th generation)":
+            deviceX = ((rect.origin.x - (geometry.size.width - imageSize.width) / 2.8) / scaleY)
+        default:
+            deviceX = ((rect.origin.x - (geometry.size.width - imageSize.width) / 3.5) / scaleY)
+        }
+
+        return CGRect(
+            x: deviceX,
+            y: (imageSize.height - (rect.origin.y / scaleY) - (rect.size.height / scaleY)),
+            width: rect.width / scaleY,
+            height: rect.height / scaleY
+        )
+    }
+
+
+
     
     
     
@@ -235,3 +267,47 @@ struct ImageView: View {
 //#Preview {
 //    ImageView(scale: .constant(1.0))
 //}
+//
+//    .gesture(
+//                DragGesture()
+//                    .onChanged { value in
+//
+//                        if startDragLocation == nil {
+//                            // 드래그 시작 위치 저장
+//                            startDragLocation = dragLocation
+//                        }
+//
+//                        // 드래그 시작 위치와 현재 위치의 차이를 계산하여 위치 업데이트
+//                        let dragOffset = CGSize(width: value.location.x - value.startLocation.x,
+//                                                height: value.location.y - value.startLocation.y)
+//    //                    dragLocation = CGPoint(x: startDragLocation!.x + dragOffset.width,
+//    //                                           y: startDragLocation!.y + dragOffset.height)
+//
+//                        // 화면의 경계 값을 계산
+//                        let screenWidth = UIScreen.main.bounds.width
+//                        let screenHeight = UIScreen.main.bounds.height
+//                        // 이건 bottomScrollView의 Height이 직접 스크린* 0.11 로 주어져 있음
+//                        // 근데 0.11하면 약간 더 내려가서 0.18로 좀 더 높게 작업
+//                        let bottomScrollViewHeight = UIScreen.main.bounds.height * 0.18
+//
+//
+//
+//                        // 화면 경계 내에서 ExerciseView의 중심이 이동하도록 제한
+//                        let newX = clamp(startDragLocation!.x + dragOffset.width, lower: exerciseViewSize.width / 2, upper: screenWidth - exerciseViewSize.width / 2)
+//                        let newY = clamp(startDragLocation!.y + dragOffset.height,
+//                                         lower: exerciseViewSize.height / 2,
+//                                         upper: screenHeight - bottomScrollViewHeight - exerciseViewSize.height / 2  )
+//
+//                        dragLocation = CGPoint(x: newX, y: newY)
+//
+//
+//                    }
+//                    .onEnded{ _ in
+//                        // 드래그가 끝나면 시작 위치를 초기화
+//                        startDragLocation = nil
+//                    }
+//            )
+//
+//func clamp<T: Comparable>(_ value: T, lower: T, upper: T) -> T {
+//        return min(max(value, lower), upper)
+//    }
