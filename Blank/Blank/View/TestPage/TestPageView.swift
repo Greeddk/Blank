@@ -19,6 +19,8 @@ struct TestPageView: View {
     
     @StateObject var scoringViewModel: ScoringViewModel
     
+    @AppStorage(.tutorialTestPageView) var isEncounteredFirst = true
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -44,6 +46,11 @@ struct TestPageView: View {
             .navigationTitle("\(sessionNum)회차 시험지")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
+            .sheet(isPresented: $isEncounteredFirst) {
+                isEncounteredFirst = false
+            } content: {
+                TutorialModalView()
+            }
         }
         .navigationDestination(isPresented: $goToResultPage) {
             ResultPageView(scoringViewModel: scoringViewModel)

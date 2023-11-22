@@ -15,6 +15,8 @@ struct ResultPageView: View {
     @StateObject var scoringViewModel: ScoringViewModel
     @State var zoomScale: CGFloat = 1.0
     
+    @AppStorage(.tutorialResultPageView) var isEncounteredFirst = true
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
@@ -40,6 +42,11 @@ struct ResultPageView: View {
             .navigationTitle("결과")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
+            .sheet(isPresented: $isEncounteredFirst) {
+                isEncounteredFirst = false
+            } content: {
+                TutorialModalView()
+            }
         }
         .background(Color(.systemGray4))
         .onAppear {

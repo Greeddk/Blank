@@ -11,6 +11,9 @@ import SwiftUI
 struct BlankApp: App {
     init() {
          HomeViewModel.copySampleFiles()
+        
+        // UserDefaults 리셋
+        // resetTutorialKeysForTestOnly()
     }
     
     var body: some Scene {

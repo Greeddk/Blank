@@ -20,6 +20,8 @@ struct OCREditView: View {
     
     @StateObject var wordSelectViewModel: WordSelectViewModel
     
+    @AppStorage(.tutorialOCREditView) var isEncounteredFirst = true
+    
     /*
      전단계 WordSelectView에서 단어를 선택하면
      해당 단어 목록은 현재 Session 內 Words에 들어가야 할 것 같음
@@ -96,7 +98,11 @@ struct OCREditView: View {
                 .closeOnTapOutside(false)
                 .animation(.smooth)
         }
-        
+        .sheet(isPresented: $isEncounteredFirst) {
+            isEncounteredFirst = false
+        } content: {
+            TutorialModalView()
+        }
     }
     
     private var ocrEditImage: some View {
@@ -120,9 +126,7 @@ struct OCREditView: View {
             Image(systemName: "questionmark.circle.fill")
         }
         .sheet(isPresented: $showingModal) {
-            
             ScribbleModalView()
-            
         }
     }
     

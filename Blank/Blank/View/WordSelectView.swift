@@ -21,7 +21,7 @@ struct WordSelectView: View {
     
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
-    
+    @AppStorage(.tutorialWordSelectView) var isEncounteredFirst = true
     
     var body: some View {
         NavigationStack {
@@ -104,6 +104,11 @@ struct WordSelectView: View {
                 .closeOnTap(false) // 팝업을 터치했을 때 없애야 하나?
                 .closeOnTapOutside(false)
                 .animation(.smooth)
+        }
+        .sheet(isPresented: $isEncounteredFirst) {
+            isEncounteredFirst = false
+        } content: {
+            TutorialModalView()
         }
     }
     

@@ -37,6 +37,8 @@ struct OverView: View {
     
     @State private var disableReadToTestButton = true
     
+    @AppStorage(.tutorialOverView) var isEncounteredFirst = true
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -57,6 +59,11 @@ struct OverView: View {
             }
             .sheet(isPresented: $showModal) {
                 OverViewModalView(overViewModel: overViewModel)
+            }
+            .sheet(isPresented: $isEncounteredFirst) {
+                isEncounteredFirst = false
+            } content: {
+                TutorialModalView()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
