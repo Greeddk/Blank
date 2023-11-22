@@ -17,7 +17,8 @@ struct WordSelectView: View {
     
     @State var isSelectArea = true
     @State var noneOfWordSelected = true
-    
+    @State var isBlankArea = true
+
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
     
@@ -44,20 +45,20 @@ struct WordSelectView: View {
                         makeBlankButton
 
                         // segment 버튼
-                        Picker("도구 선택", selection: $isSelectArea) {
-                            Image(systemName: "arrow.rectanglepath")
-                                .symbolRenderingMode(.monochrome)
-                                .foregroundStyle(.black)
-                                .tag(true)
-                            
-                            Image(systemName: "eraser.line.dashed.fill")
-                                .symbolRenderingMode(.monochrome)
-                                .foregroundStyle(.black)
-                                .tag(false)
-                        }
-                        .id(isSelectArea)
-                        .tint(.red)
-                        .pickerStyle(.segmented)
+//                        Picker("도구 선택", selection: $isSelectArea) {
+//                            Image(systemName: "arrow.rectanglepath")
+//                                .symbolRenderingMode(.monochrome)
+//                                .foregroundStyle(.black)
+//                                .tag(true)
+//                            
+//                            Image(systemName: "eraser.line.dashed.fill")
+//                                .symbolRenderingMode(.monochrome)
+//                                .foregroundStyle(.black)
+//                                .tag(false)
+//                        }
+//                        .id(isSelectArea)
+//                        .tint(.red)
+//                        .pickerStyle(.segmented)
                         
 
                         goToNextPageButton
@@ -110,7 +111,7 @@ struct WordSelectView: View {
     private var wordSelectImage: some View {
         // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제, 비전 스타트가 여기에 필요한지..?
         VStack {
-            ImageView(uiImage: wordSelectViewModel.currentImage, visionStart: $visionStart, viewName: "WordSelectView", isSelectArea: $isSelectArea, basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]), currentWritingWords: .constant([]))
+            ImageView(uiImage: wordSelectViewModel.currentImage, visionStart: $visionStart, viewName: "WordSelectView", isSelectArea: $isSelectArea, isBlankArea: $isBlankArea, basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]), currentWritingWords: .constant([]))
         }
         .onChange(of: wordSelectViewModel.basicWords) { _ in
             noneOfWordSelected = !wordSelectViewModel.basicWords.contains(where: { $0.isSelectedWord })
@@ -128,10 +129,10 @@ struct WordSelectView: View {
 
     private var makeBlankButton: some View {
         Button {
-
+            isBlankArea.toggle()
         } label: {
 //            Image(systemName: "chevron.left")
-            Text("blank")
+            isBlankArea ? Text("blank") : Text("Off")
         }
         .buttonStyle(.bordered)
     }

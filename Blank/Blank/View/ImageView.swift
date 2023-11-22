@@ -22,7 +22,8 @@ struct ImageView: View {
     @State var endLocation: CGPoint?
     
     @Binding var isSelectArea: Bool
-    
+    @Binding var isBlankArea: Bool
+
     // 다른 뷰에서도 사용할 수 있기 때문에 뷰모델로 전달하지 않고 개별 배열로 전달해봄
     @Binding var basicWords: [BasicWord]
     @Binding var targetWords: [Word]
@@ -121,8 +122,11 @@ struct ImageView: View {
                                 )
                                 .onTapGesture {
                                     // 기존 탭제스쳐 방식
-                                    if !targetWords[index].isCorrect {
-                                        isAreaTouched[index, default: false].toggle()
+                                    // 블랭크 만들때 터치로 단어선택 제어 off
+                                    if !isBlankArea {
+                                        if !targetWords[index].isCorrect {
+                                            isAreaTouched[index, default: false].toggle()
+                                        }
                                     }
                                 }
                         }
@@ -151,18 +155,30 @@ struct ImageView: View {
 //                                    basicWords[index].isSelectedWord = isSelectArea ? true : false
 //                                }
 //                            }
+
+                            let imageSize = self.uiImage?.size ?? CGSize(width: 1, height: 1)
+
+                            // 화면의 경계 값을 계산
+                            let screenWidth = (UIScreen.main.bounds.width - imageSize.width) / 2
+                            let leftSpacerWidth = screenWidth / 1.8
+                            let rightSpacerWidth = screenWidth + imageSize.width * 1.16
+
+                            endLocation!.x = max(leftSpacerWidth, endLocation!.x)
+                            endLocation!.x = min(rightSpacerWidth, endLocation!.x)
                         }
                         .onEnded{ value in
-                            let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
-                                                  y: min(startLocation!.y, endLocation!.y),
-                                                  width: abs(endLocation!.x - startLocation!.x),
-                                                  height: abs(endLocation!.y - startLocation!.y))
-//                            let fixDragRect = reverseAdjustRect(<#T##rect: CGRect##CGRect#>, in: <#T##GeometryProxy#>)
-                            let dragword = BasicWord(id: UUID(), wordValue: "", rect: reverseAdjustRect(dragRect, in: proxy), isSelectedWord: true)
-                            print(dragword)
-                            basicWords.append(dragword)
+                            if isBlankArea {
+                                let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
+                                                      y: min(startLocation!.y, endLocation!.y),
+                                                      width: abs(endLocation!.x - startLocation!.x),
+                                                      height: abs(endLocation!.y - startLocation!.y))
+                                let dragword = BasicWord(id: UUID(), wordValue: "", rect: reverseAdjustRect(dragRect, in: proxy), isSelectedWord: true)
+                                print("내가설정높이",dragRect.origin.y + dragRect.height)
+                                print("view 높이", UIScreen.main.bounds.height)
+                                basicWords.append(dragword)
 
-                            // drag 끝나면 초기화
+                                // drag 끝나면 초기화
+                            }
                             startLocation = nil
                             endLocation = nil
                         }
@@ -284,8 +300,8 @@ struct ImageView: View {
 //    //                                           y: startDragLocation!.y + dragOffset.height)
 //
 //                        // 화면의 경계 값을 계산
-//                        let screenWidth = UIScreen.main.bounds.width
-//                        let screenHeight = UIScreen.main.bounds.height
+//                        let screenWidth = UIScreen.main.bounds.width - (geometry.size.width - imageSize.width)
+//                        let screenHeight = UIScreen.main.bounds.height - (geometry.size.height - imageSize.height)
 //                        // 이건 bottomScrollView의 Height이 직접 스크린* 0.11 로 주어져 있음
 //                        // 근데 0.11하면 약간 더 내려가서 0.18로 좀 더 높게 작업
 //                        let bottomScrollViewHeight = UIScreen.main.bounds.height * 0.18
@@ -294,9 +310,7 @@ struct ImageView: View {
 //
 //                        // 화면 경계 내에서 ExerciseView의 중심이 이동하도록 제한
 //                        let newX = clamp(startDragLocation!.x + dragOffset.width, lower: exerciseViewSize.width / 2, upper: screenWidth - exerciseViewSize.width / 2)
-//                        let newY = clamp(startDragLocation!.y + dragOffset.height,
-//                                         lower: exerciseViewSize.height / 2,
-//                                         upper: screenHeight - bottomScrollViewHeight - exerciseViewSize.height / 2  )
+//                        let newY = clamp(startDragLocation!.y + dragOffset.height, lower: exerciseViewSize.height / 2, upper: screenHeight - bottomScrollViewHeight - exerciseViewSize.height / 2  )
 //
 //                        dragLocation = CGPoint(x: newX, y: newY)
 //
@@ -308,6 +322,7 @@ struct ImageView: View {
 //                    }
 //            )
 //
-//func clamp<T: Comparable>(_ value: T, lower: T, upper: T) -> T {
-//        return min(max(value, lower), upper)
-//    }
+func clamp<T: Comparable>(_ value: T, lower: T, upper: T) -> T {
+        return min(max(value, lower), upper)
+    }
+//(geometry.size.width - imageSize.width)
