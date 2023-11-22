@@ -17,7 +17,6 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
         self._zoomScale = zoomScale
         self.content = content
         self._movedCount = movedCount
-        
     }
     
     func makeUIView(context: Context) -> UIScrollView {
@@ -69,6 +68,10 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
         }
         
         private func incrementMoveCount() {
+            if movedCount == .max {
+                movedCount = -1
+            }
+            
             movedCount += 1
             movedCountBinding.wrappedValue = movedCount
         }
@@ -81,7 +84,9 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
             self.zoomScale.wrappedValue = scrollView.zoomScale
         }
         
-        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {}
+        func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+            incrementMoveCount()
+        }
         
         func scrollViewDidScroll(_ scrollView: UIScrollView) {
             incrementMoveCount()
@@ -103,6 +108,8 @@ struct ZoomableContainer<Content: View>: UIViewRepresentable {
             incrementMoveCount()
         }
         
-        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {}
+        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+            incrementMoveCount()
+        }
     }
 }
