@@ -85,10 +85,10 @@ struct WordSelectView: View {
                     .foregroundStyle(.white)
                     .padding()
                 VStack {
-                    Text("단어/영역을 선택해주세요.")
+                    Text("단어를 선택하거나 드래그해 주세요.")
                         .font(.largeTitle)
                         .foregroundStyle(.white)
-                    Text("시험을 보고 싶은 단어/영역을 선택해주세요")
+                    Text("시험을 보고 싶은 단어를 선택하거나 드래그해 주세요")
                         .foregroundStyle(.white)
                 }
                 .padding()
