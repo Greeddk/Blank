@@ -58,15 +58,14 @@ struct OverView: View {
         NavigationStack {
             VStack {
                 if overViewModel.isLoading && overViewModel.currentProgress < 1.0 {
-                    progressStatus
-                    
+                    // progressStatus
+                    ProgressStatusView(currentProgress: $overViewModel.currentProgress)
                 } else if !overViewModel.thumbnails.isEmpty {
                     ZStack{
-                        ZoomableContainer {
+       
                             OverViewImageView(visionStart: $visionStart,
-                                              overViewModel: overViewModel,
-                                              zoomScale: .constant(1.0))
-                        }
+                                          overViewModel: overViewModel)
+                        
                         if excerciseBool {
                             ExcerciseSizeView
                         }
@@ -118,7 +117,7 @@ struct OverView: View {
                 // TODO: - 이미 생성한 페이지라면 다시 생성되지 않게 해야됨, CoreData에서 페이지 있는지 검사
                 if let page = overViewModel.selectedPage {
                     let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords, currentImage: overViewModel.currentImage)
-                    WordSelectView( wordSelectViewModel: wordSelectViewModel)
+                    WordSelectView( sessionNum: overViewModel.sessions.count + 1, wordSelectViewModel: wordSelectViewModel)
                 } else {
                     Text("Error")
                 }
@@ -128,6 +127,7 @@ struct OverView: View {
                 let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
                 
                 TestPageView(
+                    sessionNum: overViewModel.sessions.count + 1, 
                     scoringViewModel: .init(
                         page: wordSelectViewModel.page,
                         session: wordSelectViewModel.session,
@@ -138,12 +138,12 @@ struct OverView: View {
                 )
             }
         }
-        .alert("시험지 선택" ,isPresented: $showingAlert) {
-            Button("마지막 회차 다시 보기") {
-                goToTestPage = true
+        .alert("어떤 시험지를 고르시겠어요?" ,isPresented: $showingAlert) {
+            Button("새로 만들기") {
                 goToNextPage = true
             }
-            Button("새 빈칸 시험지 만들기") {
+            Button("시험 보기") {
+                goToTestPage = true
                 goToNextPage = true
             }
             Button("취소", role: .cancel) {
@@ -151,9 +151,8 @@ struct OverView: View {
             }
         } message: {
             Text("""
-                 기존에 시험을 본 내용이 있습니다.
-                 마지막 회차 시험을 바로 보시겠습니까?
-                 새로 빈칸 시험지를 만드시겠습니까?
+                 새로운 빈칸을 만들거나,
+                 지난 회차 시험을 볼 수 있습니다.
                  """)
         }
     }
@@ -409,8 +408,7 @@ struct OverView: View {
         
         
     }
-    
-    
+   
     private var bottomScrollView: some View {
         ScrollView(.horizontal, showsIndicators: true) {
             Spacer().frame(height: 10)
@@ -526,55 +524,65 @@ struct OverView: View {
     }
     
     private var statsButton: some View {
-        Menu {
-            // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
-//            Button("전체통계") {
-//                overViewModel.generateTotalStatistics()
-//                overViewModel.isTotalStatsViewMode = true
-//                seeResult = false
-//                selectedSessionIndex = nil
-//                
-//            }
-//            .disabled(overViewModel.sessions.isEmpty)
-            
-            ForEach(overViewModel.sessions.indices, id: \.self) { index in
-                let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
-                Button("\(index + 1)회차 (\(percentageValue))") {
-                    setCorrectWordArea(index)
+        VStack {
+            if overViewModel.sessions.isEmpty {
+                
+            } else {
+                Menu {
+                    // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
+                    //            Button("전체통계") {
+                    //                overViewModel.generateTotalStatistics()
+                    //                overViewModel.isTotalStatsViewMode = true
+                    //                seeResult = false
+                    //                selectedSessionIndex = nil
+                    //
+                    //            }
+                    //            .disabled(overViewModel.sessions.isEmpty)
+                    
+                    ForEach(overViewModel.sessions.indices, id: \.self) { index in
+                        let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
+                        Button("\(index + 1)회차 (\(percentageValue))") {
+                            setCorrectWordArea(index)
+                        }
+                    }
+                } label: {
+                    RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
+                        .fill(.gray.opacity(0.2))
+                        .frame(width: 100, height: 35)
+                        .overlay {
+                            if !seeResult && !overViewModel.isTotalStatsViewMode {
+                                Label("결과보기", systemImage: "chevron.down")
+                                    .labelStyle(.titleAndIcon)
+                            } else if seeResult {
+                                Label("\(selectedSessionIndex! + 1)회차", systemImage: "chevron.down")
+                                    .labelStyle(.titleAndIcon)
+                            } else {
+                                Label("전체통계", systemImage: "chevron.down")
+                                    .labelStyle(.titleAndIcon)
+                            }
+                        }
                 }
             }
-        } label: {
-            RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
-                .fill(.gray.opacity(0.2))
-                .frame(width: 100, height: 35)
-                .overlay {
-                    if !seeResult && !overViewModel.isTotalStatsViewMode {
-                        Label("결과보기", systemImage: "chevron.down")
-                            .labelStyle(.titleAndIcon)
-                    } else if seeResult {
-                        Label("\(selectedSessionIndex! + 1)회차", systemImage: "chevron.down")
-                            .labelStyle(.titleAndIcon)
-                    } else {
-                        Label("전체통계", systemImage: "chevron.down")
-                            .labelStyle(.titleAndIcon)
-                    }
-                }
         }
         
     }
     
     private var showOriginalImageButton: some View {
-        Button {
-            seeResult = false
-            overViewModel.isTotalStatsViewMode = false
-            clearCorrectWordArea()
-        } label: {
-            RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
-                .fill(.gray.opacity(0.2))
-                .frame(width: 40, height: 35)
-                .overlay {
-                    Text("원본")
+        VStack {
+            if seeResult || overViewModel.isTotalStatsViewMode {
+                Button {
+                    seeResult = false
+                    overViewModel.isTotalStatsViewMode = false
+                    clearCorrectWordArea()
+                } label: {
+                    RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
+                        .fill(.gray.opacity(0.2))
+                        .frame(width: 40, height: 35)
+                        .overlay {
+                            Text("원본")
+                        }
                 }
+            }
         }
     }
     
@@ -604,7 +612,7 @@ struct OverView: View {
                 goToNextPage = true
             }
         } label: {
-            Text("시험준비")
+            Text("빈칸 만들기")
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)
@@ -645,7 +653,7 @@ extension OverView {
         selectedSessionIndex = nil
         seeResult = false
     }
-
+    
 }
 
 //#Preview {

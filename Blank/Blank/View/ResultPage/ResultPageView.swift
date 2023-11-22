@@ -13,6 +13,7 @@ struct ResultPageView: View {
     @State var visionStart: Bool = false
     
     @StateObject var scoringViewModel: ScoringViewModel
+    @State var zoomScale: CGFloat = 1.0
     
     var body: some View {
         NavigationStack {
@@ -21,7 +22,7 @@ struct ResultPageView: View {
                     resultImage
                     Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
                 }
-                bottomCorrectInfo
+                correctInfo
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -40,20 +41,21 @@ struct ResultPageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
-        .background(Color(.systemGray6))
+        .background(Color(.systemGray4))
         .onAppear {
             scoringViewModel.score()
             scoringViewModel.saveSessionToDatabase()
         }
     }
     
-    private var bottomCorrectInfo: some View {
+    private var correctInfo: some View {
         HStack {
             if seeCorrect == true {
                 // TODO: 정답률, 문제개수, 정답개수 받아오기
                 Spacer().frame(width: 50)
                 CorrectInfoView(scoringViewModel: scoringViewModel)
                     .frame(minWidth: 600, maxWidth: 800, minHeight: 50, maxHeight: 70)
+                    .cornerRadius(20)
                 Spacer().frame(width: 50)
             } else {
                 
@@ -63,14 +65,16 @@ struct ResultPageView: View {
     
     private var resultImage: some View {
         // TODO: 각 단어의 정답여부에 따른 색상 마스킹
-        ImageView(
-            uiImage: scoringViewModel.currentImage,
-            visionStart: $visionStart,
-            viewName: "ResultPageView", isSelectArea: .constant(false),
-            basicWords: .constant([]),
-            targetWords: $scoringViewModel.targetWords,
-            currentWritingWords: $scoringViewModel.currentWritingWords
-        )
+        ZoomableContainer(zoomScale: $zoomScale) {
+            ImageView(
+                uiImage: scoringViewModel.currentImage,
+                visionStart: $visionStart,
+                viewName: "ResultPageView", isSelectArea: .constant(false),
+                basicWords: .constant([]),
+                targetWords: $scoringViewModel.targetWords,
+                currentWritingWords: $scoringViewModel.currentWritingWords
+            )
+        }
     }
     
     private var homeButton: some View {

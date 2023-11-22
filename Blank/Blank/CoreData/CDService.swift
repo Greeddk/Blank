@@ -114,7 +114,6 @@ class CDService: IsCDService {
         let fileEntity = try viewContext.fetch(fileRequest)
         
         guard let fileId = fileEntity.first?.id else {
-            print("FileID is NIL")
             return 0
         }
         

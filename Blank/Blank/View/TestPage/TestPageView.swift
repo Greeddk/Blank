@@ -10,11 +10,12 @@ import SwiftUI
 struct TestPageView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = false
-//    @Binding var generatedImage: UIImage?
+    //    @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     @State var type = ScribbleType.write
     @State private var hasTypeValueChanged = false
     @State private var goToResultPage = false
+    var sessionNum: Int
     
     @StateObject var scoringViewModel: ScoringViewModel
     
@@ -22,6 +23,9 @@ struct TestPageView: View {
         NavigationStack {
             VStack {
                 testImage
+                    .onTapGesture {
+                        hideKeyboard()
+                    }
                 Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
             }
             .toolbar {
@@ -37,7 +41,7 @@ struct TestPageView: View {
             }
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
-            .navigationTitle("시험")
+            .navigationTitle("\(sessionNum)회차 시험지")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
@@ -46,16 +50,13 @@ struct TestPageView: View {
             
         }
         .ignoresSafeArea(.keyboard)
-        .background(Color(.systemGray6))
+        .background(Color(.systemGray4))
         
     }
     
     private var testImage: some View{
         // TODO: 시험볼 page에 textfield를 좌표에 만들어 보여주기
-//        TestPagePinchZoomView(image: generatedImage, words: $scoringViewModel.currentWritingWords)
-        ZoomableContainer {
-            TestPageImageView(uiImage: scoringViewModel.currentImage, words: $scoringViewModel.currentWritingWords)
-        }
+        TestPageImageView(uiImage: scoringViewModel.currentImage, words: $scoringViewModel.currentWritingWords)
     }
     
     private var backButton: some View {
