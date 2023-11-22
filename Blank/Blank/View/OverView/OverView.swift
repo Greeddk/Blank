@@ -61,7 +61,7 @@ struct OverView: View {
                     // progressStatus
                     ProgressStatusView(currentProgress: $overViewModel.currentProgress)
                 } else if !overViewModel.thumbnails.isEmpty {
-                    ZStack {
+                    ZStack(alignment: .top) {
                         OverViewImageView(visionStart: $visionStart,
                                           overViewModel: overViewModel)
                         StatIndexView
@@ -452,6 +452,9 @@ struct OverView: View {
                     DispatchQueue.main.async {
                         proxy.scrollTo(overViewModel.currentPage - 1, anchor: .center)
                     }
+                    seeResult = false
+                    overViewModel.isTotalStatsViewMode = false
+                    clearCorrectWordArea()
                 }
             }
         }
