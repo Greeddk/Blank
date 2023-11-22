@@ -30,7 +30,7 @@ struct ImageView: View {
     
     @State var isAreaTouched: [Int: Bool] = [:]
     
-    let cornerRadiusSize: CGFloat = 6
+    let cornerRadiusSize: CGFloat = 5
     let fontSizeRatio: CGFloat = 1.9
     
     @State var zoomScale: CGFloat = 1.0

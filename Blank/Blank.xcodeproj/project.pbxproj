@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		422355C72B0CA54300905F76 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422355C62B0CA54300905F76 /* Color+.swift */; };
 		425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */; };
 		425D4E462AF0EEEF00610BE8 /* NavigationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E452AF0EEEF00610BE8 /* NavigationUtil.swift */; };
 		42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E763892AE1229700624D81 /* OverViewModel.swift */; };
@@ -80,6 +81,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		422355C62B0CA54300905F76 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
 		425D4E452AF0EEEF00610BE8 /* NavigationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationUtil.swift; sourceTree = "<group>"; };
 		42E763892AE1229700624D81 /* OverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModel.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				44A556752AE52990002AE4C3 /* String+.swift */,
 				444E6A642AF2587000AEC703 /* Double.swift */,
 				EB3EBD0D2B075F0E001160B0 /* View+.swift */,
+				422355C62B0CA54300905F76 /* Color+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */,
 				ACF338C22ADD0136004D20FC /* Page.swift in Sources */,
 				449F7A9A2B05F924003425AF /* Folder.swift in Sources */,
+				422355C72B0CA54300905F76 /* Color+.swift in Sources */,
 				44F30BE22AE579E200B67014 /* APICRUDView.swift in Sources */,
 				EB8978FB2AE6A0BC00494BE7 /* TextView.swift in Sources */,
 				42ED60CA2ADE7F090043AF2F /* OverViewModalView.swift in Sources */,
@@ -681,6 +685,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
 				DEVELOPMENT_TEAM = 6S2SA26VAN;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
@@ -719,6 +724,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
 				DEVELOPMENT_TEAM = 6S2SA26VAN;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
