@@ -37,6 +37,23 @@ struct OverView: View {
     
     @State private var disableReadToTestButton = true
     
+    // ExcerciseSizeView On/off를 위한 변수
+    @State var excerciseBool = false
+    
+    // ExcerciseSizeView 크기 조절을 위한 변수들
+    @State private var dragLocation: CGPoint = CGPoint(
+        x: UIScreen.main.bounds.width * 0.8,
+        y: UIScreen.main.bounds.height * 0.15)
+    
+    @State private var exerciseViewSize: CGSize = CGSize(width: 250, height: 250)
+    @State private var memoSizeRect: CGSize = CGSize(width: 30, height: 30)
+    
+    @State private var startDragLocation: CGPoint? = nil
+    
+    @State private var rectStartDragLocation: CGPoint? = nil
+    @State private var startSize: CGSize = .zero
+    
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -44,10 +61,14 @@ struct OverView: View {
                     // progressStatus
                     ProgressStatusView(currentProgress: $overViewModel.currentProgress)
                 } else if !overViewModel.thumbnails.isEmpty {
-                    ZStack(alignment:.top) {
+                    ZStack {
                         OverViewImageView(visionStart: $visionStart,
                                           overViewModel: overViewModel)
                         StatIndexView
+                      
+                        if excerciseBool {
+                            ExcerciseSizeView
+                        }
                     }
                     bottomScrollView
                 }
@@ -77,8 +98,13 @@ struct OverView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
+                    ExcerciseViewButton
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
                     goToNextPageButton
                 }
+                
             }
             .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
@@ -131,6 +157,7 @@ struct OverView: View {
         }
     }
     
+
     private var StatIndexView: some View {
         HStack {
             if overViewModel.isTotalStatsViewMode {
@@ -145,6 +172,252 @@ struct OverView: View {
         }
     }
     
+    func clamp<T: Comparable>(_ value: T, lower: T, upper: T) -> T {
+        return min(max(value, lower), upper)
+    }
+    
+    private var progressStatus: some View {
+        VStack(spacing: 20) {
+            ProgressView(value: overViewModel.currentProgress)
+                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+            
+            Text("파일을 로딩 중 입니다.")
+            
+            Text("\(Int(overViewModel.currentProgress * 100))%") // 퍼센트로 변환하여 표시
+        }
+        .background(.white)
+    }
+    
+    private var ExcerciseSizeView: some View {
+        
+        ZStack {
+            ExerciseView(excerciseBool: $excerciseBool)
+                .frame(width: exerciseViewSize.width ,
+                       height: exerciseViewSize.height  )
+                .position(x: dragLocation.x, y: dragLocation.y)
+            
+            
+            // ---------- Mark : 크기조절 박스 - 왼쪽   ----------------
+            
+            // 메모장 사이즈 조절상자 (왼쪽상단)
+            Rectangle()
+                .fill(.clear)
+                .overlay(
+                    Image("UpLeftSizeLine")
+                        .resizable()
+                )
+                .frame(width: memoSizeRect.width , height: memoSizeRect.height )
+            // (시작지점) - (메모장 크기 /2 ) +- (메모장 사이즈 조절상자 크기 /2)
+            // (시작지점) - (왼쪽에 붙여해서 메모장 크기 /2 를 +-해주고) + ( 중심이 라인에 걸쳐있지 않게 다시 메모장 크기 조절상자의 크기 /2 만큼 +-로 조정해서 연습장내부로 삽입)
+                .position(
+                    //                        x: dragLocation.x + (exerciseViewSize.width  / 2) - (memoSizeRect.width / 2) ,
+                    x: dragLocation.x - (exerciseViewSize.width  / 2) + (memoSizeRect.width / 2) ,
+                    y: dragLocation.y - (exerciseViewSize.height / 2) + (memoSizeRect.height / 2)
+                )
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            if rectStartDragLocation == nil {
+                                // 드래그 시작 위치와 현재 크기 저장
+                                rectStartDragLocation = value.startLocation
+                                startSize = exerciseViewSize
+                            }
+                            
+                            // 드래그 거리 계산
+                            let dragDistanceX = value.location.x - rectStartDragLocation!.x
+                            let dragDistanceY = value.location.y - rectStartDragLocation!.y
+                            
+                            
+                            // 새 크기 계산 및 업데이트
+                            let newWidth = max(startSize.width - dragDistanceX, 0)
+                            let newHeight = max(startSize.height - dragDistanceY, 0)
+                            
+                            exerciseViewSize = CGSize(width: max(250,min(newWidth, 1000)),
+                                                      height: max(250,min(newHeight, 1000)))
+                            
+                        }
+                        .onEnded { _ in
+                            // 드래그가 끝나면 시작 위치 및 크기 초기화
+                            rectStartDragLocation = nil
+                            startSize = .zero
+                        }
+                )
+            
+            
+            // 메모장 사이즈 조절상자 (왼쪽하단)
+            Rectangle()
+                .fill(.clear)
+                .overlay(
+                    Image("DownLeftSizeLine")
+                        .resizable()
+                )
+                .frame(width: memoSizeRect.width , height: memoSizeRect.height )
+            // (시작지점) - (메모장 크기 /2 ) +- (메모장 사이즈 조절상자 크기 /2)
+            // (시작지점) - (왼쪽에 붙여해서 메모장 크기 /2 를 +-해주고) + ( 중심이 라인에 걸쳐있지 않게 다시 메모장 크기 조절상자의 크기 /2 만큼 +-로 조정해서 연습장내부로 삽입)
+                .position(x: dragLocation.x - (exerciseViewSize.width  / 2) + (memoSizeRect.width / 2) ,
+                          y: dragLocation.y + (exerciseViewSize.height  / 2) - (memoSizeRect.height / 2) )
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            if rectStartDragLocation == nil {
+                                // 드래그 시작 위치와 현재 크기 저장
+                                rectStartDragLocation = value.startLocation
+                                startSize = exerciseViewSize
+                            }
+                            
+                            // 드래그 거리 계산
+                            let dragDistanceX = value.location.x - rectStartDragLocation!.x
+                            let dragDistanceY = value.location.y - rectStartDragLocation!.y
+                            
+                            // 새 크기 계산 및 업데이트
+                            let newWidth = max(startSize.width - dragDistanceX, 0)
+                            let newHeight = max(startSize.height + dragDistanceY, 0)
+                            
+                            
+                            
+                            exerciseViewSize = CGSize(width: max(250,min(newWidth, 1000)),
+                                                      height: max(250,min(newHeight, 1000)))
+                            
+                        }
+                        .onEnded { _ in
+                            // 드래그가 끝나면 시작 위치 및 크기 초기화
+                            rectStartDragLocation = nil
+                            startSize = .zero
+                        }
+                )
+       
+            
+            
+            
+            // 메모장 사이즈 조절상자 (오른쪽상단)
+            Rectangle()
+                .fill(.clear)
+                .overlay(
+                    Image("UpRightSizeLine")
+                        .resizable()
+                )
+                .frame(width: memoSizeRect.width , height: memoSizeRect.height )
+            // (시작지점) - (메모장 크기 /2 ) +- (메모장 사이즈 조절상자 크기 /2)
+            // (시작지점) - (왼쪽에 붙여해서 메모장 크기 /2 를 +-해주고) + ( 중심이 라인에 걸쳐있지 않게 다시 메모장 크기 조절상자의 크기 /2 만큼 +-로 조정해서 연습장내부로 삽입)
+                .position(x: dragLocation.x + (exerciseViewSize.width  / 2) - (memoSizeRect.width / 2) ,
+                          y: dragLocation.y - (exerciseViewSize.height / 2) + (memoSizeRect.height / 2)
+                )
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            if rectStartDragLocation == nil {
+                                // 드래그 시작 위치와 현재 크기 저장
+                                rectStartDragLocation = value.startLocation
+                                startSize = exerciseViewSize
+                            }
+                            
+                            // 드래그 거리 계산
+                            let dragDistanceX = value.location.x - rectStartDragLocation!.x
+                            let dragDistanceY = value.location.y - rectStartDragLocation!.y
+                            
+                            
+                            // 새 크기 계산 및 업데이트
+                            let newWidth = max(startSize.width + dragDistanceX, 0)
+                            let newHeight = max(startSize.height - dragDistanceY, 0)
+                            
+                            exerciseViewSize = CGSize(width: max(250,min(newWidth, 1000)),
+                                                      height: max(250,min(newHeight, 1000)))
+                            
+                        }
+                        .onEnded { _ in
+                            // 드래그가 끝나면 시작 위치 및 크기 초기화
+                            rectStartDragLocation = nil
+                            startSize = .zero
+                        }
+                )
+            
+            // 메모장 사이즈 조절상자 (오른쪽하단)
+            Rectangle()
+                .fill(.clear)
+                .overlay(
+                    Image("DownRightSizeLine")
+                        .resizable()
+                )
+                .frame(width: memoSizeRect.width , height: memoSizeRect.height )
+            // (시작지점) - (메모장 크기 /2 ) +- (메모장 사이즈 조절상자 크기 /2)
+            // (시작지점) - (왼쪽에 붙여해서 메모장 크기 /2 를 +-해주고) + ( 중심이 라인에 걸쳐있지 않게 다시 메모장 크기 조절상자의 크기 /2 만큼 +-로 조정해서 연습장내부로 삽입)
+                .position(x: dragLocation.x + (exerciseViewSize.width  / 2) - (memoSizeRect.width / 2) ,
+                          y: dragLocation.y + (exerciseViewSize.height  / 2) - (memoSizeRect.height / 2) )
+            
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            if rectStartDragLocation == nil {
+                                // 드래그 시작 위치와 현재 크기 저장
+                                rectStartDragLocation = value.startLocation
+                                startSize = exerciseViewSize
+                            }
+                            
+                            // 드래그 거리 계산
+                            let dragDistanceX = value.location.x - rectStartDragLocation!.x
+                            let dragDistanceY = value.location.y - rectStartDragLocation!.y
+                            
+                            
+                            // 새 크기 계산 및 업데이트
+                            let newWidth = max(startSize.width + dragDistanceX, 0)
+                            let newHeight = max(startSize.height + dragDistanceY, 0)
+                            
+                            exerciseViewSize = CGSize(width: max(250,min(newWidth, 1000)),
+                                                      height: max(250,min(newHeight, 1000)))
+                            
+                        }
+                        .onEnded { _ in
+                            // 드래그가 끝나면 시작 위치 및 크기 초기화
+                            rectStartDragLocation = nil
+                            startSize = .zero
+                        }
+                )
+        }
+        
+        .gesture(
+            DragGesture()
+                .onChanged { value in
+                    
+                    if startDragLocation == nil {
+                        // 드래그 시작 위치 저장
+                        startDragLocation = dragLocation
+                    }
+                    
+                    // 드래그 시작 위치와 현재 위치의 차이를 계산하여 위치 업데이트
+                    let dragOffset = CGSize(width: value.location.x - value.startLocation.x,
+                                            height: value.location.y - value.startLocation.y)
+//                    dragLocation = CGPoint(x: startDragLocation!.x + dragOffset.width,
+//                                           y: startDragLocation!.y + dragOffset.height)
+                    
+                    // 화면의 경계 값을 계산
+                    let screenWidth = UIScreen.main.bounds.width
+                    let screenHeight = UIScreen.main.bounds.height
+                    // 이건 bottomScrollView의 Height이 직접 스크린* 0.11 로 주어져 있음
+                    // 근데 0.11하면 약간 더 내려가서 0.18로 좀 더 높게 작업
+                    let bottomScrollViewHeight = UIScreen.main.bounds.height * 0.18
+                    
+                    
+                    
+                    // 화면 경계 내에서 ExerciseView의 중심이 이동하도록 제한
+                    let newX = clamp(startDragLocation!.x + dragOffset.width, lower: exerciseViewSize.width / 2, upper: screenWidth - exerciseViewSize.width / 2)
+                    let newY = clamp(startDragLocation!.y + dragOffset.height,
+                                     lower: exerciseViewSize.height / 2,
+                                     upper: screenHeight - bottomScrollViewHeight - exerciseViewSize.height / 2  )
+                    
+                    dragLocation = CGPoint(x: newX, y: newY)
+                    
+                    
+                }
+                .onEnded{ _ in
+                    // 드래그가 끝나면 시작 위치를 초기화
+                    startDragLocation = nil
+                }
+        )
+        
+        
+        
+    }
+   
     private var bottomScrollView: some View {
         ScrollView(.horizontal, showsIndicators: true) {
             Spacer().frame(height: 10)
@@ -320,6 +593,20 @@ struct OverView: View {
             }
         }
     }
+    
+    
+    private var ExcerciseViewButton: some View {
+        
+//        Toggle("", isOn: $excerciseBool)
+//            .toggleStyle(SwitchToggleStyle())
+        Toggle(isOn: $excerciseBool, label: {
+            Text("연습장")
+        })
+        .toggleStyle(SwitchToggleStyle())
+            
+        .disabled(disableReadToTestButton)
+    }
+    
     
     private var goToNextPageButton: some View {
         
