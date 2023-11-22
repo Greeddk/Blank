@@ -61,7 +61,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
+            .toolbarBackground(Color.customToolbarBackgroundColor , for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationTitle("홈")
             .navigationBarTitleDisplayMode(.inline)
@@ -179,7 +179,7 @@ struct HomeView: View {
         }
         
         return ScrollView {
-            LazyVGrid(columns: columns) {
+            LazyVGrid(columns: columns, alignment: .center) {
                 if !homeViewModel.isLocatedInRootDirectory {
                     VStack {
                         FolderThumbnailView(isRoot: true)

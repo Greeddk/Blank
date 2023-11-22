@@ -40,17 +40,18 @@ struct TestPageView: View {
                 }
             }
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
+            .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
             .navigationTitle("\(sessionNum)회차 시험지")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
+            .background(Color.customViewBackgroundColor)
         }
         .navigationDestination(isPresented: $goToResultPage) {
             ResultPageView(scoringViewModel: scoringViewModel)
             
         }
         .ignoresSafeArea(.keyboard)
-        .background(Color(.systemGray4))
+        
         
     }
     

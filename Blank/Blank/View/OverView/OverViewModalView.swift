@@ -88,7 +88,7 @@ struct OverViewModalView: View {
                 }
             }
             .padding()
-            .background(Color(.systemGray4))
+            .background(Color.customViewBackgroundColor)
             .toolbar {
                 Button(action: {
                     dismiss()
@@ -97,7 +97,7 @@ struct OverViewModalView: View {
                 })
                 .buttonStyle(.borderedProminent)
             }
-            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
+            .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         }
         

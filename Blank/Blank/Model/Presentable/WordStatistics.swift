@@ -12,7 +12,7 @@ struct WordStatistics: Codable, Identifiable {
     
     var correctSessionCount: Int
     var totalSessionCount: Int
-    var isSelected = false
+    var isSelected: Bool = false
     
     var isAllCorrect: Bool {
         correctSessionCount == totalSessionCount

@@ -61,11 +61,11 @@ struct OverView: View {
                     // progressStatus
                     ProgressStatusView(currentProgress: $overViewModel.currentProgress)
                 } else if !overViewModel.thumbnails.isEmpty {
-                    ZStack{
-       
-                            OverViewImageView(visionStart: $visionStart,
+                    ZStack(alignment: .top) {
+                        OverViewImageView(visionStart: $visionStart,
                                           overViewModel: overViewModel)
-                        
+                        StatIndexView
+                      
                         if excerciseBool {
                             ExcerciseSizeView
                         }
@@ -73,7 +73,7 @@ struct OverView: View {
                     bottomScrollView
                 }
             }
-            .background(Color(.systemGray4))
+            .background(Color.customViewBackgroundColor)
             .onAppear {
                 overViewModel.loadThumbnails()
                 setImagesAndData()
@@ -106,7 +106,7 @@ struct OverView: View {
                 }
                 
             }
-            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
+            .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden()
             .ignoresSafeArea(.keyboard)
@@ -127,7 +127,7 @@ struct OverView: View {
                 let wordSelectViewModel = WordSelectViewModel(page: page, basicWords: overViewModel.basicWords)
                 
                 TestPageView(
-                    sessionNum: overViewModel.sessions.count + 1, 
+                    sessionNum: overViewModel.sessions.count + 1,
                     scoringViewModel: .init(
                         page: wordSelectViewModel.page,
                         session: wordSelectViewModel.session,
@@ -154,6 +154,21 @@ struct OverView: View {
                  새로운 빈칸을 만들거나,
                  지난 회차 시험을 볼 수 있습니다.
                  """)
+        }
+    }
+    
+
+    private var StatIndexView: some View {
+        HStack {
+            if overViewModel.isTotalStatsViewMode {
+                let screenWidth = UIScreen.main.bounds.width
+                let screenHeight = UIScreen.main.bounds.height
+                Spacer()
+                StatModeIndexView()
+                    .cornerRadius(20)
+                    .frame(width: screenWidth / 5, height: screenHeight / 8)
+                    
+            }
         }
     }
     
@@ -270,14 +285,8 @@ struct OverView: View {
                             startSize = .zero
                         }
                 )
+       
             
-            
-            
-            
-            
-            
-            
-            // ---------- Mark : 오른쪽  ----------------
             
             
             // 메모장 사이즈 조절상자 (오른쪽상단)
@@ -443,6 +452,9 @@ struct OverView: View {
                     DispatchQueue.main.async {
                         proxy.scrollTo(overViewModel.currentPage - 1, anchor: .center)
                     }
+                    seeResult = false
+                    overViewModel.isTotalStatsViewMode = false
+                    clearCorrectWordArea()
                 }
             }
         }
@@ -530,14 +542,13 @@ struct OverView: View {
             } else {
                 Menu {
                     // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
-                    //            Button("전체통계") {
-                    //                overViewModel.generateTotalStatistics()
-                    //                overViewModel.isTotalStatsViewMode = true
-                    //                seeResult = false
-                    //                selectedSessionIndex = nil
-                    //
-                    //            }
-                    //            .disabled(overViewModel.sessions.isEmpty)
+                    Button("전체통계") {
+                        overViewModel.generateTotalStatistics()
+                        overViewModel.isTotalStatsViewMode = true
+                        seeResult = false
+                        selectedSessionIndex = nil
+                    }
+                    .disabled(overViewModel.sessions.isEmpty)
                     
                     ForEach(overViewModel.sessions.indices, id: \.self) { index in
                         let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"

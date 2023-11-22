@@ -21,6 +21,7 @@ class OverViewModel: ObservableObject {
     
     /// OverView 내에 있는 PinchZoom-ImageView에서 받은 빨간 박스(Basic Words)들을 저장합니다.
     var basicWords: [BasicWord] = []
+    var allWords: [Word] = []
     @Published var selectedPage: Page?
     @Published var sessions: [Session] = []
     @Published var statsOfSessions: [UUID: SessionStatistics] = [:]
@@ -187,7 +188,7 @@ class OverViewModel: ObservableObject {
     
     func generateTotalStatistics() {
         totalStats = .init()
-        let allWords = wordsOfSession.values.flatMap { $0 }
+        allWords = wordsOfSession.values.flatMap { $0 }
         
         allWords.forEach { word in
             totalStats[word.rect, default: .init(id: word.rect, correctSessionCount: 0, totalSessionCount: 0)].correctSessionCount += (word.isCorrect ? 1 : 0)
