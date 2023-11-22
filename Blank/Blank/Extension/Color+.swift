@@ -13,13 +13,15 @@ extension Color {
     static let wrongColor = Color(hex: "FDA5A5")
     static let flippedAreaColor = Color(hex: "EEEEEE")
     // 오버뷰에서 전체통계에 사용되는 컬러
-    static let blue1 = Color(hex: "E1F5FE")
-    static let blue2 = Color(hex: "81D4FA")
-    static let blue3 = Color(hex: "049BE5")
-    static let blue4 = Color(hex: "00579B")
+    static let blue0 = Color.white //   정답률 : 80~100 일때 컬러
+    static let blue1 = Color(hex: "E1F5FE") // 정답률 : 60~80 일때 컬러
+    static let blue2 = Color(hex: "81D4FA") // 정답률 : 40~60 일때 컬러
+    static let blue3 = Color(hex: "049BE5") // 정답률 : 20~40 일때 컬러
+    static let blue4 = Color(hex: "00579B") // 정답률 : 0~20 일때 컬러
     
-    static let customNavigationColor = Color.blue.opacity(0.2)
-    static let customBackgroundColor = Color(.systemGray4)
+    static let customToolbarBackgroundColor = Color.blue.opacity(0.2)
+    static let customViewBackgroundColor = Color(.systemGray4)
+    static let statViewBackgroundColor = Color(.systemGray2).opacity(0.6)
 
 }
 

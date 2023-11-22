@@ -44,7 +44,7 @@ struct OverView: View {
                     // progressStatus
                     ProgressStatusView(currentProgress: $overViewModel.currentProgress)
                 } else if !overViewModel.thumbnails.isEmpty {
-                    ZStack(alignment:.topTrailing) {
+                    ZStack(alignment:.top) {
                         OverViewImageView(visionStart: $visionStart,
                                           overViewModel: overViewModel)
                         StatIndexView
@@ -52,7 +52,7 @@ struct OverView: View {
                     bottomScrollView
                 }
             }
-            .background(Color.customBackgroundColor)
+            .background(Color.customViewBackgroundColor)
             .onAppear {
                 overViewModel.loadThumbnails()
                 setImagesAndData()
@@ -80,7 +80,7 @@ struct OverView: View {
                     goToNextPageButton
                 }
             }
-            .toolbarBackground(Color.customNavigationColor, for: .navigationBar)
+            .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden()
             .ignoresSafeArea(.keyboard)
@@ -134,10 +134,12 @@ struct OverView: View {
     private var StatIndexView: some View {
         HStack {
             if overViewModel.isTotalStatsViewMode {
+                let screenWidth = UIScreen.main.bounds.width
+                let screenHeight = UIScreen.main.bounds.height
                 Spacer()
                 StatModeIndexView()
                     .cornerRadius(20)
-                    .frame(minWidth: 150, maxWidth: 200, minHeight: 100, maxHeight: 150)
+                    .frame(width: screenWidth / 5, height: screenHeight / 8)
                     
             }
         }

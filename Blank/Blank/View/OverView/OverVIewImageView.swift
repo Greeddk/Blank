@@ -113,7 +113,7 @@ struct OverViewImageView: View {
     func getColor(rate: Double) -> Color {
         switch rate {
         case 0.8...:
-            return Color.white
+            return Color.blue0
         case 0.6..<0.8:
             return Color.blue1
         case 0.4..<0.6:

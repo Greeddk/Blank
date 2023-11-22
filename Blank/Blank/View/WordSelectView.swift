@@ -66,13 +66,13 @@ struct WordSelectView: View {
                     
                 }
             }
-            .toolbarBackground(Color.customNavigationColor, for: .navigationBar)
+            .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden(true)
             .navigationTitle("단어 선택")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .background(Color.customBackgroundColor)
+        .background(Color.customViewBackgroundColor)
         .navigationDestination(isPresented: $goToOCRView) {
             OCREditView(sessionNum: sessionNum, wordSelectViewModel: wordSelectViewModel)
         }

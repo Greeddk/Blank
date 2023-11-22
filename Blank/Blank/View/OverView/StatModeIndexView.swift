@@ -12,6 +12,7 @@ struct StatModeIndexView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
+            Spacer()
             Text("통계 정답률 구분")
                 .foregroundColor(.black)
             
@@ -26,9 +27,10 @@ struct StatModeIndexView: View {
                         .font(.caption2)
                 }
             }
+            Spacer()
         }
         .frame(width: 150)
-        .background(Color.customNavigationColor)
+        .background(Color.statViewBackgroundColor)
     }
     
     func getColor(rate: Double) -> Color {

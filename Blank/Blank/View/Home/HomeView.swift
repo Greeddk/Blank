@@ -61,7 +61,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .toolbarBackground(Color.customNavigationColor , for: .navigationBar)
+            .toolbarBackground(Color.customToolbarBackgroundColor , for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationTitle("홈")
             .navigationBarTitleDisplayMode(.inline)

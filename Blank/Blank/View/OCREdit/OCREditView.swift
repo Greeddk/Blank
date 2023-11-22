@@ -50,7 +50,7 @@ struct OCREditView: View {
                 }
             }
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color.customNavigationColor, for: .navigationBar)
+            .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
             .navigationTitle("오타 수정")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
@@ -68,7 +68,7 @@ struct OCREditView: View {
             )
         }
         .ignoresSafeArea(.keyboard)
-        .background(Color.customBackgroundColor)
+        .background(Color.customViewBackgroundColor)
         .popup(isPresented: $showingAlert) {
             HStack {
                 Image("pencil.and.scribble")

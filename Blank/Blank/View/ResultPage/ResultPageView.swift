@@ -36,12 +36,12 @@ struct ResultPageView: View {
                 }
             }
             .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color.customNavigationColor, for: .navigationBar)
+            .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
             .navigationTitle("결과")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
-        .background(Color.customBackgroundColor)
+        .background(Color.customViewBackgroundColor)
         .onAppear {
             scoringViewModel.score()
             scoringViewModel.saveSessionToDatabase()
