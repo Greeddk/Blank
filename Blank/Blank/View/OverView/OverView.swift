@@ -52,7 +52,7 @@ struct OverView: View {
                     bottomScrollView
                 }
             }
-            .background(Color(.systemGray4))
+            .background(Color.customBackgroundColor)
             .onAppear {
                 overViewModel.loadThumbnails()
                 setImagesAndData()
@@ -80,7 +80,7 @@ struct OverView: View {
                     goToNextPageButton
                 }
             }
-            .toolbarBackground(.blue.opacity(0.2), for: .navigationBar)
+            .toolbarBackground(Color.customNavigationColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden()
             .ignoresSafeArea(.keyboard)
@@ -136,8 +136,9 @@ struct OverView: View {
             if overViewModel.isTotalStatsViewMode {
                 Spacer()
                 StatModeIndexView()
-                    .frame(minWidth: 150, maxWidth: 200, minHeight: 100, maxHeight: 150)
                     .cornerRadius(20)
+                    .frame(minWidth: 150, maxWidth: 200, minHeight: 100, maxHeight: 150)
+                    
             }
         }
     }

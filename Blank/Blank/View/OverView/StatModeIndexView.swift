@@ -28,7 +28,7 @@ struct StatModeIndexView: View {
             }
         }
         .frame(width: 150)
-        .background(.white.opacity(0.5))
+        .background(Color.customNavigationColor)
     }
     
     func getColor(rate: Double) -> Color {
