@@ -70,25 +70,25 @@ struct TestPageImageView: View {
         
         switch deviceModel {
         case "iPad Pro (12.9-inch) (6th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)) * zoomScale
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))
         case "iPad Pro (11-inch) (4th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.0 )  + (rect.origin.x * scaleY)) * zoomScale
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.0 )  + (rect.origin.x * scaleY))
         case "iPad (10th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY)) * zoomScale
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY))
         case "iPad Air (5th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY)) * zoomScale
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY))
         case "iPad mini (6th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.8 )  + (rect.origin.x * scaleY)) * zoomScale
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.8 )  + (rect.origin.x * scaleY))
         default:
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY)) * zoomScale
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))
         }
         
         
         return CGRect(
             x: deviceX  ,
-            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY * zoomScale ,
-            width: rect.width * scaleY * zoomScale ,
-            height : rect.height * scaleY * zoomScale
+            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY,
+            width: rect.width * scaleY ,
+            height : rect.height * scaleY
         )
     }
     

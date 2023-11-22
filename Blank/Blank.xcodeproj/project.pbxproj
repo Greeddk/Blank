@@ -218,6 +218,7 @@
 				42ED60C52ADE7EDB0043AF2F /* HomeView.swift */,
 				449CB1D92ADED6C10086758A /* DocumentPickerRepresentedView.swift */,
 				449CB1EB2ADFAF560086758A /* PhotoPickerRepresentedView.swift */,
+				42ED60D72ADE7F910043AF2F /* PDFThumbnailView.swift */,
 				449F7A9B2B0610CB003425AF /* FolderThumbnailView.swift */,
 				4482896D2B09117B00F5912E /* SelectFolderView.swift */,
 			);
@@ -373,7 +374,6 @@
 				449F7A9D2B06213E003425AF /* Common */,
 				44F30BE02AE5793700B67014 /* Persistence */,
 				449CB1D72ADED6920086758A /* Home */,
-				42ED60D72ADE7F910043AF2F /* PDFThumbnailView.swift */,
 				EBEB72612AE0BC8500316D66 /* ImageView.swift */,
 				AC2851782AE7291100C70F4F /* OverView */,
 				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,

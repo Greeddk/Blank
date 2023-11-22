@@ -179,7 +179,7 @@ struct HomeView: View {
         }
         
         return ScrollView {
-            LazyVGrid(columns: columns) {
+            LazyVGrid(columns: columns, alignment: .center) {
                 if !homeViewModel.isLocatedInRootDirectory {
                     VStack {
                         FolderThumbnailView(isRoot: true)
