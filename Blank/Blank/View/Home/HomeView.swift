@@ -27,7 +27,7 @@ struct HomeView: View {
     @State private var isPopToHomeActive = false
     @State private var showCreateNewFolder = false
     @State private var showMoveFiles = false
-
+    
     @StateObject var homeViewModel: HomeViewModel = .init()
     
     // 새 PDF 생성 관련
@@ -50,7 +50,7 @@ struct HomeView: View {
             )
             .toolbar {
                 ToolbarItem(placement: .navigation) {
-                    editBtn
+                    editButton
                 }
                 
                 ToolbarItem {
@@ -165,13 +165,13 @@ struct HomeView: View {
     }
     
     private var thumbGridView: some View {
-        let item = GridItem(.adaptive(minimum: 120, maximum: 200), spacing: 30)
+        let item = GridItem(.adaptive(minimum: 120, maximum: 180), spacing: 30)
         let screenWidth = UIScreen.main.bounds.size.width
-        var columns = Array(repeating: item, count: 3)
-
+        var columns = Array(repeating: item, count: 4)
+        
         switch screenWidth {
-//        case 0..<745: //mini: 744
-//            columns = Array(repeating: item, count: 3)
+            //        case 0..<745: //mini: 744
+            //            columns = Array(repeating: item, count: 3)
         case 0..<834: // 10.2, 10.5
             columns = Array(repeating: item, count: 4)
         default: //11: 835   12
@@ -179,7 +179,7 @@ struct HomeView: View {
         }
         
         return ScrollView {
-            LazyVGrid(columns: columns, alignment: .center) {
+            LazyVGrid(columns: columns) {
                 if !homeViewModel.isLocatedInRootDirectory {
                     VStack {
                         FolderThumbnailView(isRoot: true)
@@ -188,6 +188,8 @@ struct HomeView: View {
                         homeViewModel.fetchFileListFromParentDirectory()
                     }
                 }
+                
+                addFileButton
                 
                 ForEach(homeViewModel.filteredFileList, id: \.id) { fileComponent in
                     if let file = fileComponent as? File {
@@ -208,8 +210,8 @@ struct HomeView: View {
     @ViewBuilder private func pdfThumbnail(_ file: File) -> some View {
         NavigationLink(
             destination: mode == .normal
-                       ? OverView(overViewModel: OverViewModel(currentFile: file))
-                       : nil
+            ? OverView(overViewModel: OverViewModel(currentFile: file))
+            : nil
         ) {
             ZStack(alignment:.topTrailing) {
                 PDFThumbnailView(file: file)
@@ -261,6 +263,36 @@ struct HomeView: View {
             .offset(x: -20, y: 10)
     }
     
+    private var addFileButton: some View {
+        Menu {
+            Button("새 폴더") {
+                showCreateNewFolder.toggle()
+            }
+            Button("새 pdf 추가") {
+                showFilePicker = true
+            }
+            Button("새 이미지 추가") {
+                showImagePicker = true
+            }
+        } label: {
+            VStack(spacing: 15) {
+                Spacer().frame(height: 5)
+                ZStack(alignment: .center) {
+                    Rectangle()
+                        .inset(by: 1.5)
+                        .stroke(Color.blue2, style: StrokeStyle(lineWidth: 3, dash:  [6,6]))
+                        .frame(width: 110, height: 150)
+                    Image(systemName: "plus.app")
+                        .font(.largeTitle)
+                        .foregroundColor(Color.blue2)
+                }
+                Text("신규..")
+                Spacer()
+            }
+        }
+        
+    }
+    
     private var fileBtnNormalMode: some View {
         Menu {
             Button {
@@ -297,7 +329,7 @@ struct HomeView: View {
         }
     }
     
-    private var editBtn: some View {
+    private var editButton: some View {
         Button {
             mode = mode.toggle
             if mode == .normal {
@@ -321,7 +353,7 @@ extension HomeView {
                 setAllowCreateNewPDF(false)
                 return
             }
-
+            
             try pdfData.write(to: targetDirectory.appendingPathComponent("\(newPDFFileName).pdf"))
             homeViewModel.fetchDocumentFileList()
             
