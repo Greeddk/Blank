@@ -17,12 +17,13 @@ struct SelectFolderView: View {
             List {
                 OutlineGroup(viewModel.directoryList, children: \.subfolder) { directory in
                     ZStack {
-                        Label(directory.fileName, systemImage: "folder.fill")
+                        Label(directory.fileName == "Documents" ? "홈" : directory.fileName, systemImage: "folder.fill")
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                             .background(viewModel.selectedFolder == directory ? .cyan.opacity(0.22) : .clear)
                             .onTapGesture {
                                 viewModel.selectedFolder = directory
                             }
+
                     }
                 }
             }

@@ -63,7 +63,7 @@ struct HomeView: View {
             }
             .toolbarBackground(Color.customToolbarBackgroundColor , for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .navigationTitle("홈")
+            .navigationBarTitle(homeViewModel.currentFolder?.fileName ?? "홈")
             .navigationBarTitleDisplayMode(.inline)
             .padding()
             .navigationBarBackButtonHidden(true)
@@ -299,25 +299,6 @@ struct HomeView: View {
 
         
     }
-    
-//    private var fileBtnNormalMode: some View {
-//        Menu {
-//            Button {
-//                showFilePicker = true
-//            } label: {
-//                Text("파일 보관함")
-//            }
-//            Button {
-//                showImagePicker = true
-//            } label: {
-//                Text("사진 보관함")
-//            }
-//        } label: {
-//            // Text("새 파일")
-//            Text("파일 가져오기")
-//        }
-//        
-//    }
     
     private var fileBtnEditMode: some View {
         HStack {

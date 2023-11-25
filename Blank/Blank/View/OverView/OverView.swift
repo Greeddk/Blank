@@ -467,7 +467,7 @@ struct OverView: View {
             showPopover = true
         } label: {
             HStack {
-                Text("\(overViewModel.currentFile.fileName)")
+                Text("\((URL(fileURLWithPath: overViewModel.currentFile.fileName).deletingPathExtension().lastPathComponent))")
                 Image(systemName: "chevron.down")
             }
             .foregroundColor(.black)

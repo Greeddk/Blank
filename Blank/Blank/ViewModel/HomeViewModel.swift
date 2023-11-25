@@ -12,6 +12,7 @@ class HomeViewModel: ObservableObject {
     @Published var selectedFileList: Set<File> = []
     @Published var selectedFolderList: Set<Folder> = []
     @Published var searchText = ""
+    @Published var currentFolder: Folder?
     
     @Published private(set) var currentDirectoryURL: URL?
     
@@ -52,6 +53,10 @@ class HomeViewModel: ObservableObject {
     func fetchDocumentFileList(from targetDirectoryURL: URL) {
         do {
             currentDirectoryURL = targetDirectoryURL
+
+            // 현재 폴더 설정
+            let folderName = targetDirectoryURL.lastPathComponent == "Documents" ? "홈" : targetDirectoryURL.lastPathComponent
+            currentFolder = Folder(id: UUID(), fileURL: targetDirectoryURL, fileName: folderName)
             
             let directoryContents = try FileManager.default.contentsOfDirectory(
                 at: targetDirectoryURL,
@@ -76,6 +81,7 @@ class HomeViewModel: ObservableObject {
             print(error)
         }
     }
+
     
     /// 파일 목록을 가져와서 [File] 형태로 저장
     func fetchDocumentFileList(_ subpath: String? = nil) {
