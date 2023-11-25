@@ -18,10 +18,12 @@ struct PDFThumbnailView: View {
                 .frame(height: 140)
             Spacer().frame(height: 15)
             Text("\((URL(fileURLWithPath: file.fileName).deletingPathExtension().lastPathComponent))")
-                .font(.title3)
+                .font(.headline)
                 .fontWeight(.bold)
             Text("전체 페이지수: \(file.totalPageCount)")
+                .font(.footnote)
             Text("시험 본 페이지: \(file.solvedPageCount)")
+                .font(.footnote)
             Spacer()
         }
         .padding()
@@ -42,5 +44,5 @@ extension PDFThumbnailView {
 }
 
 #Preview {
-    PDFThumbnailView(file: DUMMY_FILE)
+    HomeView()
 }

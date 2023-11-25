@@ -55,7 +55,7 @@ struct HomeView: View {
                 
                 ToolbarItem {
                     if mode == .normal {
-                        fileBtnNormalMode
+//                        fileBtnNormalMode
                     } else {
                         fileBtnEditMode
                     }
@@ -300,31 +300,29 @@ struct HomeView: View {
         
     }
     
-    private var fileBtnNormalMode: some View {
-        Menu {
-            Button {
-                showFilePicker = true
-            } label: {
-                Text("파일 보관함")
-            }
-            Button {
-                showImagePicker = true
-            } label: {
-                Text("사진 보관함")
-            }
-        } label: {
-            // Text("새 파일")
-            Text("파일 가져오기")
-        }
-    }
+//    private var fileBtnNormalMode: some View {
+//        Menu {
+//            Button {
+//                showFilePicker = true
+//            } label: {
+//                Text("파일 보관함")
+//            }
+//            Button {
+//                showImagePicker = true
+//            } label: {
+//                Text("사진 보관함")
+//            }
+//        } label: {
+//            // Text("새 파일")
+//            Text("파일 가져오기")
+//        }
+//        
+//    }
     
     private var fileBtnEditMode: some View {
         HStack {
             Button("이동") {
                 showMoveFiles.toggle()
-            }
-            Button("새 폴더") {
-                showCreateNewFolder.toggle()
             }
             
             Button {

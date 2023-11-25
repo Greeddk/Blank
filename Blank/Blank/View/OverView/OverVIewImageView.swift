@@ -47,7 +47,7 @@ struct OverViewImageView: View {
                                                 .resizable()
                                                 .shadow(radius: 1)
                                                 .opacity(0.7)
-                                                .frame(width: proxy.size.width / 30, height: proxy.size.height / 40)
+                                                .frame(width: 50, height: 45)
                                                 .overlay(StatsText(stat: stat, proxy: proxy))
                                                 .position(x: adjustRect(key, in: proxy).midX, y: adjustRect(key, in: proxy).origin.y + 45 - zoomScale * 5)
                                         }
@@ -145,9 +145,9 @@ struct OverViewImageView: View {
         var body: some View {
             VStack(spacing: 0) {
                 Text("\(stat.correctSessionCount)/\(stat.totalSessionCount)")
-                    .font(.system(size: proxy.size.height / 100))
+                    .font(.system(size: 15))
                 Text("(\(stat.correctRate.percentageTextValue(decimalPlaces: 0)))")
-                    .font(.system(size: proxy.size.height / 150))
+                    .font(.system(size: 12))
             }
         }
     }
