@@ -27,7 +27,9 @@ struct WordSelectView: View {
         NavigationStack {
             VStack {
                 wordSelectImage
-                Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
+                
+//                Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
+                
                 PencilDobuleTapInteractionView {
                     // 이 클로저는 pencil 더블 탭 시 실행
                     self.isSelectArea.toggle()
@@ -145,7 +147,7 @@ struct WordSelectView: View {
     
 }
 
-
-#Preview {
-    HomeView()
-}
+//
+//#Preview {
+//    HomeView()
+//}

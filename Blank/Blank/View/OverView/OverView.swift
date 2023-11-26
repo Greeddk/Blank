@@ -622,6 +622,16 @@ struct OverView: View {
             } else {
                 goToNextPage = true
             }
+            
+            var deviceModel = UIDevice.current.name
+            
+            //
+            let screenSize = UIScreen.main.bounds.size
+            let screenWidth = screenSize.width
+            let screenHeight = screenSize.height
+            
+            print(screenSize, screenWidth, screenHeight)
+            
         } label: {
             Text("빈칸 만들기")
                 .fontWeight(.bold)

@@ -155,47 +155,44 @@ struct ImageView: View {
         
         // Image 뷰 너비와 UIImage 너비 사이의 비율
         let scaleY: CGFloat = geometry.size.height / imageSize.height
-        //        let scaleX: CGFloat = geometry.size.width / imageSize.width
         
-        //        print("----------------")
-        //        print("imageSize.width: \(imageSize.width) , imageSize.height: \(imageSize.height)" )
-        //        print("geometry.size.width: \(geometry.size.width) , geometry.size.height: \(geometry.size.width)")
-        //        print("scaleX: \(scaleX) , scaleY: \(scaleY) , scale: \(zoomScale)")
-        //        print("rect.origin.x: \(rect.origin.x) , rect.origin.y: \(rect.origin.y)")
-        //        print("rect.size.width: \(rect.size.width) , rect.size.height: \(rect.size.height)")
-        //        print("----------------")
+        // 기기별 사이즈
+        let screenSize = UIScreen.main.bounds.size
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
         
-        let deviceModel = UIDevice.current.name
         
         var deviceX: CGFloat = 0.0
         
-        switch deviceModel {
-        case "iPad Pro (12.9-inch) (6th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))
-        case "iPad Pro (11-inch) (4th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.0 )  + (rect.origin.x * scaleY))
-        case "iPad (10th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY))
-        case "iPad Air (5th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY))
-        case "iPad mini (6th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.8 )  + (rect.origin.x * scaleY))
+        switch (screenHeight ,screenWidth) {
+        case (1366, 1024):
+            // iPad Pro 12.9인치 모델 (1세대부터 6세대까지)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 6.5 )  + (rect.origin.x * scaleY))
+        case (1194, 834):
+            // iPad Pro 11인치 모델 (1세대부터 4세대까지)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 7.0 )  + (rect.origin.x * scaleY))
+        case (1112, 834):
+            // iPad Pro 10.5인치, iPad Air (3세대)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 4.5 )  + (rect.origin.x * scaleY))
+        case (1080, 810):
+            // iPad (7세대), iPad (8세대), iPad (9세대)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 4.0 )  + (rect.origin.x * scaleY))
+        case (1180, 820):
+            // iPad Air (4세대), iPad Air (5세대), iPad (10세대)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 7.0 )  + (rect.origin.x * scaleY))
+        case (1024, 768):
+            // iPad Pro 9.7인치, iPad (5세대), iPad (6세대), iPad mini (5세대)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.43 )  + (rect.origin.x * scaleY))
+        case (1133, 744):
+            // iPad mini (6세대)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 15.0 )  + (rect.origin.x * scaleY))
         default:
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))
-            
-            
+            // 알 수 없는 또는 다른 해상도를 가진 모델 (12.9인치 모델을 deafult로 함)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 6.5 )  + (rect.origin.x * scaleY))
         }
         
-        
         return CGRect(
-            
-            
-            //            x: ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))  ,
-            x: deviceX  ,
-            
-            // 좌우반전
-            //                x:  (imageSize.width - rect.origin.x - rect.size.width) * scaleX * scale ,
-            
+            x: deviceX,
             y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY ,
             width: rect.width * scaleY ,
             height : rect.height * scaleY

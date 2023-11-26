@@ -26,7 +26,7 @@ struct TestPageView: View {
                     .onTapGesture {
                         hideKeyboard()
                     }
-                Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
+//                Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
