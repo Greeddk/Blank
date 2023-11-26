@@ -27,6 +27,7 @@ struct HomeView: View {
     @State private var isPopToHomeActive = false
     @State private var showCreateNewFolder = false
     @State private var showMoveFiles = false
+    @State private var showExhibitionModal = false
     
     @StateObject var homeViewModel: HomeViewModel = .init()
     
@@ -98,6 +99,15 @@ struct HomeView: View {
             .onChange(of: showPDFCreateAlert) {
                 if $0 {
                     print("이미지 결합 Phase 1 끝")
+                }
+            }
+            // 쇼케이스 튜토리얼
+            .fullScreenCover(isPresented: $showExhibitionModal) {
+                ExhibitionTutorialView(tutorialCategory: .homeView)
+            }
+            .onAppear {
+                withoutAnimation {
+                    showExhibitionModal = true
                 }
             }
             // Alert 설정: PDF 생성

@@ -25,6 +25,7 @@ struct OverView: View {
     //제목 버튼 팝오버 버튼
     @State private var showPopover = false
     @State private var showModal = false
+    @State private var showExhibitionModal = false
     
     @State var visionStart = false
     
@@ -74,10 +75,18 @@ struct OverView: View {
                 }
             }
             .background(Color.customViewBackgroundColor)
+            // 쇼케이스 튜토리얼
+            .fullScreenCover(isPresented: $showExhibitionModal) {
+                ExhibitionTutorialView(tutorialCategory: .overView)
+            }
             .onAppear {
                 overViewModel.loadThumbnails()
                 setImagesAndData()
                 goToTestPage = false
+                
+                withoutAnimation {
+                    showExhibitionModal = true
+                }
             }
             .sheet(isPresented: $showModal) {
                 OverViewModalView(overViewModel: overViewModel)

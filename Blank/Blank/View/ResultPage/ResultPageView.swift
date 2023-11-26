@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ResultPageView: View {
     @State var seeCorrect: Bool = true
-    // @Binding var generatedImage: UIImage?
+    @State private var showExhibitionModal = false
     @State var visionStart: Bool = false
     
     @StateObject var scoringViewModel: ScoringViewModel
@@ -42,9 +42,17 @@ struct ResultPageView: View {
             .navigationBarBackButtonHidden()
         }
         .background(Color.customViewBackgroundColor)
+        // 쇼케이스 튜토리얼
+        .fullScreenCover(isPresented: $showExhibitionModal) {
+            ExhibitionTutorialView(tutorialCategory: .wordSelectView)
+        }
         .onAppear {
             scoringViewModel.score()
             scoringViewModel.saveSessionToDatabase()
+            
+            withoutAnimation {
+                showExhibitionModal = true
+            }
         }
     }
     
