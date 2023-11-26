@@ -21,7 +21,7 @@ struct OverViewModalView: View {
                         ForEach(overViewModel.thumbnails.indices, id: \.self) { index in
                             
                             // TODO: 기기에 따라 크기 조정
-                            VStack {
+                            VStack(spacing: 0) {
                                 Image(uiImage: overViewModel.thumbnails[index])
                                     .resizable()
                                     .scaledToFit()
@@ -36,12 +36,11 @@ struct OverViewModalView: View {
                                     Text("\(index+1)")
                                         .font(.caption)
                                         .fontWeight(.bold)
-                                    Spacer().frame(height: 0)
                                 }
                                 let pageNumberBasedOne = index + 1
                                 if overViewModel.lastSessionsOfPages[pageNumberBasedOne] == nil {
                                     Rectangle()
-                                        .frame(width: 80, height: 20)
+                                        .frame(width: 100, height: 30)
                                         .foregroundColor(Color(red: 0.46, green: 0.46, blue: 0.5).opacity(0.12))
                                         .cornerRadius(40)
                                         .overlay(
@@ -49,34 +48,25 @@ struct OverViewModalView: View {
                                             Text("-")
                                                 .tint(Color.blue)
                                         )
-                                    Text("[ - ]")
-                                    Spacer()
+                                    Text("시험을 봐주세요")
+                                        .font(.caption2)
                                     
-                                } else {
+                                } else if let info = overViewModel.lastSessionCorrectInfo(index: pageNumberBasedOne) {
                                     let lastSessionNumber = overViewModel.loadLastSessionNumber(index: index)
+//                                    let info = overViewModel.lastSessionCorrectInfo(index: pageNumberBasedOne)
                                     Rectangle()
-                                        .frame(width: 80, height: 20)
+                                        .frame(width: 100, height: 30)
                                         .foregroundColor(Color(red: 0.46, green: 0.46, blue: 0.5).opacity(0.12))
                                         .cornerRadius(40)
                                         .overlay(
-                                            Text("\(lastSessionNumber)회차")
+                                            Text("\(lastSessionNumber)회차(\(info.correctRate.percentageTextValue(decimalPlaces: 0)))")
                                                 .tint(Color.blue)
                                         )
-
-                                    if let info = overViewModel.lastSessionCorrectInfo(index: pageNumberBasedOne) {
-                                        VStack {
-                                            Text("정답률 : \(info.correctRate.percentageTextValue(decimalPlaces: 0))")
-                                            Text("문제 : \(info.totalCount)개")
-                                            Text("정답 : \(info.correctCount)개")
-                                        }
-                                    } else {
-                                        
-                                    }
-                                    
+                                    Text("문제:\(info.totalCount)개  정답:\(info.correctCount)개")
+                                        .font(.caption2)
                                     
                                 }
                             }
-                            .foregroundColor(.black)
                         }
                     }
                     .onAppear(perform:{
