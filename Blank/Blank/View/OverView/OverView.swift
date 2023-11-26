@@ -75,17 +75,15 @@ struct OverView: View {
                 }
             }
             .background(Color.customViewBackgroundColor)
-            // 쇼케이스 튜토리얼
-            .fullScreenCover(isPresented: $showExhibitionModal) {
-                ExhibitionTutorialView(tutorialCategory: .overView)
-            }
             .onAppear {
                 overViewModel.loadThumbnails()
                 setImagesAndData()
                 goToTestPage = false
                 
-                withoutAnimation {
-                    showExhibitionModal = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                    withoutAnimation {
+                        showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.overView) || !ExhibitionTutorialManager.default.isEncountered(.cycledOverView)
+                    }
                 }
             }
             .sheet(isPresented: $showModal) {
@@ -147,6 +145,21 @@ struct OverView: View {
                 )
             }
         }
+        
+        // 쇼케이스 튜토리얼
+        .fullScreenCover(isPresented: $showExhibitionModal) {
+            if !ExhibitionTutorialManager.default.isEncountered(.overView) {
+                ExhibitionTutorialManager.default.setEncountered(.overView)
+            } else {
+                ExhibitionTutorialManager.default.setEncountered(.cycledOverView)
+            }
+        } content: {
+            if !ExhibitionTutorialManager.default.isEncountered(.overView) {
+                ExhibitionTutorialView(tutorialCategory: .overView)
+            } else {
+                ExhibitionTutorialView(tutorialCategory: .cycledOverView)
+            }
+        }
         .alert("어떤 시험지를 고르시겠어요?" ,isPresented: $showingAlert) {
             Button("새로 만들기") {
                 goToNextPage = true
@@ -176,7 +189,6 @@ struct OverView: View {
                 StatModeIndexView()
                     .cornerRadius(20)
                     .frame(width: screenWidth / 5, height: screenHeight / 8)
-                    
             }
         }
     }

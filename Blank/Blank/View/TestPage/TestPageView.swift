@@ -53,11 +53,15 @@ struct TestPageView: View {
         .ignoresSafeArea(.keyboard)
         // 쇼케이스 튜토리얼
         .fullScreenCover(isPresented: $showExhibitionModal) {
+            ExhibitionTutorialManager.default.setEncountered(.testPageView)
+        } content: {
             ExhibitionTutorialView(tutorialCategory: .testPageView)
         }
         .onAppear {
-            withoutAnimation {
-                showExhibitionModal = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                withoutAnimation {
+                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.testPageView)
+                }
             }
         }
         

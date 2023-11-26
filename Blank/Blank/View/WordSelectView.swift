@@ -20,8 +20,6 @@ struct WordSelectView: View {
     
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
     
-    
-    
     var body: some View {
         NavigationStack {
             VStack {
@@ -30,7 +28,7 @@ struct WordSelectView: View {
                 PencilDobuleTapInteractionView {
                     // 이 클로저는 pencil 더블 탭 시 실행
                     self.isSelectArea.toggle()
-                        
+                    
                 }
                 .frame(width: 0, height: 0)
             }
@@ -77,11 +75,15 @@ struct WordSelectView: View {
         }
         // 쇼케이스 튜토리얼
         .fullScreenCover(isPresented: $showExhibitionModal) {
+            ExhibitionTutorialManager.default.setEncountered(.wordSelectView)
+        } content: {
             ExhibitionTutorialView(tutorialCategory: .wordSelectView)
         }
         .onAppear {
-            withoutAnimation {
-                showExhibitionModal = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                withoutAnimation {
+                    showExhibitionModal =  !ExhibitionTutorialManager.default.isEncountered(.wordSelectView)
+                }
             }
         }
     }

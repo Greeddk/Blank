@@ -7,8 +7,39 @@
 
 import SwiftUI
 
+final class ExhibitionTutorialManager {
+    static let `default` = ExhibitionTutorialManager()
+    private init() {}
+    
+    private var encounteredStatus: [TutorialCategory: Bool] = [
+        .homeView: false,
+        .overView: false,
+        .wordSelectView: false,
+        .ocrEditView: false,
+        .testPageView: false,
+        .resultView: false,
+        .cycledOverView: false,
+    ]
+    
+    func setEncountered(_ category: TutorialCategory) {
+        encounteredStatus[category] = true
+    }
+    
+    func isEncountered(_ category: TutorialCategory) -> Bool {
+        encounteredStatus[category, default: false]
+    }
+    
+    func isAllEncountered() -> Bool {
+        encounteredStatus.allSatisfy { $0.value }
+    }
+    
+    func resetEncounteredStatus() {
+        encounteredStatus.keys.forEach { encounteredStatus[$0] = false }
+    }
+}
+
 enum TutorialCategory {
-    case homeView, overView, wordSelectView, ocrEditView, testPageView, resultView, cycledHomeView
+    case homeView, overView, wordSelectView, ocrEditView, testPageView, resultView, cycledOverView
     
     var imageName: String {
         return switch self {
@@ -24,7 +55,7 @@ enum TutorialCategory {
             "Tutorial_5"
         case .resultView:
             "Tutorial_6"
-        case .cycledHomeView:
+        case .cycledOverView:
             "Tutorial_7"
         }
     }
@@ -38,6 +69,7 @@ struct ExhibitionTutorialView: View {
         ZStack {
             Image(tutorialCategory.imageName)
                 .resizable()
+                .frame(width: UIScreen.main.bounds.width)
             // TODO: - 쇼케이스용 임시 오버레이로 해상도는 12.9 고정
             Button {
                 withoutAnimation {

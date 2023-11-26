@@ -69,11 +69,15 @@ struct OCREditView: View {
         .background(Color.customViewBackgroundColor)
         // 쇼케이스 튜토리얼
         .fullScreenCover(isPresented: $showExhibitionModal) {
+            ExhibitionTutorialManager.default.setEncountered(.ocrEditView)
+        } content: {
             ExhibitionTutorialView(tutorialCategory: .ocrEditView)
         }
         .onAppear {
-            withoutAnimation {
-                showExhibitionModal = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                withoutAnimation {
+                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.ocrEditView)
+                }
             }
         }
         

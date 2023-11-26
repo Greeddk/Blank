@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let exhibitionHideTime: Int = 420
+
 struct HomeView: View {
     enum Mode {
         case normal, edit
@@ -103,9 +105,13 @@ struct HomeView: View {
             }
             // 쇼케이스 튜토리얼
             .fullScreenCover(isPresented: $showExhibitionModal) {
+                
+            } content: {
                 ExhibitionTutorialView(tutorialCategory: .homeView)
             }
             .onAppear {
+                ExhibitionTutorialManager.default.resetEncounteredStatus()
+                
                 withoutAnimation {
                     showExhibitionModal = true
                 }

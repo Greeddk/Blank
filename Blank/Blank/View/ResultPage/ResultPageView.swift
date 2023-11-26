@@ -44,14 +44,18 @@ struct ResultPageView: View {
         .background(Color.customViewBackgroundColor)
         // 쇼케이스 튜토리얼
         .fullScreenCover(isPresented: $showExhibitionModal) {
-            ExhibitionTutorialView(tutorialCategory: .wordSelectView)
+            ExhibitionTutorialManager.default.setEncountered(.resultView)
+        } content: {
+            ExhibitionTutorialView(tutorialCategory: .resultView)
         }
         .onAppear {
             scoringViewModel.score()
             scoringViewModel.saveSessionToDatabase()
             
-            withoutAnimation {
-                showExhibitionModal = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                withoutAnimation {
+                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.resultView)
+                }
             }
         }
     }
