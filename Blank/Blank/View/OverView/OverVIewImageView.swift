@@ -63,7 +63,7 @@ struct OverViewImageView: View {
                         ForEach(words, id: \.id) { word in
                             Rectangle()
                                 .fill(word.isCorrect ? Color.green.opacity(0.4) : Color.red.opacity(0.4))
-                                .cornerRadius(5)
+                                .cornerRadius(3)
                                 .frame(width: adjustRect(word.rect, in: proxy).width,
                                        height: adjustRect(word.rect, in: proxy).height)
                                 .position(x: adjustRect(word.rect, in: proxy).midX,
@@ -83,28 +83,49 @@ struct OverViewImageView: View {
         
         // Image 뷰 너비와 UIImage 너비 사이의 비율
         let scaleY: CGFloat = geometry.size.height / imageSize.height
-        let deviceModel = UIDevice.current.name
+        
+        // 기기별 사이즈
+        let screenSize = UIScreen.main.bounds.size
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        
+        
         var deviceX: CGFloat = 0.0
         
-        switch deviceModel {
-        case "iPad Pro (12.9-inch) (6th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))
-        case "iPad Pro (11-inch) (4th generation)":
+        var yValue = ( imageSize.height - rect.origin.y - rect.size.height) * scaleY
+        
+        switch (screenHeight ,screenWidth) {
+        case (1366, 1024):
+            // iPad Pro 12.9인치 모델 (1세대부터 6세대까지)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.55 )  + (rect.origin.x * scaleY))
+        case (1194, 834):
+            // iPad Pro 11인치 모델 (1세대부터 4세대까지)
             deviceX = ( ( (geometry.size.width - imageSize.width) / 3.0 )  + (rect.origin.x * scaleY))
-        case "iPad (10th generation)":
+        case (1112, 834):
+            // iPad Pro 10.5인치, iPad Air (3세대)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.48 )  + (rect.origin.x * scaleY))
+        case (1080, 810):
+            // iPad (7세대), iPad (8세대), iPad (9세대)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.25 )  + (rect.origin.x * scaleY))
+        case (1180, 820):
+            // iPad Air (4세대), iPad Air (5세대), iPad (10세대)
             deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY))
-        case "iPad Air (5th generation)":
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 2.9 )  + (rect.origin.x * scaleY))
-        case "iPad mini (6th generation)":
+        case (1024, 768):
+            // iPad Pro 9.7인치, iPad (5세대), iPad (6세대), iPad mini (5세대) //여기만 좌표가 약간 안맞는데 최대한 조정한 것
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 1.95 )  + (rect.origin.x * scaleY))
+            yValue = ( imageSize.height - rect.origin.y - rect.size.height) * scaleY + (imageSize.height * 0.004 )
+        case (1133, 744):
+            // iPad mini (6세대)
             deviceX = ( ( (geometry.size.width - imageSize.width) / 2.8 )  + (rect.origin.x * scaleY))
         default:
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.5 )  + (rect.origin.x * scaleY))
+            // 알 수 없는 또는 다른 해상도를 가진 모델 (12.9인치 모델을 deafult로 함)
+            deviceX = ( ( (geometry.size.width - imageSize.width) / 6.5 )  + (rect.origin.x * scaleY))
         }
         
         
         return CGRect(
             x: deviceX  ,
-            y:( imageSize.height - rect.origin.y - rect.size.height) * scaleY,
+            y:  yValue ,
             width: rect.width * scaleY,
             height : rect.height * scaleY
         )

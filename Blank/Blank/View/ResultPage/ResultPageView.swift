@@ -20,7 +20,7 @@ struct ResultPageView: View {
             ZStack(alignment: .top) {
                 VStack{
                     resultImage
-                    Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
+//                    Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
                 }
                 correctInfo
             }
