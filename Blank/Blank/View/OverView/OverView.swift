@@ -470,9 +470,11 @@ struct OverView: View {
                 Text("\((URL(fileURLWithPath: overViewModel.currentFile.fileName).deletingPathExtension().lastPathComponent))")
                 Image(systemName: "chevron.down")
             }
+            .frame(width: UIScreen.main.bounds.width / 4)
             .foregroundColor(.black)
             .fontWeight(.bold)
         }
+        
         .popover(isPresented: $showPopover) {
             popoverContent
         }
