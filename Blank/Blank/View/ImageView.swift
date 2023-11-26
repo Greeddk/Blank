@@ -84,6 +84,8 @@ struct ImageView: View {
                                     withAnimation {
                                         basicWords[index].isSelectedWord = isSelectArea ? true : false
                                     }
+
+
                                 }
                         }
 //                        ForEach(blankCGRect.indices, id: \.self) { index in
@@ -122,11 +124,8 @@ struct ImageView: View {
                                 )
                                 .onTapGesture {
                                     // 기존 탭제스쳐 방식
-                                    // 블랭크 만들때 터치로 단어선택 제어 off
-                                    if !isBlankArea {
-                                        if !targetWords[index].isCorrect {
-                                            isAreaTouched[index, default: false].toggle()
-                                        }
+                                    if !targetWords[index].isCorrect {
+                                        isAreaTouched[index, default: false].toggle()
                                     }
                                 }
                         }
@@ -134,7 +133,7 @@ struct ImageView: View {
                 }
             
                 .gesture(
-                    
+                    //MARK: 드레그 시 수동으로 빈칸만들기
                     DragGesture()
                         .onChanged{ value in
                             if startLocation == nil {
@@ -157,24 +156,21 @@ struct ImageView: View {
 //                            }
 
                             let imageSize = self.uiImage?.size ?? CGSize(width: 1, height: 1)
-
-                            // 화면의 경계 값을 계산
                             let screenWidth = (UIScreen.main.bounds.width - imageSize.width) / 2
                             let leftSpacerWidth = screenWidth / 1.8
                             let rightSpacerWidth = screenWidth + imageSize.width * 1.16
-
+                            // 좌우 Spacer 넘길 시 endLocation.x값 image영역 안으로 고정
                             endLocation!.x = max(leftSpacerWidth, endLocation!.x)
                             endLocation!.x = min(rightSpacerWidth, endLocation!.x)
                         }
                         .onEnded{ value in
+                            // 드레그 완료 후 빈칸 BasicWord 배열에 추가
                             if isBlankArea {
                                 let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
                                                       y: min(startLocation!.y, endLocation!.y),
                                                       width: abs(endLocation!.x - startLocation!.x),
                                                       height: abs(endLocation!.y - startLocation!.y))
                                 let dragword = BasicWord(id: UUID(), wordValue: "", rect: reverseAdjustRect(dragRect, in: proxy), isSelectedWord: true)
-                                print("내가설정높이",dragRect.origin.y + dragRect.height)
-                                print("view 높이", UIScreen.main.bounds.height)
                                 basicWords.append(dragword)
 
                                 // drag 끝나면 초기화
@@ -242,6 +238,7 @@ struct ImageView: View {
         )
     }
 
+    //MARK: adjustRect 함수 reverse
     func reverseAdjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
         let imageSize = self.uiImage?.size ?? CGSize(width: 1, height: 1)
         let scaleY: CGFloat = geometry.size.height / imageSize.height

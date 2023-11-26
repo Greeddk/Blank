@@ -126,7 +126,7 @@ struct WordSelectView: View {
         }
         .buttonStyle(.bordered)
     }
-
+    //MARK: 수동으로 빈칸 만들기 제어 버튼
     private var makeBlankButton: some View {
         Button {
             isBlankArea.toggle()
