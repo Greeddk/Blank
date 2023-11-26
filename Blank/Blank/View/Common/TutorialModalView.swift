@@ -19,7 +19,7 @@ struct TutorialModalView: View {
     @ObservedObject var playerViewModel: PlayerViewModel = PlayerViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 TabView(selection: $assetNameIndex) {
                     ForEach(imageAssetNames.indices, id: \.self) { index in
@@ -28,7 +28,7 @@ struct TutorialModalView: View {
                                 .font(.largeTitle)
                                 .bold()
                                 .padding(.top, 50)
-                            .padding()
+                                .padding()
                             Image(imageAssetNames[index])
                                 .resizable()
                                 .scaledToFit()
@@ -51,8 +51,10 @@ struct TutorialModalView: View {
                     enableCloseButton = true
                 }
             }
-            .interactiveDismissDisabled()
+            .navigationBarTitleDisplayMode(.inline)
+            // .interactiveDismissDisabled()
         }
+        
     }
     
     private var closeButton: some View {

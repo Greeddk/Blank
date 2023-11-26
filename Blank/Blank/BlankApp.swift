@@ -13,7 +13,7 @@ struct BlankApp: App {
          HomeViewModel.copySampleFiles()
         
         // UserDefaults 리셋
-        // resetTutorialKeysForTestOnly()
+        resetTutorialKeysForTestOnly()
     }
     
     var body: some Scene {
