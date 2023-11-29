@@ -10,13 +10,16 @@ import SwiftUI
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = false
-    @State private var showExhibitionModal = false
+    
     @State var visionStart: Bool = false
     @State private var goToTestPage = false
     @State var isShowingButton = true
     var sessionNum: Int
     
     @StateObject var wordSelectViewModel: WordSelectViewModel
+    
+    @State private var showTutorial = false
+    @AppStorage(TutorialCategory.ocrEditView.keyName) private var encounteredThisView = false
     
     /*
      전단계 WordSelectView에서 단어를 선택하면
@@ -67,20 +70,21 @@ struct OCREditView: View {
         }
         .ignoresSafeArea(.keyboard)
         .background(Color.customViewBackgroundColor)
-        // 쇼케이스 튜토리얼
-        .fullScreenCover(isPresented: $showExhibitionModal) {
-            ExhibitionTutorialManager.default.setEncountered(.ocrEditView)
+        // 풀스크린 오버레이 튜토리얼
+        .fullScreenCover(isPresented: $showTutorial) {
+            encounteredThisView = true
         } content: {
-            ExhibitionTutorialView(tutorialCategory: .ocrEditView)
+            FullScreenTutorialView(tutorialCategory: .wordSelectView)
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
-                withoutAnimation {
-                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.ocrEditView)
+            if !encounteredThisView {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                    withoutAnimation {
+                        showTutorial = true
+                    }
                 }
             }
         }
-        
     }
     
     private var ocrEditImage: some View {

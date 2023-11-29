@@ -9,7 +9,6 @@ import SwiftUI
 
 struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var showExhibitionModal = false
     @State var visionStart: Bool = false
     
     @State var goToOCRView = false
@@ -19,6 +18,9 @@ struct WordSelectView: View {
     var sessionNum: Int
     
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
+
+    @State private var showTutorial = false
+    @AppStorage(TutorialCategory.wordSelectView.keyName) private var encounteredThisView = false
     
     var body: some View {
         NavigationStack {
@@ -75,16 +77,18 @@ struct WordSelectView: View {
         .navigationDestination(isPresented: $goToOCRView) {
             OCREditView(sessionNum: sessionNum, wordSelectViewModel: wordSelectViewModel)
         }
-        // 쇼케이스 튜토리얼
-        .fullScreenCover(isPresented: $showExhibitionModal) {
-            ExhibitionTutorialManager.default.setEncountered(.wordSelectView)
+        // 풀스크린 오버레이 튜토리얼
+        .fullScreenCover(isPresented: $showTutorial) {
+            encounteredThisView = true
         } content: {
-            ExhibitionTutorialView(tutorialCategory: .wordSelectView)
+            FullScreenTutorialView(tutorialCategory: .wordSelectView)
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
-                withoutAnimation {
-                    showExhibitionModal =  !ExhibitionTutorialManager.default.isEncountered(.wordSelectView)
+            if !encounteredThisView {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                    withoutAnimation {
+                        showTutorial = true
+                    }
                 }
             }
         }

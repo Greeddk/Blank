@@ -25,7 +25,10 @@ struct OverView: View {
     //제목 버튼 팝오버 버튼
     @State private var showPopover = false
     @State private var showModal = false
-    @State private var showExhibitionModal = false
+    
+    @State private var showTutorialModal = false
+    @AppStorage(TutorialCategory.overView.keyName) private var encounteredThisView = false
+    @AppStorage(TutorialCategory.cycledOverView.keyName) private var encounteredThisViewTwice = false
     
     @State var visionStart = false
     
@@ -82,7 +85,9 @@ struct OverView: View {
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
                     withoutAnimation {
-                        showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.overView) || !ExhibitionTutorialManager.default.isEncountered(.cycledOverView)
+                        if !encounteredThisView || (!encounteredThisViewTwice && !overViewModel.sessions.isEmpty) {
+                            showTutorialModal = true
+                        }
                     }
                 }
             }
@@ -97,7 +102,6 @@ struct OverView: View {
                         statsButton
                         showOriginalImageButton
                     }
-                    
                 }
                 
                 ToolbarItem(placement: .principal) {
@@ -147,17 +151,17 @@ struct OverView: View {
         }
         
         // 쇼케이스 튜토리얼
-        .fullScreenCover(isPresented: $showExhibitionModal) {
-            if !ExhibitionTutorialManager.default.isEncountered(.overView) {
-                ExhibitionTutorialManager.default.setEncountered(.overView)
+        .fullScreenCover(isPresented: $showTutorialModal) {
+            if !encounteredThisView {
+                encounteredThisView = true
             } else {
-                ExhibitionTutorialManager.default.setEncountered(.cycledOverView)
+                encounteredThisViewTwice = true
             }
         } content: {
-            if !ExhibitionTutorialManager.default.isEncountered(.overView) {
-                ExhibitionTutorialView(tutorialCategory: .overView)
-            } else {
-                ExhibitionTutorialView(tutorialCategory: .cycledOverView)
+            if !encounteredThisView {
+                FullScreenTutorialView(tutorialCategory: .overView)
+            } else if !encounteredThisViewTwice && !overViewModel.sessions.isEmpty {
+                FullScreenTutorialView(tutorialCategory: .cycledOverView)
             }
         }
         .alert("어떤 시험지를 고르시겠어요?" ,isPresented: $showingAlert) {

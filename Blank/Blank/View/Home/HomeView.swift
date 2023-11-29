@@ -29,7 +29,9 @@ struct HomeView: View {
     @State private var isPopToHomeActive = false
     @State private var showCreateNewFolder = false
     @State private var showMoveFiles = false
-    @State private var showExhibitionModal = false
+    
+    @State private var showTutorial = false
+    @AppStorage(TutorialCategory.homeView.keyName) private var encounteredThisView = false
     
     @StateObject var homeViewModel: HomeViewModel = .init()
     
@@ -103,17 +105,17 @@ struct HomeView: View {
                     print("이미지 결합 Phase 1 끝")
                 }
             }
-            // 쇼케이스 튜토리얼
-            .fullScreenCover(isPresented: $showExhibitionModal) {
-                ExhibitionTutorialManager.default.setEncountered(.homeView)
+            // 풀스크린 오버레이 튜토리얼
+            .fullScreenCover(isPresented: $showTutorial) {
+                encounteredThisView = true
             } content: {
-                ExhibitionTutorialView(tutorialCategory: .homeView)
+                FullScreenTutorialView(tutorialCategory: .homeView)
             }
             .onAppear {
-                // ExhibitionTutorialManager.default.resetEncounteredStatus()
-                
-                withoutAnimation {
-                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.homeView)
+                if !encounteredThisView {
+                    withoutAnimation {
+                        showTutorial = true
+                    }
                 }
             }
             // Alert 설정: PDF 생성

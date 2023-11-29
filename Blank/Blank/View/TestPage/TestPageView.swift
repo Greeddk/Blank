@@ -10,7 +10,7 @@ import SwiftUI
 struct TestPageView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = false
-    @State private var showExhibitionModal = false
+    
     @State var visionStart: Bool = false
     @State var type = ScribbleType.write
     @State private var hasTypeValueChanged = false
@@ -18,6 +18,9 @@ struct TestPageView: View {
     var sessionNum: Int
     
     @StateObject var scoringViewModel: ScoringViewModel
+    
+    @State private var showTutorial = false
+    @AppStorage(TutorialCategory.testPageView.keyName) private var encounteredThisView = false
     
     var body: some View {
         NavigationStack {
@@ -51,20 +54,21 @@ struct TestPageView: View {
             
         }
         .ignoresSafeArea(.keyboard)
-        // 쇼케이스 튜토리얼
-        .fullScreenCover(isPresented: $showExhibitionModal) {
-            ExhibitionTutorialManager.default.setEncountered(.testPageView)
+        // 풀스크린 오버레이 튜토리얼
+        .fullScreenCover(isPresented: $showTutorial) {
+            encounteredThisView = true
         } content: {
-            ExhibitionTutorialView(tutorialCategory: .testPageView)
+            FullScreenTutorialView(tutorialCategory: .wordSelectView)
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
-                withoutAnimation {
-                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.testPageView)
+            if !encounteredThisView {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                    withoutAnimation {
+                        showTutorial = true
+                    }
                 }
             }
         }
-        
     }
     
     private var testImage: some View{
