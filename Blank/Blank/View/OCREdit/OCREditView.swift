@@ -10,9 +10,7 @@ import SwiftUI
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = false
-    //    @Binding var isLinkActive: Bool
-    // @Binding var generatedImage: UIImage?
-    @State private var showingAlert = true
+    @State private var showExhibitionModal = false
     @State var visionStart: Bool = false
     @State private var goToTestPage = false
     @State var isShowingButton = true
@@ -69,32 +67,18 @@ struct OCREditView: View {
         }
         .ignoresSafeArea(.keyboard)
         .background(Color.customViewBackgroundColor)
-        .popup(isPresented: $showingAlert) {
-            HStack {
-                Image("pencil.and.scribble")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100)
-                    .foregroundStyle(.white)
-                    .padding()
-                VStack {
-                    Text("잘못 인식된 글자를 수정해주세요.")
-                        .font(.largeTitle)
-                        .foregroundStyle(.white)
+        // 쇼케이스 튜토리얼
+        .fullScreenCover(isPresented: $showExhibitionModal) {
+            ExhibitionTutorialManager.default.setEncountered(.ocrEditView)
+        } content: {
+            ExhibitionTutorialView(tutorialCategory: .ocrEditView)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                withoutAnimation {
+                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.ocrEditView)
                 }
-                .padding()
             }
-            .background(.black.opacity(0.8))
-            .clipShape(.rect(cornerRadius: 10))
-            .padding()
-            .offset(y: 100)
-        } customize: {
-            $0
-                .position(.topTrailing)
-                .autohideIn(3.0)
-                .closeOnTap(false) // 팝업을 터치했을 때 없애야 하나?
-                .closeOnTapOutside(false)
-                .animation(.smooth)
         }
         
     }

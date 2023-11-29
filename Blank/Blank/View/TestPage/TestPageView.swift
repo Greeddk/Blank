@@ -10,7 +10,7 @@ import SwiftUI
 struct TestPageView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = false
-    //    @Binding var generatedImage: UIImage?
+    @State private var showExhibitionModal = false
     @State var visionStart: Bool = false
     @State var type = ScribbleType.write
     @State private var hasTypeValueChanged = false
@@ -51,7 +51,19 @@ struct TestPageView: View {
             
         }
         .ignoresSafeArea(.keyboard)
-        
+        // 쇼케이스 튜토리얼
+        .fullScreenCover(isPresented: $showExhibitionModal) {
+            ExhibitionTutorialManager.default.setEncountered(.testPageView)
+        } content: {
+            ExhibitionTutorialView(tutorialCategory: .testPageView)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                withoutAnimation {
+                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.testPageView)
+                }
+            }
+        }
         
     }
     

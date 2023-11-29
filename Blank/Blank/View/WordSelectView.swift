@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-import PopupView
 
 struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var showingAlert = true
+    @State private var showExhibitionModal = false
     @State var visionStart: Bool = false
     
     @State var goToOCRView = false
@@ -20,8 +19,6 @@ struct WordSelectView: View {
     var sessionNum: Int
     
     @ObservedObject var wordSelectViewModel: WordSelectViewModel
-    
-    
     
     var body: some View {
         NavigationStack {
@@ -33,7 +30,7 @@ struct WordSelectView: View {
                 PencilDobuleTapInteractionView {
                     // 이 클로저는 pencil 더블 탭 시 실행
                     self.isSelectArea.toggle()
-                        
+                    
                 }
                 .frame(width: 0, height: 0)
             }
@@ -78,34 +75,18 @@ struct WordSelectView: View {
         .navigationDestination(isPresented: $goToOCRView) {
             OCREditView(sessionNum: sessionNum, wordSelectViewModel: wordSelectViewModel)
         }
-        .popup(isPresented: $showingAlert) {
-            HStack {
-                Image(systemName: "hand.tap.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100)
-                    .foregroundStyle(.white)
-                    .padding()
-                VStack {
-                    Text("단어를 선택하거나 드래그해 주세요.")
-                        .font(.largeTitle)
-                        .foregroundStyle(.white)
-                    Text("시험을 보고 싶은 단어를 선택하거나 드래그해 주세요")
-                        .foregroundStyle(.white)
+        // 쇼케이스 튜토리얼
+        .fullScreenCover(isPresented: $showExhibitionModal) {
+            ExhibitionTutorialManager.default.setEncountered(.wordSelectView)
+        } content: {
+            ExhibitionTutorialView(tutorialCategory: .wordSelectView)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                withoutAnimation {
+                    showExhibitionModal =  !ExhibitionTutorialManager.default.isEncountered(.wordSelectView)
                 }
-                .padding()
             }
-            .background(.black.opacity(0.8))
-            .clipShape(.rect(cornerRadius: 10))
-            .padding()
-            .offset(x: 0, y: 100)
-        } customize: {
-            $0
-                .position(.top)
-                .autohideIn(3.0)
-                .closeOnTap(false) // 팝업을 터치했을 때 없애야 하나?
-                .closeOnTapOutside(false)
-                .animation(.smooth)
         }
     }
     

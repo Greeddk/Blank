@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let exhibitionHideTime: Int = 420
+
 struct HomeView: View {
     enum Mode {
         case normal, edit
@@ -27,6 +29,7 @@ struct HomeView: View {
     @State private var isPopToHomeActive = false
     @State private var showCreateNewFolder = false
     @State private var showMoveFiles = false
+    @State private var showExhibitionModal = false
     
     @StateObject var homeViewModel: HomeViewModel = .init()
     
@@ -98,6 +101,19 @@ struct HomeView: View {
             .onChange(of: showPDFCreateAlert) {
                 if $0 {
                     print("이미지 결합 Phase 1 끝")
+                }
+            }
+            // 쇼케이스 튜토리얼
+            .fullScreenCover(isPresented: $showExhibitionModal) {
+                ExhibitionTutorialManager.default.setEncountered(.homeView)
+            } content: {
+                ExhibitionTutorialView(tutorialCategory: .homeView)
+            }
+            .onAppear {
+                // ExhibitionTutorialManager.default.resetEncounteredStatus()
+                
+                withoutAnimation {
+                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.homeView)
                 }
             }
             // Alert 설정: PDF 생성
