@@ -69,10 +69,13 @@ struct ResultPageView: View {
             ImageView(
                 uiImage: scoringViewModel.currentImage,
                 visionStart: $visionStart,
-                viewName: "ResultPageView", isSelectArea: .constant(false),
+                viewName: "ResultPageView",
+                isSelectArea: .constant(false),
+                isBlankArea: .constant(false),
                 basicWords: .constant([]),
                 targetWords: $scoringViewModel.targetWords,
                 currentWritingWords: $scoringViewModel.currentWritingWords
+                
             )
         }
     }

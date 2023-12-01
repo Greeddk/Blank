@@ -274,11 +274,12 @@ class OverViewModel: ObservableObject {
             
             // TODO: - 더 큰 해상도도 정확히 인식할 수 있어야 함
             // 현재 가로 해상도 최대 600을 넘어가면 범위 어긋남
-            let maxWidth: CGFloat = 2380 // 최대 크기를 더 늘릴 수 있다면 늘려보기
+//            let maxWidth: CGFloat = 2380 // 최대 크기를 더 늘릴 수 있다면 늘려보기
+        let maxWidth: CGFloat = 595
             let maxHeight: CGFloat = maxWidth * 1.414
             
             let rendererFormat = UIGraphicsImageRendererFormat()
-            rendererFormat.scale = 4.0 // 해상도를 더 높입니다.
+            rendererFormat.scale = 8.0 // 해상도를 더 높입니다.
             rendererFormat.preferredRange = .extended // 더 넓은 색상 범위를 사용합니다.
             
             let pageRect = page.bounds(for: .mediaBox)

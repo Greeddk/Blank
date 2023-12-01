@@ -54,6 +54,7 @@ struct OverViewImageView: View {
                                     }
                                     .onTapGesture {
                                         overViewModel.totalStats[key]?.isSelected.toggle()
+                                        print("imageSize: \(overViewModel.currentImage?.size.width) , UIScreen.main.bounds.width : \(UIScreen.main.bounds.width),size.width: \(proxy.size.width) ")
                                     }
                                     .zIndex(stat.isSelected ? 1 : 0)
                             }
@@ -78,6 +79,7 @@ struct OverViewImageView: View {
     
     // ---------- Mark : 반자동   ----------------
     func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
+        
         
         let imageSize = overViewModel.currentImage?.size ?? CGSize(width: 1, height: 1)
         
