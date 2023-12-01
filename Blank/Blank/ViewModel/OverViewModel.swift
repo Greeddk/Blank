@@ -279,7 +279,7 @@ class OverViewModel: ObservableObject {
             let maxHeight: CGFloat = maxWidth * 1.414
             
             let rendererFormat = UIGraphicsImageRendererFormat()
-            rendererFormat.scale = 8.0 // 해상도를 더 높입니다.
+            rendererFormat.scale = 4.0 // 해상도를 더 높입니다.
             rendererFormat.preferredRange = .extended // 더 넓은 색상 범위를 사용합니다.
             
             let pageRect = page.bounds(for: .mediaBox)
