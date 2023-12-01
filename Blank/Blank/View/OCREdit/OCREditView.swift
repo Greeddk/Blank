@@ -10,15 +10,16 @@ import SwiftUI
 struct OCREditView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingModal = false
-    //    @Binding var isLinkActive: Bool
-    // @Binding var generatedImage: UIImage?
-    @State private var showingAlert = true
+    
     @State var visionStart: Bool = false
     @State private var goToTestPage = false
     @State var isShowingButton = true
     var sessionNum: Int
     
     @StateObject var wordSelectViewModel: WordSelectViewModel
+    
+    @State private var showTutorial = false
+    @AppStorage(TutorialCategory.ocrEditView.keyName) private var encounteredThisView = false
     
     /*
      전단계 WordSelectView에서 단어를 선택하면
@@ -69,34 +70,21 @@ struct OCREditView: View {
         }
         .ignoresSafeArea(.keyboard)
         .background(Color.customViewBackgroundColor)
-        .popup(isPresented: $showingAlert) {
-            HStack {
-                Image("pencil.and.scribble")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100)
-                    .foregroundStyle(.white)
-                    .padding()
-                VStack {
-                    Text("잘못 인식된 글자를 수정해주세요.")
-                        .font(.largeTitle)
-                        .foregroundStyle(.white)
-                }
-                .padding()
-            }
-            .background(.black.opacity(0.8))
-            .clipShape(.rect(cornerRadius: 10))
-            .padding()
-            .offset(y: 100)
-        } customize: {
-            $0
-                .position(.topTrailing)
-                .autohideIn(3.0)
-                .closeOnTap(false) // 팝업을 터치했을 때 없애야 하나?
-                .closeOnTapOutside(false)
-                .animation(.smooth)
+        // 풀스크린 오버레이 튜토리얼
+        .fullScreenCover(isPresented: $showTutorial) {
+            encounteredThisView = true
+        } content: {
+            FullScreenTutorialView(tutorialCategory: .ocrEditView)
         }
-        
+        .onAppear {
+            if !encounteredThisView {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                    withoutAnimation {
+                        showTutorial = true
+                    }
+                }
+            }
+        }
     }
     
     private var ocrEditImage: some View {

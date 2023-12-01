@@ -9,13 +9,14 @@ import SwiftUI
 
 struct ResultPageView: View {
     @State var seeCorrect: Bool = true
-    // @Binding var generatedImage: UIImage?
     @State var visionStart: Bool = false
     
     @StateObject var scoringViewModel: ScoringViewModel
     @State var zoomScale: CGFloat = 1.0
     
-    
+    @State private var showTutorial = false
+    @AppStorage(TutorialCategory.resultView.keyName)
+    private var encounteredThisView = false
     
     var body: some View {
         NavigationStack {
@@ -44,9 +45,23 @@ struct ResultPageView: View {
             .navigationBarBackButtonHidden()
         }
         .background(Color.customViewBackgroundColor)
+        // 풀스크린 오버레이 튜토리얼
+        .fullScreenCover(isPresented: $showTutorial) {
+            encounteredThisView = true
+        } content: {
+            FullScreenTutorialView(tutorialCategory: .resultView)
+        }
         .onAppear {
             scoringViewModel.score()
             scoringViewModel.saveSessionToDatabase()
+            
+            if !encounteredThisView {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                    withoutAnimation {
+                        showTutorial = true
+                    }
+                }
+            }
         }
     }
     

@@ -26,6 +26,12 @@ struct OverView: View {
     @State private var showPopover = false
     @State private var showModal = false
     
+    @State private var showTutorialModal = false
+    @AppStorage(TutorialCategory.overView.keyName) 
+    private var encounteredThisView = false
+    @AppStorage(TutorialCategory.cycledOverView.keyName) 
+    private var encounteredThisViewTwice = false
+    
     @State var visionStart = false
     
     @State var seeResult = false
@@ -78,6 +84,20 @@ struct OverView: View {
                 overViewModel.loadThumbnails()
                 setImagesAndData()
                 goToTestPage = false
+                
+                
+                if overViewModel.selectedPage == nil {
+                    overViewModel.loadPage()
+                }
+                overViewModel.loadSessionsOfPage()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                    withoutAnimation {
+                        if !encounteredThisView || (!encounteredThisViewTwice && !overViewModel.sessions.isEmpty) {
+                            showTutorialModal = true
+                        }
+                    }
+                }
             }
             .sheet(isPresented: $showModal) {
                 OverViewModalView(overViewModel: overViewModel)
@@ -90,7 +110,6 @@ struct OverView: View {
                         statsButton
                         showOriginalImageButton
                     }
-                    
                 }
                 
                 ToolbarItem(placement: .principal) {
@@ -138,6 +157,21 @@ struct OverView: View {
                 )
             }
         }
+        // 앱 릴리즈 튜토리얼
+        .fullScreenCover(isPresented: $showTutorialModal) {
+            if !encounteredThisView {
+                encounteredThisView = true
+            } else if encounteredThisView, !encounteredThisViewTwice, !overViewModel.sessions.isEmpty {
+                encounteredThisViewTwice = true
+            }
+        } content: {
+            let _ = print(encounteredThisViewTwice, overViewModel.sessions.isEmpty)
+            if !encounteredThisView {
+                FullScreenTutorialView(tutorialCategory: .overView)
+            } else if !encounteredThisViewTwice && !overViewModel.sessions.isEmpty {
+                FullScreenTutorialView(tutorialCategory: .cycledOverView)
+            }
+        }
         .alert("어떤 시험지를 고르시겠어요?" ,isPresented: $showingAlert) {
             Button("새로 만들기") {
                 goToNextPage = true
@@ -167,7 +201,6 @@ struct OverView: View {
                 StatModeIndexView()
                     .cornerRadius(20)
                     .frame(width: screenWidth / 5, height: screenHeight / 8)
-                    
             }
         }
     }
@@ -624,16 +657,6 @@ struct OverView: View {
             } else {
                 goToNextPage = true
             }
-            
-            var deviceModel = UIDevice.current.name
-            
-            //
-            let screenSize = UIScreen.main.bounds.size
-            let screenWidth = screenSize.width
-            let screenHeight = screenSize.height
-            
-            
-            
         } label: {
             Text("빈칸 만들기")
                 .fontWeight(.bold)
