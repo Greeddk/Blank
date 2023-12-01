@@ -44,19 +44,19 @@ enum TutorialCategory {
     var imageName: String {
         return switch self {
         case .homeView:
-            "Tutorial_1"
+            "Tutorial_HomeView"
         case .overView:
-            "Tutorial_2"
+            "Tutorial_OverView"
         case .wordSelectView:
-            "Tutorial_3"
+            "Tutorial_WordSelectView"
         case .ocrEditView:
-            "Tutorial_4"
+            "Tutorial_OCREditView"
         case .testPageView:
-            "Tutorial_5"
+            "Tutorial_TestPageView"
         case .resultView:
-            "Tutorial_6"
+            "Tutorial_ResultView"
         case .cycledOverView:
-            "Tutorial_7"
+            "Tutorial_OverView_Cycle"
         }
     }
     
