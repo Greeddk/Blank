@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PopupView
 
 struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
@@ -63,35 +62,6 @@ struct WordSelectView: View {
         .background(Color.customViewBackgroundColor)
         .navigationDestination(isPresented: $goToOCRView) {
             OCREditView(sessionNum: sessionNum, wordSelectViewModel: wordSelectViewModel)
-        }
-        .popup(isPresented: $showingAlert) {
-            HStack {
-                Image(systemName: "hand.tap.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100)
-                    .foregroundStyle(.white)
-                    .padding()
-                VStack {
-                    Text("단어를 선택하거나 드래그해 주세요.")
-                        .font(.largeTitle)
-                        .foregroundStyle(.white)
-                    Text("시험을 보고 싶은 단어를 선택하거나 드래그해 주세요")
-                        .foregroundStyle(.white)
-                }
-                .padding()
-            }
-            .background(.black.opacity(0.8))
-            .clipShape(.rect(cornerRadius: 10))
-            .padding()
-            .offset(x: 0, y: 100)
-        } customize: {
-            $0
-                .position(.top)
-                .autohideIn(3.0)
-                .closeOnTap(false) // 팝업을 터치했을 때 없애야 하나?
-                .closeOnTapOutside(false)
-                .animation(.smooth)
         }
     }
     
