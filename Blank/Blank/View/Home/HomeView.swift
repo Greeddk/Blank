@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-let exhibitionHideTime: Int = 420
+let exhibitionHideTime: Int = 210
 
 struct HomeView: View {
     enum Mode {

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WordSelectView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var showingAlert = true
+    @State private var showExhibitionModal = false
     @State var visionStart: Bool = false
     
     @State var goToOCRView = false
@@ -62,6 +62,19 @@ struct WordSelectView: View {
         .background(Color.customViewBackgroundColor)
         .navigationDestination(isPresented: $goToOCRView) {
             OCREditView(sessionNum: sessionNum, wordSelectViewModel: wordSelectViewModel)
+        }
+        // 쇼케이스 튜토리얼
+        .fullScreenCover(isPresented: $showExhibitionModal) {
+            ExhibitionTutorialManager.default.setEncountered(.wordSelectView)
+        } content: {
+            ExhibitionTutorialView(tutorialCategory: .wordSelectView)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
+                withoutAnimation {
+                    showExhibitionModal =  !ExhibitionTutorialManager.default.isEncountered(.wordSelectView)
+                }
+            }
         }
     }
     
