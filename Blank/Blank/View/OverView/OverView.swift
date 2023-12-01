@@ -491,9 +491,11 @@ struct OverView: View {
                 Text("\((URL(fileURLWithPath: overViewModel.currentFile.fileName).deletingPathExtension().lastPathComponent))")
                 Image(systemName: "chevron.down")
             }
+            .frame(width: UIScreen.main.bounds.width / 4)
             .foregroundColor(.black)
             .fontWeight(.bold)
         }
+        
         .popover(isPresented: $showPopover) {
             popoverContent
         }
@@ -651,7 +653,7 @@ struct OverView: View {
             let screenWidth = screenSize.width
             let screenHeight = screenSize.height
             
-            print(screenSize, screenWidth, screenHeight)
+            
             
         } label: {
             Text("빈칸 만들기")

@@ -15,6 +15,8 @@ struct ResultPageView: View {
     @StateObject var scoringViewModel: ScoringViewModel
     @State var zoomScale: CGFloat = 1.0
     
+    
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
@@ -81,10 +83,13 @@ struct ResultPageView: View {
             ImageView(
                 uiImage: scoringViewModel.currentImage,
                 visionStart: $visionStart,
-                viewName: "ResultPageView", isSelectArea: .constant(false),
+                viewName: "ResultPageView",
+                isSelectArea: .constant(false),
+                isBlankArea: .constant(false),
                 basicWords: .constant([]),
                 targetWords: $scoringViewModel.targetWords,
-                currentWritingWords: $scoringViewModel.currentWritingWords
+                currentWritingWords: $scoringViewModel.currentWritingWords, selectedOption: .constant("")
+                
             )
         }
     }
