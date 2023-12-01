@@ -58,7 +58,7 @@ struct TestPageView: View {
         .fullScreenCover(isPresented: $showTutorial) {
             encounteredThisView = true
         } content: {
-            FullScreenTutorialView(tutorialCategory: .wordSelectView)
+            FullScreenTutorialView(tutorialCategory: .testPageView)
         }
         .onAppear {
             if !encounteredThisView {

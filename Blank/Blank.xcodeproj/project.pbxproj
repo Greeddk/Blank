@@ -55,6 +55,7 @@
 		AC28517A2AE7292500C70F4F /* OverViewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2851792AE7292500C70F4F /* OverViewImageView.swift */; };
 		AC3E63762B01F5BB000C2944 /* samplePDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AC3E63752B01F5BB000C2944 /* samplePDF.pdf */; };
 		AC510A4D2B03BD4000587999 /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC510A4C2B03BD4000587999 /* ExerciseView.swift */; };
+		ACBE96332B16735100D933E3 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE96322B16735100D933E3 /* SelectionView.swift */; };
 		ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */; };
 		ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */; };
 		ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA632AD7CC7700C44A80 /* Preview Assets.xcassets */; };
@@ -132,6 +133,7 @@
 		AC2851792AE7292500C70F4F /* OverViewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewImageView.swift; sourceTree = "<group>"; };
 		AC3E63752B01F5BB000C2944 /* samplePDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplePDF.pdf; sourceTree = "<group>"; };
 		AC510A4C2B03BD4000587999 /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
+		ACBE96322B16735100D933E3 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		ACDBDA592AD7CC7600C44A80 /* Blank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankApp.swift; sourceTree = "<group>"; };
 		ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -301,6 +303,15 @@
 			path = OverView;
 			sourceTree = "<group>";
 		};
+		ACBE96312B16731E00D933E3 /* WordSelectView */ = {
+			isa = PBXGroup;
+			children = (
+				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
+				ACBE96322B16735100D933E3 /* SelectionView.swift */,
+			);
+			path = WordSelectView;
+			sourceTree = "<group>";
+		};
 		ACDBDA502AD7CC7600C44A80 = {
 			isa = PBXGroup;
 			children = (
@@ -379,7 +390,7 @@
 				449CB1D72ADED6920086758A /* Home */,
 				EBEB72612AE0BC8500316D66 /* ImageView.swift */,
 				AC2851782AE7291100C70F4F /* OverView */,
-				42ED60CB2ADE7F1A0043AF2F /* WordSelectView.swift */,
+				ACBE96312B16731E00D933E3 /* WordSelectView */,
 				EBEB727D2AE548AB00316D66 /* OCREdit */,
 				EB69FC7B2AE6BF2200ADF7B6 /* TestPage */,
 				428102A82AF8EF9300938A27 /* ResultPage */,
@@ -538,6 +549,7 @@
 				EB3EBD0E2B075F0E001160B0 /* View+.swift in Sources */,
 				449CB1DA2ADED6C10086758A /* DocumentPickerRepresentedView.swift in Sources */,
 				42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */,
+				ACBE96332B16735100D933E3 /* SelectionView.swift in Sources */,
 				42ED60D22ADE7F450043AF2F /* TestPageView.swift in Sources */,
 				42ED60CC2ADE7F1A0043AF2F /* WordSelectView.swift in Sources */,
 				448289702B09143A00F5912E /* SelectFolderViewModel.swift in Sources */,

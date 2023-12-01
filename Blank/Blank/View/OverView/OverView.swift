@@ -27,8 +27,10 @@ struct OverView: View {
     @State private var showModal = false
     
     @State private var showTutorialModal = false
-    @AppStorage(TutorialCategory.overView.keyName) private var encounteredThisView = false
-    @AppStorage(TutorialCategory.cycledOverView.keyName) private var encounteredThisViewTwice = false
+    @AppStorage(TutorialCategory.overView.keyName) 
+    private var encounteredThisView = false
+    @AppStorage(TutorialCategory.cycledOverView.keyName) 
+    private var encounteredThisViewTwice = false
     
     @State var visionStart = false
     
@@ -82,6 +84,12 @@ struct OverView: View {
                 overViewModel.loadThumbnails()
                 setImagesAndData()
                 goToTestPage = false
+                
+                
+                if overViewModel.selectedPage == nil {
+                    overViewModel.loadPage()
+                }
+                overViewModel.loadSessionsOfPage()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(exhibitionHideTime)) {
                     withoutAnimation {
@@ -149,15 +157,15 @@ struct OverView: View {
                 )
             }
         }
-        
-        // 쇼케이스 튜토리얼
+        // 앱 릴리즈 튜토리얼
         .fullScreenCover(isPresented: $showTutorialModal) {
             if !encounteredThisView {
                 encounteredThisView = true
-            } else {
+            } else if encounteredThisView, !encounteredThisViewTwice, !overViewModel.sessions.isEmpty {
                 encounteredThisViewTwice = true
             }
         } content: {
+            let _ = print(encounteredThisViewTwice, overViewModel.sessions.isEmpty)
             if !encounteredThisView {
                 FullScreenTutorialView(tutorialCategory: .overView)
             } else if !encounteredThisViewTwice && !overViewModel.sessions.isEmpty {
@@ -649,16 +657,6 @@ struct OverView: View {
             } else {
                 goToNextPage = true
             }
-            
-            var deviceModel = UIDevice.current.name
-            
-            //
-            let screenSize = UIScreen.main.bounds.size
-            let screenWidth = screenSize.width
-            let screenHeight = screenSize.height
-            
-            print(screenSize, screenWidth, screenHeight)
-            
         } label: {
             Text("빈칸 만들기")
                 .fontWeight(.bold)

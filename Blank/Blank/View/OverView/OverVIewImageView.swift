@@ -79,6 +79,7 @@ struct OverViewImageView: View {
     // ---------- Mark : 반자동   ----------------
     func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
         
+        
         let imageSize = overViewModel.currentImage?.size ?? CGSize(width: 1, height: 1)
         
         // Image 뷰 너비와 UIImage 너비 사이의 비율

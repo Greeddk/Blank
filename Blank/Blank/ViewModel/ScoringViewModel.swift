@@ -64,8 +64,6 @@ final class ScoringViewModel: ObservableObject {
             
             targetWords[targetWordIndex].isCorrect = currentWordValue == targetWordValue
             
-            // print("[DEBUG]", currentWordValue, targetWordValue)
-            // print("[DEBUG]", targetWords[targetWordIndex].isCorrect)
         }
     }
     

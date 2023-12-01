@@ -15,7 +15,8 @@ struct ResultPageView: View {
     @State var zoomScale: CGFloat = 1.0
     
     @State private var showTutorial = false
-    @AppStorage(TutorialCategory.resultView.keyName) private var encounteredThisView = false
+    @AppStorage(TutorialCategory.resultView.keyName)
+    private var encounteredThisView = false
     
     var body: some View {
         NavigationStack {
@@ -48,7 +49,7 @@ struct ResultPageView: View {
         .fullScreenCover(isPresented: $showTutorial) {
             encounteredThisView = true
         } content: {
-            FullScreenTutorialView(tutorialCategory: .wordSelectView)
+            FullScreenTutorialView(tutorialCategory: .resultView)
         }
         .onAppear {
             scoringViewModel.score()
@@ -85,10 +86,13 @@ struct ResultPageView: View {
             ImageView(
                 uiImage: scoringViewModel.currentImage,
                 visionStart: $visionStart,
-                viewName: "ResultPageView", isSelectArea: .constant(false),
+                viewName: "ResultPageView",
+                isSelectArea: .constant(false),
+                isBlankArea: .constant(false),
                 basicWords: .constant([]),
                 targetWords: $scoringViewModel.targetWords,
-                currentWritingWords: $scoringViewModel.currentWritingWords
+                currentWritingWords: $scoringViewModel.currentWritingWords, selectedOption: .constant("")
+                
             )
         }
     }

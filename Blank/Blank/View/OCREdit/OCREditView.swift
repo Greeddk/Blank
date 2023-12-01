@@ -74,7 +74,7 @@ struct OCREditView: View {
         .fullScreenCover(isPresented: $showTutorial) {
             encounteredThisView = true
         } content: {
-            FullScreenTutorialView(tutorialCategory: .wordSelectView)
+            FullScreenTutorialView(tutorialCategory: .ocrEditView)
         }
         .onAppear {
             if !encounteredThisView {
