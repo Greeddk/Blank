@@ -21,7 +21,7 @@ class SelectFolderViewModel: ObservableObject {
         
         if let documents = rootFolder.subfolder?.first {
             directoryList = [documents]
-            // print(documents)
+            
         }
     }
     

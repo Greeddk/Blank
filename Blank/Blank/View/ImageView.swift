@@ -22,11 +22,14 @@ struct ImageView: View {
     @State var endLocation: CGPoint?
     
     @Binding var isSelectArea: Bool
+    @Binding var isBlankArea: Bool
     
     // 다른 뷰에서도 사용할 수 있기 때문에 뷰모델로 전달하지 않고 개별 배열로 전달해봄
     @Binding var basicWords: [BasicWord]
     @Binding var targetWords: [Word]
     @Binding var currentWritingWords: [Word]
+    
+    @Binding var selectedOption: String
     
     @State var isAreaTouched: [Int: Bool] = [:]
     
@@ -35,9 +38,14 @@ struct ImageView: View {
     
     @State var zoomScale: CGFloat = 1.0
     
+    @State private var checkViewSize: CGSize = .zero
+    
+    
+    
     var body: some View {
         GeometryReader { proxy in
             // ScrollView를 통해 PinchZoom시 좌우상하 이동
+            
             Image(uiImage: uiImage ?? UIImage())  //경섭추가코드를 받기위한 변경
                 .resizable()
                 .scaledToFit()
@@ -59,9 +67,9 @@ struct ImageView: View {
                             self.recognizedBoxes = recognizedTexts
                             basicWords = recognizedTexts.map { .init(id: UUID(), wordValue: $0.0, rect: $0.1, isSelectedWord: false) }
                         }
-    
                     }
                 })
+            
             // 조조 코드 아래 일단 냅두고 위의 방식으로 수정했음
                 .overlay {
                     // TODO: Image 위에 올릴 컴포넌트(핀치줌 시 크기고정을 위해 width, height, x, y에 scale갑 곱하기)
@@ -80,13 +88,17 @@ struct ImageView: View {
                                 .fill( basicWords[index].isSelectedWord  ? Color.green.opacity(0.4) : Color.white.opacity(0.01))
                                 .onTapGesture {
                                     withAnimation {
-                                        basicWords[index].isSelectedWord = isSelectArea ? true : false
+                                        
+                                        if selectedOption == "eraser"{
+                                            basicWords[index].isSelectedWord = false
+                                        } else if selectedOption == "dragPen" {
+                                            basicWords[index].isSelectedWord = true
+                                        }
+                                        
+                                        //                                        basicWords[index].isSelectedWord = isSelectArea ? false : true
                                     }
                                 }
                         }
-                        
-                        
-                        
                     } else if viewName == "ResultPageView" {
                         // TargetWords의 wordValue에는 원래 값 + 맞고 틀림 여부(isCorrect)이 넘어온다
                         ForEach(targetWords.indices, id: \.self) { index in
@@ -127,25 +139,49 @@ struct ImageView: View {
                             
                             endLocation = value.location
                             
+                            // ---------- Mark : 기존 단어 드래그시 선택 코드  ----------------
                             // 드래그 경로에 있는 단어 선택 1. rect구하기
-                            let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
-                                                  y: min(startLocation!.y, endLocation!.y),
-                                                  width: abs(endLocation!.x - startLocation!.x),
-                                                  height: abs(endLocation!.y - startLocation!.y))
                             
-                            for index in basicWords.indices {
-                                if dragRect.intersects(adjustRect(basicWords[index].rect, in: proxy)) {
-                                    basicWords[index].isSelectedWord = isSelectArea ? true : false
-                                }
+                            if !isBlankArea {
+                                buttonTypeAction(isBlankAreaBool: self.isBlankArea,
+                                                 isSelectAreaBool: self.isSelectArea,
+                                                 startLocation: startLocation,
+                                                 endLocation: endLocation,
+                                                 proxy: proxy)
                             }
                         }
                         .onEnded{ value in
+                            
+                            
+                            
+                            let imageSize = self.uiImage?.size ?? CGSize(width: 1, height: 1)
+                            let leftSpacerWidth = frameRatio().0
+                            let rightSpacerWidth = frameRatio().1
+                            endLocation!.x = max(leftSpacerWidth, endLocation!.x)
+                            endLocation!.x = min(rightSpacerWidth, endLocation!.x)
+                            
+                            
+                            
+                            // 드레그 완료 후 빈칸 BasicWord 배열에 추가
+                            if isBlankArea {
+                                buttonTypeAction(isBlankAreaBool: self.isBlankArea,
+                                                 isSelectAreaBool: self.isSelectArea,
+                                                 startLocation: startLocation,
+                                                 endLocation: endLocation,
+                                                 proxy: proxy)
+                            }
+                            
                             // drag 끝나면 초기화
                             startLocation = nil
                             endLocation = nil
                         }
                 )
+            
+            
+            
+            
         }
+        
     }
     
     
@@ -153,6 +189,7 @@ struct ImageView: View {
     func adjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
         
         let imageSize = self.uiImage?.size ?? CGSize(width: 1, height: 1)
+        
         
         // Image 뷰 너비와 UIImage 너비 사이의 비율
         let scaleY: CGFloat = geometry.size.height / imageSize.height
@@ -163,34 +200,29 @@ struct ImageView: View {
         let screenHeight = screenSize.height
         
         
-        var deviceX: CGFloat = 0.0
+        var deviceFactor: CGFloat = 0.0
         
         switch (screenHeight ,screenWidth) {
-        case (1366, 1024):
             // iPad Pro 12.9인치 모델 (1세대부터 6세대까지)
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 6.5 )  + (rect.origin.x * scaleY))
-        case (1194, 834):
+        case (1366, 1024): deviceFactor = 6.5
             // iPad Pro 11인치 모델 (1세대부터 4세대까지)
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 7.0 )  + (rect.origin.x * scaleY))
-        case (1112, 834):
+        case (1194, 834): deviceFactor = 7.0
             // iPad Pro 10.5인치, iPad Air (3세대)
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 4.5 )  + (rect.origin.x * scaleY))
-        case (1080, 810):
+        case (1112, 834): deviceFactor = 4.5
             // iPad (7세대), iPad (8세대), iPad (9세대)
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 4.0 )  + (rect.origin.x * scaleY))
-        case (1180, 820):
+        case (1080, 810): deviceFactor = 4.0
             // iPad Air (4세대), iPad Air (5세대), iPad (10세대)
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 7.0 )  + (rect.origin.x * scaleY))
-        case (1024, 768):
+        case (1180, 820): deviceFactor = 7.0
             // iPad Pro 9.7인치, iPad (5세대), iPad (6세대), iPad mini (5세대)
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 3.43 )  + (rect.origin.x * scaleY))
-        case (1133, 744):
+        case (1024, 768): deviceFactor = 3.43
             // iPad mini (6세대)
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 15.0 )  + (rect.origin.x * scaleY))
-        default:
+        case (1133, 744): deviceFactor = 15.0
             // 알 수 없는 또는 다른 해상도를 가진 모델 (12.9인치 모델을 deafult로 함)
-            deviceX = ( ( (geometry.size.width - imageSize.width) / 6.5 )  + (rect.origin.x * scaleY))
+        default: deviceFactor = 6.5
         }
+        
+        
+        let deviceX = ( ( (geometry.size.width - imageSize.width) / deviceFactor )  + (rect.origin.x * scaleY))
         
         return CGRect(
             x: deviceX,
@@ -200,12 +232,161 @@ struct ImageView: View {
         )
     }
     
+    // ---------- Mark : 조조 프레임 생성  ----------------
+    //MARK: adjustRect 함수 reverse
+    func reverseAdjustRect(_ rect: CGRect, in geometry: GeometryProxy) -> CGRect {
+        
+        let imageSize = self.uiImage?.size ?? CGSize(width: 1, height: 1)
+        let scaleY: CGFloat = geometry.size.height / imageSize.height
+        
+        // screenSize와 deviceFactor 계산
+        let screenSize = UIScreen.main.bounds.size
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        
+        
+        var deviceFactor: CGFloat = 0.0
+        // deviceFactor 역산에 필요한 디바이스별 설정 (adjustRect 함수에서 사용된 로직에 따라)
+        switch (screenHeight ,screenWidth) {
+            // iPad Pro 12.9인치 모델 (1세대부터 6세대까지)
+        case (1366, 1024): deviceFactor = 6.5
+            // iPad Pro 11인치 모델 (1세대부터 4세대까지)
+        case (1194, 834): deviceFactor = 7.0
+            // iPad Pro 10.5인치, iPad Air (3세대)
+        case (1112, 834): deviceFactor = 4.5
+            // iPad (7세대), iPad (8세대), iPad (9세대)
+        case (1080, 810): deviceFactor = 4.0
+            // iPad Air (4세대), iPad Air (5세대), iPad (10세대)
+        case (1180, 820): deviceFactor = 7.0
+            // iPad Pro 9.7인치, iPad (5세대), iPad (6세대), iPad mini (5세대)
+        case (1024, 768): deviceFactor = 3.43
+            // iPad mini (6세대)
+        case (1133, 744): deviceFactor = 15.0
+            // 알 수 없는 또는 다른 해상도를 가진 모델 (12.9인치 모델을 deafult로 함)
+        default: deviceFactor = 6.5
+        }
+        
+        let deviceX = (rect.origin.x - (geometry.size.width - imageSize.width) / deviceFactor) / scaleY
+        
+        return CGRect(
+            x: deviceX,
+            y: (imageSize.height - (rect.origin.y / scaleY) - (rect.size.height / scaleY)),
+            width: rect.width / scaleY,
+            height: rect.height / scaleY
+        )
+    }
+    
+    func frameRatio() -> (CGFloat, CGFloat) {
+        
+        
+        let screenSize = UIScreen.main.bounds.size
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        
+        let imageSize = self.uiImage?.size ?? CGSize(width: 1, height: 1)
+        let diffSize = UIScreen.main.bounds.width - imageSize.width
+        
+        
+        var leftSpacerWidth: CGFloat = 0.0
+        var rightSpacerWidth: CGFloat = 0.0
+        
+        switch (screenHeight ,screenWidth) {
+            // iPad Pro 12.9인치 모델 (1세대부터 6세대까지)
+        case (1366, 1024):
+            leftSpacerWidth = diffSize * 0.15
+            rightSpacerWidth = diffSize * 2.239
+            
+            // iPad Pro 11인치 모델 (1세대부터 4세대까지)
+        case (1194, 834):
+            leftSpacerWidth = diffSize * 0.147
+            rightSpacerWidth = diffSize * 3.369
+            
+            // iPad Pro 10.5인치, iPad Air (3세대)
+        case (1112, 834):
+            leftSpacerWidth = diffSize * 0.216
+            rightSpacerWidth = diffSize * 3.289
+            
+            //            // iPad (7세대), iPad (8세대), iPad (9세대)
+        case (1080, 810):
+            leftSpacerWidth = diffSize * 0.238
+            rightSpacerWidth = diffSize * 3.55
+            
+            //            // iPad Air (4세대), iPad Air (5세대), iPad (10세대)
+        case (1180, 820):
+            leftSpacerWidth = diffSize * 0.133
+            rightSpacerWidth = diffSize * 3.531
+            
+            //            // iPad Pro 9.7인치, iPad (5세대), iPad (6세대), iPad mini (5세대)
+        case (1024, 768):
+            leftSpacerWidth = diffSize * 0.29
+            rightSpacerWidth = diffSize * 4.18
+            
+            // iPad mini (6세대)
+        case (1133, 744):
+            leftSpacerWidth = diffSize * 0.054
+            rightSpacerWidth = diffSize * 4.95
+            
+            //            // 알 수 없는 또는 다른 해상도를 가진 모델 (12.9인치 모델을 deafult로 함)
+        default:
+            leftSpacerWidth = diffSize * 0.15
+            rightSpacerWidth = diffSize * 2.239
+        }
+        
+        return (leftSpacerWidth, rightSpacerWidth)
+        
+    }
     
     
-    
+    //    func buttonTypeAction(isBlankAreaBool: Bool, isSelectAreaBool: Bool, index: Int) {
+    func buttonTypeAction(isBlankAreaBool: Bool, isSelectAreaBool: Bool ,startLocation: CGPoint?, endLocation: CGPoint?, proxy: GeometryProxy) {
+        
+        // 기본 drag 위치정보얻기
+        let dragRect = CGRect(x: min(startLocation!.x, endLocation!.x),
+                              y: min(startLocation!.y, endLocation!.y),
+                              width: abs(endLocation!.x - startLocation!.x),
+                              height: abs(endLocation!.y - startLocation!.y))
+        
+        switch (isSelectAreaBool, isBlankAreaBool) {
+            //framPen 모드일 때
+        case (false, true):
+            
+            let dragword = BasicWord(id: UUID(),
+                                     wordValue: "",
+                                     rect: reverseAdjustRect(dragRect, in: proxy),
+                                     isSelectedWord: true)
+            basicWords.append(dragword)
+            
+            
+            //dragPen 모드일 때
+        case (true, false):
+            for index in basicWords.indices {
+                if dragRect.intersects(adjustRect(basicWords[index].rect, in: proxy)) {
+                    basicWords[index].isSelectedWord =  true
+                }
+            }
+            
+            //eraser 모드일 때
+        case (false, false):
+            
+            // .reversed()로 순회하면서 하는 이유는 뒤에서진행하면서 index문제없게 처리하려고
+            basicWords.indices.reversed().forEach { index in
+                if dragRect.intersects(adjustRect(basicWords[index].rect, in: proxy)) {
+                    if basicWords[index].wordValue == "" {
+                        basicWords.remove(at: index)
+                    } else {
+                        basicWords[index].isSelectedWord = false
+                    }
+                }
+            }
+            
+        default:
+            let _ = "nothing"
+        }
+        
+    }
 }
 
-//
+
 //#Preview {
 //    ImageView(scale: .constant(1.0))
 //}
