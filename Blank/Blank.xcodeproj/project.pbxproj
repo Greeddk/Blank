@@ -55,7 +55,6 @@
 		AC28517A2AE7292500C70F4F /* OverViewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2851792AE7292500C70F4F /* OverViewImageView.swift */; };
 		AC3E63762B01F5BB000C2944 /* samplePDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AC3E63752B01F5BB000C2944 /* samplePDF.pdf */; };
 		AC510A4D2B03BD4000587999 /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC510A4C2B03BD4000587999 /* ExerciseView.swift */; };
-		ACB5AD092B181C4000EE8492 /* testKorea.pdf in Resources */ = {isa = PBXBuildFile; fileRef = ACB5AD082B181C4000EE8492 /* testKorea.pdf */; };
 		ACBE96332B16735100D933E3 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE96322B16735100D933E3 /* SelectionView.swift */; };
 		ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */; };
 		ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACDBDA602AD7CC7700C44A80 /* Assets.xcassets */; };
@@ -134,7 +133,6 @@
 		AC2851792AE7292500C70F4F /* OverViewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewImageView.swift; sourceTree = "<group>"; };
 		AC3E63752B01F5BB000C2944 /* samplePDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplePDF.pdf; sourceTree = "<group>"; };
 		AC510A4C2B03BD4000587999 /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
-		ACB5AD082B181C4000EE8492 /* testKorea.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testKorea.pdf; sourceTree = "<group>"; };
 		ACBE96322B16735100D933E3 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		ACDBDA592AD7CC7600C44A80 /* Blank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blank.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankApp.swift; sourceTree = "<group>"; };
@@ -240,7 +238,6 @@
 				EB0B16C32AF23B780040B0B2 /* insert.mov */,
 				EB8978EB2AE5644400494BE7 /* select.mov */,
 				AC3E63752B01F5BB000C2944 /* samplePDF.pdf */,
-				ACB5AD082B181C4000EE8492 /* testKorea.pdf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -491,7 +488,6 @@
 				AC3E63762B01F5BB000C2944 /* samplePDF.pdf in Resources */,
 				EB0B16C42AF23B780040B0B2 /* insert.mov in Resources */,
 				EB8978F02AE5644400494BE7 /* select.mov in Resources */,
-				ACB5AD092B181C4000EE8492 /* testKorea.pdf in Resources */,
 				EB8978EF2AE5644400494BE7 /* delete.mov in Resources */,
 				EB8978ED2AE5644400494BE7 /* handWrite.mov in Resources */,
 				EB8978F12AE5644400494BE7 /* link.mov in Resources */,
