@@ -8,7 +8,7 @@
 import CoreData
 
 struct PersistenceController {
-    static let shared = PersistenceController()
+    static let shared = PersistenceController(inMemory: true)
 
     /// 코어데이터 미리보기 용도로 FileEntity 엔티티 생성
     static var preview: PersistenceController = {
