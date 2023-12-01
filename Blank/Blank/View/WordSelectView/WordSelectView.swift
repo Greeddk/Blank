@@ -17,7 +17,7 @@ struct WordSelectView: View {
     @State var noneOfWordSelected = true
     
     // 더블탭, selectionView를 위한 상태변수
-    @State private var selectedOption: String? = "dragPen"
+    @State private var selectedOption: String = "dragPen"
     @State var isSelectArea = true
     @State var isBlankArea = false
     
@@ -98,7 +98,7 @@ struct WordSelectView: View {
     private var wordSelectImage: some View {
         // TODO: 단어 선택시 해당 단어 위에 마스킹 생성 기능, 다시 터치시 해제, 비전 스타트가 여기에 필요한지..?
         VStack {
-            ImageView(uiImage: wordSelectViewModel.currentImage, visionStart: $visionStart, viewName: "WordSelectView", isSelectArea: $isSelectArea, isBlankArea: $isBlankArea, basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]), currentWritingWords: .constant([]) )
+            ImageView(uiImage: wordSelectViewModel.currentImage, visionStart: $visionStart, viewName: "WordSelectView", isSelectArea: $isSelectArea, isBlankArea: $isBlankArea, basicWords: $wordSelectViewModel.basicWords, targetWords: .constant([]), currentWritingWords: .constant([]), selectedOption: $selectedOption )
         }
         .onChange(of: wordSelectViewModel.basicWords) { _ in
             noneOfWordSelected = !wordSelectViewModel.basicWords.contains(where: { $0.isSelectedWord })

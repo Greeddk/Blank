@@ -29,6 +29,7 @@ struct ImageView: View {
     @Binding var targetWords: [Word]
     @Binding var currentWritingWords: [Word]
     
+    @Binding var selectedOption: String
     
     @State var isAreaTouched: [Int: Bool] = [:]
     
@@ -55,7 +56,7 @@ struct ImageView: View {
             //                더 작은 값을 반환할건데
             //                이미지 > GeometryReader 일 때 이미지는 GeometryReader의 크기에 맞게 축소.
             //                반대로 GeometryReader > 이미지면  이미지의 원래 크기를 사용
-                .frame( 
+                .frame(
                     width: max(uiImage?.size.width ?? proxy.size.width, proxy.size.width) ,
                     height: max(uiImage?.size.height ?? proxy.size.height, proxy.size.height)
                 )
@@ -88,13 +89,13 @@ struct ImageView: View {
                                 .onTapGesture {
                                     withAnimation {
                                         
-                                        if !basicWords[index].isSelectedWord {
-                                            basicWords[index].isSelectedWord = true
-                                        } else {
+                                        if selectedOption == "eraser"{
                                             basicWords[index].isSelectedWord = false
+                                        } else if selectedOption == "dragPen" {
+                                            basicWords[index].isSelectedWord = true
                                         }
                                         
-//                                        basicWords[index].isSelectedWord = isSelectArea ? false : true
+                                        //                                        basicWords[index].isSelectedWord = isSelectArea ? false : true
                                     }
                                 }
                         }
@@ -150,6 +151,7 @@ struct ImageView: View {
                             }
                         }
                         .onEnded{ value in
+                            
                             
                             
                             let imageSize = self.uiImage?.size ?? CGSize(width: 1, height: 1)
@@ -304,17 +306,17 @@ struct ImageView: View {
             leftSpacerWidth = diffSize * 0.216
             rightSpacerWidth = diffSize * 3.289
             
-//            // iPad (7세대), iPad (8세대), iPad (9세대)
+            //            // iPad (7세대), iPad (8세대), iPad (9세대)
         case (1080, 810):
             leftSpacerWidth = diffSize * 0.238
             rightSpacerWidth = diffSize * 3.55
             
-//            // iPad Air (4세대), iPad Air (5세대), iPad (10세대)
+            //            // iPad Air (4세대), iPad Air (5세대), iPad (10세대)
         case (1180, 820):
             leftSpacerWidth = diffSize * 0.133
             rightSpacerWidth = diffSize * 3.531
             
-//            // iPad Pro 9.7인치, iPad (5세대), iPad (6세대), iPad mini (5세대)
+            //            // iPad Pro 9.7인치, iPad (5세대), iPad (6세대), iPad mini (5세대)
         case (1024, 768):
             leftSpacerWidth = diffSize * 0.29
             rightSpacerWidth = diffSize * 4.18
@@ -324,13 +326,13 @@ struct ImageView: View {
             leftSpacerWidth = diffSize * 0.054
             rightSpacerWidth = diffSize * 4.95
             
-//            // 알 수 없는 또는 다른 해상도를 가진 모델 (12.9인치 모델을 deafult로 함)
-        default: 
+            //            // 알 수 없는 또는 다른 해상도를 가진 모델 (12.9인치 모델을 deafult로 함)
+        default:
             leftSpacerWidth = diffSize * 0.15
             rightSpacerWidth = diffSize * 2.239
         }
-    
-     return (leftSpacerWidth, rightSpacerWidth)
+        
+        return (leftSpacerWidth, rightSpacerWidth)
         
     }
     

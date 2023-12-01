@@ -54,7 +54,6 @@ struct OverViewImageView: View {
                                     }
                                     .onTapGesture {
                                         overViewModel.totalStats[key]?.isSelected.toggle()
-                                        print("imageSize: \(overViewModel.currentImage?.size.width) , UIScreen.main.bounds.width : \(UIScreen.main.bounds.width),size.width: \(proxy.size.width) ")
                                     }
                                     .zIndex(stat.isSelected ? 1 : 0)
                             }

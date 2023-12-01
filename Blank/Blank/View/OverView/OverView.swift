@@ -630,7 +630,7 @@ struct OverView: View {
             let screenWidth = screenSize.width
             let screenHeight = screenSize.height
             
-            print(screenSize, screenWidth, screenHeight)
+            
             
         } label: {
             Text("빈칸 만들기")

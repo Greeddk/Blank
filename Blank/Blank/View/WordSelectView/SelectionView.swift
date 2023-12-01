@@ -11,7 +11,7 @@ import SwiftUI
 struct SelectionView: View {
     
 //    @State private var selectedOption: String? = nil
-    @Binding var selectedOption: String?
+    @Binding var selectedOption: String
     
     @Binding var isSelectArea: Bool
     @Binding var isBlankArea: Bool

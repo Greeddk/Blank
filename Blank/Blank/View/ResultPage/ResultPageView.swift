@@ -15,6 +15,8 @@ struct ResultPageView: View {
     @StateObject var scoringViewModel: ScoringViewModel
     @State var zoomScale: CGFloat = 1.0
     
+    
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .top) {
@@ -74,7 +76,7 @@ struct ResultPageView: View {
                 isBlankArea: .constant(false),
                 basicWords: .constant([]),
                 targetWords: $scoringViewModel.targetWords,
-                currentWritingWords: $scoringViewModel.currentWritingWords
+                currentWritingWords: $scoringViewModel.currentWritingWords, selectedOption: .constant("")
                 
             )
         }

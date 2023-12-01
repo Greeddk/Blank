@@ -178,7 +178,6 @@ class HomeViewModel: ObservableObject {
             }
             
             let copyResult = FileManager.default.secureCopyItem(at: fileURL, to: newURL)
-            print(newURL.lastPathComponent, " / result:", copyResult)
         }
     }
 }
