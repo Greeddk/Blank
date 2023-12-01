@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4220B39D2B0CEDAD003F5849 /* StatModeIndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220B39C2B0CEDAD003F5849 /* StatModeIndexView.swift */; };
 		422355C72B0CA54300905F76 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422355C62B0CA54300905F76 /* Color+.swift */; };
+		424B48C62B19C77D00834455 /* Korea History.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 424B48C52B19C77D00834455 /* Korea History.pdf */; };
+		424B48C82B19C78D00834455 /* EnglishWord.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 424B48C72B19C78D00834455 /* EnglishWord.pdf */; };
 		425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */; };
 		425D4E462AF0EEEF00610BE8 /* NavigationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E452AF0EEEF00610BE8 /* NavigationUtil.swift */; };
 		42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E763892AE1229700624D81 /* OverViewModel.swift */; };
@@ -85,6 +87,8 @@
 /* Begin PBXFileReference section */
 		4220B39C2B0CEDAD003F5849 /* StatModeIndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatModeIndexView.swift; sourceTree = "<group>"; };
 		422355C62B0CA54300905F76 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		424B48C52B19C77D00834455 /* Korea History.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Korea History.pdf"; sourceTree = "<group>"; };
+		424B48C72B19C78D00834455 /* EnglishWord.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = EnglishWord.pdf; sourceTree = "<group>"; };
 		425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
 		425D4E452AF0EEEF00610BE8 /* NavigationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationUtil.swift; sourceTree = "<group>"; };
 		42E763892AE1229700624D81 /* OverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModel.swift; sourceTree = "<group>"; };
@@ -237,6 +241,8 @@
 				EB8978EC2AE5644400494BE7 /* link.mov */,
 				EB0B16C32AF23B780040B0B2 /* insert.mov */,
 				EB8978EB2AE5644400494BE7 /* select.mov */,
+				424B48C52B19C77D00834455 /* Korea History.pdf */,
+				424B48C72B19C78D00834455 /* EnglishWord.pdf */,
 				AC3E63752B01F5BB000C2944 /* samplePDF.pdf */,
 			);
 			path = Resources;
@@ -487,8 +493,10 @@
 				ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */,
 				AC3E63762B01F5BB000C2944 /* samplePDF.pdf in Resources */,
 				EB0B16C42AF23B780040B0B2 /* insert.mov in Resources */,
+				424B48C82B19C78D00834455 /* EnglishWord.pdf in Resources */,
 				EB8978F02AE5644400494BE7 /* select.mov in Resources */,
 				EB8978EF2AE5644400494BE7 /* delete.mov in Resources */,
+				424B48C62B19C77D00834455 /* Korea History.pdf in Resources */,
 				EB8978ED2AE5644400494BE7 /* handWrite.mov in Resources */,
 				EB8978F12AE5644400494BE7 /* link.mov in Resources */,
 				ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */,
@@ -700,7 +708,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = 6S2SA26VAN;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
@@ -738,7 +746,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Blank/Preview Content\"";
-				DEVELOPMENT_TEAM = 6S2SA26VAN;
+				DEVELOPMENT_TEAM = HR74YJR7W4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Blank/Info.plist;
