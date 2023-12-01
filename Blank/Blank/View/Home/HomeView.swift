@@ -105,15 +105,15 @@ struct HomeView: View {
             }
             // 쇼케이스 튜토리얼
             .fullScreenCover(isPresented: $showExhibitionModal) {
-                ExhibitionTutorialManager.default.setEncountered(.homeView)
+                
             } content: {
                 ExhibitionTutorialView(tutorialCategory: .homeView)
             }
             .onAppear {
-                // ExhibitionTutorialManager.default.resetEncounteredStatus()
+                ExhibitionTutorialManager.default.resetEncounteredStatus()
                 
                 withoutAnimation {
-                    showExhibitionModal = !ExhibitionTutorialManager.default.isEncountered(.homeView)
+                    showExhibitionModal = true
                 }
             }
             // Alert 설정: PDF 생성
