@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		4220B39D2B0CEDAD003F5849 /* StatModeIndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4220B39C2B0CEDAD003F5849 /* StatModeIndexView.swift */; };
 		422355C72B0CA54300905F76 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 422355C62B0CA54300905F76 /* Color+.swift */; };
-		424B48C62B19C77D00834455 /* Korea History.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 424B48C52B19C77D00834455 /* Korea History.pdf */; };
-		424B48C82B19C78D00834455 /* EnglishWord.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 424B48C72B19C78D00834455 /* EnglishWord.pdf */; };
+		424B48CC2B1B511700834455 /* 한국사필기샘플.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 424B48C92B1B511700834455 /* 한국사필기샘플.pdf */; };
+		424B48CD2B1B511700834455 /* EnglishWordSample.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 424B48CA2B1B511700834455 /* EnglishWordSample.pdf */; };
+		424B48CE2B1B511700834455 /* 한국사요약노트샘플.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 424B48CB2B1B511700834455 /* 한국사요약노트샘플.pdf */; };
 		425D4E422AEF8EA800610BE8 /* ZoomableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */; };
 		425D4E462AF0EEEF00610BE8 /* NavigationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425D4E452AF0EEEF00610BE8 /* NavigationUtil.swift */; };
 		42E7638A2AE1229700624D81 /* OverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42E763892AE1229700624D81 /* OverViewModel.swift */; };
@@ -55,7 +56,6 @@
 		44F30BEC2AE6B61E00B67014 /* ScoringTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F30BEB2AE6B61E00B67014 /* ScoringTestView.swift */; };
 		44F30BEE2AE74AA800B67014 /* ScoringViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F30BED2AE74AA800B67014 /* ScoringViewModel.swift */; };
 		AC28517A2AE7292500C70F4F /* OverViewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC2851792AE7292500C70F4F /* OverViewImageView.swift */; };
-		AC3E63762B01F5BB000C2944 /* samplePDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = AC3E63752B01F5BB000C2944 /* samplePDF.pdf */; };
 		AC510A4D2B03BD4000587999 /* ExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC510A4C2B03BD4000587999 /* ExerciseView.swift */; };
 		ACBE96332B16735100D933E3 /* SelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACBE96322B16735100D933E3 /* SelectionView.swift */; };
 		ACDBDA5D2AD7CC7600C44A80 /* BlankApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDBDA5C2AD7CC7600C44A80 /* BlankApp.swift */; };
@@ -87,8 +87,9 @@
 /* Begin PBXFileReference section */
 		4220B39C2B0CEDAD003F5849 /* StatModeIndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatModeIndexView.swift; sourceTree = "<group>"; };
 		422355C62B0CA54300905F76 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
-		424B48C52B19C77D00834455 /* Korea History.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Korea History.pdf"; sourceTree = "<group>"; };
-		424B48C72B19C78D00834455 /* EnglishWord.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = EnglishWord.pdf; sourceTree = "<group>"; };
+		424B48C92B1B511700834455 /* 한국사필기샘플.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "한국사필기샘플.pdf"; sourceTree = "<group>"; };
+		424B48CA2B1B511700834455 /* EnglishWordSample.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = EnglishWordSample.pdf; sourceTree = "<group>"; };
+		424B48CB2B1B511700834455 /* 한국사요약노트샘플.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "한국사요약노트샘플.pdf"; sourceTree = "<group>"; };
 		425D4E412AEF8EA800610BE8 /* ZoomableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableContainer.swift; sourceTree = "<group>"; };
 		425D4E452AF0EEEF00610BE8 /* NavigationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationUtil.swift; sourceTree = "<group>"; };
 		42E763892AE1229700624D81 /* OverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewModel.swift; sourceTree = "<group>"; };
@@ -135,7 +136,6 @@
 		44F30BEB2AE6B61E00B67014 /* ScoringTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringTestView.swift; sourceTree = "<group>"; };
 		44F30BED2AE74AA800B67014 /* ScoringViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoringViewModel.swift; sourceTree = "<group>"; };
 		AC2851792AE7292500C70F4F /* OverViewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverViewImageView.swift; sourceTree = "<group>"; };
-		AC3E63752B01F5BB000C2944 /* samplePDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = samplePDF.pdf; sourceTree = "<group>"; };
 		AC510A4C2B03BD4000587999 /* ExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseView.swift; sourceTree = "<group>"; };
 		ACBE96322B16735100D933E3 /* SelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionView.swift; sourceTree = "<group>"; };
 		ACDBDA592AD7CC7600C44A80 /* Blank.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blank.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -241,9 +241,9 @@
 				EB8978EC2AE5644400494BE7 /* link.mov */,
 				EB0B16C32AF23B780040B0B2 /* insert.mov */,
 				EB8978EB2AE5644400494BE7 /* select.mov */,
-				424B48C52B19C77D00834455 /* Korea History.pdf */,
-				424B48C72B19C78D00834455 /* EnglishWord.pdf */,
-				AC3E63752B01F5BB000C2944 /* samplePDF.pdf */,
+				424B48CB2B1B511700834455 /* 한국사요약노트샘플.pdf */,
+				424B48C92B1B511700834455 /* 한국사필기샘플.pdf */,
+				424B48CA2B1B511700834455 /* EnglishWordSample.pdf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -491,13 +491,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACDBDA642AD7CC7700C44A80 /* Preview Assets.xcassets in Resources */,
-				AC3E63762B01F5BB000C2944 /* samplePDF.pdf in Resources */,
 				EB0B16C42AF23B780040B0B2 /* insert.mov in Resources */,
-				424B48C82B19C78D00834455 /* EnglishWord.pdf in Resources */,
 				EB8978F02AE5644400494BE7 /* select.mov in Resources */,
 				EB8978EF2AE5644400494BE7 /* delete.mov in Resources */,
-				424B48C62B19C77D00834455 /* Korea History.pdf in Resources */,
+				424B48CC2B1B511700834455 /* 한국사필기샘플.pdf in Resources */,
 				EB8978ED2AE5644400494BE7 /* handWrite.mov in Resources */,
+				424B48CE2B1B511700834455 /* 한국사요약노트샘플.pdf in Resources */,
+				424B48CD2B1B511700834455 /* EnglishWordSample.pdf in Resources */,
 				EB8978F12AE5644400494BE7 /* link.mov in Resources */,
 				ACDBDA612AD7CC7700C44A80 /* Assets.xcassets in Resources */,
 			);

@@ -168,8 +168,9 @@ class HomeViewModel: ObservableObject {
     /// 예제 파일들을 Document 폴더에 복사 (처음 설치했을 때만 실행되어야 함)
     static func copySampleFiles() {
         let sampleFiles: [URL] = [
-            Bundle.main.url(forResource: "Korea History", withExtension: "pdf"),
-            Bundle.main.url(forResource: "EnglishWord", withExtension: "pdf")
+            Bundle.main.url(forResource: "EnglishWordSample", withExtension: "pdf"),
+            Bundle.main.url(forResource: "한국사필기샘플", withExtension: "pdf"),
+            Bundle.main.url(forResource: "한국사요약노트샘플", withExtension: "pdf")
         ].compactMap { $0 }
         
         sampleFiles.forEach { fileURL in
