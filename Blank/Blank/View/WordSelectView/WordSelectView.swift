@@ -56,7 +56,8 @@ struct WordSelectView: View {
             .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .navigationBarBackButtonHidden(true)
-            .navigationTitle("단어 선택")
+//            .navigationTitle("단어 선택")
+            .navigationTitle("Select Word")
             .navigationBarTitleDisplayMode(.inline)
         }
         .background(Color.customViewBackgroundColor)
@@ -108,7 +109,8 @@ struct WordSelectView: View {
             wordSelectViewModel.selectedWords = words
             goToOCRView = true
         } label: {
-            Text("다음")
+//            Text("다음")
+            Text("Next")
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)

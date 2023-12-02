@@ -48,7 +48,8 @@ struct OverViewModalView: View {
                                             Text("-")
                                                 .tint(Color.blue)
                                         )
-                                    Text("시험을 봐주세요")
+//                                    Text("시험을 봐주세요")
+                                    Text("Please take a test.")
                                         .font(.caption2)
                                     
                                 } else if let info = overViewModel.lastSessionCorrectInfo(index: pageNumberBasedOne) {
@@ -59,10 +60,14 @@ struct OverViewModalView: View {
                                         .foregroundColor(Color(red: 0.46, green: 0.46, blue: 0.5).opacity(0.12))
                                         .cornerRadius(40)
                                         .overlay(
-                                            Text("\(lastSessionNumber)회차(\(info.correctRate.percentageTextValue(decimalPlaces: 0)))")
+//                                            Text("\(lastSessionNumber)회차(\(info.correctRate.percentageTextValue(decimalPlaces: 0)))")
+//                                                .tint(Color.blue)
+                                            Text("\(lastSessionNumber)st Session(\(info.correctRate.percentageTextValue(decimalPlaces: 0)))")
                                                 .tint(Color.blue)
+                                                .font(.system(size: 10))
                                         )
-                                    Text("문제:\(info.totalCount)개  정답:\(info.correctCount)개")
+//                                    Text("문제:\(info.totalCount)개  정답:\(info.correctCount)개")
+                                    Text("Question:\(info.totalCount)\nCorrect Answer:\(info.correctCount)")
                                         .font(.caption2)
                                     
                                 }

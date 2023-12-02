@@ -31,7 +31,8 @@ struct FolderThumbnailView: View {
                         .font(.title3)
                         .fontWeight(.bold)
                 } else {
-                    Text("이전으로")
+//                    Text("이전으로")
+                    Text("Go Back")
                         .font(.title3)
                         .fontWeight(.bold)
                 }

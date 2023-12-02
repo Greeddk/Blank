@@ -55,7 +55,8 @@ class HomeViewModel: ObservableObject {
             currentDirectoryURL = targetDirectoryURL
 
             // 현재 폴더 설정
-            let folderName = targetDirectoryURL.lastPathComponent == "Documents" ? "홈" : targetDirectoryURL.lastPathComponent
+//            let folderName = targetDirectoryURL.lastPathComponent == "Documents" ? "홈" : targetDirectoryURL.lastPathComponent
+            let folderName = targetDirectoryURL.lastPathComponent == "Documents" ? "Home" : targetDirectoryURL.lastPathComponent
             currentFolder = Folder(id: UUID(), fileURL: targetDirectoryURL, fileName: folderName)
             
             let directoryContents = try FileManager.default.contentsOfDirectory(

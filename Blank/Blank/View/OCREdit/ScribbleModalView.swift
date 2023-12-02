@@ -16,14 +16,16 @@ struct ScribbleModalView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("손글씨 입력 쓰기")
+//                Text("손글씨 입력 쓰기")
+                Text("Writing with Apple Pencil")
                     .font(.largeTitle)
                     .bold()
                     .padding(.top, 50)
                     .padding()
 
                 HStack(alignment: .center, spacing: 20) {
-                    Picker("타입", selection: $playerViewModel.selectedType) {
+//                    Picker("타입", selection: $playerViewModel.selectedType) {
+                    Picker("Type", selection: $playerViewModel.selectedType) {
                         ForEach(ScribbleType.allCases, id: \.self) {
                             Text($0.description)
                         }
@@ -79,7 +81,8 @@ struct ScribbleModalView: View {
         Button {
             dismiss()
         } label: {
-            Text("완료")
+//            Text("완료")
+            Text("Done")
         }
     }
 }

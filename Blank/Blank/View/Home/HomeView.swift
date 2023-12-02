@@ -66,7 +66,8 @@ struct HomeView: View {
             }
             .toolbarBackground(Color.customToolbarBackgroundColor , for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
-            .navigationBarTitle(homeViewModel.currentFolder?.fileName ?? "홈")
+//            .navigationBarTitle(homeViewModel.currentFolder?.fileName ?? "홈")
+            .navigationBarTitle(homeViewModel.currentFolder?.fileName ?? "Home")
             .navigationBarTitleDisplayMode(.inline)
             .padding()
             .navigationBarBackButtonHidden(true)
@@ -82,7 +83,8 @@ struct HomeView: View {
                 
                 PhotoPickerRepresentedView { images in
                     // TODO: - 인디케이터 로딩 끝
-                    print("이미지 결합 Phase 1 시작")
+//                    print("이미지 결합 Phase 1 시작")
+                    print("Image Combination Phase 1 Start")
                     targetImages = images
                     setAllowCreateNewPDF(true)
                     showPDFCreateAlert = true
@@ -100,7 +102,8 @@ struct HomeView: View {
             }
             .onChange(of: showPDFCreateAlert) {
                 if $0 {
-                    print("이미지 결합 Phase 1 끝")
+//                    print("이미지 결합 Phase 1 끝")
+                    print("Image Combination Phase 1 Complete")
                 }
             }
             // 쇼케이스 튜토리얼
@@ -115,7 +118,8 @@ struct HomeView: View {
                 }
             }
             // Alert 설정: PDF 생성
-            .alert("PDF 생성", isPresented: $showPDFCreateAlert) {
+//            .alert("PDF 생성", isPresented: $showPDFCreateAlert) {
+            .alert("Create PDF", isPresented: $showPDFCreateAlert) {
                 let suggestedFileName = homeViewModel.suggestedFileName
                 
                 TextField(
@@ -136,14 +140,17 @@ struct HomeView: View {
                         newPDFFileName = suggestedFileName
                     }
                     
-                    print("이미지 결합 Phase 2 시작")
+//                    print("이미지 결합 Phase 2 시작")
+                    print("Image Combination Phase 2 Start")
                     addImageCombinedPDFToDocument(from: targetImages)
                 }
             } message: {
-                Text("선택된 이미지들이 병합되어 PDF로 생성됩니다. 파일 이름을 확장자를 제외하고 입력해주세요.")
+//                Text("선택된 이미지들이 병합되어 PDF로 생성됩니다. 파일 이름을 확장자를 제외하고 입력해주세요.")
+                Text("The selected images will be merged and created as a PDF. Please enter the file name without the extension.")
             }
             // Alert 설정: 선택한 파일 삭제
-            .alert("선택한 파일 및 폴더 삭제", isPresented: $showFileDeleteAlert) {
+//            .alert("선택한 파일 및 폴더 삭제", isPresented: $showFileDeleteAlert) {
+            .alert("Delete Selected Files and Folders", isPresented: $showFileDeleteAlert) {
                 Button("Cancel", role: .cancel) {
                     
                 }
@@ -153,12 +160,16 @@ struct HomeView: View {
                     mode = .normal
                 }
             } message: {
-                Text("정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.")
-                + Text(!homeViewModel.selectedFolderList.isEmpty ? " 폴더를 삭제하는 경우 폴더 안의 모든 파일이 삭제됩니다." : "")
+//                Text("정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.")
+                Text("Are you sure you want to delete?\nThis action cannot be undone.")
+//                + Text(!homeViewModel.selectedFolderList.isEmpty ? " 폴더를 삭제하는 경우 폴더 안의 모든 파일이 삭제됩니다." : "")
+                + Text(!homeViewModel.selectedFolderList.isEmpty ? "\nDeleting a folder will remove all files within it." : "")
             }
             // Alert 설정: 새 폴더 만들기
-            .alert("새로운 폴더의 이름을 입력하세요.", isPresented: $showCreateNewFolder) {
-                TextField("", text: $newFolderName, prompt: .init("새 폴더"))
+//            .alert("새로운 폴더의 이름을 입력하세요.", isPresented: $showCreateNewFolder) {
+            .alert("Please enter the name for the new folder.", isPresented: $showCreateNewFolder) {
+//                TextField("", text: $newFolderName, prompt: .init("새 폴더"))
+                TextField("", text: $newFolderName, prompt: .init("New Folder"))
                 Button("Cancel", role: .cancel) {
                     
                 }
@@ -173,7 +184,8 @@ struct HomeView: View {
                     mode = .normal
                 }
             } message: {
-                Text("현재 위치에 새로운 폴더를 생성합니다.")
+//                Text("현재 위치에 새로운 폴더를 생성합니다.")
+                Text("Create a new folder in the current location.")
             }
         }
     }
@@ -291,17 +303,21 @@ struct HomeView: View {
                         .font(.largeTitle)
                         .foregroundColor(Color.blue2)
                 }
-                Text("신규..")
+//                Text("신규..")
+                Text("New..")
                 Spacer()
             }
             Menu {
-                Button("새 폴더") {
+//                Button("새 폴더") {
+                Button("New Folder") {
                     showCreateNewFolder.toggle()
                 }
-                Button("새 pdf 추가") {
+//                Button("새 pdf 추가") {
+                Button("Add New PDF") {
                     showFilePicker = true
                 }
-                Button("새 이미지 추가") {
+//                Button("새 이미지 추가") {
+                Button("Add New Image") {
                     showImagePicker = true
                 }
             } label: {
@@ -316,7 +332,8 @@ struct HomeView: View {
     
     private var fileBtnEditMode: some View {
         HStack {
-            Button("이동") {
+//            Button("이동") {
+            Button("Move") {
                 showMoveFiles.toggle()
             }
             
@@ -336,7 +353,8 @@ struct HomeView: View {
                 homeViewModel.selectedFileList = []
             }
         } label: {
-            Text(mode == .normal ? "편집" : "취소")
+//            Text(mode == .normal ? "편집" : "취소")
+            Text(mode == .normal ? "Edit" : "Cancel")
         }
     }
 }
@@ -358,7 +376,8 @@ extension HomeView {
             homeViewModel.fetchDocumentFileList()
             
             setAllowCreateNewPDF(false)
-            print("이미지 결합 Phase 2 끝")
+//            print("이미지 결합 Phase 2 끝")
+            print("Image Combination Phase 2 Complete")
         } catch {
             print("write pdf error:", error)
             setAllowCreateNewPDF(false)

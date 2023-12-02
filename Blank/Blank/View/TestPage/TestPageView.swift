@@ -41,7 +41,8 @@ struct TestPageView: View {
             }
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
-            .navigationTitle("\(sessionNum)회차 시험지")
+//            .navigationTitle("\(sessionNum)회차 시험지")
+            .navigationTitle("\(sessionNum)rd Session Test Paper")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
             .background(Color.customViewBackgroundColor)
@@ -96,7 +97,8 @@ struct TestPageView: View {
         Button {
             goToResultPage = true
         } label: {
-            Text("채점")
+//            Text("채점")
+            Text("Scoring")
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)

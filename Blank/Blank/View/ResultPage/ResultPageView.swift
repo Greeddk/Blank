@@ -22,7 +22,7 @@ struct ResultPageView: View {
             ZStack(alignment: .top) {
                 VStack{
                     resultImage
-//                    Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
+                    //                    Spacer().frame(height : UIScreen.main.bounds.height * 0.12)
                 }
                 correctInfo
             }
@@ -39,7 +39,8 @@ struct ResultPageView: View {
             }
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
-            .navigationTitle("결과")
+            //            .navigationTitle("결과")
+            .navigationTitle("Result")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
@@ -109,9 +110,13 @@ struct ResultPageView: View {
             seeCorrect.toggle()
         } label: {
             if seeCorrect == true {
-                Text("정답률끄기")
+                //                Text("정답률끄기")
+                Text("Turn off the accuracy rate")
+                    .font(.system(size: 14))
             } else {
-                Text("정답률보기")
+                //                Text("정답률보기")
+                Text("Turn on the accuracy rate")
+                    .font(.system(size: 14))
             }
         }
         .buttonStyle(.bordered)
@@ -121,8 +126,10 @@ struct ResultPageView: View {
         Button {
             NavigationUtil.popToOverView(animated: true)
         } label: {
-            Text("페이지 선택으로 이동")
+            //            Text("페이지 선택으로 이동")
+            Text("Go to page selection")
                 .fontWeight(.bold)
+                .font(.system(size: 14))
         }
         .buttonStyle(.borderedProminent)
     }

@@ -17,7 +17,8 @@ struct SelectFolderView: View {
             List {
                 OutlineGroup(viewModel.directoryList, children: \.subfolder) { directory in
                     ZStack {
-                        Label(directory.fileName == "Documents" ? "홈" : directory.fileName, systemImage: "folder.fill")
+//                        Label(directory.fileName == "Documents" ? "홈" : directory.fileName, systemImage: "folder.fill")
+                        Label(directory.fileName == "Documents" ? "Home" : directory.fileName, systemImage: "folder.fill")
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                             .background(viewModel.selectedFolder == directory ? .cyan.opacity(0.22) : .clear)
                             .onTapGesture {
@@ -27,11 +28,13 @@ struct SelectFolderView: View {
                     }
                 }
             }
-            .navigationTitle("이동할 폴더 선택")
+//            .navigationTitle("이동할 폴더 선택")
+            .navigationTitle("Choose Folder to Move")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button("이동") {
+//                    Button("이동") {
+                    Button("Move") {
                         viewModel.moveFiles(elements: selectedFiles)
                         dismiss()
                     }
@@ -39,7 +42,8 @@ struct SelectFolderView: View {
                     .bold()
                 }
                 ToolbarItemGroup(placement: .topBarLeading) {
-                    Button("취소") {
+//                    Button("취소") {
+                    Button("Cancel") {
                         dismiss()
                     }
                 }

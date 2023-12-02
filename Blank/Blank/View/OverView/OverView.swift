@@ -160,21 +160,29 @@ struct OverView: View {
                 ExhibitionTutorialView(tutorialCategory: .cycledOverView)
             }
         }
-        .alert("어떤 시험지를 고르시겠어요?" ,isPresented: $showingAlert) {
-            Button("새로 만들기") {
+//        .alert("어떤 시험지를 고르시겠어요?" ,isPresented: $showingAlert) {
+        .alert("Which test paper will you choose?" ,isPresented: $showingAlert) {
+//            Button("새로 만들기") {
+            Button("Create New") {
                 goToNextPage = true
             }
-            Button("시험 보기") {
+//            Button("시험 보기") {
+            Button("Take Test") {
                 goToTestPage = true
                 goToNextPage = true
             }
-            Button("취소", role: .cancel) {
+//            Button("취소", role: .cancel) {
+            Button("Cancel", role: .cancel) {
                 
             }
         } message: {
+//            Text("""
+//                 새로운 빈칸을 만들거나,
+//                 지난 회차 시험을 볼 수 있습니다.
+//                 """)
             Text("""
-                 새로운 빈칸을 만들거나,
-                 지난 회차 시험을 볼 수 있습니다.
+                 You can create new blanks
+                 or take tests from past sessions.
                  """)
         }
     }
@@ -202,7 +210,8 @@ struct OverView: View {
             ProgressView(value: overViewModel.currentProgress)
                 .progressViewStyle(CircularProgressViewStyle(tint: .blue))
             
-            Text("파일을 로딩 중 입니다.")
+//            Text("파일을 로딩 중 입니다.")
+            Text("File is loading.")
             
             Text("\(Int(overViewModel.currentProgress * 100))%") // 퍼센트로 변환하여 표시
         }
@@ -506,7 +515,8 @@ struct OverView: View {
             Form {
                 Text("\(overViewModel.currentFile.fileName)")
                 HStack {
-                    Text("페이지 : ")
+//                    Text("페이지 : ")
+                    Text("Page : ")
                     Spacer()
                     TextField("", text: $currentPageText, onCommit:{
                         overViewModel.updateCurrentPage(from: currentPageText)
@@ -520,7 +530,8 @@ struct OverView: View {
                         overViewModel.updateCurrentPage(from: currentPageText)
                         setImagesAndData()
                     } label: {
-                        Text("이동")
+//                        Text("이동")
+                        Text("Move")
                     }
                 }
             }
@@ -565,7 +576,8 @@ struct OverView: View {
             } else {
                 Menu {
                     // TODO: 회차가 끝날때마다 해당 회차 결과 생성 및 시험 본 부분 색상 처리(버튼으로)
-                    Button("전체통계") {
+//                    Button("전체통계") {
+                    Button("Overall Statistics") {
                         overViewModel.generateTotalStatistics()
                         overViewModel.isTotalStatsViewMode = true
                         seeResult = false
@@ -575,24 +587,30 @@ struct OverView: View {
                     
                     ForEach(overViewModel.sessions.indices, id: \.self) { index in
                         let percentageValue = overViewModel.statsOfSessions[overViewModel.sessions[index].id]?.correctRate.percentageTextValue(decimalPlaces: 0) ?? "0%"
-                        Button("\(index + 1)회차 (\(percentageValue))") {
+//                        Button("\(index + 1)회차 (\(percentageValue))") {
+                        Button("\(index + 1)st Session (\(percentageValue))") {
                             setCorrectWordArea(index)
                         }
                     }
                 } label: {
                     RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
                         .fill(.gray.opacity(0.2))
-                        .frame(width: 100, height: 35)
+                        .frame(width: 140, height: 35)
                         .overlay {
                             if !seeResult && !overViewModel.isTotalStatsViewMode {
-                                Label("결과보기", systemImage: "chevron.down")
+//                                Label("결과보기", systemImage: "chevron.down")
+                                Label("View Results", systemImage: "chevron.down")
                                     .labelStyle(.titleAndIcon)
+                                    
                             } else if seeResult {
-                                Label("\(selectedSessionIndex! + 1)회차", systemImage: "chevron.down")
+//                                Label("\(selectedSessionIndex! + 1)회차", systemImage: "chevron.down")
+                                Label("\(selectedSessionIndex! + 1)st Session", systemImage: "chevron.down")
                                     .labelStyle(.titleAndIcon)
                             } else {
-                                Label("전체통계", systemImage: "chevron.down")
+//                                Label("전체통계", systemImage: "chevron.down")
+                                Label("Overall Statistics", systemImage: "chevron.down")
                                     .labelStyle(.titleAndIcon)
+                                    .font(.system(size: 13))
                             }
                         }
                 }
@@ -611,9 +629,10 @@ struct OverView: View {
                 } label: {
                     RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
                         .fill(.gray.opacity(0.2))
-                        .frame(width: 40, height: 35)
+                        .frame(width: 65, height: 35)
                         .overlay {
-                            Text("원본")
+//                            Text("원본")
+                            Text("Original")
                         }
                 }
             }
@@ -626,7 +645,8 @@ struct OverView: View {
 //        Toggle("", isOn: $excerciseBool)
 //            .toggleStyle(SwitchToggleStyle())
         Toggle(isOn: $excerciseBool, label: {
-            Text("연습장")
+//            Text("연습장")
+            Text("Practice Note")
         })
         .toggleStyle(SwitchToggleStyle())
             
@@ -646,17 +666,11 @@ struct OverView: View {
                 goToNextPage = true
             }
             
-            var deviceModel = UIDevice.current.name
-            
-            //
-            let screenSize = UIScreen.main.bounds.size
-            let screenWidth = screenSize.width
-            let screenHeight = screenSize.height
-            
             
             
         } label: {
-            Text("빈칸 만들기")
+//            Text("빈칸 만들기")
+            Text("Create Blanks")
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)

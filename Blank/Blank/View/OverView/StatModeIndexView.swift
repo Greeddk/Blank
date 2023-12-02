@@ -13,7 +13,8 @@ struct StatModeIndexView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
-            Text("통계 정답률 구분")
+//            Text("통계 정답률 구분")
+            Text("Color by Accuracy Rate")
                 .foregroundColor(.black)
             
             ForEach(correctRate, id: \.self) { rate in

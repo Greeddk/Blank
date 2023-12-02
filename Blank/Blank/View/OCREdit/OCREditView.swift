@@ -49,7 +49,8 @@ struct OCREditView: View {
             }
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarBackground(Color.customToolbarBackgroundColor, for: .navigationBar)
-            .navigationTitle("오타 수정")
+//            .navigationTitle("오타 수정")
+            .navigationTitle("Correct Misrecognized Letters")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden()
         }
@@ -115,7 +116,8 @@ struct OCREditView: View {
             goToTestPage = true
         } label: {
             
-            Text("시험보기")
+//            Text("시험보기")
+            Text("Take a TesT")
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)
@@ -127,12 +129,14 @@ struct OCREditView: View {
         } label: {
             RoundedRectangle(cornerSize: CGSize(width: 10, height: 10))
                 .fill(.gray.opacity(0.2))
-                .frame(width: 40, height: 35)
+                .frame(width: 65, height: 35)
                 .overlay {
                     if wordSelectViewModel.isOrginal {
-                        Text("빈칸")
+//                        Text("빈칸")
+                        Text("Blanks")
                     } else {
-                        Text("원본")
+//                        Text("원본")
+                        Text("Original")
                     }
                 }
         }
