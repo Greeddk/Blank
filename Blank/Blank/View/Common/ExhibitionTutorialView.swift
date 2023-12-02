@@ -76,7 +76,8 @@ struct ExhibitionTutorialView: View {
                     dismiss()
                 }
             } label: {
-                Label("이해했어요", systemImage: "checkmark.square")
+//                Label("이해했어요", systemImage: "checkmark.square")
+                Label("Understand", systemImage: "checkmark.square")
                     .font(.title)
                     .frame(width: 218, height: 45)
             }

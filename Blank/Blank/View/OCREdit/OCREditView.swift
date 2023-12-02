@@ -117,7 +117,7 @@ struct OCREditView: View {
         } label: {
             
 //            Text("시험보기")
-            Text("Take a TesT")
+            Text("Take a Test")
                 .fontWeight(.bold)
         }
         .buttonStyle(.borderedProminent)

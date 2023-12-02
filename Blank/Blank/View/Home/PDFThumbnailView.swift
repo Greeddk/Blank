@@ -23,11 +23,11 @@ struct PDFThumbnailView: View {
 //            Text("전체 페이지수: \(file.totalPageCount)")
             Text("Total Page Count: \(file.totalPageCount)")
 //                .font(.footnote)
-                .font(.system(size: 12))
+                .font(.system(size: 11))
 //            Text("시험 본 페이지: \(file.solvedPageCount)")
             Text("Count of Pages Tested: \(file.solvedPageCount)")
 //                .font(.footnote)
-                .font(.system(size: 12))
+                .font(.system(size: 11))
             Spacer()
         }
         .padding()
