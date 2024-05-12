@@ -8,7 +8,7 @@
 <img src="https://github.com/Greeddk/Blank/assets/116425551/c50ed8a7-2772-4cc6-9245-eb2bdaa7bfb1"/>
 
 # 앱 소개 & 기획
-## ‎Blank - 이미지의 글자를 인식하여 원하는 부분을 선택하면, 해당 부분을 빈칸 시험지로 만들어 암기를 도와주는 앱 
+## ‎Blank - 이미지의 글자를 인식한 후 해당 부분을 빈칸으로 만들어 암기를 도와주는 앱 
 <div align="center">
   <a target="_blank" href="https://apps.apple.com/kr/app/%EB%B8%94%EB%9E%AD%ED%81%AC-blank-%EB%B9%88%EC%B9%B8%EC%9C%BC%EB%A1%9C-%EC%95%94%EA%B8%B0%ED%95%98%EA%B8%B0/id6471817064"><img width="300px" height="auto" src="https://github.com/DeveloperAcademy-POSTECH/MacC-Team13-SplitIt/assets/91787174/a9d5c9f2-3959-41f2-8783-dae29383f560" /></a>
   <br/>
